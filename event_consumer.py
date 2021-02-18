@@ -8,6 +8,7 @@ Classes:
 '''
 
 import cv2
+import numpy as np
 
 class EventConsumer:
     '''
@@ -23,7 +24,8 @@ class EventConsumer:
         self.mv_frame_gen_name = "FrameGen"
         self.mv_cd_prod_name = "CDProd"
         # store the current frame to display with OpenCV.imshow(self.frame)
-        self.frame = None
+        self.frame_to_draw = np.zeros((height, width, 3))
+        self.frame_producer_output = None
 
     def metavision_event_callback(self, ts, src_events, src_2d_arrays):
         '''
@@ -58,7 +60,7 @@ class EventConsumer:
             # the actual analog buffer data
             frame_buffer = src_2d_arrays[self.mv_frame_gen_name][2]
             # convert the frame data into a format compatible with OpenCV
-            self.frame = frame_buffer.squeeze()
+            self.frame_producer_output = frame_buffer.squeeze()
 
         # Prepare events for processing
         if self.mv_cd_prod_name in src_events:
@@ -67,7 +69,7 @@ class EventConsumer:
             # make sure we're producing the correct array format
             assert event_buffer.dtype.names == ('x','y','p','t'), 'Unknown event buffer format'
             # appropriately process the events
-            self.frame = self.process_event_array(ts, event_buffer)
+            self.process_event_array(ts, event_buffer)
 
     def process_event_array(self, ts, event_buffer):
         '''
@@ -78,17 +80,23 @@ class EventConsumer:
                 All events included in this callback will have a timestamp strictly lower than ts
             event_buffer: Array of events as tuples of the form ('x','y','p','t')
 
-        Returns:
-            Numpy array of shape (self.height, self.width, [r, g, b]) to draw
         '''
-        # ignore parameters for base implementation
-        del ts, event_buffer
-        # return frame unaltered
-        return self.frame
+        # ignore the timestamp for the default implementation
+        del ts
+        # if we have a frame from a frame_producer, we can draw that
+        if self.frame_producer_output is not None:
+            self.frame_to_draw = self.frame_producer_output
+        # otherwise just draw the events we received from event_buffer
+        else:
+            # fill frame with grey
+            self.frame_to_draw = np.full((self.height, self.width, 3), 0.5)
+            # draw events colored by polarity
+            for e in event_buffer:
+                self.frame_to_draw[e[1], e[0], :] = (e[2], e[2], e[2])
     
     def draw_frame(self):
         '''
         Called from main thread to Display frame
         '''
-        cv2.imshow('Events Display OpenCV', self.frame)
+        cv2.imshow('Events Display OpenCV', self.frame_to_draw)
         cv2.waitKey(1)   # 1 ms to yield ui
