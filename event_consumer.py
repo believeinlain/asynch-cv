@@ -92,36 +92,3 @@ class EventConsumer:
         '''
         cv2.imshow('Events Display OpenCV', self.frame)
         cv2.waitKey(1)   # 1 ms to yield ui
-
-'''
-Example callback data:
-src_events: {
-    'CDProd': [
-        'Event2d', 
-        {
-            'itemsize': 16, 
-            'names': ['t', 'x', 'y', 'p'], 
-            'formats': ['i8', 'u2', 'u2', 'i2'], 
-            'offsets': [8, 0, 2, 4]
-        }, 
-        array
-        (
-            [(255, 126, 0, 560000), (218, 124, 1, 560000),
-            (259, 124, 0, 560000), ..., (367, 124, 0, 569999),
-            (372, 126, 0, 569999), (376, 126, 0, 569999)],
-            dtype={'names':['x','y','p','t'], 
-                    'formats':['<u2','<u2','<i2','<i8'], 
-                    'offsets':[0,2,4,8], 
-                    'itemsize':16}
-        )
-    ]
-}
-
-src_2d_arrays: {
-    'FrameGen': [
-        [480, 640, 3], 
-        'd', 
-        array([[[1., 1., 1.], ... ]])
-    ]
-}
-'''
