@@ -95,3 +95,8 @@ class basic_consumer:
 
         cv2.imshow('Events Display OpenCV', self.frame_to_draw)
         cv2.waitKey(1)   # 1 ms to draw frame
+
+    def end(self):
+        '''
+        This function will be called when execution has finished (i.e. no more events to process)
+        '''
