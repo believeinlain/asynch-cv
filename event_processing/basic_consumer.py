@@ -4,7 +4,7 @@ import numpy as np
 
 class basic_consumer:
     '''
-    Wrapper class to consume and process events from different sources
+    Basic consumer class that simply displays all events.
     '''
     def __init__(self, width, height):
         '''
@@ -63,7 +63,7 @@ class basic_consumer:
             # appropriately process the events
             self.process_event_array(ts, event_buffer)
 
-    def process_event_array(self, ts, event_buffer, flip_x=False, flip_y=False):
+    def process_event_array(self, ts, event_buffer):
         '''
         Callback method to override to process events.
         
@@ -85,13 +85,13 @@ class basic_consumer:
             # draw events colored by polarity
             for e in event_buffer:
                 self.frame_to_draw[e[1], e[0], :] = (e[2], e[2], e[2])
-            
-            if flip_x: self.frame_to_draw = np.fliplr(self.frame_to_draw)
-            if flip_y: self.frame_to_draw = np.flipud(self.frame_to_draw)
 
-    def draw_frame(self):
+    def draw_frame(self, flip_x=False, flip_y=False):
         '''
         Called from main thread to display frame
         '''
+        if flip_x: self.frame_to_draw = np.fliplr(self.frame_to_draw)
+        if flip_y: self.frame_to_draw = np.flipud(self.frame_to_draw)
+
         cv2.imshow('Events Display OpenCV', self.frame_to_draw)
         cv2.waitKey(1)   # 1 ms to draw frame

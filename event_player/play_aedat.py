@@ -6,7 +6,7 @@ from PyAedatTools import ImportAedat
 
 import cv2
 
-def play_aedat(filename, dt, event_consumer):
+def play_aedat(filename, dt, event_consumer, consumer_args=None):
     '''
     Function to play aedat files with the given event consumer.
 
@@ -15,6 +15,8 @@ def play_aedat(filename, dt, event_consumer):
         dt: time for each frame in milliseconds
         event_consumer: class to feed events into
     '''
+    # translate None into an empty dict
+    if consumer_args == None: consumer_args = {}
 
     # Create a dict with which to pass in the input parameters.
     aedat = {}
@@ -42,7 +44,7 @@ def play_aedat(filename, dt, event_consumer):
     frame_end = 0
     ts = timestamps[0]
 
-    consumer = event_consumer(width=346, height=260)
+    consumer = event_consumer(width=346, height=260, **consumer_args)
 
     while True:
         # get real start time for current frame
@@ -57,9 +59,9 @@ def play_aedat(filename, dt, event_consumer):
             break
         # process buffered events into frame
         # print('start',frame_start, 'end',frame_end)
-        consumer.process_event_array(ts, event_data[frame_start:frame_end,:], True, True)
+        consumer.process_event_array(ts, event_data[frame_start:frame_end,:])
         # draw frame with the events
-        consumer.draw_frame()
+        consumer.draw_frame(flip_x=True, flip_y=True)
         # wait until at least dt has elapsed
         end_time = time.time_ns() // 1_000_000 # time in msec
         end_of_frame = start_time + dt
@@ -71,7 +73,7 @@ def play_aedat(filename, dt, event_consumer):
             actual_dt = end_time-start_time
         
         # update time elapsed
-        sys.stdout.write('\rFrame time:%i/%i(ms)'%(actual_dt, dt))
+        sys.stdout.write('\rFrame time: %i/%i(ms) '%(actual_dt, dt))
         sys.stdout.flush()
 
     cv2.destroyAllWindows()

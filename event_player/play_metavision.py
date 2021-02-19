@@ -8,7 +8,12 @@ import metavision_hal as mv_hal
 
 import cv2
 
-def play_metavision(filename, dt, event_consumer):
+def play_metavision(filename, dt, event_consumer, consumer_args=None):
+    '''
+    '''
+    # translate None into an empty dict
+    if consumer_args == None: consumer_args = {}
+
     dt_us = dt*1_000
 
     # Check validity of input arguments
@@ -61,7 +66,7 @@ def play_metavision(filename, dt, event_consumer):
 
     # We use PythonConsumer to "grab" the output of two components: cd_producer and frame_gen
     # pyconsumer will callback the application each time it receives data, using the event_callback function
-    ev_proc = event_consumer(width, height)
+    ev_proc = event_consumer(width, height, **consumer_args)
     pyconsumer = mvd_core.PythonConsumer(ev_proc.metavision_event_callback)
     pyconsumer.add_source(cd_producer, ev_proc.mv_cd_prod_name)
     pyconsumer.add_source(frame_gen, ev_proc.mv_frame_gen_name)
@@ -82,7 +87,7 @@ def play_metavision(filename, dt, event_consumer):
 
         # update time elapsed
         end_time = time.time_ns() // 1_000_000 # time in msec
-        sys.stdout.write('\rFrame time:%i/%i(ms)'%(end_time-start_time, dt))
+        sys.stdout.write('\rFrame time: %i/%i(ms) '%(end_time-start_time, dt))
         sys.stdout.flush()
 
     cv2.destroyAllWindows()
