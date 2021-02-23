@@ -86,12 +86,12 @@ class basic_consumer:
             for e in event_buffer:
                 self.frame_to_draw[e[1], e[0], :] = (e[2], e[2], e[2])
 
-    def draw_frame(self, flip_x=False, flip_y=False):
+    def draw_frame(self):
         '''
         Called from main thread to display frame
         '''
-        if flip_x: self.frame_to_draw = np.fliplr(self.frame_to_draw)
-        if flip_y: self.frame_to_draw = np.flipud(self.frame_to_draw)
+        # if flip_x: self.frame_to_draw = np.fliplr(self.frame_to_draw)
+        # if flip_y: self.frame_to_draw = np.flipud(self.frame_to_draw)
 
         cv2.imshow('Events Display OpenCV', self.frame_to_draw)
         cv2.waitKey(1)   # 1 ms to draw frame
