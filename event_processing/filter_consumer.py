@@ -1,7 +1,6 @@
 
-from event_processing import basic_consumer
-
 from sys import stdout
+from event_processing import basic_consumer
 
 class filter_consumer(basic_consumer):
     '''
@@ -24,6 +23,8 @@ class filter_consumer(basic_consumer):
                 self.draw_event(e)
 
         # display filtering results
+        stdout.write('Processeed %i events'%(len(event_buffer)))
+        stdout.flush()
         if filtered>0:
             stdout.write('Allowed %i percent of events'%(filtered/len(event_buffer)*100))
             stdout.flush()

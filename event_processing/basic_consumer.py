@@ -1,4 +1,5 @@
 
+from sys import stdout
 import cv2
 import numpy as np
 
@@ -86,6 +87,9 @@ class basic_consumer:
             # draw events colored by polarity
             for e in event_buffer:
                 self.draw_event(e)
+        
+        stdout.write('Processeed %i events'%(len(event_buffer)))
+        stdout.flush()
     
     def init_frame(self, frame_buffer=None):
         # if we have a frame_buffer, start with that
@@ -108,7 +112,6 @@ class basic_consumer:
         Called from main thread to display frame
         '''
         cv2.imshow('Events Display OpenCV', self.frame_to_draw)
-        cv2.waitKey(1)   # 1 ms to draw frame
 
     def end(self):
         '''
