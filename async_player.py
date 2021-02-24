@@ -10,7 +10,7 @@ import event_processing
 
 parser = argparse.ArgumentParser(
     description='Play an Inivision *.aedat or Metavision *.dat or *.raw file \
-    with optional processing.')
+    with optional processing. Press \'q\' to quit during playback.')
 parser.add_argument('-p','--play', dest='filename',
     help='File to open.')
 parser.add_argument('-c','--consumer', dest='consumer', default='basic_consumer',

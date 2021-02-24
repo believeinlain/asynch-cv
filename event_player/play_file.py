@@ -215,7 +215,7 @@ def play_numpy_array_frames(event_data, consumer, frames):
     running = True
     while running:
         start_time = begin_loop()
-        
+
         # get indices for the current frame
         [frame_start, frame_end] = np.searchsorted(timestamps, [frame_start_time, frame_end_time])
         
@@ -260,7 +260,4 @@ def end_loop(start_time, dt):
     sys.stdout.flush()
 
     # if 'q' key pressed -> quit application
-    if last_key == ord('q'):
-        return False
-    else:
-        return True
+    return not last_key == ord('q')
