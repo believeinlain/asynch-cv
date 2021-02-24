@@ -1,5 +1,5 @@
 '''
-Simple test of basic_consumer functionality
+Simple test of filter_consumer functionality
 '''
 import event_player
 import event_processing

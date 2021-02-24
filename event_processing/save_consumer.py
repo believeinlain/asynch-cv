@@ -1,4 +1,8 @@
-
+'''
+Deprecated: consumer to save .npy files.
+Needs to be updated to work properly, but .npy files will not likely be used due to
+space constraints
+'''
 from event_processing import basic_consumer
 
 import numpy as np

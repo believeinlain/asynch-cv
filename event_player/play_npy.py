@@ -1,4 +1,8 @@
-
+'''
+Deprecated: function to read .npy files and play them.
+Needs to be updated to work properly, but .npy files will not likely be used due to
+space constraints
+'''
 import sys
 import time
 import numpy as np

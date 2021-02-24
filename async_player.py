@@ -1,6 +1,5 @@
 '''
 Command line interface to use the async-cv tools
-TODO: Implement consumer arguments from command line.
 '''
 
 import argparse

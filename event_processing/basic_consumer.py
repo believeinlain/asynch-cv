@@ -6,6 +6,7 @@ import numpy as np
 class basic_consumer:
     '''
     Basic consumer class that simply displays all events.
+    Override this class to define alternative event processing functionality
     '''
     def __init__(self, width, height):
         '''
