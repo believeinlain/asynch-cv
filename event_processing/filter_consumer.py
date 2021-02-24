@@ -1,13 +1,16 @@
 
 from sys import stdout
 from event_processing import basic_consumer
+from event_processing import basic_filter
 
 class filter_consumer(basic_consumer):
     '''
     Consumer that incorporates a filter object to only allow some events.
     '''
-    def __init__(self, width, height, event_filter, filter_args=None):
+    def __init__(self, width, height, consumer_args):
         super().__init__(width, height)
+        event_filter = consumer_args.get('event_filter', basic_filter)
+        filter_args = {k.replace('filter_', '',  1): v for (k,v) in consumer_args.items() if k.startswith('filter_')}
         self.filter = event_filter(width, height, **filter_args)
 
     def process_event_array(self, ts, event_buffer, frame_buffer=None):

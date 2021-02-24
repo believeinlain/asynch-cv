@@ -60,7 +60,7 @@ def play_file(filename, dt, event_consumer, consumer_args=None):
             aedat['data']['polarity']['timeStamp']
         ]).transpose()
         
-        consumer = event_consumer(width, height, **consumer_args)
+        consumer = event_consumer(width, height, consumer_args)
 
         play_numpy_array_dt(event_data, consumer, dt, dt_us)
     
@@ -90,7 +90,7 @@ def play_file(filename, dt, event_consumer, consumer_args=None):
         except RuntimeError:
             frames = None
 
-        consumer = event_consumer(width=width, height=height, **consumer_args)
+        consumer = event_consumer(width, height, consumer_args)
 
         if frames is not None:
             play_numpy_array_frames(event_data, consumer, frames)
@@ -150,7 +150,7 @@ def play_metavision_file(filename, dt, event_consumer, consumer_args):
 
     # We use PythonConsumer to "grab" the output of two components: cd_producer and frame_gen
     # pyconsumer will callback the application each time it receives data, using the event_callback function
-    ev_proc = event_consumer(width, height, **consumer_args)
+    ev_proc = event_consumer(width, height, consumer_args)
     pyconsumer = mvd_core.PythonConsumer(ev_proc.metavision_event_callback)
     pyconsumer.add_source(cd_producer, ev_proc.mv_cd_prod_name)
     pyconsumer.add_source(frame_gen, ev_proc.mv_frame_gen_name)

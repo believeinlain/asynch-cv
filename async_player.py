@@ -1,5 +1,6 @@
 '''
-Command line interface to use the async-cv tools
+Command line interface to use the async-cv tools.
+Doesn't work for more complex consumers yet
 '''
 
 import argparse
@@ -16,7 +17,7 @@ parser.add_argument('-c','--consumer', dest='consumer', default='basic_consumer'
     help='Specify which consumer to use.')
 parser.add_argument('-l','--consumer-list', dest='list_consumers', action='store_true',
     help='List valid consumers.')
-# parser.add_argument('-a','--consumer-args', dest='consumer_args', 
+# parser.add_argument('-a', '--consumer-args', dest='consumer_args', type=str, nargs='*',
 #     help='Specify arguments for the consumer.')
 
 args = parser.parse_args()
@@ -32,5 +33,5 @@ if args.filename is not None:
         filename=args.filename,
         dt=30,
         event_consumer=getattr(event_processing, args.consumer),
-        consumer_args=None
+        consumer_args=args.consumer_args
     )

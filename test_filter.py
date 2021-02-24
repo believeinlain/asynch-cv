@@ -12,6 +12,6 @@ event_player.play_file(
     event_consumer=event_processing.filter_consumer,
     consumer_args= {
         'event_filter': event_processing.basic_filter,
-        'filter_args': {'threshold': 100000}
+        'filter_threshold': 100000
     }
 )
