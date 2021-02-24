@@ -17,8 +17,8 @@ parser.add_argument('-c','--consumer', dest='consumer', default='basic_consumer'
     help='Specify which consumer to use.')
 parser.add_argument('-l','--consumer-list', dest='list_consumers', action='store_true',
     help='List valid consumers.')
-parser.add_argument('-a','--consumer-args', dest='consumer_args', 
-    help='Specify arguments for the consumer.')
+# parser.add_argument('-a','--consumer-args', dest='consumer_args', 
+#     help='Specify arguments for the consumer.')
 
 args = parser.parse_args()
 
@@ -29,15 +29,7 @@ if args.list_consumers:
         print(consumer_class.__name__, consumer_class.__doc__)
 
 if args.filename is not None:
-    if args.filename.endswith('.aedat'):
-        play_function = event_player.play_aedat
-    elif args.filename.endswith('.dat') or args.filename.endswith('.raw'):
-        play_function = event_player.play_metavision
-    else:
-        print('Invalid file input specified. Please specify a .aedat, .raw, or .dat file.')
-        exit(2)
-
-    play_function(
+    event_player.play_file(
         filename=args.filename,
         dt=30,
         event_consumer=getattr(event_processing, args.consumer),

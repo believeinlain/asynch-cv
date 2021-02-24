@@ -63,7 +63,7 @@ class basic_consumer:
             # appropriately process the events
             self.process_event_array(ts, event_buffer)
 
-    def process_event_array(self, ts, event_buffer):
+    def process_event_array(self, ts, event_buffer, frame_buffer=None):
         '''
         Callback method to override to process events.
         
@@ -71,28 +71,42 @@ class basic_consumer:
             ts: This is the timestamp of the end of the buffer.
                 All events included in this callback will have a timestamp strictly lower than ts
             event_buffer: Array of events as tuples of the form ('x','y','p','t')
-
+            frame_buffer: Array of greyscale pixels if captured by a conventional image chip
         '''
         # ignore the timestamp for the default implementation
         del ts
         # if we have a frame from a frame_producer, we can draw that
+        # (a "frame_producer" is Metavision's way of compiling events into frames.
+        # if we want to do any event processing outside of Metavision Designer, we won't use this)
         if self.frame_producer_output is not None:
             self.frame_to_draw = self.frame_producer_output
         # otherwise just draw the events we received from event_buffer
         else:
-            # fill frame with grey
-            self.frame_to_draw = np.full((self.height, self.width, 3), 0.5)
+            self.init_frame(frame_buffer)
             # draw events colored by polarity
             for e in event_buffer:
-                self.frame_to_draw[e[1], e[0], :] = (e[2], e[2], e[2])
+                self.draw_event(e)
+    
+    def init_frame(self, frame_buffer=None):
+        # if we have a frame_buffer, start with that
+        if frame_buffer is not None:
+            # assume greyscale framebuffer and repeat color channels
+            self.frame_to_draw = np.repeat(frame_buffer, 3, 2)
+        # otherwise fill frame with grey
+        else:
+            self.frame_to_draw = np.full((self.height, self.width, 3), 0.5)
+    
+    def draw_event(self, e):
+        '''
+        Draw event of the form ('x','y','p','t')
+        '''
+        color = e[2]*255
+        self.frame_to_draw[e[1], e[0], :] = (color, color, color)
 
     def draw_frame(self):
         '''
         Called from main thread to display frame
         '''
-        # if flip_x: self.frame_to_draw = np.fliplr(self.frame_to_draw)
-        # if flip_y: self.frame_to_draw = np.flipud(self.frame_to_draw)
-
         cv2.imshow('Events Display OpenCV', self.frame_to_draw)
         cv2.waitKey(1)   # 1 ms to draw frame
 

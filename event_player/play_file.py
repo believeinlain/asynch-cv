@@ -103,18 +103,30 @@ def play_file(filename, dt, event_consumer, consumer_args=None):
         # Invoke the import function
         aedat = ImportAedat.ImportAedat(aedat)
 
+        # legacy support is incomplete, for now just assume we have the Davis346Red
+        # here are the field sizes for reference:
+        # devices = {
+        #     'Dvs128':		    [128, 128],
+        #     'Davis240':		[240, 180],
+        #     'Davis128':		[128, 128],
+        #     'Davis208':		[208, 192],
+        #     'Davis346':		[346, 260],
+        #     'Davis640':		[640, 480]
+        # }
+        width = 346
+        height = 260
+
         # create data structure to process into frames
         event_data = np.array([ 
-            aedat['data']['polarity']['x'],
-            aedat['data']['polarity']['y'],
+            np.subtract(width-1, aedat['data']['polarity']['x']), # flip x
+            np.subtract(height-1, aedat['data']['polarity']['y']), # flip y
             aedat['data']['polarity']['polarity'],
             aedat['data']['polarity']['timeStamp']
         ]).transpose()
+        
+        consumer = event_consumer(width, height, **consumer_args)
 
-        #TODO: read frame size from legacy files
-        consumer = event_consumer(width=346, height=260, **consumer_args)
-
-        play_numpy_array(event_data, consumer, dt, dt_us)
+        play_numpy_array_dt(event_data, consumer, dt, dt_us)
     
     elif is_aedat4:
         from dv import AedatFile
@@ -136,9 +148,18 @@ def play_file(filename, dt, event_consumer, consumer_args=None):
             events['timestamp']
         ]).transpose()
 
+        # get frames if available
+        try:
+            frames = [(frame.image, frame.timestamp) for frame in aedat['frames']]
+        except RuntimeError:
+            frames = None
+
         consumer = event_consumer(width=width, height=height, **consumer_args)
 
-        play_numpy_array(event_data, consumer, dt, dt_us)
+        if frames is not None:
+            play_numpy_array_frames(event_data, consumer, frames)
+        else:  
+            play_numpy_array_dt(event_data, consumer, dt, dt_us)
 
     else:
         print("Error: provided input path '{}' does not have a known extension. ".format(filename))
@@ -148,15 +169,9 @@ def play_file(filename, dt, event_consumer, consumer_args=None):
     cv2.destroyAllWindows()
     return 0
 
-def play_numpy_array(event_data, consumer, dt, dt_us):
+def play_numpy_array_dt(event_data, consumer, dt, dt_us):
     '''
-    Playback numpy array with the structure:
-        np.array([ 
-            events['x'],
-            events['y'],
-            events['polarity'],
-            events['timestamp']
-        ]).transpose()
+    Playback numpy array with the no frames and a fixed dt
     '''
     timestamps = event_data[:,3]
     num_events = len(timestamps)
@@ -183,6 +198,43 @@ def play_numpy_array(event_data, consumer, dt, dt_us):
         consumer.draw_frame()
         
         end_loop(start_time, dt)
+
+def play_numpy_array_frames(event_data, consumer, frames):
+    '''
+    Playback numpy array with recorded frames (recorded frames determine dt)
+    '''
+    timestamps = event_data[:,3]
+    num_events = len(timestamps)
+    last_index = num_events-1
+    frame_start = 0
+    frame_end = 0
+    frame_start_time = timestamps[0]
+    frame_end_time = frames[0][1]
+    frames_drawn = 0
+
+    running = True
+    while running:
+        start_time = begin_loop()
+        
+        # get indices for the current frame
+        [frame_start, frame_end] = np.searchsorted(timestamps, [frame_start_time, frame_end_time])
+        
+        # end if we run out of events
+        if frame_end >= last_index:
+            frame_end = last_index
+            running = False
+        # process buffered events into frame
+        consumer.process_event_array(frame_end_time, event_data[frame_start:frame_end,:], frames[frames_drawn][0])
+        # draw frame with the events
+        consumer.draw_frame()
+        
+        # end the loop
+        end_loop(start_time, (frame_end_time-frame_start_time)//1_000)
+
+        # advance frame times
+        frames_drawn += 1
+        frame_start_time = frame_end_time
+        frame_end_time = frames[frames_drawn][1]
 
 def begin_loop():
     '''
