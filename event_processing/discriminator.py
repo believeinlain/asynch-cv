@@ -15,7 +15,7 @@ class discriminator(basic_consumer):
     Consumer that collects events into distinct regions
     '''
     def __init__(self, width, height, consumer_args=None):
-        super().__init__(width, height, consumer_args)
+        super().__init__(width, height)
         # initialize all locations as assigned to no region (-1)
         self.region_index = np.full((width, height), -1, region_index_type)
         # max number of regions (also should be -1 if dtype=region_index_type)

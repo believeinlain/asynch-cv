@@ -12,6 +12,8 @@ class basic_consumer:
         '''
         Constructor
         '''
+        # args are unused in basic implementation
+        del consumer_args
         self.width = width
         self.height = height
         # Names used to register as PythonConsumer with Metavision Designer
