@@ -36,20 +36,19 @@ class spatial_filter:
             min_nearby = 2
             neighbor_effect = 0.5
             
-            def within_threshold(x, th):
-                return x > t-th
-            
             # query nearby for surrounding events
             row = np.arange(x-nearby_range, x+nearby_range+1).clip(0, self.width-1)
             col = np.arange(y-nearby_range, y+nearby_range+1).clip(0, self.height-1)
 
-            nearby_count = np.sum(within_threshold(self.surface[row[:, np.newaxis], col], nearby_depth))
+            nearby = self.surface[row[:, np.newaxis], col]
+            nearby_count = nearby[nearby>t-nearby_depth].size
 
             # query neighborhood for surrounding events
             row = np.arange(x-neighbor_range, x+neighbor_range+1).clip(0, self.width-1)
             col = np.arange(y-neighbor_range, y+neighbor_range+1).clip(0, self.height-1)
 
-            neighbor_count = np.sum(within_threshold(self.surface[row[:, np.newaxis], col], neighbor_depth))
+            neighbor = self.surface[row[:, np.newaxis], col]
+            neighbor_count = neighbor[neighbor>t-neighbor_depth].size
 
             # update the surface
             self.surface[x, y] = t

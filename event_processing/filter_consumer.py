@@ -20,10 +20,10 @@ class filter_consumer(basic_consumer):
         self.init_frame(frame_buffer)
         # draw events colored by polarity
         filtered = 0
-        for e in event_buffer:
-            if self.filter.is_event_allowed(e):
+        for (x, y, p, t) in event_buffer:
+            if self.filter.is_event_allowed((x, y, p, t)):
                 filtered += 1
-                self.draw_event(e)
+                self.draw_event(x, y, p, t)
 
         # display filtering results
         stdout.write('Processeed %i events'%(len(event_buffer)))

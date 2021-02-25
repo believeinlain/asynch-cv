@@ -8,7 +8,7 @@ class basic_consumer:
     Basic consumer class that simply displays all events.
     Override this class to define alternative event processing functionality
     '''
-    def __init__(self, width, height):
+    def __init__(self, width, height, consumer_args=None):
         '''
         Constructor
         '''
@@ -86,10 +86,10 @@ class basic_consumer:
         else:
             self.init_frame(frame_buffer)
             # draw events colored by polarity
-            for e in event_buffer:
-                self.draw_event(e)
+            for (x, y, p, t) in event_buffer:
+                self.draw_event(x, y, p, t)
         
-        stdout.write('Processeed %i events'%(len(event_buffer)))
+        stdout.write('Processed %i events'%(len(event_buffer)))
         stdout.flush()
     
     def init_frame(self, frame_buffer=None):
@@ -101,12 +101,13 @@ class basic_consumer:
         else:
             self.frame_to_draw = np.full((self.height, self.width, 3), 0.5)
     
-    def draw_event(self, e):
+    def draw_event(self, x, y, p, t):
         '''
-        Draw event of the form ('x','y','p','t')
+        Draw event
         '''
-        color = e[2]*255
-        self.frame_to_draw[e[1], e[0], :] = (color, color, color)
+        del t
+        color = p*255
+        self.frame_to_draw[y, x, :] = (color, color, color)
 
     def draw_frame(self):
         '''
