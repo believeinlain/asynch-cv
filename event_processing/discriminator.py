@@ -148,8 +148,9 @@ class discriminator(basic_consumer):
         
         # subtract unassigned events from affected region weights
         affected_regions, counts = np.unique(self.region_index[locations_to_unassign][:-1], return_counts=True)
-        for i, n in np.transpose(np.stack((affected_regions, counts))[:,:-1]):
-            self.regions[i]['weight'] -= n
+        weights = self.regions[affected_regions[:-1]]['weight']
+        if weights.size > 0:
+            np.subtract(weights, counts[:-1], out=weights, casting='unsafe')
         
         # set unassigned locations in index array
         self.region_index[locations_to_unassign] = UNASSIGNED_REGION
