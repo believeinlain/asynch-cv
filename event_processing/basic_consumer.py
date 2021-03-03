@@ -20,7 +20,7 @@ class basic_consumer:
         self.mv_frame_gen_name = "FrameGen"
         self.mv_cd_prod_name = "CDProd"
         # store the current frame to display with OpenCV.imshow(self.frame)
-        self.frame_to_draw = np.zeros((height, width, 3))
+        self.frame_to_draw = np.zeros((height, width, 3), dtype=np.uint8)
         self.frame_producer_output = None
 
     def metavision_event_callback(self, ts, src_events, src_2d_arrays):
@@ -101,7 +101,7 @@ class basic_consumer:
             self.frame_to_draw = np.repeat(frame_buffer, 3, 2)
         # otherwise fill frame with grey
         else:
-            self.frame_to_draw = np.full((self.height, self.width, 3), 0.5)
+            self.frame_to_draw = np.full((self.height, self.width, 3), 100, dtype=np.uint8)
     
     def draw_event(self, x, y, p, t):
         '''
