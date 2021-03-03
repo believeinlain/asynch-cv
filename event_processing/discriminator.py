@@ -142,7 +142,14 @@ class discriminator(basic_consumer):
     def unassign_from_regions(self, ts, dt):
         # unassign locations with no recent updates
         locations_to_unassign = np.nonzero(self.surface < ts-dt)
-        for (i, j) in np.transpose(locations_to_unassign):
-            if self.region_index[i, j] != UNASSIGNED_REGION:
-                self.regions[self.region_index[i, j]]['weight'] -= 1
-                self.region_index[i, j] = UNASSIGNED_REGION
+        nonempty_regions = np.nonzero(self.regions[:]['weight'])[0]
+        if nonempty_regions.size == 0:
+            return
+        
+        # subtract unassigned events from affected region weights
+        affected_regions, counts = np.unique(self.region_index[locations_to_unassign][:-1], return_counts=True)
+        for i, n in np.transpose(np.stack((affected_regions, counts))[:,:-1]):
+            self.regions[i]['weight'] -= n
+        
+        # set unassigned locations in index array
+        self.region_index[locations_to_unassign] = UNASSIGNED_REGION
