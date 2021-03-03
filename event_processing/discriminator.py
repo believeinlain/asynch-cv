@@ -2,13 +2,13 @@
 from colorsys import hsv_to_rgb
 import numpy as np
 from event_processing import basic_consumer
+import cv2
 
 region_index_type = np.uint16
 UNASSIGNED_REGION = np.iinfo(region_index_type).max
 region_type = np.dtype([
     ('weight', np.uint32),
     ('birth', np.uint32),
-    ('centroid', np.uint16, 2),
     ('color', np.uint8, 3)
 ])
 
@@ -41,8 +41,9 @@ class discriminator(basic_consumer):
         for (x, y, p, t) in event_buffer:
             # find indices for the vicinity of the current event
             x_range = np.arange(x-vicinity_range, x+vicinity_range+1).clip(0,
-                                                 self.width-1)[:, np.newaxis]
-            y_range = np.arange(y-vicinity_range, y+vicinity_range+1).clip(0, self.height-1)
+                                                                           self.width-1)[:, np.newaxis]
+            y_range = np.arange(y-vicinity_range, y +
+                                vicinity_range+1).clip(0, self.height-1)
             vicinity = (x_range, y_range)
 
             # update surface for all events
@@ -80,7 +81,22 @@ class discriminator(basic_consumer):
                     assigned = self.create_region(x, y, p, t)
 
             # draw event now that we've assigned regions
-            self.draw_event(x, y, p, t, self.regions[self.region_index[x, y]]['color'])
+            self.draw_event(
+                x, y, p, t, self.regions[self.region_index[x, y]]['color'])
+
+        # self.process_contours()
+    
+    def process_contours(self):
+        # sort regions by birth
+        order = self.regions[self.regions['weight']>0]['birth'].argsort()
+        order = order.nonzero()[0]
+        # just look at the biggest region for now
+        print(order, self.regions[order]['birth'])
+        image = np.array(np.transpose(self.region_index==order[0]), dtype=np.uint8)
+        self.frame_to_draw = image
+        # contours, hierarchy = cv2.findContours(image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+        # print(contours)
+        # cv2.drawContours(self.frame_to_draw, contours, -1, (255, 0, 0), 3) 
 
     def draw_event(self, x, y, p, t, color):
         del t, p
@@ -100,7 +116,6 @@ class discriminator(basic_consumer):
             # use first empty index
             if self.regions[new_index]['weight'] == 0:
                 self.regions[new_index]['birth'] = t
-                self.regions[new_index]['centroid'] = (x, y)
                 # pick a random color for the new region
                 self.regions[new_index]['color'] = np.multiply(
                     255.0, hsv_to_rgb(np.random.uniform(), 1.0, 1.0), casting='unsafe')
@@ -116,8 +131,6 @@ class discriminator(basic_consumer):
         # determine the values for the final region
         combined_weight = np.sum(self.regions[regions]['weight'])
         combined_birth = min(self.regions[regions]['birth'])
-        # just use the biggest for now
-        combined_centroid = self.regions[target]['centroid']
         combined_color = self.regions[target]['color']
 
         # mark all locations covered by regions as belonging to the target region
@@ -127,7 +140,6 @@ class discriminator(basic_consumer):
         self.regions[target] = (
             combined_weight,
             combined_birth,
-            combined_centroid,
             combined_color)
 
     def allow_event(self, dt, n, i, x, y, p, t):
@@ -145,12 +157,13 @@ class discriminator(basic_consumer):
         nonempty_regions = np.nonzero(self.regions[:]['weight'])[0]
         if nonempty_regions.size == 0:
             return
-        
+
         # subtract unassigned events from affected region weights
-        affected_regions, counts = np.unique(self.region_index[locations_to_unassign][:-1], return_counts=True)
+        affected_regions, counts = np.unique(
+            self.region_index[locations_to_unassign], return_counts=True)
         weights = self.regions[affected_regions[:-1]]['weight']
         if weights.size > 0:
             np.subtract(weights, counts[:-1], out=weights, casting='unsafe')
-        
+
         # set unassigned locations in index array
         self.region_index[locations_to_unassign] = UNASSIGNED_REGION
