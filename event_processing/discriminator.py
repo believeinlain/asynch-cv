@@ -32,21 +32,25 @@ class discriminator(basic_consumer):
         region_lifetime = 100_000
         filter_count = 5
         filter_dt = 20_000
+        vicinity_range = 2
+
+        # unassign locations with no recent updates
+        self.unassign_from_regions(ts, region_lifetime)
 
         # process each event individually
         for (x, y, p, t) in event_buffer:
             # find indices for the vicinity of the current event
-            r = 2
-            x_range = np.arange(x-r, x+r+1).clip(0,
+            x_range = np.arange(x-vicinity_range, x+vicinity_range+1).clip(0,
                                                  self.width-1)[:, np.newaxis]
-            y_range = np.arange(y-r, y+r+1).clip(0, self.height-1)
+            y_range = np.arange(y-vicinity_range, y+vicinity_range+1).clip(0, self.height-1)
             vicinity = (x_range, y_range)
 
             # update surface for all events
             self.update_surface(x, y, p, t)
 
-            # ignore filtered events
+            # draw filtered events in grey
             if not self.allow_event(filter_dt, filter_count, vicinity, x, y, p, t):
+                self.draw_event(x, y, p, t, (150, 150, 150))
                 continue
 
             # assign the event to the region it lands on
@@ -76,15 +80,11 @@ class discriminator(basic_consumer):
                     assigned = self.create_region(x, y, p, t)
 
             # draw event now that we've assigned regions
-            self.draw_event(x, y, p, t)
+            self.draw_event(x, y, p, t, self.regions[self.region_index[x, y]]['color'])
 
-        # unassign locations with no recent updates
-        self.unassign_from_regions(ts, region_lifetime)
-
-    def draw_event(self, x, y, p, t):
+    def draw_event(self, x, y, p, t, color):
         del t, p
-        (r, g, b) = self.regions[self.region_index[x, y]]['color']
-        self.frame_to_draw[y, x, :] = (b, g, r)
+        self.frame_to_draw[y, x, :] = color
 
     def update_surface(self, x, y, p, t):
         del p
@@ -143,10 +143,6 @@ class discriminator(basic_consumer):
         # unassign locations with no recent updates
         locations_to_unassign = np.nonzero(self.surface < ts-dt)
         for (i, j) in np.transpose(locations_to_unassign):
-            index = self.region_index[i, j]
-            if index != UNASSIGNED_REGION:
-                if self.regions[index]['weight'] <= 1:
-                    self.region_index[i, j] = -1
-                    self.regions[index]['weight'] = 0
-                else:
-                    self.regions[index]['weight'] -= 1
+            if self.region_index[i, j] != UNASSIGNED_REGION:
+                self.regions[self.region_index[i, j]]['weight'] -= 1
+                self.region_index[i, j] = UNASSIGNED_REGION
