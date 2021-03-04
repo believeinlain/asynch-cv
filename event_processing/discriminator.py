@@ -4,13 +4,8 @@ import numpy as np
 from event_processing import basic_consumer
 import cv2
 
-region_index_type = np.uint16
-UNASSIGNED_REGION = np.iinfo(region_index_type).max
-region_type = np.dtype([
-    ('weight', np.uint32),
-    ('birth', np.uint32),
-    ('color', np.uint8, 3)
-])
+RegionIndex = np.uint16
+UNASSIGNED_REGION = np.iinfo(RegionIndex).max
 
 
 class discriminator(basic_consumer):
@@ -21,38 +16,60 @@ class discriminator(basic_consumer):
     def __init__(self, width, height, consumer_args=None):
         super().__init__(width, height)
         # initialize all locations as assigned to no region (-1)
-        self.region_index = np.full((width, height), -1, region_index_type)
-        # initialize the array of regions to empty regions
-        self.regions = np.zeros(np.iinfo(region_index_type).max, region_type)
+        self.region_index = np.full((width, height), -1, RegionIndex)
+        # initialize the arrays of regions to empty regions
+        max_regions = np.iinfo(RegionIndex).max
+        self.regions_weight = np.zeros(max_regions, np.uint32)
+        self.regions_birth = np.zeros(max_regions, np.uint32)
+        self.regions_color = np.zeros((max_regions, 3), np.uint8)
+        # surface of raw input events
         self.surface = np.zeros((width, height), np.uint32)
+        # surface of events that have passed filtering
+        self.surface_filtered = np.zeros((width, height), np.uint32)
+
+        # timestamp of previous frame
+        self.last_ts = 0
+
+        # parameters
+        # timeframe of inactivity in a location to unassign events
+        self.region_lifetime = 100_000
+        # minimum correlated events to allow an event through the filter
+        self.filter_n = 5
+        # timeframe to search for correlated events when filtering
+        self.filter_dt = 20_000
+        # range to search around each event for correlation and region grouping
+        self.v_range = 2
+        # minimum size to consider region worth analyzing
+        self.min_region_size = 10
+        # minimum time for a region to exist before we care
+        self.min_region_life = 100_000
 
     def process_event_array(self, ts, event_buffer, frame_buffer=None):
         # draw frames (if applicable)
         self.init_frame(frame_buffer)
-        region_lifetime = 100_000
-        filter_count = 5
-        filter_dt = 20_000
-        vicinity_range = 2
 
         # unassign locations with no recent updates
-        self.unassign_from_regions(ts, region_lifetime)
+        self.unassign_from_regions(ts)
 
         # process each event individually
         for (x, y, p, t) in event_buffer:
             # find indices for the vicinity of the current event
-            x_range = np.arange(x-vicinity_range, x+vicinity_range+1).clip(0,
-                                                                           self.width-1)[:, np.newaxis]
-            y_range = np.arange(y-vicinity_range, y +
-                                vicinity_range+1).clip(0, self.height-1)
+            x_range = np.arange(x-self.v_range, x+self.v_range +
+                                1).clip(0, self.width-1)[:, np.newaxis]
+            y_range = np.arange(y-self.v_range, y +
+                                self.v_range+1).clip(0, self.height-1)
             vicinity = (x_range, y_range)
 
             # update surface for all events
-            self.update_surface(x, y, p, t)
+            self.surface[x, y] = t
 
             # draw filtered events in grey
-            if not self.allow_event(filter_dt, filter_count, vicinity, x, y, p, t):
+            if not self.allow_event(self.filter_dt, self.filter_n, vicinity, x, y, p, t):
                 self.draw_event(x, y, p, t, (150, 150, 150))
                 continue
+
+            # update filtered surface for allowed events
+            self.surface_filtered[x, y] = t
 
             # assign the event to the region it lands on
             assigned = self.region_index[x, y]
@@ -68,8 +85,7 @@ class discriminator(basic_consumer):
                 # if there is more than one adjacent region
                 elif adjacent.size > 1:
                     # find the largest region
-                    sorted_indices = np.argsort(
-                        self.regions[adjacent]['weight'])
+                    sorted_indices = np.argsort(self.regions_weight[adjacent])
                     largest_region = adjacent[sorted_indices][-1]
                     # merge all regions into the largest region
                     self.combine_regions(largest_region, adjacent)
@@ -81,43 +97,56 @@ class discriminator(basic_consumer):
                     assigned = self.create_region(x, y, p, t)
 
             # draw event now that we've assigned regions
-            self.draw_event(
-                x, y, p, t, self.regions[self.region_index[x, y]]['color'])
+            color = self.regions_color[self.region_index[x, y]]
+            self.draw_event(x, y, p, t, color)
 
-        # self.process_contours()
-    
-    def process_contours(self):
-        # sort regions by birth
-        order = self.regions[self.regions['weight']>0]['birth'].argsort()
-        order = order.nonzero()[0]
-        # just look at the biggest region for now
-        print(order, self.regions[order]['birth'])
-        image = np.array(np.transpose(self.region_index==order[0]), dtype=np.uint8)
-        self.frame_to_draw = image
-        # contours, hierarchy = cv2.findContours(image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-        # print(contours)
-        # cv2.drawContours(self.frame_to_draw, contours, -1, (255, 0, 0), 3) 
+        self.region_analysis(ts)
+        self.last_ts = ts
 
-    def draw_event(self, x, y, p, t, color):
-        del t, p
-        self.frame_to_draw[y, x, :] = color
+    def region_analysis(self, ts):
+        # find regions we care about
+        big_enough = np.nonzero(self.regions_weight > self.min_region_size)[0]
+        old_enough = np.nonzero(
+            self.regions_birth+self.min_region_life < ts)[0]
+        regions_of_interest = np.intersect1d(big_enough, old_enough)
+        # sort regions of interest
+        # order = self.regions_birth[regions_of_interest].argsort()
+        # sorted_regions = regions_of_interest[order]
 
-    def update_surface(self, x, y, p, t):
-        del p
-        self.surface[x, y] = t
+        for region in regions_of_interest:
+            image = np.multiply(255, np.transpose(
+                self.region_index == region), dtype=np.uint8)
+            x, y, w, h = cv2.boundingRect(image)
+            cv2.rectangle(self.frame_to_draw, (x, y),
+                          (x+w, y+h), (255, 255, 255), 1)
+
+        # self.frame_to_draw = image
+        # contours, _ = cv2.findContours(image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+        # for c in contours:
+        #     x,y,w,h = cv2.boundingRect(c)
+        #     cv2.rectangle(self.frame_to_draw, (x,y), (x+w,y+h), (255,255,255), 1)
+
+        # cv2.drawContours(self.frame_to_draw, contours, -1, (0, 0, 0), 3)
+
+    def draw_event(self, x, y, p, t, color=None):
+        if color is None:
+            super().draw_event(x, y, p, t)
+        else:
+            del t, p
+            self.frame_to_draw[y, x, :] = color
 
     def assign_event_to_region(self, index, x, y, p, t):
         del p, t
         self.region_index[x, y] = index
-        self.regions[index]['weight'] += 1
+        self.regions_weight[index] += 1
 
     def create_region(self, x, y, p, t):
-        for new_index in range(self.regions.size):
+        for new_index in range(self.regions_weight.size):
             # use first empty index
-            if self.regions[new_index]['weight'] == 0:
-                self.regions[new_index]['birth'] = t
+            if self.regions_weight[new_index] == 0:
+                self.regions_birth[new_index] = t
                 # pick a random color for the new region
-                self.regions[new_index]['color'] = np.multiply(
+                self.regions_color[new_index] = np.multiply(
                     255.0, hsv_to_rgb(np.random.uniform(), 1.0, 1.0), casting='unsafe')
                 self.assign_event_to_region(new_index, x, y, p, t)
                 return new_index
@@ -129,18 +158,19 @@ class discriminator(basic_consumer):
         combined_footprint = np.isin(self.region_index, regions).nonzero()
 
         # determine the values for the final region
-        combined_weight = np.sum(self.regions[regions]['weight'])
-        combined_birth = min(self.regions[regions]['birth'])
-        combined_color = self.regions[target]['color']
+        combined_weight = np.sum(self.regions_weight[regions])
+        combined_birth = min(self.regions_birth[regions])
+        combined_color = self.regions_color[target]
 
         # mark all locations covered by regions as belonging to the target region
         self.region_index[combined_footprint] = target
+        # reset all regions weight to zero since they've been unassigned
+        self.regions_weight[regions] = 0
 
         # set the target region to the new values
-        self.regions[target] = (
-            combined_weight,
-            combined_birth,
-            combined_color)
+        self.regions_weight[target] = combined_weight
+        self.regions_birth[target] = combined_birth
+        self.regions_color[target] = combined_color
 
     def allow_event(self, dt, n, i, x, y, p, t):
         del x, y, p
@@ -151,19 +181,17 @@ class discriminator(basic_consumer):
         # allow if n or more recent events in vicinity
         return np.count_nonzero(is_recent(self.surface[i])) >= n
 
-    def unassign_from_regions(self, ts, dt):
+    def unassign_from_regions(self, ts):
         # unassign locations with no recent updates
-        locations_to_unassign = np.nonzero(self.surface < ts-dt)
-        nonempty_regions = np.nonzero(self.regions[:]['weight'])[0]
-        if nonempty_regions.size == 0:
-            return
+        locations_to_unassign = np.nonzero(
+            self.surface_filtered < ts-self.region_lifetime)
 
         # subtract unassigned events from affected region weights
         affected_regions, counts = np.unique(
             self.region_index[locations_to_unassign], return_counts=True)
-        weights = self.regions[affected_regions[:-1]]['weight']
-        if weights.size > 0:
-            np.subtract(weights, counts[:-1], out=weights, casting='unsafe')
+        counts_to_subtract = np.array(counts[:-1], dtype=np.uint32)
+        if counts_to_subtract.size > 0:
+            self.regions_weight[affected_regions[:-1]] -= counts_to_subtract
 
         # set unassigned locations in index array
         self.region_index[locations_to_unassign] = UNASSIGNED_REGION

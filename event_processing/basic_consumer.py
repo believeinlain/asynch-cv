@@ -103,13 +103,14 @@ class basic_consumer:
         else:
             self.frame_to_draw = np.full((self.height, self.width, 3), 100, dtype=np.uint8)
     
-    def draw_event(self, x, y, p, t):
+    def draw_event(self, x, y, p, t, color=None):
         '''
         Draw event
         '''
         del t
-        color = p*255
-        self.frame_to_draw[y, x, :] = (color, color, color)
+        if color is None:
+            color = np.repeat(p*255, 3)
+        self.frame_to_draw[y, x, :] = color
 
     def draw_frame(self):
         '''
