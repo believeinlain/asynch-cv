@@ -15,6 +15,7 @@ class discriminator(basic_consumer):
 
     def __init__(self, width, height, consumer_args=None):
         super().__init__(width, height)
+        print(width, height)
         # initialize all locations as assigned to no region (-1)
         self.region_index = np.full((width, height), -1, RegionIndex)
         # initialize the arrays of regions to empty regions
@@ -23,36 +24,67 @@ class discriminator(basic_consumer):
         self.regions_birth = np.zeros(max_regions, np.uint32)
         self.regions_color = np.zeros((max_regions, 3), np.uint8)
         # surface of raw input events
-        self.surface = np.zeros((width, height), np.uint32)
+        self.surface = np.zeros((width, height), np.uint64)
         # surface of events that have passed filtering
-        self.surface_filtered = np.zeros((width, height), np.uint32)
+        self.surface_filtered = np.zeros((width, height), np.uint64)
 
         # timestamp of previous frame
-        self.last_ts = 0
+        self.last_ts = None
 
         # parameters
         # timeframe of inactivity in a location to unassign events
         self.region_lifetime = 100_000
         # minimum correlated events to allow an event through the filter
-        self.filter_n = 5
+        self.filter_n = 4
         # timeframe to search for correlated events when filtering
-        self.filter_dt = 20_000
+        self.filter_dt = 50_000
         # range to search around each event for correlation and region grouping
-        self.v_range = 2
-        # minimum size to consider region worth analyzing
-        self.min_region_size = 10
+        self.v_range = 1
+        # minimum weight to consider region worth analyzing
+        self.min_region_weight = 20
         # minimum time for a region to exist before we care
-        self.min_region_life = 100_000
+        self.min_region_life = 1
+        # maximum number of events allowed per locale per frame
+        self.max_event_density = 50
+        # divide the field into locales of <= density_locale_size pixels
+        self.locale_size = 500
+
+        # divide the field into locales
+        div_n = 0
+        self.div_width = self.width
+        self.div_height = self.height
+        while self.div_width*self.div_height > self.locale_size:
+            div_n += 1
+            self.div_width /= 2
+            self.div_height /= 2
+        
+        self.locale_div = 2**div_n
+        self.locales = np.zeros((self.locale_div, self.locale_div), np.uint32)
 
     def process_event_array(self, ts, event_buffer, frame_buffer=None):
+        # init first frame ts
+        if event_buffer.size == 0:
+            return
+        if self.last_ts is None:
+            self.last_ts = event_buffer[0][3]
+
         # draw frames (if applicable)
         self.init_frame(frame_buffer)
 
         # unassign locations with no recent updates
         self.unassign_from_regions(ts)
 
+        # init locale buffer
+        self.locales = np.zeros((self.locale_div, self.locale_div), np.uint32)
+
         # process each event individually
         for (x, y, p, t) in event_buffer:
+            # place event in locale buffer
+            locale_i = (int(x/self.div_width), int(y/self.div_height))
+            self.locales[locale_i] += 1
+            if self.locales[locale_i] > self.max_event_density:
+                continue
+            
             # find indices for the vicinity of the current event
             x_range = np.arange(x-self.v_range, x+self.v_range +
                                 1).clip(0, self.width-1)[:, np.newaxis]
@@ -105,13 +137,10 @@ class discriminator(basic_consumer):
 
     def region_analysis(self, ts):
         # find regions we care about
-        big_enough = np.nonzero(self.regions_weight > self.min_region_size)[0]
+        big_enough = np.nonzero(self.regions_weight > self.min_region_weight)[0]
         old_enough = np.nonzero(
             self.regions_birth+self.min_region_life < ts)[0]
         regions_of_interest = np.intersect1d(big_enough, old_enough)
-        # sort regions of interest
-        # order = self.regions_birth[regions_of_interest].argsort()
-        # sorted_regions = regions_of_interest[order]
 
         for region in regions_of_interest:
             image = np.multiply(255, np.transpose(
@@ -119,14 +148,6 @@ class discriminator(basic_consumer):
             x, y, w, h = cv2.boundingRect(image)
             cv2.rectangle(self.frame_to_draw, (x, y),
                           (x+w, y+h), (255, 255, 255), 1)
-
-        # self.frame_to_draw = image
-        # contours, _ = cv2.findContours(image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-        # for c in contours:
-        #     x,y,w,h = cv2.boundingRect(c)
-        #     cv2.rectangle(self.frame_to_draw, (x,y), (x+w,y+h), (255,255,255), 1)
-
-        # cv2.drawContours(self.frame_to_draw, contours, -1, (0, 0, 0), 3)
 
     def draw_event(self, x, y, p, t, color=None):
         if color is None:
