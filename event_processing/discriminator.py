@@ -1,12 +1,13 @@
 
+from sys import stdout
 from colorsys import hsv_to_rgb
+from random import randint
 import numpy as np
-from event_processing import basic_consumer
 import cv2
+from event_processing import basic_consumer
 
 RegionIndex = np.uint16
 UNASSIGNED_REGION = np.iinfo(RegionIndex).max
-
 
 class discriminator(basic_consumer):
     '''
@@ -15,7 +16,6 @@ class discriminator(basic_consumer):
 
     def __init__(self, width, height, consumer_args=None):
         super().__init__(width, height)
-        print(width, height)
         # initialize all locations as assigned to no region (-1)
         self.region_index = np.full((width, height), -1, RegionIndex)
         # initialize the arrays of regions to empty regions
@@ -34,6 +34,8 @@ class discriminator(basic_consumer):
         # parameters
         # timeframe of inactivity in a location to unassign events
         self.region_lifetime = 100_000
+        # period with which regions are unassigned (average # events before each run)
+        self.unassign_period = 100
         # minimum correlated events to allow an event through the filter
         self.filter_n = 4
         # timeframe to search for correlated events when filtering
@@ -71,9 +73,6 @@ class discriminator(basic_consumer):
         # draw frames (if applicable)
         self.init_frame(frame_buffer)
 
-        # unassign locations with no recent updates
-        self.unassign_from_regions(ts)
-
         # init locale buffer
         self.locales = np.zeros((self.locale_div, self.locale_div), np.uint32)
 
@@ -87,10 +86,10 @@ class discriminator(basic_consumer):
             
             # find indices for the vicinity of the current event
             x_range = np.arange(x-self.v_range, x+self.v_range +
-                                1).clip(0, self.width-1)[:, np.newaxis]
+                                1).clip(0, self.width-1)
             y_range = np.arange(y-self.v_range, y +
                                 self.v_range+1).clip(0, self.height-1)
-            vicinity = (x_range, y_range)
+            vicinity = (x_range[:, np.newaxis], y_range)
 
             # update surface for all events
             self.surface[x, y] = t
@@ -102,6 +101,10 @@ class discriminator(basic_consumer):
 
             # update filtered surface for allowed events
             self.surface_filtered[x, y] = t
+
+            # unassign expired locations
+            if randint(1, self.unassign_period) == 1:
+                self.unassign_from_all_regions(ts)
 
             # assign the event to the region it lands on
             assigned = self.region_index[x, y]
@@ -134,6 +137,9 @@ class discriminator(basic_consumer):
 
         self.region_analysis(ts)
         self.last_ts = ts
+
+        stdout.write('Processed %i events'%(event_buffer.size))
+        stdout.flush()
 
     def region_analysis(self, ts):
         # find regions we care about
@@ -202,17 +208,20 @@ class discriminator(basic_consumer):
         # allow if n or more recent events in vicinity
         return np.count_nonzero(is_recent(self.surface[i])) >= n
 
-    def unassign_from_regions(self, ts):
-        # unassign locations with no recent updates
-        locations_to_unassign = np.nonzero(
-            self.surface_filtered < ts-self.region_lifetime)
+    def unassign_from_all_regions(self, ts):
+        expired = self.surface_filtered < ts-self.region_lifetime
+        # print("expired", expired)
+        has_region = self.region_index != UNASSIGNED_REGION
+        # print("has_region", has_region)
+        locations_to_unassign = np.logical_and(expired, has_region)
+        # print("locations_to_unassign", locations_to_unassign)
 
         # subtract unassigned events from affected region weights
         affected_regions, counts = np.unique(
             self.region_index[locations_to_unassign], return_counts=True)
-        counts_to_subtract = np.array(counts[:-1], dtype=np.uint32)
+        counts_to_subtract = np.array(counts, dtype=np.uint32)
         if counts_to_subtract.size > 0:
-            self.regions_weight[affected_regions[:-1]] -= counts_to_subtract
+            self.regions_weight[affected_regions] -= counts_to_subtract
 
         # set unassigned locations in index array
         self.region_index[locations_to_unassign] = UNASSIGNED_REGION
