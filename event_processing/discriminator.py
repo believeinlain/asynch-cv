@@ -1,7 +1,8 @@
 
 from sys import stdout
 from colorsys import hsv_to_rgb
-from random import randint
+from random import randint, random
+from math import exp
 import numpy as np
 import cv2
 from event_processing import basic_consumer
@@ -33,7 +34,7 @@ class discriminator(basic_consumer):
 
         # parameters
         # timeframe of inactivity in a location to unassign events
-        self.region_lifetime = 100_000
+        self.region_lifetime = 50_000
         # period with which regions are unassigned (average # events before each run)
         self.unassign_period = 100
         # minimum correlated events to allow an event through the filter
@@ -46,10 +47,6 @@ class discriminator(basic_consumer):
         self.min_region_weight = 10
         # minimum time for a region to exist before we care
         self.min_region_life = 1_000
-        # minimum number of time between events in each locale
-        self.min_locale_dt = 500
-        # if events are more frequent than self.min_locale_dt, likeliness to remove them
-        self.event_removal_factor = 100
         # divide the field into locales of <= density_locale_size pixels
         self.locale_size = 500
 
@@ -63,7 +60,8 @@ class discriminator(basic_consumer):
             self.div_height /= 2
         
         self.locale_div = 2**div_n
-        self.locales = np.zeros((self.locale_div, self.locale_div), np.uint64)
+        self.locale_acc = np.zeros((self.locale_div, self.locale_div), np.uint64)
+        self.locale_events_per_ms = np.zeros((self.locale_div, self.locale_div), np.uint64)
 
     def process_event_array(self, ts, event_buffer, frame_buffer=None):
         # init first frame ts
@@ -75,17 +73,17 @@ class discriminator(basic_consumer):
         # draw frames (if applicable)
         self.init_frame(frame_buffer)
 
+        # reevaluate locale event density given time between frames
+        self.reevaluate_locales(ts-self.last_ts)
+
         # process each event individually
         for (x, y, p, t) in event_buffer:
             # place event in locale buffer
             locale_i = (int(x/self.div_width), int(y/self.div_height))
-            # find time from last event in locale
-            locale_dt = t-self.locales[locale_i]
-            # if events are too frequent, remove based on how frequent
-            if locale_dt < self.min_locale_dt and randint(0, int(locale_dt/self.event_removal_factor)) == 0:
+            self.locale_acc[locale_i] += 1
+
+            if random() < 0.9*(1-exp(-0.3*self.locale_events_per_ms[locale_i])):
                 continue
-            
-            self.locales[locale_i] = t
             
             # find indices for the vicinity of the current event
             x_range = np.arange(x-self.v_range, x+self.v_range +
@@ -143,6 +141,11 @@ class discriminator(basic_consumer):
 
         stdout.write('Processed %i events'%(event_buffer.size))
         stdout.flush()
+
+    def reevaluate_locales(self, dt):
+        self.locale_events_per_ms = np.floor_divide(self.locale_acc, dt//1_000)
+        # print(self.locale_events_per_ms)
+        self.locale_acc[:] = 0
 
     def region_analysis(self, ts):
         # find regions we care about
@@ -209,7 +212,8 @@ class discriminator(basic_consumer):
         def is_recent(time):
             return time+dt >= t
         # allow if n or more recent events in vicinity
-        return np.count_nonzero(is_recent(self.surface[i])) >= n
+        vicinity_count = np.count_nonzero(is_recent(self.surface[i]))
+        return vicinity_count >= n
 
     def unassign_from_all_regions(self, ts):
         expired = self.surface_filtered < ts-self.region_lifetime
