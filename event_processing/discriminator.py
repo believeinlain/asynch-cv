@@ -43,11 +43,13 @@ class discriminator(basic_consumer):
         # range to search around each event for correlation and region grouping
         self.v_range = 1
         # minimum weight to consider region worth analyzing
-        self.min_region_weight = 20
+        self.min_region_weight = 10
         # minimum time for a region to exist before we care
-        self.min_region_life = 1
-        # maximum number of events allowed per locale per frame
-        self.max_event_density = 50
+        self.min_region_life = 1_000
+        # minimum number of time between events in each locale
+        self.min_locale_dt = 500
+        # if events are more frequent than self.min_locale_dt, likeliness to remove them
+        self.event_removal_factor = 100
         # divide the field into locales of <= density_locale_size pixels
         self.locale_size = 500
 
@@ -61,7 +63,7 @@ class discriminator(basic_consumer):
             self.div_height /= 2
         
         self.locale_div = 2**div_n
-        self.locales = np.zeros((self.locale_div, self.locale_div), np.uint32)
+        self.locales = np.zeros((self.locale_div, self.locale_div), np.uint64)
 
     def process_event_array(self, ts, event_buffer, frame_buffer=None):
         # init first frame ts
@@ -73,16 +75,17 @@ class discriminator(basic_consumer):
         # draw frames (if applicable)
         self.init_frame(frame_buffer)
 
-        # init locale buffer
-        self.locales = np.zeros((self.locale_div, self.locale_div), np.uint32)
-
         # process each event individually
         for (x, y, p, t) in event_buffer:
             # place event in locale buffer
             locale_i = (int(x/self.div_width), int(y/self.div_height))
-            self.locales[locale_i] += 1
-            if self.locales[locale_i] > self.max_event_density:
+            # find time from last event in locale
+            locale_dt = t-self.locales[locale_i]
+            # if events are too frequent, remove based on how frequent
+            if locale_dt < self.min_locale_dt and randint(0, int(locale_dt/self.event_removal_factor)) == 0:
                 continue
+            
+            self.locales[locale_i] = t
             
             # find indices for the vicinity of the current event
             x_range = np.arange(x-self.v_range, x+self.v_range +
