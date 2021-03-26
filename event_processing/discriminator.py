@@ -73,6 +73,12 @@ class discriminator(basic_consumer):
         self.locale_events_per_ms = np.zeros(
             (self.locale_div, self.locale_div), np.uint64)
 
+        self.frame_count = 0
+        if consumer_args is not None:
+            self.frame_annotations = consumer_args['track']['box']
+        else:
+            self.frame_annotations = []
+
     def process_event_array(self, ts, event_buffer, frame_buffer=None):
         # init first frame ts
         if event_buffer.size == 0:
@@ -153,8 +159,16 @@ class discriminator(basic_consumer):
         stdout.flush()
 
     def draw_frame(self):
+        box = self.frame_annotations[self.frame_count]
+        xtl = int(float(box['@xtl']))
+        ytl = int(float(box['@ytl']))
+        xbr = int(float(box['@xbr']))
+        ybr = int(float(box['@ybr']))
+        cv2.rectangle(self.frame_to_draw, (xtl, ytl), (xbr, ybr), (1, 1, 1))
+
         super().draw_frame()
         self.out.write(self.frame_to_draw)
+        self.frame_count += 1
 
     def end(self):
         super().end()
@@ -194,17 +208,19 @@ class discriminator(basic_consumer):
             if last_ts > self.regions_birth[region]:
                 # find and draw the region velocity
                 v = np.multiply(100, np.subtract(c, last_c, dtype=np.int32))
-                v = np.array(np.average((last_v, v), 0, (0.8, 0.2)), dtype=np.int32)
-                endpoint = np.add(c, v).clip((0, 0), (self.width-1, self.height-1))
-                cv2.arrowedLine(self.frame_to_draw, tuple(
-                    c), tuple(endpoint), color, thickness=1)
+                v = np.array(np.average((last_v, v), 0,
+                                        (0.8, 0.2)), dtype=np.int32)
+                endpoint = np.add(c, v).clip(
+                    (0, 0), (self.width-1, self.height-1))
+                # cv2.arrowedLine(self.frame_to_draw, tuple(
+                #     c), tuple(endpoint), color, thickness=1)
                 # update the region velocity
                 self.regions_velocity[region] = v
 
             # find and draw the bounding box
             x, y, w, h = cv2.boundingRect(image)
-            cv2.rectangle(self.frame_to_draw, (x, y),
-                          (x+w, y+h), color, 1)
+            # cv2.rectangle(self.frame_to_draw, (x, y),
+            #               (x+w, y+h), color, 1)
 
             # update region analysis results
             self.regions_analyzed[region] = ts
