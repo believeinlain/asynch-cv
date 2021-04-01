@@ -82,9 +82,9 @@ class discriminator(basic_consumer):
             if 'annotations' in consumer_args:
                 annot = consumer_args['annotations']
                 if type(annot['track']) is list:
-                    self.frame_annotations = annot['track'][0]['box']
+                    self.frame_annotations = [annot['track'][i]['box'] for i in range(len(annot['track']))]
                 else:
-                    self.frame_annotations = annot['track']['box']
+                    self.frame_annotations = [annot['track']['box']]
             
             if 'do_segmentation' in consumer_args:
                 self.do_segmentation = consumer_args['do_segmentation']
@@ -175,13 +175,14 @@ class discriminator(basic_consumer):
         stdout.flush()
 
     def draw_frame(self):
-        if (self.frame_count < len(self.frame_annotations)):
-            box = self.frame_annotations[self.frame_count]
-            xtl = int(float(box['@xtl']))
-            ytl = int(float(box['@ytl']))
-            xbr = int(float(box['@xbr']))
-            ybr = int(float(box['@ybr']))
-            cv2.rectangle(self.frame_to_draw, (xtl, ytl), (xbr, ybr), (1, 1, 1))
+        for obj in self.frame_annotations:
+            if (self.frame_count < len(obj)):
+                box = obj[self.frame_count]
+                xtl = int(float(box['@xtl']))
+                ytl = int(float(box['@ytl']))
+                xbr = int(float(box['@xbr']))
+                ybr = int(float(box['@ybr']))
+                cv2.rectangle(self.frame_to_draw, (xtl, ytl), (xbr, ybr), (1, 1, 1))
             
         super().draw_frame()
         self.out.write(self.frame_to_draw)
