@@ -74,10 +74,20 @@ class discriminator(basic_consumer):
             (self.locale_div, self.locale_div), np.uint64)
 
         self.frame_count = 0
+
+        # process consumer args
+        self.frame_annotations = []
+        self.do_segmentation = True
         if consumer_args is not None:
-            self.frame_annotations = consumer_args['track']['box']
-        else:
-            self.frame_annotations = []
+            if 'annotations' in consumer_args:
+                annot = consumer_args['annotations']
+                if type(annot['track']) is list:
+                    self.frame_annotations = annot['track'][0]['box']
+                else:
+                    self.frame_annotations = annot['track']['box']
+            
+            if 'do_segmentation' in consumer_args:
+                self.do_segmentation = consumer_args['do_segmentation']
 
     def process_event_array(self, ts, event_buffer, frame_buffer=None):
         # init first frame ts
@@ -119,53 +129,60 @@ class discriminator(basic_consumer):
             # update filtered surface for allowed events
             self.surface_filtered[x, y] = t
 
-            # unassign expired locations
-            if randint(1, self.unassign_period) == 1:
-                self.unassign_from_all_regions(ts)
+            if self.do_segmentation:
+                # unassign expired locations
+                if randint(1, self.unassign_period) == 1:
+                    self.unassign_from_all_regions(ts)
 
-            # assign the event to the region it lands on
-            assigned = self.region_index[x, y]
+                # assign the event to the region it lands on
+                assigned = self.region_index[x, y]
 
-            # if the location was unassigned
-            if assigned == UNASSIGNED_REGION:
-                # get sorted list of unique region indices, sans 'unassigned'
-                adjacent = np.unique(self.region_index[vicinity])[:-1]
-                # if there is only one adjacent region
-                if adjacent.size == 1:
-                    # assign this event to it
-                    self.assign_event_to_region(adjacent[0], x, y, p, t)
-                # if there is more than one adjacent region
-                elif adjacent.size > 1:
-                    # find the largest region
-                    sorted_indices = np.argsort(self.regions_weight[adjacent])
-                    largest_region = adjacent[sorted_indices][-1]
-                    # merge all regions into the largest region
-                    self.combine_regions(largest_region, adjacent)
-                    # assign event to the largest region
-                    self.assign_event_to_region(largest_region, x, y, p, t)
-                # if there are zero adjacent regions
-                else:
-                    # create a new region
-                    assigned = self.create_region(x, y, p, t)
+                # if the location was unassigned
+                if assigned == UNASSIGNED_REGION:
+                    # get sorted list of unique region indices, sans 'unassigned'
+                    adjacent = np.unique(self.region_index[vicinity])[:-1]
+                    # if there is only one adjacent region
+                    if adjacent.size == 1:
+                        # assign this event to it
+                        self.assign_event_to_region(adjacent[0], x, y, p, t)
+                    # if there is more than one adjacent region
+                    elif adjacent.size > 1:
+                        # find the largest region
+                        sorted_indices = np.argsort(self.regions_weight[adjacent])
+                        largest_region = adjacent[sorted_indices][-1]
+                        # merge all regions into the largest region
+                        self.combine_regions(largest_region, adjacent)
+                        # assign event to the largest region
+                        self.assign_event_to_region(largest_region, x, y, p, t)
+                    # if there are zero adjacent regions
+                    else:
+                        # create a new region
+                        assigned = self.create_region(x, y, p, t)
 
-            # draw event now that we've assigned regions
-            color = self.regions_color[self.region_index[x, y]]
-            self.draw_event(x, y, p, t, color)
+                # draw event now that we've assigned regions
+                color = self.regions_color[self.region_index[x, y]]
+                self.draw_event(x, y, p, t, color)
+            
+            else:
+                self.draw_event(x, y, p, t)
 
-        self.region_analysis(ts)
+        if self.do_segmentation:
+            self.region_analysis(ts)
+        
         self.last_ts = ts
 
         stdout.write('Processed %i events' % (event_buffer.size))
         stdout.flush()
 
     def draw_frame(self):
-        box = self.frame_annotations[self.frame_count]
-        xtl = int(float(box['@xtl']))
-        ytl = int(float(box['@ytl']))
-        xbr = int(float(box['@xbr']))
-        ybr = int(float(box['@ybr']))
-        cv2.rectangle(self.frame_to_draw, (xtl, ytl), (xbr, ybr), (1, 1, 1))
-
+        if (self.frame_count < len(self.frame_annotations)):
+            box = self.frame_annotations[self.frame_count]
+            xtl = int(float(box['@xtl']))
+            ytl = int(float(box['@ytl']))
+            xbr = int(float(box['@xbr']))
+            ybr = int(float(box['@ybr']))
+            cv2.rectangle(self.frame_to_draw, (xtl, ytl), (xbr, ybr), (1, 1, 1))
+            
         super().draw_frame()
         self.out.write(self.frame_to_draw)
         self.frame_count += 1
