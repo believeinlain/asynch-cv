@@ -73,19 +73,9 @@ class discriminator(basic_consumer):
         self.locale_events_per_ms = np.zeros(
             (self.locale_div, self.locale_div), np.uint64)
 
-        self.frame_count = 0
-
         # process consumer args
-        self.frame_annotations = []
         self.do_segmentation = True
         if consumer_args is not None:
-            if 'annotations' in consumer_args:
-                annot = consumer_args['annotations']
-                if type(annot['track']) is list:
-                    self.frame_annotations = [annot['track'][i]['box'] for i in range(len(annot['track']))]
-                else:
-                    self.frame_annotations = [annot['track']['box']]
-            
             if 'do_segmentation' in consumer_args:
                 self.do_segmentation = consumer_args['do_segmentation']
 
@@ -174,19 +164,9 @@ class discriminator(basic_consumer):
         stdout.write('Processed %i events' % (event_buffer.size))
         stdout.flush()
 
-    def draw_frame(self):
-        for obj in self.frame_annotations:
-            if (self.frame_count < len(obj)):
-                box = obj[self.frame_count]
-                xtl = int(float(box['@xtl']))
-                ytl = int(float(box['@ytl']))
-                xbr = int(float(box['@xbr']))
-                ybr = int(float(box['@ybr']))
-                cv2.rectangle(self.frame_to_draw, (xtl, ytl), (xbr, ybr), (1, 1, 1))
-            
+    def draw_frame(self):    
         super().draw_frame()
         self.out.write(self.frame_to_draw)
-        self.frame_count += 1
 
     def end(self):
         super().end()

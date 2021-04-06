@@ -234,7 +234,13 @@ def play_numpy_array_frames(event_data, consumer, frames):
         # advance frame times
         frames_drawn += 1
         frame_start_time = frame_end_time
+        # end if we're out of frames
+        if frames_drawn >= len(frames):
+            break
         frame_end_time = frames[frames_drawn][1]
+    
+    # end consumer execution
+    consumer.end()
 
 def begin_loop():
     '''

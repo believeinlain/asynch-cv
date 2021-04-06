@@ -12,8 +12,6 @@ class basic_consumer:
         '''
         Constructor
         '''
-        # args are unused in basic implementation
-        del consumer_args
         self.width = width
         self.height = height
         # Names used to register as PythonConsumer with Metavision Designer
@@ -22,6 +20,23 @@ class basic_consumer:
         # store the current frame to display with OpenCV.imshow(self.frame)
         self.frame_to_draw = np.zeros((height, width, 3), dtype=np.uint8)
         self.frame_producer_output = None
+        
+        self.frame_count = 0
+
+        # process consumer args
+        self.annotation_boxes = []
+        self.annotation_labels = []
+        self.annotations = []
+        if consumer_args is not None:
+            if 'annotations' in consumer_args:
+                annot = consumer_args['annotations']
+                self.annotation_labels = annot['meta']['task']['labels']['label']
+                if type(annot['track']) is list:
+                    self.annotation_boxes = [annot['track'][i]['box'] for i in range(len(annot['track']))]
+                    self.annotations = annot['track']
+                else:
+                    self.annotation_boxes = [annot['track']['box']]
+                    self.annotations = [annot['track']]
 
     def metavision_event_callback(self, ts, src_events, src_2d_arrays):
         '''
@@ -116,7 +131,23 @@ class basic_consumer:
         '''
         Called from main thread to display frame
         '''
+        for i in range(len(self.annotations)):
+            box_frames = self.annotations[i]['box']
+            label = self.annotations[i]['@label']
+            color = (255, 255, 255) # tuple(int(label['color'][i:i+2], 16) for i in (1, 3, 5))
+            if (self.frame_count < len(box_frames)):
+                box = box_frames[self.frame_count]
+                xtl = int(float(box['@xtl']))
+                ytl = int(float(box['@ytl']))
+                xbr = int(float(box['@xbr']))
+                ybr = int(float(box['@ybr']))
+                cv2.rectangle(self.frame_to_draw, (xtl, ytl), (xbr, ybr), color)
+                cv2.putText(self.frame_to_draw, label, (xtl, ytl), cv2.FONT_HERSHEY_PLAIN,
+                    1, color, 1, cv2.LINE_AA)
+
         cv2.imshow('Events Display OpenCV', self.frame_to_draw)
+        
+        self.frame_count += 1
 
     def end(self):
         '''
