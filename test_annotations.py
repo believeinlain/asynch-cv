@@ -48,13 +48,9 @@ with open(annot_path+filename+'.xml') as fd:
     annot = doc['annotations']
 
 event_player.play_file(
-    # filename='example_data/Cars_sequence.aedat4',
-    # filename='example_data/hand_spinner.raw',
-    # filename='example_data/Davis346red-2020-06-12T12-31-10-0700-0_Test_7.aedat',
     filename=aedat_path+filename+'.aedat4',
     dt=30,
     event_consumer=event_processing.basic_consumer,
     consumer_args={
-        'annotations': annot,
-        'do_segmentation': False
+        'annotations': annot
     })

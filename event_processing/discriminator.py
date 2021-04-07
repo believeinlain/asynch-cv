@@ -17,17 +17,18 @@ class discriminator(basic_consumer):
     '''
 
     def __init__(self, width, height, consumer_args=None):
-        super().__init__(width, height)
+        super().__init__(width, height, consumer_args)
         # initialize all locations as assigned to no region (-1)
         self.region_index = np.full((width, height), -1, RegionIndex)
         # initialize the arrays of regions to empty regions
         max_regions = np.iinfo(RegionIndex).max
         self.regions_weight = np.zeros(max_regions, np.uint32)
-        self.regions_birth = np.zeros(max_regions, np.uint32)
-        self.regions_analyzed = np.zeros(max_regions, np.uint32)
+        self.regions_birth = np.zeros(max_regions, np.uint64)
+        self.regions_analyzed = np.zeros(max_regions, np.uint64)
         self.regions_color = np.zeros((max_regions, 3), np.uint8)
         self.regions_centroid = np.zeros((max_regions, 2), np.uint16)
         self.regions_velocity = np.zeros((max_regions, 2), np.int32)
+        self.regions_acceleration = np.zeros(max_regions, np.int32)
         # surface of raw input events
         self.surface = np.zeros((width, height), np.uint64)
         # surface of events that have passed filtering
@@ -40,21 +41,21 @@ class discriminator(basic_consumer):
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
         self.out = cv2.VideoWriter('output.avi', fourcc, 30, (width, height))
 
-        # parameters
+        # parameter *defaults*
         # timeframe of inactivity in a location to unassign events
-        self.region_lifetime = 50_000
+        self.region_lifetime = 80_000
         # period with which regions are unassigned (average # events before each run)
-        self.unassign_period = 100
+        self.unassign_period = 1_000
         # minimum correlated events to allow an event through the filter
-        self.filter_n = 3
+        self.filter_n = 4
         # timeframe to search for correlated events when filtering
-        self.filter_dt = 50_000
+        self.filter_dt = 100_000
         # range to search around each event for correlation and region grouping
         self.v_range = 1
         # minimum weight to consider region worth analyzing
-        self.min_region_weight = 10
+        self.min_region_weight = 20
         # minimum time for a region to exist before we care
-        self.min_region_life = 1_000
+        self.min_region_life = 10_000
         # divide the field into locales of <= density_locale_size pixels
         self.locale_size = 500
 
@@ -79,6 +80,24 @@ class discriminator(basic_consumer):
             if 'do_segmentation' in consumer_args:
                 self.do_segmentation = consumer_args['do_segmentation']
 
+            if 'segmentation_parameters' in consumer_args:
+                param = consumer_args['segmentation_parameters']
+                self.region_lifetime = param['region_lifetime']
+                # period with which regions are unassigned (average # events before each run)
+                self.unassign_period = param['unassign_period']
+                # minimum correlated events to allow an event through the filter
+                self.filter_n = param['filter_n']
+                # timeframe to search for correlated events when filtering
+                self.filter_dt = param['filter_dt']
+                # range to search around each event for correlation and region grouping
+                self.v_range = param['v_range']
+                # minimum weight to consider region worth analyzing
+                self.min_region_weight = param['min_region_weight']
+                # minimum time for a region to exist before we care
+                self.min_region_life = param['min_region_life']
+                # divide the field into locales of <= density_locale_size pixels
+                self.locale_size = param['locale_size']
+
     def process_event_array(self, ts, event_buffer, frame_buffer=None):
         # init first frame ts
         if event_buffer.size == 0:
@@ -98,7 +117,7 @@ class discriminator(basic_consumer):
             locale_i = (int(x/self.div_width), int(y/self.div_height))
             self.locale_acc[locale_i] += 1
 
-            if random() < 0.9*(1-exp(-0.3*self.locale_events_per_ms[locale_i])):
+            if random() < 0.95*(1-exp(-0.5*self.locale_events_per_ms[locale_i])):
                 continue
 
             # find indices for the vicinity of the current event
@@ -138,7 +157,8 @@ class discriminator(basic_consumer):
                     # if there is more than one adjacent region
                     elif adjacent.size > 1:
                         # find the largest region
-                        sorted_indices = np.argsort(self.regions_weight[adjacent])
+                        sorted_indices = np.argsort(
+                            self.regions_weight[adjacent])
                         largest_region = adjacent[sorted_indices][-1]
                         # merge all regions into the largest region
                         self.combine_regions(largest_region, adjacent)
@@ -152,19 +172,19 @@ class discriminator(basic_consumer):
                 # draw event now that we've assigned regions
                 color = self.regions_color[self.region_index[x, y]]
                 self.draw_event(x, y, p, t, color)
-            
+
             else:
                 self.draw_event(x, y, p, t)
 
         if self.do_segmentation:
             self.region_analysis(ts)
-        
+
         self.last_ts = ts
 
         stdout.write('Processed %i events' % (event_buffer.size))
         stdout.flush()
 
-    def draw_frame(self):    
+    def draw_frame(self):
         super().draw_frame()
         self.out.write(self.frame_to_draw)
 
@@ -180,10 +200,9 @@ class discriminator(basic_consumer):
         # find regions we care about
         big_enough = np.nonzero(self.regions_weight >
                                 self.min_region_weight)[0]
-        # old_enough = np.nonzero(
-        #     self.regions_birth+self.min_region_life < ts)[0]
-        # regions_of_interest = np.intersect1d(big_enough, old_enough)
-        regions_of_interest = big_enough
+        old_enough = np.nonzero(
+            self.regions_birth+self.min_region_life < ts)[0]
+        regions_of_interest = np.intersect1d(big_enough, old_enough)
 
         for region in regions_of_interest:
             # binary image representing all locations belonging to this region
@@ -202,27 +221,47 @@ class discriminator(basic_consumer):
             last_c = self.regions_centroid[region]
             last_ts = self.regions_analyzed[region]
             last_v = self.regions_velocity[region]
+            last_a = self.regions_acceleration[region]
             # if the region was analysed since birth
             if last_ts > self.regions_birth[region]:
                 # find and draw the region velocity
                 v = np.multiply(100, np.subtract(c, last_c, dtype=np.int32))
                 v = np.array(np.average((last_v, v), 0,
-                                        (0.8, 0.2)), dtype=np.int32)
+                                        (0.5, 0.5)), dtype=np.int32)
                 endpoint = np.add(c, v).clip(
                     (0, 0), (self.width-1, self.height-1))
+
+                a = int(np.linalg.norm(last_v-v)*1)
+                a = int(np.average((last_a, a), 0, (0.5, 0.5)))
+
                 # cv2.arrowedLine(self.frame_to_draw, tuple(
                 #     c), tuple(endpoint), color, thickness=1)
-                # update the region velocity
-                self.regions_velocity[region] = v
+                # cv2.circle(self.frame_to_draw, tuple(
+                #     c), a, tuple(color), thickness=1)
 
-            # find and draw the bounding box
-            x, y, w, h = cv2.boundingRect(image)
-            # cv2.rectangle(self.frame_to_draw, (x, y),
-            #               (x+w, y+h), color, 1)
+                # update the regions
+                self.regions_velocity[region] = v
+                self.regions_acceleration[region] = a
+
+            if self.is_region_boat(region, ts):
+                # find and draw the bounding box
+                x, y, w, h = cv2.boundingRect(image)
+                cv2.rectangle(self.frame_to_draw, (x, y),
+                            (x+w, y+h), color, 1)
+                # cv2.circle(self.frame_to_draw, tuple(
+                #     c), self.regions_acceleration[region], tuple(color), thickness=1)
+                cv2.putText(self.frame_to_draw, 'boat', (x, y), cv2.FONT_HERSHEY_PLAIN,
+                            1, tuple(color), 1, cv2.LINE_AA)
 
             # update region analysis results
             self.regions_analyzed[region] = ts
             self.regions_centroid[region] = c
+
+    def is_region_boat(self, region, ts):
+        old_enough = ts-self.regions_birth[region] > 1_000_000
+        small_enough = self.regions_weight[region] < 1_000
+        steady_enough = self.regions_acceleration[region] < 50
+        return old_enough and small_enough and steady_enough
 
     def draw_event(self, x, y, p, t, color=None):
         if color is None:
