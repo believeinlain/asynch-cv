@@ -6,10 +6,10 @@ from math import exp
 import numpy as np
 import cv2
 from event_processing import basic_consumer
+import xmltodict
 
 RegionIndex = np.uint16
 UNASSIGNED_REGION = np.iinfo(RegionIndex).max
-
 
 class discriminator(basic_consumer):
     '''
@@ -73,6 +73,8 @@ class discriminator(basic_consumer):
             (self.locale_div, self.locale_div), np.uint64)
         self.locale_events_per_ms = np.zeros(
             (self.locale_div, self.locale_div), np.uint64)
+
+        self.detections = {}
 
         # process consumer args
         self.do_segmentation = True
@@ -191,6 +193,10 @@ class discriminator(basic_consumer):
     def end(self):
         super().end()
         self.out.release()
+        with open('output.xml','w') as fd:
+            xmltodict.unparse({
+                'annotations':{'track':[d for d in self.detections.values()]}
+            }, output=fd)
 
     def reevaluate_locales(self, dt):
         self.locale_events_per_ms = np.floor_divide(self.locale_acc, dt//1_000)
@@ -253,6 +259,24 @@ class discriminator(basic_consumer):
                 cv2.putText(self.frame_to_draw, 'boat', (x, y), cv2.FONT_HERSHEY_PLAIN,
                             1, tuple(color), 1, cv2.LINE_AA)
 
+                # add it to detections
+                key = str(region)
+                if not key in self.detections:
+                    self.detections[key] = {
+                        '@id': int(region),
+                        '@label': 'boat',
+                        '@source': 'async-cv',
+                        'box': []
+                    }
+                self.detections[key]['box'].append({
+                    '@frame': int(self.frame_count),
+                    '@xtl': int(x),
+                    '@ytl': int(y),
+                    '@xbr': int(x+w),
+                    '@ybr': int(y+h),
+                    '@z_order': '0',
+                })
+
             # update region analysis results
             self.regions_analyzed[region] = ts
             self.regions_centroid[region] = c
@@ -260,7 +284,7 @@ class discriminator(basic_consumer):
     def is_region_boat(self, region, ts):
         old_enough = ts-self.regions_birth[region] > 1_000_000
         small_enough = self.regions_weight[region] < 1_000
-        steady_enough = self.regions_acceleration[region] < 50
+        steady_enough = self.regions_acceleration[region] < 55
         return old_enough and small_enough and steady_enough
 
     def draw_event(self, x, y, p, t, color=None):

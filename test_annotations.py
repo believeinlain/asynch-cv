@@ -43,7 +43,10 @@ boat_tests = {
 filename = group+'/'+boat_tests[group][test]
 
 annot = None
-with open(annot_path+filename+'.xml') as fd:
+# with open(annot_path+filename+'.xml') as fd:
+#     doc = xmltodict.parse(fd.read())
+#     annot = doc['annotations']
+with open('output.xml') as fd:
     doc = xmltodict.parse(fd.read())
     annot = doc['annotations']
 
