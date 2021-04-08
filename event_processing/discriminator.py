@@ -234,8 +234,8 @@ class discriminator(basic_consumer):
                 v = np.multiply(100, np.subtract(c, last_c, dtype=np.int32))
                 v = np.array(np.average((last_v, v), 0,
                                         (0.5, 0.5)), dtype=np.int32)
-                endpoint = np.add(c, v).clip(
-                    (0, 0), (self.width-1, self.height-1))
+                # endpoint = np.add(c, v).clip(
+                #     (0, 0), (self.width-1, self.height-1))
 
                 a = int(np.linalg.norm(last_v-v)*1)
                 a = int(np.average((last_a, a), 0, (0.5, 0.5)))
@@ -282,9 +282,9 @@ class discriminator(basic_consumer):
             self.regions_centroid[region] = c
 
     def is_region_boat(self, region, ts):
-        old_enough = ts-self.regions_birth[region] > 1_000_000
+        old_enough = ts-self.regions_birth[region] > 2_000_000
         small_enough = self.regions_weight[region] < 1_000
-        steady_enough = self.regions_acceleration[region] < 55
+        steady_enough = self.regions_acceleration[region] < 100
         return old_enough and small_enough and steady_enough
 
     def draw_event(self, x, y, p, t, color=None):

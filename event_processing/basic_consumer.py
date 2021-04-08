@@ -133,29 +133,17 @@ class basic_consumer:
         '''
         for i in range(len(self.annotations)):
             box_frames = list(self.annotations[i]['box'])
-            try:
-                print(box_frames[0]['@frame'])
-            except TypeError:
-                print(box_frames[0])
             label = self.annotations[i]['@label']
             color = (255, 255, 255) # tuple(int(label['color'][i:i+2], 16) for i in (1, 3, 5))
-            for b in range(len(box_frames)):
-                try:
-                    if self.frame_count == box_frames[b]['@frame']:
-                        print("FRAME")
-                        box = box_frames[b]
-                        xtl = int(float(box['@xtl']))
-                        ytl = int(float(box['@ytl']))
-                        xbr = int(float(box['@xbr']))
-                        ybr = int(float(box['@ybr']))
-                        cv2.rectangle(self.frame_to_draw, (xtl, ytl), (xbr, ybr), color)
-                        cv2.putText(self.frame_to_draw, label, (xtl, ytl), cv2.FONT_HERSHEY_PLAIN,
-                            1, color, 1, cv2.LINE_AA)
-                        break
-                except KeyError:
-                    '''
-                    '''
-                    # print('length', len(box_frames), box_frames, f"index {b} not found.")
+            if (self.frame_count < len(box_frames)):
+                box = box_frames[self.frame_count]
+                xtl = int(float(box['@xtl']))
+                ytl = int(float(box['@ytl']))
+                xbr = int(float(box['@xbr']))
+                ybr = int(float(box['@ybr']))
+                cv2.rectangle(self.frame_to_draw, (xtl, ytl), (xbr, ybr), color)
+                cv2.putText(self.frame_to_draw, label, (xtl, ytl), cv2.FONT_HERSHEY_PLAIN,
+                    1, color, 1, cv2.LINE_AA)
 
         cv2.imshow('Events Display OpenCV', self.frame_to_draw)
         
