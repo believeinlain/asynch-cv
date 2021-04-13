@@ -1,5 +1,7 @@
-# video files
+# output files
 *.avi
+output/
+metrics/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

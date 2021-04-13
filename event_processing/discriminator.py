@@ -75,10 +75,28 @@ class discriminator(basic_consumer):
             (self.locale_div, self.locale_div), np.uint64)
 
         self.detections = {}
+        self.gts_images = []
 
         # process consumer args
+        self.annotation_boxes = []
+        self.annotation_labels = []
+        self.annotations = []
+        self.annotations_version = {}
+        self.annotations_meta = {}
         self.do_segmentation = True
         if consumer_args is not None:
+            if 'annotations' in consumer_args:
+                annot = consumer_args['annotations']
+                self.annotations_version = annot['version']
+                self.annotations_meta = annot['meta']
+                # self.annotation_labels = annot['meta']['task']['labels']['label']
+                if type(annot['track']) is list:
+                    self.annotation_boxes = [annot['track'][i]['box'] for i in range(len(annot['track']))]
+                    self.annotations = annot['track']
+                else:
+                    self.annotation_boxes = [annot['track']['box']]
+                    self.annotations = [annot['track']]
+
             if 'do_segmentation' in consumer_args:
                 self.do_segmentation = consumer_args['do_segmentation']
 
@@ -186,6 +204,40 @@ class discriminator(basic_consumer):
         stdout.write('Processed %i events' % (event_buffer.size))
         stdout.flush()
 
+    def init_frame(self, frame_buffer=None):
+        super().init_frame(frame_buffer)
+        image_name = f'frame_{self.frame_count:03d}.png'
+        cv2.imwrite('metrics/frames/'+image_name, self.frame_to_draw)
+        # convert annotations to image structure over track structure
+        self.gts_images.append({
+            '@id': str(self.frame_count),
+            '@name': image_name,
+            '@width': self.width,
+            '@height': self.height,
+            'box': []
+        })
+        # read annotations
+        for i in range(len(self.annotations)):
+            box_frames = list(self.annotations[i]['box'])
+            label = self.annotations[i]['@label']
+            color = (255, 255, 255) # tuple(int(label['color'][i:i+2], 16) for i in (1, 3, 5))
+            if (self.frame_count < len(box_frames)):
+                # read box info
+                box = box_frames[self.frame_count]
+                xtl = int(float(box['@xtl']))
+                ytl = int(float(box['@ytl']))
+                xbr = int(float(box['@xbr']))
+                ybr = int(float(box['@ybr']))
+                # draw box on frame
+                cv2.rectangle(self.frame_to_draw, (xtl, ytl), (xbr, ybr), color)
+                cv2.putText(self.frame_to_draw, label, (xtl, ytl), cv2.FONT_HERSHEY_PLAIN,
+                    1, color, 1, cv2.LINE_AA)
+                # add box to converted annotations
+                # but only *boat*
+                if 'boat' in label:
+                    box['@label'] = 'boat'
+                    self.gts_images[self.frame_count]['box'].append(box)
+
     def draw_frame(self):
         super().draw_frame()
         self.out.write(self.frame_to_draw)
@@ -193,9 +245,22 @@ class discriminator(basic_consumer):
     def end(self):
         super().end()
         self.out.release()
-        with open('output.xml','w') as fd:
+        for filename in self.detections:
+            with open('metrics/detections/'+filename,'w') as fd:
+                fd.writelines(self.detections[filename])
+        # correct the annotation meta
+        self.annotations_meta['task']['mode'] = 'annotation'
+        # stop at the last frame read
+        self.annotations_meta['task']['size'] = self.frame_count+1
+        self.annotations_meta['task']['stop_frame'] = self.frame_count
+        # assume only one segment
+        self.annotations_meta['task']['segments']['segment']['stop'] = self.frame_count
+        with open('metrics/ground_truth/gts.xml','w') as fd:
             xmltodict.unparse({
-                'annotations':{'track':[d for d in self.detections.values()]}
+                'annotations':{
+                    'version': self.annotations_version,
+                    'meta': self.annotations_meta,
+                    'image':self.gts_images}
             }, output=fd)
 
     def reevaluate_locales(self, dt):
@@ -260,22 +325,12 @@ class discriminator(basic_consumer):
                             1, tuple(color), 1, cv2.LINE_AA)
 
                 # add it to detections
-                key = str(region)
-                if not key in self.detections:
-                    self.detections[key] = {
-                        '@id': int(region),
-                        '@label': 'boat',
-                        '@source': 'async-cv',
-                        'box': []
-                    }
-                self.detections[key]['box'].append({
-                    '@frame': int(self.frame_count),
-                    '@xtl': int(x),
-                    '@ytl': int(y),
-                    '@xbr': int(x+w),
-                    '@ybr': int(y+h),
-                    '@z_order': '0',
-                })
+                image_name = f'frame_{self.frame_count:03d}.txt'
+                box_str = f'boat 1.00 {int(x)} {int(y)} {int(w)} {int(h)}\n'
+                if not image_name in self.detections:
+                    self.detections[image_name] = [box_str]
+                else:
+                    self.detections[image_name].append(box_str)
 
             # update region analysis results
             self.regions_analyzed[region] = ts
