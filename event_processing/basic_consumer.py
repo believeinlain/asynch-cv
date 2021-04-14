@@ -23,7 +23,15 @@ class basic_consumer:
         
         self.frame_count = 0
 
-        del consumer_args
+        # process consumer args
+        self.video_out = None
+        if consumer_args is not None:
+            if 'video_out' in consumer_args:
+                video_out_filename = consumer_args['video_out']
+        
+                # Define the codec and create VideoWriter object (fixed dt of 30)
+                fourcc = cv2.VideoWriter_fourcc(*'XVID')
+                self.video_out = cv2.VideoWriter(video_out_filename, fourcc, 30, (width, height))
 
     def metavision_event_callback(self, ts, src_events, src_2d_arrays):
         '''
@@ -118,7 +126,12 @@ class basic_consumer:
         '''
         Called from main thread to display frame
         '''
+        # display the frame on screen
         cv2.imshow('Events Display OpenCV', self.frame_to_draw)
+        
+        # write the frame to the output avi
+        if self.video_out is not None:
+            self.video_out.write(self.frame_to_draw)
         
         self.frame_count += 1
 
@@ -126,3 +139,6 @@ class basic_consumer:
         '''
         This function will be called when execution has finished (i.e. no more events to process)
         '''
+        # wrap up the output video
+        if self.video_out is not None:
+            self.video_out.release()

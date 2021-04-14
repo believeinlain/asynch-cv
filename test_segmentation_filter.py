@@ -4,10 +4,7 @@ Simple test of basic_consumer functionality
 import event_player
 import event_processing
 
-import xmltodict
-
 aedat_path = 'C:/Users/steph/OneDrive/Documents/NIWC/NeuroComp/boat_tests/'
-annot_path = './example_annotations/'
 group = 'june_12'
 test = 5
 
@@ -42,15 +39,17 @@ boat_tests = {
 
 filename = group+'/'+boat_tests[group][test]
 
-annot = None
-with open(annot_path+filename+'.xml') as fd:
-    doc = xmltodict.parse(fd.read())
-    annot = doc['annotations']
-
 event_player.play_file(
     filename=aedat_path+filename+'.aedat4',
     dt=50,
-    event_consumer=event_processing.discriminator,
+    event_consumer=event_processing.segmentation_filter,
     consumer_args={
-        'annotations': annot,
+        # 'region_lifetime': 80_000,
+        # 'unassign_period': 1_000,
+        # 'filter_n': 4,
+        # 'filter_dt': 150_000,
+        # 'v_range': 1,
+        # 'min_region_weight': 15,
+        # 'min_region_life': 150_000,
+        # 'locale_size': 500
     })
