@@ -53,4 +53,17 @@ event_player.play_file(
     event_consumer=event_processing.discriminator,
     consumer_args={
         'annotations': annot,
+        # segmentation parameters
+        'region_lifetime': 80_000,
+        'unassign_period': 1_000,
+        'filter_n': 4,
+        'filter_dt': 150_000,
+        'v_range': 1,
+        'min_region_weight': 15,
+        'min_region_life': 150_000,
+        'locale_size': 500,
+        # discrimination parameters
+        'age_thresh': 2_000_000,
+        'size_thresh': 500,
+        'accel_thresh': 100
     })

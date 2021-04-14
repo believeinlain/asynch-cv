@@ -1,4 +1,5 @@
 
+from math import exp
 import numpy as np
 import cv2
 import xmltodict
@@ -35,6 +36,16 @@ class discriminator(segmentation_filter):
                     self.annotations = annot['track']
                 else:
                     self.annotations = [annot['track']]
+        
+        else:
+            consumer_args = {}
+
+        self.draw_bb = consumer_args.get('draw_bb', True)
+        self.draw_vel = consumer_args.get('draw_vel', False)
+        self.draw_accel = consumer_args.get('draw_accel', False)
+        self.age_thresh = consumer_args.get('age_thresh', 2_000_000)
+        self.size_thresh = consumer_args.get('size_thresh', 1_000)
+        self.accel_thresh = consumer_args.get('accel_thresh', 100)
 
     def init_frame(self, frame_buffer=None):
         super().init_frame(frame_buffer)
@@ -126,34 +137,37 @@ class discriminator(segmentation_filter):
                 v = np.multiply(100, np.subtract(c, last_c, dtype=np.int32))
                 v = np.array(np.average((last_v, v), 0,
                                         (0.5, 0.5)), dtype=np.int32)
-                # endpoint = np.add(c, v).clip(
-                #     (0, 0), (self.width-1, self.height-1))
+                endpoint = np.add(c, v).clip(
+                    (0, 0), (self.width-1, self.height-1))
 
                 a = int(np.linalg.norm(last_v-v)*1)
                 a = int(np.average((last_a, a), 0, (0.5, 0.5)))
 
-                # cv2.arrowedLine(self.frame_to_draw, tuple(
-                #     c), tuple(endpoint), color, thickness=1)
-                # cv2.circle(self.frame_to_draw, tuple(
-                #     c), a, tuple(color), thickness=1)
+                if self.draw_vel:
+                    cv2.arrowedLine(self.frame_to_draw, tuple(
+                        c), tuple(endpoint), color, thickness=1)
+                if self.draw_accel:
+                    cv2.circle(self.frame_to_draw, tuple(
+                        c), a, tuple(color), thickness=1)
 
                 # update the regions
                 self.regions_velocity[region] = v
                 self.regions_acceleration[region] = a
 
-            if self.is_region_boat(region, ts):
+            (is_boat, conf) = self.is_region_boat(region, ts)
+            if is_boat:
                 # find and draw the bounding box
                 x, y, w, h = cv2.boundingRect(image)
-                cv2.rectangle(self.frame_to_draw, (x, y),
-                            (x+w, y+h), color, 1)
-                # cv2.circle(self.frame_to_draw, tuple(
-                #     c), self.regions_acceleration[region], tuple(color), thickness=1)
-                cv2.putText(self.frame_to_draw, 'boat', (x, y), cv2.FONT_HERSHEY_PLAIN,
+                
+                if self.draw_bb:
+                    cv2.rectangle(self.frame_to_draw, (x, y),
+                                (x+w, y+h), color, 1)
+                cv2.putText(self.frame_to_draw, f'boat ({conf:0.2f})', (x, y), cv2.FONT_HERSHEY_PLAIN,
                             1, tuple(color), 1, cv2.LINE_AA)
 
                 # add it to detections
                 image_name = f'frame_{self.frame_count:03d}.txt'
-                box_str = f'boat 1.00 {int(x)} {int(y)} {int(w)} {int(h)}\n'
+                box_str = f'boat {conf:0.2f} {int(x)} {int(y)} {int(w)} {int(h)}\n'
                 if not image_name in self.detections:
                     self.detections[image_name] = [box_str]
                 else:
@@ -164,7 +178,13 @@ class discriminator(segmentation_filter):
             self.regions_centroid[region] = c
 
     def is_region_boat(self, region, ts):
-        old_enough = ts-self.regions_birth[region] > 2_000_000
-        small_enough = self.regions_weight[region] < 1_000
-        steady_enough = self.regions_acceleration[region] < 100
-        return old_enough and small_enough and steady_enough
+        old_enough = ts-self.regions_birth[region] > self.age_thresh
+        small_enough = self.regions_weight[region] < self.size_thresh
+        steady_enough = self.regions_acceleration[region] < self.accel_thresh
+
+        age_conf = 1-exp(-(ts-self.regions_birth[region]) / self.age_thresh)
+        accel_conf = 1-exp(-(self.regions_acceleration[region]) / self.accel_thresh)
+
+        conf = age_conf - 0.2*accel_conf
+
+        return ((old_enough and small_enough and steady_enough) or (small_enough and conf > 0.8), conf)

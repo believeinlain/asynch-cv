@@ -139,6 +139,7 @@ class basic_consumer:
         '''
         This function will be called when execution has finished (i.e. no more events to process)
         '''
+        print('\nEnded playback')
         # wrap up the output video
         if self.video_out is not None:
             self.video_out.release()
