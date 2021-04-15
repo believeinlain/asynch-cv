@@ -3,6 +3,7 @@ from math import exp
 import numpy as np
 import cv2
 import xmltodict
+import os
 
 from event_processing import segmentation_filter
 
@@ -28,17 +29,38 @@ class discriminator(segmentation_filter):
         self.annotations_version = {}
         self.annotations_meta = {}
         if consumer_args is not None:
-            if 'annotations' in consumer_args:
-                annot = consumer_args['annotations']
-                self.annotations_version = annot['version']
-                self.annotations_meta = annot['meta']
-                if type(annot['track']) is list:
-                    self.annotations = annot['track']
-                else:
-                    self.annotations = [annot['track']]
-        
+            if 'annot_file' in consumer_args:
+                with open(consumer_args['annot_file']) as fd:
+                    doc = xmltodict.parse(fd.read())
+                    annot = doc['annotations']
+                    self.annotations_version = annot['version']
+                    self.annotations_meta = annot['meta']
+                    if type(annot['track']) is list:
+                        self.annotations = annot['track']
+                    else:
+                        self.annotations = [annot['track']]
         else:
             consumer_args = {}
+
+        # create directories if necessary
+        cwd = os.path.abspath(os.getcwd())
+        try:
+            os.mkdir(f'{cwd}\\metrics\\')
+        except FileExistsError:
+            pass
+        
+        try:
+            os.mkdir(f'{cwd}\\metrics\\{self.run_name}\\')
+        except FileExistsError:
+            pass
+
+        try:
+            os.mkdir(f'{cwd}\\metrics\\{self.run_name}\\frames\\')
+            os.mkdir(f'{cwd}\\metrics\\{self.run_name}\\detections\\')
+            os.mkdir(f'{cwd}\\metrics\\{self.run_name}\\ground_truth\\')
+            os.mkdir(f'{cwd}\\metrics\\{self.run_name}\\results\\')
+        except FileExistsError:
+            pass
 
         self.draw_bb = consumer_args.get('draw_bb', True)
         self.draw_vel = consumer_args.get('draw_vel', False)
@@ -50,7 +72,7 @@ class discriminator(segmentation_filter):
     def init_frame(self, frame_buffer=None):
         super().init_frame(frame_buffer)
         image_name = f'frame_{self.frame_count:03d}.png'
-        cv2.imwrite('metrics/frames/'+image_name, self.frame_to_draw)
+        cv2.imwrite(f'metrics/{self.run_name}/frames/'+image_name, self.frame_to_draw)
         # convert annotations to image structure over track structure
         self.gts_images.append({
             '@id': str(self.frame_count),
@@ -84,7 +106,7 @@ class discriminator(segmentation_filter):
     def end(self):
         super().end()
         for filename in self.detections:
-            with open('metrics/detections/'+filename,'w') as fd:
+            with open(f'metrics/{self.run_name}/detections/'+filename,'w') as fd:
                 fd.writelines(self.detections[filename])
         # correct the annotation meta
         self.annotations_meta['task']['mode'] = 'annotation'
@@ -93,7 +115,7 @@ class discriminator(segmentation_filter):
         self.annotations_meta['task']['stop_frame'] = self.frame_count
         # assume only one segment
         self.annotations_meta['task']['segments']['segment']['stop'] = self.frame_count
-        with open('metrics/ground_truth/gts.xml','w') as fd:
+        with open(f'metrics/{self.run_name}/ground_truth/gts.xml','w') as fd:
             xmltodict.unparse({
                 'annotations':{
                     'version': self.annotations_version,

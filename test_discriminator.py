@@ -4,8 +4,6 @@ Simple test of basic_consumer functionality
 import event_player
 import event_processing
 
-import xmltodict
-
 aedat_path = 'C:/Users/steph/OneDrive/Documents/NIWC/NeuroComp/boat_tests/'
 annot_path = './example_annotations/'
 group = 'june_12'
@@ -41,18 +39,16 @@ boat_tests = {
 }
 
 filename = group+'/'+boat_tests[group][test]
-
-annot = None
-with open(annot_path+filename+'.xml') as fd:
-    doc = xmltodict.parse(fd.read())
-    annot = doc['annotations']
+run_name = f'{group}_run_{test:02d}'
 
 event_player.play_file(
     filename=aedat_path+filename+'.aedat4',
     dt=50,
     event_consumer=event_processing.discriminator,
     consumer_args={
-        'annotations': annot,
+        'run_name': run_name,
+        'annot_file': annot_path+filename+'.xml',
+        'video_out': run_name+'.avi',
         # segmentation parameters
         'region_lifetime': 80_000,
         'unassign_period': 1_000,
