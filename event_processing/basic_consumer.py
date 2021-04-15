@@ -2,6 +2,7 @@
 from sys import stdout
 import cv2
 import numpy as np
+import os
 
 class basic_consumer:
     '''
@@ -32,11 +33,18 @@ class basic_consumer:
                 print(f'Starting run "{self.run_name}"')
 
             if 'video_out' in consumer_args:
+                # create directories if necessary
+                cwd = os.path.abspath(os.getcwd())
+                try:
+                    os.mkdir(f'{cwd}\\output\\')
+                except FileExistsError:
+                    pass
+
                 video_out_filename = consumer_args['video_out']
         
                 # Define the codec and create VideoWriter object (fixed dt of 30)
                 fourcc = cv2.VideoWriter_fourcc(*'XVID')
-                self.video_out = cv2.VideoWriter(f'output/{self.run_name}/{video_out_filename}', fourcc, 30, (width, height))
+                self.video_out = cv2.VideoWriter(f'output/{video_out_filename}', fourcc, 30, (width, height))
 
     def metavision_event_callback(self, ts, src_events, src_2d_arrays):
         '''
