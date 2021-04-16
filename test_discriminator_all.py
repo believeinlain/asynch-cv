@@ -6,8 +6,6 @@ import event_processing
 
 aedat_path = 'C:/Users/steph/OneDrive/Documents/NIWC/NeuroComp/boat_tests/'
 annot_path = './example_annotations/'
-group = 'june_26'
-test = 3
 
 boat_tests = {
     'june_12':{
@@ -38,28 +36,31 @@ boat_tests = {
     }
 }
 
-filename = group+'/'+boat_tests[group][test]
-run_name = f'{group}_run_{test:02d}'
+for group in boat_tests:
+    for run in boat_tests[group]:
 
-event_player.play_file(
-    filename=aedat_path+filename+'.aedat4',
-    dt=50,
-    event_consumer=event_processing.discriminator,
-    consumer_args={
-        'run_name': run_name,
-        'annot_file': annot_path+filename+'.xml',
-        'video_out': run_name+'.avi',
-        # segmentation parameters
-        'region_lifetime': 80_000,
-        'unassign_period': 1_000,
-        'filter_n': 4,
-        'filter_dt': 150_000,
-        'v_range': 1,
-        'min_region_weight': 15,
-        'min_region_life': 150_000,
-        'locale_size': 500,
-        # discrimination parameters
-        'age_thresh': 2_000_000,
-        'size_thresh': 500,
-        'accel_thresh': 100
-    })
+        filename = group+'/'+boat_tests[group][run]
+        run_name = f'{group}_run_{run:02d}'
+
+        event_player.play_file(
+            filename=aedat_path+filename+'.aedat4',
+            dt=50,
+            event_consumer=event_processing.discriminator,
+            consumer_args={
+                'run_name': run_name,
+                'annot_file': annot_path+filename+'.xml',
+                'video_out': run_name+'.avi',
+                # segmentation parameters
+                'region_lifetime': 80_000,
+                'unassign_period': 1_000,
+                'filter_n': 4,
+                'filter_dt': 150_000,
+                'v_range': 1,
+                'min_region_weight': 15,
+                'min_region_life': 150_000,
+                'locale_size': 500,
+                # discrimination parameters
+                'age_thresh': 2_000_000,
+                'size_thresh': 500,
+                'accel_thresh': 100
+            })
