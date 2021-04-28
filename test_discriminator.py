@@ -6,8 +6,8 @@ import event_processing
 
 aedat_path = 'C:/Users/steph/OneDrive/Documents/NIWC/NeuroComp/boat_tests/'
 annot_path = './example_annotations/'
-group = 'june_26'
-test = 3
+group = 'june_12'
+test = 2
 
 boat_tests = {
     'june_12':{
@@ -50,16 +50,16 @@ event_player.play_file(
         'annot_file': annot_path+filename+'.xml',
         'video_out': run_name+'.avi',
         # segmentation parameters
-        'region_lifetime': 80_000,
+        'region_lifetime': 150_000,
         'unassign_period': 1_000,
-        'filter_n': 4,
-        'filter_dt': 150_000,
+        'filter_n': 5,
+        'filter_dt': 200_000,
         'v_range': 1,
-        'min_region_weight': 15,
-        'min_region_life': 150_000,
+        'min_region_weight': 20,
+        'min_region_life': 200_000,
         'locale_size': 500,
         # discrimination parameters
         'age_thresh': 2_000_000,
         'size_thresh': 500,
-        'accel_thresh': 100
+        'accel_thresh': 50
     })

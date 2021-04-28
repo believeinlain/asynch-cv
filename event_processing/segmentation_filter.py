@@ -53,6 +53,13 @@ class segmentation_filter(basic_consumer):
         # divide the field into locales of <= density_locale_size pixels
         self.locale_size = consumer_args.get('locale_size', 500)
 
+        # create event buffer for depth-based filtering
+        self.buffer_depth = consumer_args.get('buffer_depth', self.filter_n)
+        # buffer of raw input events
+        self.buffer = np.zeros((width, height, self.buffer_depth), np.uint64)
+        # index of the top of the buffer at each pixel
+        self.buffer_top = np.zeros((width, height), np.uint8)
+
         # divide the field into locales
         div_n = 0
         self.div_width = self.width
@@ -100,6 +107,10 @@ class segmentation_filter(basic_consumer):
             # update surface for all events
             self.surface[x, y] = t
 
+            # update buffer
+            self.buffer_top[x, y] = (self.buffer_top[x, y] + 1) % self.buffer_depth
+            self.buffer[x, y, self.buffer_top[x, y]] = t
+
             # draw filtered events in grey
             if not self.allow_event(self.filter_dt, self.filter_n, vicinity, x, y, p, t):
                 self.draw_event(x, y, p, t, (150, 150, 150))
@@ -130,7 +141,7 @@ class segmentation_filter(basic_consumer):
                         self.regions_weight[adjacent])
                     largest_region = adjacent[sorted_indices][-1]
                     # merge all regions into the largest region
-                    self.combine_regions(largest_region, adjacent)
+                    #self.combine_regions(largest_region, adjacent)
                     # assign event to the largest region
                     self.assign_event_to_region(largest_region, x, y, p, t)
                 # if there are zero adjacent regions
@@ -202,7 +213,7 @@ class segmentation_filter(basic_consumer):
         def is_recent(time):
             return time+dt >= t
         # allow if n or more recent events in vicinity
-        vicinity_count = np.count_nonzero(is_recent(self.surface[i]))
+        vicinity_count = np.count_nonzero(is_recent(self.buffer[i]))
         return vicinity_count >= n
 
     def unassign_from_all_regions(self, ts):

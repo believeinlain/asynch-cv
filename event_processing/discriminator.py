@@ -1,4 +1,5 @@
 
+from sys import stdout
 from math import exp
 import numpy as np
 import cv2
@@ -41,6 +42,12 @@ class discriminator(segmentation_filter):
                         self.annotations = [annot['track']]
         else:
             consumer_args = {}
+
+        # establish arrays to profile region movement over time
+        self.profile_depth = consumer_args.get('profile_depth', 4)
+        self.profile_centroids = np.zeros((self.max_regions, self.profile_depth, 2), np.uint16)
+        self.profile_timestamps = np.zeros((self.max_regions, self.profile_depth), np.uint64)
+        self.profile_top = np.zeros((self.max_regions), np.uint8)
 
         # create directories if necessary
         cwd = os.path.abspath(os.getcwd())
@@ -135,6 +142,9 @@ class discriminator(segmentation_filter):
             self.regions_birth+self.min_region_life < ts)[0]
         regions_of_interest = np.intersect1d(big_enough, old_enough)
 
+        stdout.write(' %i active regions' % (np.nonzero(self.regions_weight > 0)[0]).size)
+        stdout.write(' %i regions of interest' % (big_enough.size))
+
         for region in regions_of_interest:
             # binary image representing all locations belonging to this region
             # for cv2 image processing analysis
@@ -175,6 +185,15 @@ class discriminator(segmentation_filter):
                 # update the regions
                 self.regions_velocity[region] = v
                 self.regions_acceleration[region] = a
+            
+            # update region analysis results
+            self.regions_analyzed[region] = ts
+            self.regions_centroid[region] = c
+
+            # update region profile
+            self.profile_top[region] = (self.profile_top[region] + 1) % self.profile_depth
+            self.profile_timestamps[region, self.profile_top[region]] = ts
+            self.profile_centroids[region, self.profile_top[region], :] = c
 
             (is_boat, conf) = self.is_region_boat(region, ts)
             if is_boat:
@@ -194,10 +213,6 @@ class discriminator(segmentation_filter):
                     self.detections[image_name] = [box_str]
                 else:
                     self.detections[image_name].append(box_str)
-
-            # update region analysis results
-            self.regions_analyzed[region] = ts
-            self.regions_centroid[region] = c
 
     def is_region_boat(self, region, ts):
         old_enough = ts-self.regions_birth[region] > self.age_thresh
