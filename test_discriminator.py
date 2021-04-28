@@ -7,7 +7,7 @@ import event_processing
 aedat_path = 'C:/Users/steph/OneDrive/Documents/NIWC/NeuroComp/boat_tests/'
 annot_path = './example_annotations/'
 group = 'june_12'
-test = 2
+test = 5
 
 boat_tests = {
     'june_12':{

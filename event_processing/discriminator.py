@@ -1,6 +1,6 @@
 
 from sys import stdout
-from math import exp
+# from math import exp
 import numpy as np
 import cv2
 import xmltodict
@@ -15,11 +15,6 @@ class discriminator(segmentation_filter):
     '''
     def __init__(self, width, height, consumer_args=None):
         super().__init__(width, height, consumer_args)
-        # initialize the arrays of region data to empty
-        self.regions_analyzed = np.zeros(self.max_regions, np.uint64)
-        self.regions_centroid = np.zeros((self.max_regions, 2), np.uint16)
-        self.regions_velocity = np.zeros((self.max_regions, 2), np.int32)
-        self.regions_acceleration = np.zeros(self.max_regions, np.int32)
         
         # initialize detection results
         self.detections = {}
@@ -44,10 +39,11 @@ class discriminator(segmentation_filter):
             consumer_args = {}
 
         # establish arrays to profile region movement over time
-        self.profile_depth = consumer_args.get('profile_depth', 4)
+        self.profile_depth = consumer_args.get('profile_depth', 16)
         self.profile_centroids = np.zeros((self.max_regions, self.profile_depth, 2), np.uint16)
         self.profile_timestamps = np.zeros((self.max_regions, self.profile_depth), np.uint64)
         self.profile_top = np.zeros((self.max_regions), np.uint8)
+        self.draw_bb = consumer_args.get('draw_bb', True)
 
         # create directories if necessary
         cwd = os.path.abspath(os.getcwd())
@@ -68,13 +64,6 @@ class discriminator(segmentation_filter):
             os.mkdir(f'{cwd}\\metrics\\{self.run_name}\\results\\')
         except FileExistsError:
             pass
-
-        self.draw_bb = consumer_args.get('draw_bb', True)
-        self.draw_vel = consumer_args.get('draw_vel', False)
-        self.draw_accel = consumer_args.get('draw_accel', False)
-        self.age_thresh = consumer_args.get('age_thresh', 2_000_000)
-        self.size_thresh = consumer_args.get('size_thresh', 1_000)
-        self.accel_thresh = consumer_args.get('accel_thresh', 100)
 
     def init_frame(self, frame_buffer=None):
         super().init_frame(frame_buffer)
@@ -142,10 +131,11 @@ class discriminator(segmentation_filter):
             self.regions_birth+self.min_region_life < ts)[0]
         regions_of_interest = np.intersect1d(big_enough, old_enough)
 
-        stdout.write(' %i active regions' % (np.nonzero(self.regions_weight > 0)[0]).size)
-        stdout.write(' %i regions of interest' % (big_enough.size))
+        stdout.write(' %i active regions,' % (np.nonzero(self.regions_weight > 0)[0]).size)
+        stdout.write(' %i regions of interest,' % (big_enough.size))
 
         for region in regions_of_interest:
+            birth_time = self.regions_birth[region]
             # binary image representing all locations belonging to this region
             # for cv2 image processing analysis
             image = np.multiply(255, np.transpose(
@@ -158,42 +148,63 @@ class discriminator(segmentation_filter):
             c = np.array([m['m10']/m['m00'], m['m01']/m['m00']],
                          dtype=np.uint16)
             cv2.circle(self.frame_to_draw, tuple(c), 1, color, thickness=2)
-            # get previous analysis values
-            last_c = self.regions_centroid[region]
-            last_ts = self.regions_analyzed[region]
-            last_v = self.regions_velocity[region]
-            last_a = self.regions_acceleration[region]
+
             # if the region was analysed since birth
-            if last_ts > self.regions_birth[region]:
-                # find and draw the region velocity
-                v = np.multiply(100, np.subtract(c, last_c, dtype=np.int32))
-                v = np.array(np.average((last_v, v), 0,
-                                        (0.5, 0.5)), dtype=np.int32)
-                endpoint = np.add(c, v).clip(
-                    (0, 0), (self.width-1, self.height-1))
+            # if last_ts > self.regions_birth[region]:
+            #     # find and draw the region velocity
+            #     v = np.multiply(100, np.subtract(c, last_c, dtype=np.int32))
+            #     v = np.array(np.average((last_v, v), 0,
+            #                             (0.5, 0.5)), dtype=np.int32)
+            #     endpoint = np.add(c, v).clip(
+            #         (0, 0), (self.width-1, self.height-1))
 
-                a = int(np.linalg.norm(last_v-v)*1)
-                a = int(np.average((last_a, a), 0, (0.5, 0.5)))
+            #     a = int(np.linalg.norm(last_v-v)*1)
+            #     a = int(np.average((last_a, a), 0, (0.5, 0.5)))
 
-                if self.draw_vel:
-                    cv2.arrowedLine(self.frame_to_draw, tuple(
-                        c), tuple(endpoint), color, thickness=1)
-                if self.draw_accel:
-                    cv2.circle(self.frame_to_draw, tuple(
-                        c), a, tuple(color), thickness=1)
-
-                # update the regions
-                self.regions_velocity[region] = v
-                self.regions_acceleration[region] = a
-            
-            # update region analysis results
-            self.regions_analyzed[region] = ts
-            self.regions_centroid[region] = c
+            #     if self.draw_vel:
+            #         cv2.arrowedLine(self.frame_to_draw, tuple(
+            #             c), tuple(endpoint), color, thickness=1)
+            #     if self.draw_accel:
+            #         cv2.circle(self.frame_to_draw, tuple(
+            #             c), a, tuple(color), thickness=1)
 
             # update region profile
             self.profile_top[region] = (self.profile_top[region] + 1) % self.profile_depth
             self.profile_timestamps[region, self.profile_top[region]] = ts
             self.profile_centroids[region, self.profile_top[region], :] = c
+
+            current = np.nonzero(self.profile_timestamps[region,:] >= birth_time)
+            order = np.argsort(self.profile_timestamps[region, current][0])
+            past_timestamps = np.array(self.profile_timestamps[region, current][0, order], dtype=np.int64)
+            past_locations = np.array(self.profile_centroids[region, current][0, order], dtype=np.int32)
+            dt = np.diff(past_timestamps)
+            # dt_total = np.sum(dt, axis=0)
+            path_steps = np.diff(past_locations, axis=0)
+            if path_steps.size == 0:
+                continue
+
+            path = np.average(np.abs(path_steps), axis=0, weights=dt)
+            path_length = np.sqrt(np.sum(np.square(path)))
+            displacement = np.sum(path_steps, axis=0)
+            # displacement_length = np.sqrt(np.sum(np.square(displacement)))
+
+            # print("locations:", past_locations)
+            # print("dt:", dt)
+            # print("path_steps:", path_steps)
+            # print("path:", path)
+            # print("path_length:", path_length)
+            # print("displacement:", displacement)
+            # print("displacement_length:", displacement_length)
+
+            if path_length != 0:
+                scale = 5/path_length
+            else:
+                scale = 5
+
+            endpoint = np.sum([c, np.array(scale*displacement, dtype=np.int16)], axis=0)
+            cv2.arrowedLine(self.frame_to_draw, tuple(c), tuple(endpoint), color, thickness=1)
+
+            # cv2.circle(self.frame_to_draw, tuple(c), int(5*path_length), color, thickness=1)
 
             (is_boat, conf) = self.is_region_boat(region, ts)
             if is_boat:
@@ -215,13 +226,15 @@ class discriminator(segmentation_filter):
                     self.detections[image_name].append(box_str)
 
     def is_region_boat(self, region, ts):
-        old_enough = ts-self.regions_birth[region] > self.age_thresh
-        small_enough = self.regions_weight[region] < self.size_thresh
-        steady_enough = self.regions_acceleration[region] < self.accel_thresh
+        del region, ts
+        return (False, 1.0)
+        # old_enough = ts-self.regions_birth[region] > self.age_thresh
+        # small_enough = self.regions_weight[region] < self.size_thresh
+        # steady_enough = self.regions_acceleration[region] < self.accel_thresh
 
-        age_conf = 1-exp(-(ts-self.regions_birth[region]) / self.age_thresh)
-        accel_conf = 1-exp(-(self.regions_acceleration[region]) / self.accel_thresh)
+        # age_conf = 1-exp(-(ts-self.regions_birth[region]) / self.age_thresh)
+        # accel_conf = 1-exp(-(self.regions_acceleration[region]) / self.accel_thresh)
 
-        conf = age_conf - 0.2*accel_conf
+        # conf = age_conf - 0.2*accel_conf
 
-        return ((old_enough and small_enough and steady_enough) or (small_enough and conf > 0.8), conf)
+        # return ((old_enough and small_enough and steady_enough) or (small_enough and conf > 0.8), conf)

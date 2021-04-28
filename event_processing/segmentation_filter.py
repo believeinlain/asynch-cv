@@ -155,7 +155,7 @@ class segmentation_filter(basic_consumer):
 
         self.last_ts = ts
 
-        stdout.write('Processed %i events' % (event_buffer.size))
+        stdout.write('Processed %i events,' % (event_buffer.size))
         stdout.flush()
 
     def reevaluate_locales(self, dt):
