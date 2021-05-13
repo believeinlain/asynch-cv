@@ -6,8 +6,9 @@ import event_processing
 
 aedat_path = 'C:/Users/steph/OneDrive/Documents/NIWC/NeuroComp/boat_tests/'
 annot_path = './example_annotations/'
-group = 'june_12'
-test = 5
+group = 'april_29'
+test = 1
+file_type = '.raw'
 
 boat_tests = {
     'june_12':{
@@ -35,6 +36,16 @@ boat_tests = {
         19: 'Davis346red-2020-06-26T13-09-47-0700-00000195-0_Test_19',
         21: 'Davis346red-2020-06-26T13-22-40-0700-00000195-0_Test_21',
         23: 'Davis346red-2020-06-26T13-31-43-0700-00000195-0_Test_23'
+    },
+    'april_29':{
+        1: 'out_2021-04-29_17-56-14',
+        2: 'out_2021-04-29_17-57-47',
+        3: 'out_2021-04-29_18-02-48',
+        4: 'out_2021-04-29_18-04-41',
+        5: 'out_2021-04-29_18-06-47',
+        6: 'out_2021-04-29_18-10-59',
+        7: 'out_2021-04-29_18-17-21',
+        8: 'out_2021-04-29_18-20-10'
     }
 }
 
@@ -42,18 +53,18 @@ filename = group+'/'+boat_tests[group][test]
 run_name = f'{group}_run_{test:02d}'
 
 event_player.play_file(
-    filename=aedat_path+filename+'.aedat4',
-    dt=50,
+    filename=aedat_path+filename+file_type,
+    dt=30,
     event_consumer=event_processing.discriminator,
     consumer_args={
         'run_name': run_name,
-        'annot_file': annot_path+filename+'.xml',
+        # 'annot_file': annot_path+filename+'.xml',
         'video_out': run_name+'.avi',
         # segmentation parameters
-        'region_lifetime': 80_000,
+        'region_lifetime': 50_000,
         'unassign_period': 1_000,
-        'filter_n': 5,
-        'filter_dt': 250_000,
+        'filter_n': 4,
+        'filter_dt': 150_000,
         'v_range': 1,
         'min_region_weight': 10,
         'min_region_life': 200_000,

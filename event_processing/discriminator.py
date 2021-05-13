@@ -1,6 +1,6 @@
 
 from sys import stdout
-# from math import exp
+from math import exp
 import numpy as np
 import cv2
 import xmltodict
@@ -40,10 +40,12 @@ class discriminator(segmentation_filter):
 
         # establish arrays to profile region movement over time
         self.profile_depth = consumer_args.get('profile_depth', 16)
-        self.profile_centroids = np.zeros((self.max_regions, self.profile_depth, 2), np.uint16)
+        self.profile_centroids = np.zeros((self.max_regions, self.profile_depth, 2), np.float32)
         self.profile_timestamps = np.zeros((self.max_regions, self.profile_depth), np.uint64)
         self.profile_top = np.zeros((self.max_regions), np.uint8)
         self.draw_bb = consumer_args.get('draw_bb', True)
+        self.region_boatness = np.zeros((self.max_regions), dtype=np.float32)
+        self.region_displacement = np.zeros((self.max_regions, 2), np.float32)
 
         # create directories if necessary
         cwd = os.path.abspath(os.getcwd())
@@ -131,103 +133,103 @@ class discriminator(segmentation_filter):
             self.regions_birth+self.min_region_life < ts)[0]
         regions_of_interest = np.intersect1d(big_enough, old_enough)
 
-        stdout.write(' %i active regions,' % (np.nonzero(self.regions_weight > 0)[0]).size)
-        stdout.write(' %i regions of interest,' % (big_enough.size))
+        active_regions = np.nonzero(self.regions_weight > 0)[0]
 
-        for region in regions_of_interest:
+        stdout.write(' %i active regions,' % (active_regions.size))
+        stdout.write(' %i regions of interest,' % (regions_of_interest.size))
+
+        for region in active_regions:
             birth_time = self.regions_birth[region]
             # binary image representing all locations belonging to this region
             # for cv2 image processing analysis
             image = np.multiply(255, np.transpose(
                 self.region_index == region), dtype=np.uint8)
 
-            # get the region color
-            color = tuple(self.regions_color[region].tolist())
-            # find and draw the region centroid
+            # find the region centroid
             m = cv2.moments(image, True)
             c = np.array([m['m10']/m['m00'], m['m01']/m['m00']],
-                         dtype=np.uint16)
-            cv2.circle(self.frame_to_draw, tuple(c), 1, color, thickness=2)
-
-            # if the region was analysed since birth
-            # if last_ts > self.regions_birth[region]:
-            #     # find and draw the region velocity
-            #     v = np.multiply(100, np.subtract(c, last_c, dtype=np.int32))
-            #     v = np.array(np.average((last_v, v), 0,
-            #                             (0.5, 0.5)), dtype=np.int32)
-            #     endpoint = np.add(c, v).clip(
-            #         (0, 0), (self.width-1, self.height-1))
-
-            #     a = int(np.linalg.norm(last_v-v)*1)
-            #     a = int(np.average((last_a, a), 0, (0.5, 0.5)))
-
-            #     if self.draw_vel:
-            #         cv2.arrowedLine(self.frame_to_draw, tuple(
-            #             c), tuple(endpoint), color, thickness=1)
-            #     if self.draw_accel:
-            #         cv2.circle(self.frame_to_draw, tuple(
-            #             c), a, tuple(color), thickness=1)
+                         dtype=np.float32)
 
             # update region profile
             self.profile_top[region] = (self.profile_top[region] + 1) % self.profile_depth
             self.profile_timestamps[region, self.profile_top[region]] = ts
             self.profile_centroids[region, self.profile_top[region], :] = c
 
-            current = np.nonzero(self.profile_timestamps[region,:] >= birth_time)
-            order = np.argsort(self.profile_timestamps[region, current][0])
-            past_timestamps = np.array(self.profile_timestamps[region, current][0, order], dtype=np.int64)
-            past_locations = np.array(self.profile_centroids[region, current][0, order], dtype=np.int32)
-            dt = np.diff(past_timestamps)
-            # dt_total = np.sum(dt, axis=0)
-            path_steps = np.diff(past_locations, axis=0)
-            if path_steps.size == 0:
-                continue
+            if region in regions_of_interest:
+                # get the region color
+                color = tuple(self.regions_color[region].tolist())
+                # draw the region centroid
+                cv2.circle(self.frame_to_draw, tuple(c), 1, color, thickness=2)
 
-            path = np.average(np.abs(path_steps), axis=0, weights=dt)
-            path_length = np.sqrt(np.sum(np.square(path)))
-            displacement = np.sum(path_steps, axis=0)
-            # displacement_length = np.sqrt(np.sum(np.square(displacement)))
+                current = np.nonzero(self.profile_timestamps[region,:] >= birth_time)
+                order = np.argsort(self.profile_timestamps[region, current][0])
+                # past_timestamps = np.array(self.profile_timestamps[region, current][0, order], dtype=np.int64)
+                past_locations = np.array(self.profile_centroids[region, current][0, order], dtype=np.float32)
+                # dt = np.diff(past_timestamps)
+                # dt_total = np.sum(dt, axis=0)
+                path_steps = np.diff(past_locations, axis=0)
+                if path_steps.size == 0:
+                    continue
 
-            # print("locations:", past_locations)
-            # print("dt:", dt)
-            # print("path_steps:", path_steps)
-            # print("path:", path)
-            # print("path_length:", path_length)
-            # print("displacement:", displacement)
-            # print("displacement_length:", displacement_length)
+                # path = np.average(np.abs(path_steps), axis=0, weights=dt)
+                path_length = np.sqrt(np.sum(np.square(path_steps)))
+                displacement = np.sum(path_steps, axis=0)
+                self.region_displacement[region] = displacement
+                displacement_length = np.sqrt(np.sum(np.square(displacement)))
 
-            if path_length != 0:
-                scale = 5/path_length
-            else:
-                scale = 5
+                for other_region in regions_of_interest:
+                    if region == other_region:
+                        continue
+                    rel_disp = np.sum(np.square(displacement - self.region_displacement[other_region]))
+                    rel_dist = np.sum(np.square(c - self.profile_centroids[other_region, self.profile_top[other_region], :]))
+                    if rel_disp < 0.1 and rel_dist < 50:
+                        print("MERGE REGIONS", region, other_region)
 
-            endpoint = np.sum([c, np.array(scale*displacement, dtype=np.int16)], axis=0)
-            cv2.arrowedLine(self.frame_to_draw, tuple(c), tuple(endpoint), color, thickness=1)
+                scale = 10
+                ratio_th = 2
 
-            # cv2.circle(self.frame_to_draw, tuple(c), int(5*path_length), color, thickness=1)
+                endpoint = np.sum([c, np.array(scale*(displacement/path_length), dtype=np.int16)], axis=0)
+                cv2.arrowedLine(self.frame_to_draw, tuple(c), tuple(endpoint), color, thickness=1)
 
-            (is_boat, conf) = self.is_region_boat(region, ts)
-            if is_boat:
-                # find and draw the bounding box
-                x, y, w, h = cv2.boundingRect(image)
-                
-                if self.draw_bb:
-                    cv2.rectangle(self.frame_to_draw, (x, y),
-                                (x+w, y+h), color, 1)
-                cv2.putText(self.frame_to_draw, f'boat ({conf:0.2f})', (x, y), cv2.FONT_HERSHEY_PLAIN,
-                            1, tuple(color), 1, cv2.LINE_AA)
+                cv2.circle(self.frame_to_draw, tuple(c), int(scale*ratio_th), color, thickness=1)
 
-                # add it to detections
-                image_name = f'frame_{self.frame_count:03d}.txt'
-                box_str = f'boat {conf:0.2f} {int(x)} {int(y)} {int(w)} {int(h)}\n'
-                if not image_name in self.detections:
-                    self.detections[image_name] = [box_str]
-                else:
-                    self.detections[image_name].append(box_str)
+                if path_length != 0:
+                    boatness_delta = (displacement_length/path_length)/ratio_th - 1
+                    if (boatness_delta < 0 and self.region_boatness[region] > 0) or boatness_delta > 0:
+                        self.region_boatness[region] += boatness_delta
+
+                (is_boat, conf) = self.is_region_boat(region, ts)
+                if is_boat:
+                    # find and draw the bounding box
+                    x, y, w, h = cv2.boundingRect(image)
+                    
+                    if self.draw_bb:
+                        cv2.rectangle(self.frame_to_draw, (x, y),
+                                    (x+w, y+h), color, 1)
+                    cv2.putText(self.frame_to_draw, f'boat ({conf:0.2f})', (x, y), cv2.FONT_HERSHEY_PLAIN,
+                                1, tuple(color), 1, cv2.LINE_AA)
+
+                    # add it to detections
+                    image_name = f'frame_{self.frame_count:03d}.txt'
+                    box_str = f'boat {conf:0.2f} {int(x)} {int(y)} {int(w)} {int(h)}\n'
+                    if not image_name in self.detections:
+                        self.detections[image_name] = [box_str]
+                    else:
+                        self.detections[image_name].append(box_str)
+
+    def create_region(self, x, y, p, t):
+        region = super().create_region(x, y, p, t)
+        if region != self.unassigned_region:
+            self.region_boatness[region] = 0
+            self.region_displacement[region] = 0
+        
+        return region
 
     def is_region_boat(self, region, ts):
-        del region, ts
-        return (False, 1.0)
+        del ts
+        tau = -0.01
+        conf = 1 - exp(tau*self.region_boatness[region])
+        return ( conf > 0.5, conf)
         # old_enough = ts-self.regions_birth[region] > self.age_thresh
         # small_enough = self.regions_weight[region] < self.size_thresh
         # steady_enough = self.regions_acceleration[region] < self.accel_thresh

@@ -16,6 +16,7 @@ class segmentation_filter(basic_consumer):
     '''
     def __init__(self, width, height, consumer_args=None):
         super().__init__(width, height, consumer_args)
+        self.unassigned_region = UNASSIGNED_REGION
         # initialize all locations as assigned to no region (-1)
         self.region_index = np.full((width, height), -1, RegionIndex)
         # initialize the arrays of regions to empty regions
@@ -141,7 +142,7 @@ class segmentation_filter(basic_consumer):
                         self.regions_weight[adjacent])
                     largest_region = adjacent[sorted_indices][-1]
                     # merge all regions into the largest region
-                    #self.combine_regions(largest_region, adjacent)
+                    self.combine_regions(largest_region, adjacent)
                     # assign event to the largest region
                     self.assign_event_to_region(largest_region, x, y, p, t)
                 # if there are zero adjacent regions
