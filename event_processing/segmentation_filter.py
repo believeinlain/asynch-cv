@@ -17,11 +17,9 @@ class segmentation_filter(basic_consumer):
     def __init__(self, width, height, consumer_args=None):
         super().__init__(width, height, consumer_args)
         self.unassigned_region = UNASSIGNED_REGION
-        # initialize all locations as assigned to no region (-1)
-        self.region_index = np.full((width, height), -1, RegionIndex)
         # initialize the arrays of regions to empty regions
         self.max_regions = MAX_REGIONS
-        self.regions_weight = np.zeros(MAX_REGIONS, np.uint32)
+        self.regions_weight = np.zeros(MAX_REGIONS, np.int64)
         self.regions_birth = np.zeros(MAX_REGIONS, np.uint64)
         self.regions_color = np.zeros((MAX_REGIONS, 3), np.uint8)
         # surface of raw input events
@@ -39,8 +37,6 @@ class segmentation_filter(basic_consumer):
         # process consumer args
         # timeframe of inactivity in a location to unassign events
         self.region_lifetime = consumer_args.get('region_lifetime', 80_000)
-        # period with which regions are unassigned (average # events before each run)
-        self.unassign_period = consumer_args.get('unassign_period', 1_000)
         # minimum correlated events to allow an event through the filter
         self.filter_n = consumer_args.get('filter_n', 4)
         # timeframe to search for correlated events when filtering
@@ -56,8 +52,10 @@ class segmentation_filter(basic_consumer):
 
         # create event buffer for depth-based filtering
         self.buffer_depth = consumer_args.get('buffer_depth', self.filter_n)
-        # buffer of raw input events
-        self.buffer = np.zeros((width, height, self.buffer_depth), np.uint64)
+        # buffer of raw input event timestamps
+        self.buffer_ts = np.zeros((width, height, self.buffer_depth), np.uint64)
+        # buffer of event region indices
+        self.buffer_ri = np.full((width, height, self.buffer_depth), UNASSIGNED_REGION, RegionIndex)
         # index of the top of the buffer at each pixel
         self.buffer_top = np.zeros((width, height), np.uint8)
 
@@ -110,7 +108,7 @@ class segmentation_filter(basic_consumer):
 
             # update buffer
             self.buffer_top[x, y] = (self.buffer_top[x, y] + 1) % self.buffer_depth
-            self.buffer[x, y, self.buffer_top[x, y]] = t
+            self.buffer_ts[x, y, self.buffer_top[x, y]] = t
 
             # draw filtered events in grey
             if not self.allow_event(self.filter_dt, self.filter_n, vicinity, x, y, p, t):
@@ -120,43 +118,49 @@ class segmentation_filter(basic_consumer):
             # update filtered surface for allowed events
             self.surface_filtered[x, y] = t
 
-            # unassign expired locations
-            if randint(1, self.unassign_period) == 1:
-                self.unassign_from_all_regions(ts)
+            # get sorted list of unique region indices from the buffer
+            active_vicinity = np.nonzero(self.buffer_ts[vicinity] > t-self.region_lifetime)
+            adjacent = np.unique(self.buffer_ri[vicinity][active_vicinity])[:-1]
 
-            # assign the event to the region it lands on
-            assigned = self.region_index[x, y]
-
-            # if the location was unassigned
-            if assigned == UNASSIGNED_REGION:
-                # get sorted list of unique region indices, sans 'unassigned'
-                adjacent = np.unique(self.region_index[vicinity])[:-1]
-                # if there is only one adjacent region
-                if adjacent.size == 1:
-                    # assign this event to it
-                    self.assign_event_to_region(adjacent[0], x, y, p, t)
-                # if there is more than one adjacent region
-                elif adjacent.size > 1:
-                    # find the largest region
-                    sorted_indices = np.argsort(
-                        self.regions_weight[adjacent])
-                    largest_region = adjacent[sorted_indices][-1]
-                    # merge all regions into the largest region
-                    self.combine_regions(largest_region, adjacent)
-                    # assign event to the largest region
-                    self.assign_event_to_region(largest_region, x, y, p, t)
-                # if there are zero adjacent regions
-                else:
-                    # create a new region
-                    assigned = self.create_region(x, y, p, t)
+            # if there is only one adjacent region
+            if adjacent.size == 1:
+                assigned = adjacent[0]
+                # assign this event to it
+                self.assign_event_to_region(adjacent[0], x, y, p, t)
+            # if there is more than one adjacent region
+            elif adjacent.size > 1:
+                # find the largest region
+                sorted_indices = np.argsort(
+                    self.regions_weight[adjacent])
+                # assign event to largest region
+                assigned = adjacent[sorted_indices][-1]
+                # merge all regions into the largest region
+                # self.combine_regions(assigned, adjacent)
+                # assign event to the largest region
+                self.assign_event_to_region(assigned, x, y, p, t)
+            # if there are zero adjacent regions
+            else:
+                # create a new region
+                assigned = self.create_region(x, y, p, t)
 
             # draw event now that we've assigned regions
-            color = self.regions_color[self.region_index[x, y]]
+            color = self.regions_color[assigned]
             self.draw_event(x, y, p, t, color)
+
+        # unassign expired regions
+        expired_buffer = np.nonzero(self.buffer_ts <= ts-self.region_lifetime)
+        self.buffer_ri[expired_buffer] = UNASSIGNED_REGION
+
+        # recount weights for active regions
+        active_buffer = np.nonzero(self.buffer_ts > ts-self.region_lifetime)
+        active_regions = self.buffer_ri[active_buffer]
+        self.regions_weight = np.bincount(active_regions, minlength=UNASSIGNED_REGION)
+        unique_active_regions = np.unique(active_regions)[:-1]
 
         self.last_ts = ts
 
         stdout.write('Processed %i events,' % (event_buffer.size))
+        stdout.write('%i active regions,' % (unique_active_regions.size))
         stdout.flush()
 
     def reevaluate_locales(self, dt):
@@ -172,11 +176,13 @@ class segmentation_filter(basic_consumer):
 
     def assign_event_to_region(self, index, x, y, p, t):
         del p, t
-        self.region_index[x, y] = index
         self.regions_weight[index] += 1
+        self.buffer_ri[x, y, self.buffer_top[x, y]] = index
 
     def create_region(self, x, y, p, t):
-        for new_index in range(self.regions_weight.size):
+        unused_indices = np.where(self.regions_weight == 0)[0]
+        if unused_indices.size > 0:
+            new_index = unused_indices[0]
             # use first empty index
             if self.regions_weight[new_index] == 0:
                 self.regions_birth[new_index] = t
@@ -185,20 +191,19 @@ class segmentation_filter(basic_consumer):
                     255.0, hsv_to_rgb((new_index*np.pi % 3.6)/3.6, 1.0, 1.0), casting='unsafe')
                 self.assign_event_to_region(new_index, x, y, p, t)
                 return new_index
-
-        return UNASSIGNED_REGION
+        else:
+            return UNASSIGNED_REGION
 
     def combine_regions(self, target, regions):
-        # get all locations covered by the combined regions
-        combined_footprint = np.isin(self.region_index, regions).nonzero()
-
         # determine the values for the final region
         combined_weight = np.sum(self.regions_weight[regions])
         combined_birth = min(self.regions_birth[regions])
         combined_color = self.regions_color[target]
 
-        # mark all locations covered by regions as belonging to the target region
-        self.region_index[combined_footprint] = target
+        for region in regions:
+            # mark all locations covered by regions as belonging to the target region
+            self.buffer_ri[self.buffer_ri == region] = target
+        
         # reset all regions weight to zero since they've been unassigned
         self.regions_weight[regions] = 0
 
@@ -209,31 +214,6 @@ class segmentation_filter(basic_consumer):
 
     def allow_event(self, dt, n, i, x, y, p, t):
         del x, y, p
-        # find recent events at indices i
-
-        def is_recent(time):
-            return time+dt >= t
         # allow if n or more recent events in vicinity
-        vicinity_count = np.count_nonzero(is_recent(self.buffer[i]))
+        vicinity_count = np.count_nonzero(self.buffer_ts[i] >= t-dt)
         return vicinity_count >= n
-
-    def unassign_from_all_regions(self, ts):
-        expired = self.surface_filtered < ts-self.region_lifetime
-        # print("expired", expired)
-        has_region = self.region_index != UNASSIGNED_REGION
-        # print("has_region", has_region)
-        locations_to_unassign = np.logical_and(expired, has_region)
-        # print("locations_to_unassign", locations_to_unassign)
-
-        # subtract unassigned events from affected region weights
-        affected_regions, counts = np.unique(
-            self.region_index[locations_to_unassign], return_counts=True)
-        counts_to_subtract = np.array(counts, dtype=np.uint32)
-        if counts_to_subtract.size > 0:
-            self.regions_weight[affected_regions] -= counts_to_subtract
-
-        # zero out birth time of empty regions
-        self.regions_birth[self.regions_weight == 0] = 0
-
-        # set unassigned locations in index array
-        self.region_index[locations_to_unassign] = UNASSIGNED_REGION

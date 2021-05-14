@@ -135,7 +135,6 @@ class discriminator(segmentation_filter):
 
         active_regions = np.nonzero(self.regions_weight > 0)[0]
 
-        stdout.write(' %i active regions,' % (active_regions.size))
         stdout.write(' %i regions of interest,' % (regions_of_interest.size))
 
         for region in active_regions:
@@ -143,7 +142,7 @@ class discriminator(segmentation_filter):
             # binary image representing all locations belonging to this region
             # for cv2 image processing analysis
             image = np.multiply(255, np.transpose(
-                self.region_index == region), dtype=np.uint8)
+                self.buffer_ri == region), dtype=np.uint8)
 
             # find the region centroid
             m = cv2.moments(image, True)
