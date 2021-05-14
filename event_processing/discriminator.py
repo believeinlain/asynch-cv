@@ -131,23 +131,21 @@ class discriminator(segmentation_filter):
                                 self.min_region_weight)[0]
         old_enough = np.nonzero(
             self.regions_birth+self.min_region_life < ts)[0]
+        
         regions_of_interest = np.intersect1d(big_enough, old_enough)
-
-        active_regions = np.nonzero(self.regions_weight > 0)[0]
 
         stdout.write(' %i regions of interest,' % (regions_of_interest.size))
 
-        for region in active_regions:
+        for region in regions_of_interest:
             birth_time = self.regions_birth[region]
             # binary image representing all locations belonging to this region
             # for cv2 image processing analysis
-            image = np.multiply(255, np.transpose(
-                self.buffer_ri == region), dtype=np.uint8)
+            flat_region = np.any(self.buffer_ri == region, 2)
+            image = np.multiply(255, np.transpose(flat_region), dtype=np.uint8)
 
             # find the region centroid
-            m = cv2.moments(image, True)
-            c = np.array([m['m10']/m['m00'], m['m01']/m['m00']],
-                         dtype=np.float32)
+            c = np.average(np.nonzero(self.buffer_ri == region)[:-1], 1)
+            int_c = tuple(np.array(c, dtype=np.uint16))
 
             # update region profile
             self.profile_top[region] = (self.profile_top[region] + 1) % self.profile_depth
@@ -158,7 +156,7 @@ class discriminator(segmentation_filter):
                 # get the region color
                 color = tuple(self.regions_color[region].tolist())
                 # draw the region centroid
-                cv2.circle(self.frame_to_draw, tuple(c), 1, color, thickness=2)
+                cv2.circle(self.frame_to_draw, int_c, 1, color, thickness=2)
 
                 current = np.nonzero(self.profile_timestamps[region,:] >= birth_time)
                 order = np.argsort(self.profile_timestamps[region, current][0])
@@ -176,21 +174,24 @@ class discriminator(segmentation_filter):
                 self.region_displacement[region] = displacement
                 displacement_length = np.sqrt(np.sum(np.square(displacement)))
 
-                for other_region in regions_of_interest:
-                    if region == other_region:
-                        continue
-                    rel_disp = np.sum(np.square(displacement - self.region_displacement[other_region]))
-                    rel_dist = np.sum(np.square(c - self.profile_centroids[other_region, self.profile_top[other_region], :]))
-                    if rel_disp < 0.1 and rel_dist < 50:
-                        print("MERGE REGIONS", region, other_region)
+                if path_length == 0:
+                    continue
+
+                # for other_region in regions_of_interest:
+                #     if region == other_region:
+                #         continue
+                #     rel_disp = np.sum(np.square(displacement - self.region_displacement[other_region]))
+                #     rel_dist = np.sum(np.square(c - self.profile_centroids[other_region, self.profile_top[other_region], :]))
+                #     if rel_disp < 0.1 and rel_dist < 50:
+                #         print("MERGE REGIONS", region, other_region)
 
                 scale = 10
                 ratio_th = 2
 
-                endpoint = np.sum([c, np.array(scale*(displacement/path_length), dtype=np.int16)], axis=0)
-                cv2.arrowedLine(self.frame_to_draw, tuple(c), tuple(endpoint), color, thickness=1)
+                endpoint = np.sum([int_c, np.array(scale*(displacement/path_length), dtype=np.int16)], axis=0)
+                cv2.arrowedLine(self.frame_to_draw, int_c, tuple(endpoint), color, thickness=1)
 
-                cv2.circle(self.frame_to_draw, tuple(c), int(scale*ratio_th), color, thickness=1)
+                cv2.circle(self.frame_to_draw, int_c, int(scale*ratio_th), color, thickness=1)
 
                 if path_length != 0:
                     boatness_delta = (displacement_length/path_length)/ratio_th - 1
@@ -226,16 +227,6 @@ class discriminator(segmentation_filter):
 
     def is_region_boat(self, region, ts):
         del ts
-        tau = -0.01
+        tau = -0.1
         conf = 1 - exp(tau*self.region_boatness[region])
-        return ( conf > 0.5, conf)
-        # old_enough = ts-self.regions_birth[region] > self.age_thresh
-        # small_enough = self.regions_weight[region] < self.size_thresh
-        # steady_enough = self.regions_acceleration[region] < self.accel_thresh
-
-        # age_conf = 1-exp(-(ts-self.regions_birth[region]) / self.age_thresh)
-        # accel_conf = 1-exp(-(self.regions_acceleration[region]) / self.accel_thresh)
-
-        # conf = age_conf - 0.2*accel_conf
-
-        # return ((old_enough and small_enough and steady_enough) or (small_enough and conf > 0.8), conf)
+        return (conf > 0.5, conf)

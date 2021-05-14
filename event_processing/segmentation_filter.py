@@ -215,5 +215,4 @@ class segmentation_filter(basic_consumer):
     def allow_event(self, dt, n, i, x, y, p, t):
         del x, y, p
         # allow if n or more recent events in vicinity
-        vicinity_count = np.count_nonzero(self.buffer_ts[i] >= t-dt)
-        return vicinity_count >= n
+        return np.count_nonzero(self.buffer_ts[i] >= t-dt) >= n

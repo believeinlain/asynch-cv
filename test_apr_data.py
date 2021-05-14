@@ -55,17 +55,17 @@ run_name = f'{group}_run_{test:02d}'
 event_player.play_file(
     filename=aedat_path+filename+file_type,
     dt=30,
-    event_consumer=event_processing.segmentation_filter,
+    event_consumer=event_processing.discriminator,
     consumer_args={
         'run_name': run_name,
         'video_out': run_name+'.avi',
         # segmentation parameters
-        'region_lifetime': 50_000,
-        'filter_n': 4,
+        'region_lifetime': 80_000,
+        'filter_n': 5,
         'filter_dt': 150_000,
         'v_range': 1,
-        'min_region_weight': 10,
+        'min_region_weight': 20,
         'min_region_life': 200_000,
         'locale_size': 500,
-        'buffer_depth': 4
+        'buffer_depth': 5
     })
