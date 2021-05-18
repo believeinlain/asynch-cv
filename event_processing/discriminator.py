@@ -227,6 +227,6 @@ class discriminator(segmentation_filter):
 
     def is_region_boat(self, region, ts):
         del ts
-        tau = -0.1
+        tau = -0.08
         conf = 1 - exp(tau*self.region_boatness[region])
         return (conf > 0.5, conf)

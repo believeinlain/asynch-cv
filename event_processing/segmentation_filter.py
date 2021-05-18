@@ -158,7 +158,7 @@ class segmentation_filter(basic_consumer):
         self.last_ts = ts
 
         stdout.write('Processed %i events,' % (event_buffer.size))
-        stdout.write('%i active regions,' % (unique_active_regions.size))
+        stdout.write('%i/%i active regions,' % (unique_active_regions.size, MAX_REGIONS))
         stdout.flush()
 
     def reevaluate_locales(self, dt):
@@ -178,37 +178,30 @@ class segmentation_filter(basic_consumer):
         self.buffer_ri[x, y, self.buffer_top[x, y]] = index
 
     def create_region(self, x, y, p, t):
-        unused_indices = np.where(self.regions_weight == 0)[0]
-        if unused_indices.size > 0:
-            new_index = unused_indices[0]
-            # use first empty index
-            if self.regions_weight[new_index] == 0:
-                self.regions_birth[new_index] = t
-                # pick a random color for the new region
-                self.regions_color[new_index] = np.multiply(
-                    255.0, hsv_to_rgb((new_index*np.pi % 3.6)/3.6, 1.0, 1.0), casting='unsafe')
-                self.assign_event_to_region(new_index, x, y, p, t)
-                return new_index
-        else:
-            return UNASSIGNED_REGION
+        # pick a random region index to assign
+        # shouldn't be more then 2-3 tries since most regions are empty
+        new_index = 0
+        tries = 0
+        while self.regions_weight[new_index] > 0:
+            tries += 1
+            new_index = RegionIndex(randint(0, MAX_REGIONS-1))
+            # don't get stuck here
+            if tries > 10:
+                break
 
-    def combine_regions(self, target, regions):
-        # determine the values for the final region
-        combined_weight = np.sum(self.regions_weight[regions])
-        combined_birth = min(self.regions_birth[regions])
-        combined_color = self.regions_color[target]
-
-        for region in regions:
-            # mark all locations covered by regions as belonging to the target region
-            self.buffer_ri[self.buffer_ri == region] = target
-        
-        # reset all regions weight to zero since they've been unassigned
-        self.regions_weight[regions] = 0
-
-        # set the target region to the new values
-        self.regions_weight[target] = combined_weight
-        self.regions_birth[target] = combined_birth
-        self.regions_color[target] = combined_color
+        # unused_indices = np.where(self.regions_weight == 0)[0]
+        # if unused_indices.size > 0:
+        #     new_index = unused_indices[0]
+        #     # use first empty index
+        #     if self.regions_weight[new_index] == 0:
+        self.regions_birth[new_index] = t
+        # pick a random color for the new region
+        self.regions_color[new_index] = np.multiply(
+            255.0, hsv_to_rgb((new_index*np.pi % 3.6)/3.6, 1.0, 1.0), casting='unsafe')
+        self.assign_event_to_region(new_index, x, y, p, t)
+        return new_index
+        # else:
+        #     return UNASSIGNED_REGION
 
     def allow_event(self, dt, n, i, x, y, p, t):
         del x, y, p

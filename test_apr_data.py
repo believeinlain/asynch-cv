@@ -60,12 +60,12 @@ event_player.play_file(
         'run_name': run_name,
         'video_out': run_name+'.avi',
         # segmentation parameters
-        'region_lifetime': 80_000,
+        'region_lifetime': 100_000,
         'filter_n': 5,
         'filter_dt': 150_000,
         'v_range': 1,
-        'min_region_weight': 20,
-        'min_region_life': 200_000,
+        'min_region_weight': 30,
+        'min_region_life': 300_000,
         'locale_size': 500,
         'buffer_depth': 5
     })
