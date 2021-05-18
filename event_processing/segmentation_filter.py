@@ -129,14 +129,12 @@ class segmentation_filter(basic_consumer):
                 self.assign_event_to_region(adjacent[0], x, y, p, t)
             # if there is more than one adjacent region
             elif adjacent.size > 1:
-                # find the largest region
-                sorted_indices = np.argsort(
-                    self.regions_weight[adjacent])
-                # assign event to largest region
-                assigned = adjacent[sorted_indices][-1]
-                # merge all regions into the largest region
-                # self.combine_regions(assigned, adjacent)
-                # assign event to the largest region
+                # find the region with most events adjacent to e
+                count_adjacent = np.bincount(adjacent)
+                sorted_indices = np.argsort(np.nonzero(count_adjacent))
+
+                # assign event to region with most adjacent events
+                assigned = adjacent[sorted_indices[0]][0]
                 self.assign_event_to_region(assigned, x, y, p, t)
             # if there are zero adjacent regions
             else:
