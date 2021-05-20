@@ -143,17 +143,11 @@ class discriminator(segmentation_filter):
 
         for region in regions_of_interest:
             birth_time = self.regions_birth[region]
-            # binary image representing all locations belonging to this region
-            # for cv2 image processing analysis
-            flat_region = np.any(self.buffer_ri == region, 2)
-            image = np.multiply(255, np.transpose(flat_region), dtype=np.uint8)
 
             # find the region centroid
             this_region = np.nonzero(self.buffer_ri == region)[:-1]
 
-            # print(c_x, c_y)
             c = np.average(this_region, 1)
-            # print(c)
             int_c = tuple(np.array(c, dtype=np.uint16))
 
             # update region profile
@@ -169,7 +163,6 @@ class discriminator(segmentation_filter):
 
                 current = np.nonzero(self.profile_timestamps[region,:] >= birth_time)
                 order = np.argsort(self.profile_timestamps[region, current][0])
-                # past_timestamps = np.array(self.profile_timestamps[region, current][0, order], dtype=np.int64)
                 past_locations = np.array(self.profile_centroids[region, current][0, order], dtype=np.float32)
                 # dt = np.diff(past_timestamps)
                 # dt_total = np.sum(dt, axis=0)
@@ -177,7 +170,6 @@ class discriminator(segmentation_filter):
                 if path_steps.size == 0:
                     continue
 
-                # path = np.average(np.abs(path_steps), axis=0, weights=dt)
                 path_length = np.sqrt(np.sum(np.square(path_steps)))
                 displacement = np.sum(path_steps, axis=0)
                 self.region_displacement[region] = displacement
@@ -185,14 +177,6 @@ class discriminator(segmentation_filter):
 
                 if path_length == 0:
                     continue
-
-                # for other_region in regions_of_interest:
-                #     if region == other_region:
-                #         continue
-                #     rel_disp = np.sum(np.square(displacement - self.region_displacement[other_region]))
-                #     rel_dist = np.sum(np.square(c - self.profile_centroids[other_region, self.profile_top[other_region], :]))
-                #     if rel_disp < 0.1 and rel_dist < 50:
-                #         print("MERGE REGIONS", region, other_region)
 
                 scale = 10
                 ratio_th = 1.8
@@ -209,13 +193,17 @@ class discriminator(segmentation_filter):
 
                 (is_boat, conf) = self.is_region_boat(region, ts)
                 if is_boat:
+                    # binary image representing all locations belonging to this region
+                    # for cv2 image processing analysis
+                    image = np.multiply(255, np.transpose(np.any(self.buffer_ri == region, 2)), dtype=np.uint8)
+
                     # find and draw the bounding box
                     x, y, w, h = cv2.boundingRect(image)
                     
                     if self.draw_bb:
                         cv2.rectangle(self.frame_to_draw, (x, y),
                                     (x+w, y+h), color, 1)
-                    cv2.putText(self.frame_to_draw, f'boat ({conf:0.2f})', (x, y), cv2.FONT_HERSHEY_PLAIN,
+                    cv2.putText(self.frame_to_draw, f'{self.regions_weight[region]}({conf:0.2f})', (x, y), cv2.FONT_HERSHEY_PLAIN,
                                 1, tuple(color), 1, cv2.LINE_AA)
 
                     # add it to detections

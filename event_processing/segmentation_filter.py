@@ -41,8 +41,10 @@ class segmentation_filter(basic_consumer):
         self.filter_n = consumer_args.get('filter_n', 4)
         # timeframe to search for correlated events when filtering
         self.filter_dt = consumer_args.get('filter_dt', 100_000)
-        # range to search around each event for correlation and region grouping
-        self.v_range = consumer_args.get('v_range', 1)
+        # range to search around each event for correlation
+        self.filter_range = consumer_args.get('filter_range', 1)
+        # range to search around each event for region grouping
+        self.region_range = consumer_args.get('region_range', 1)
         # minimum weight to consider region worth analyzing
         self.min_region_weight = consumer_args.get('min_region_weight', 20)
         # minimum time for a region to exist before we care
@@ -97,10 +99,10 @@ class segmentation_filter(basic_consumer):
                 continue
 
             # find indices for the vicinity of the current event
-            x_range = np.arange(x-self.v_range, x+self.v_range +
+            x_range = np.arange(x-self.filter_range, x+self.filter_range +
                                 1).clip(0, self.width-1)
-            y_range = np.arange(y-self.v_range, y +
-                                self.v_range+1).clip(0, self.height-1)
+            y_range = np.arange(y-self.filter_range, y +
+                                self.filter_range+1).clip(0, self.height-1)
             vicinity = (x_range[:, np.newaxis], y_range)
 
             # update surface for all events
@@ -119,6 +121,13 @@ class segmentation_filter(basic_consumer):
             # update filtered surface for allowed events
             self.surface_filtered[x, y] = t
 
+            # find indices for the vicinity of the current event
+            x_range = np.arange(x-self.region_range, x+self.region_range +
+                                1).clip(0, self.width-1)
+            y_range = np.arange(y-self.region_range, y +
+                                self.region_range+1).clip(0, self.height-1)
+            vicinity = (x_range[:, np.newaxis], y_range)
+
             # get sorted list of unique region indices from the buffer
             active_vicinity = np.nonzero(self.buffer_ts[vicinity] > t-self.region_lifetime)
             adjacent = np.unique(self.buffer_ri[vicinity][active_vicinity])[:-1]
@@ -131,11 +140,17 @@ class segmentation_filter(basic_consumer):
             # if there is more than one adjacent region
             elif adjacent.size > 1:
                 # find the region with most events adjacent to e
-                count_adjacent = np.bincount(adjacent)
-                sorted_indices = np.argsort(np.nonzero(count_adjacent))
+                # count_adjacent = np.bincount(adjacent)
+                # sorted_indices = np.argsort(np.nonzero(count_adjacent))
 
-                # assign event to region with most adjacent events
-                assigned = adjacent[sorted_indices[0]][0]
+                # # assign event to region with most adjacent events
+                # assigned = adjacent[sorted_indices[0]][0]
+
+                # find the oldest adjacent region
+                sort_birth = np.argsort(self.regions_birth[adjacent])
+                assigned = adjacent[sort_birth[0]]
+
+                # assign this event to it
                 self.assign_event_to_region(assigned, x, y, p, t)
             # if there are zero adjacent regions
             else:
@@ -189,7 +204,7 @@ class segmentation_filter(basic_consumer):
         if index != UNASSIGNED_REGION:
             self.regions_weight[index] += 1
 
-        old_region = self.buffer_top[x, y]
+        old_region = self.buffer_ri[x, y, self.buffer_top[x, y]]
         if old_region != UNASSIGNED_REGION:
             self.regions_weight[old_region] -= 1
         
