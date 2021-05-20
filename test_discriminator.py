@@ -50,16 +50,12 @@ event_player.play_file(
         'annot_file': annot_path+filename+'.xml',
         'video_out': run_name+'.avi',
         # segmentation parameters
-        'region_lifetime': 80_000,
-        'unassign_period': 1_000,
-        'filter_n': 5,
-        'filter_dt': 250_000,
+        'region_lifetime': 150_000,
+        'filter_n': 4,
+        'filter_dt': 150_000,
         'v_range': 1,
-        'min_region_weight': 10,
-        'min_region_life': 200_000,
+        'min_region_weight': 30,
+        'min_region_life': 300_000,
         'locale_size': 500,
-        # discrimination parameters
-        'age_thresh': 2_000_000,
-        'size_thresh': 500,
-        'accel_thresh': 50
+        'buffer_depth': 5
     })

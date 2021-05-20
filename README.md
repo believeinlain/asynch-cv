@@ -8,7 +8,7 @@ To run, simply run `python3 async_cv` from the command line.
 Or execute one of the `test_*.py` scripts to see a demonstration.  
 ***
 # Asynchronous Filtering and Segmentation of Temporal Contrast Events for Object Detection and Analysis
-This algorithm can be divided into three main parts:
+This algorithm can be divided into three main stages:
 - **Pre-Filter:** Reduces local event density below a set threshold to speed up processing and aid in isolating different objects.
 - **Correlational Segmentation Filter:** Groups individual events into spatio-temporal regions which are stored in a fixed-size buffer, and ignores events which do not have enough adjacent neighbors
 - **Object Detection and Analysis:** Characterizes different regions to distinguish objects of potential concern from dynamic background such as ocean waves.

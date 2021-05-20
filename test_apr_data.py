@@ -7,7 +7,7 @@ import event_processing
 aedat_path = 'C:/Users/steph/OneDrive/Documents/NIWC/NeuroComp/boat_tests/'
 annot_path = './example_annotations/'
 group = 'april_29'
-test = 1
+test = 2
 file_type = '.raw'
 
 boat_tests = {
@@ -60,12 +60,12 @@ event_player.play_file(
         'run_name': run_name,
         'video_out': run_name+'.avi',
         # segmentation parameters
-        'region_lifetime': 100_000,
-        'filter_n': 5,
+        'region_lifetime': 250_000,
+        'filter_n': 4,
         'filter_dt': 150_000,
         'v_range': 1,
-        'min_region_weight': 30,
-        'min_region_life': 300_000,
+        'min_region_weight': 100,
+        'min_region_life': 250_000,
         'locale_size': 500,
         'buffer_depth': 5
     })

@@ -3,6 +3,7 @@ from sys import stdout
 from math import exp
 import numpy as np
 import cv2
+from numpy.lib import average
 import xmltodict
 import os
 
@@ -136,6 +137,10 @@ class discriminator(segmentation_filter):
 
         stdout.write(' %i regions of interest,' % (regions_of_interest.size))
 
+        # buffer_ri_copy = self.buffer_ri.copy()
+        # expired_buffer = np.nonzero(self.buffer_ts <= ts-self.region_lifetime)
+        # buffer_ri_copy[expired_buffer] = self.unassigned_region
+
         for region in regions_of_interest:
             birth_time = self.regions_birth[region]
             # binary image representing all locations belonging to this region
@@ -144,7 +149,11 @@ class discriminator(segmentation_filter):
             image = np.multiply(255, np.transpose(flat_region), dtype=np.uint8)
 
             # find the region centroid
-            c = np.average(np.nonzero(self.buffer_ri == region)[:-1], 1)
+            this_region = np.nonzero(self.buffer_ri == region)[:-1]
+
+            # print(c_x, c_y)
+            c = np.average(this_region, 1)
+            # print(c)
             int_c = tuple(np.array(c, dtype=np.uint16))
 
             # update region profile
@@ -186,7 +195,7 @@ class discriminator(segmentation_filter):
                 #         print("MERGE REGIONS", region, other_region)
 
                 scale = 10
-                ratio_th = 2
+                ratio_th = 1.8
 
                 endpoint = np.sum([int_c, np.array(scale*(displacement/path_length), dtype=np.int16)], axis=0)
                 cv2.arrowedLine(self.frame_to_draw, int_c, tuple(endpoint), color, thickness=1)

@@ -93,7 +93,7 @@ class segmentation_filter(basic_consumer):
             locale_i = (int(x/self.div_width), int(y/self.div_height))
             self.locale_acc[locale_i] += 1
 
-            if random() < 0.95*(1-exp(-0.5*self.locale_events_per_ms[locale_i])):
+            if random() < 0.95*(1-exp(-0.8*self.locale_events_per_ms[locale_i])):
                 continue
 
             # find indices for the vicinity of the current event
@@ -112,6 +112,7 @@ class segmentation_filter(basic_consumer):
 
             # draw filtered events in grey
             if not self.allow_event(self.filter_dt, self.filter_n, vicinity, x, y, p, t):
+                self.assign_event_to_region(UNASSIGNED_REGION, x, y, p, t)
                 self.draw_event(x, y, p, t, (150, 150, 150))
                 continue
 
@@ -155,6 +156,8 @@ class segmentation_filter(basic_consumer):
         self.regions_weight = np.bincount(active_regions, minlength=UNASSIGNED_REGION)
         unique_active_regions = np.unique(active_regions)[:-1]
 
+        # print(np.argsort(self.regions_weight))
+
         self.last_ts = ts
 
         stdout.write('Processed %i events,' % (event_buffer.size))
@@ -165,6 +168,15 @@ class segmentation_filter(basic_consumer):
         self.locale_events_per_ms = np.floor_divide(self.locale_acc, dt//1_000)
         self.locale_acc[:] = 0
 
+    def init_frame(self, frame_buffer=None):
+        super().init_frame(frame_buffer)
+
+        top = np.transpose(np.squeeze(np.take_along_axis(self.buffer_ri, self.buffer_top[:, :, np.newaxis], axis=2)))
+        color_indices = np.nonzero(top!=UNASSIGNED_REGION)
+        colors = self.regions_color[top[color_indices]]
+        
+        self.frame_to_draw[color_indices] = np.multiply(0.5, colors)
+
     def draw_event(self, x, y, p, t, color=None):
         if color is None:
             super().draw_event(x, y, p, t)
@@ -174,7 +186,13 @@ class segmentation_filter(basic_consumer):
 
     def assign_event_to_region(self, index, x, y, p, t):
         del p, t
-        self.regions_weight[index] += 1
+        if index != UNASSIGNED_REGION:
+            self.regions_weight[index] += 1
+
+        old_region = self.buffer_top[x, y]
+        if old_region != UNASSIGNED_REGION:
+            self.regions_weight[old_region] -= 1
+        
         self.buffer_ri[x, y, self.buffer_top[x, y]] = index
 
     def create_region(self, x, y, p, t):
@@ -184,9 +202,10 @@ class segmentation_filter(basic_consumer):
         tries = 0
         while self.regions_weight[new_index] > 0:
             tries += 1
-            new_index = RegionIndex(randint(0, MAX_REGIONS-1))
+            new_index = RegionIndex(randint(1, MAX_REGIONS-1))
             # don't get stuck here
             if tries > 10:
+                print("Too many regions")
                 break
 
         # unused_indices = np.where(self.regions_weight == 0)[0]
