@@ -10,6 +10,6 @@ event_player.play_file(
     # filename='example_data/hand_spinner.raw',
     # filename='C:/Users/steph/OneDrive/Documents/NIWC/NeuroComp/AEDATA_11-12-20/Davis346red-2020-06-26T12-30-20-0700-00000195-0_Test_6.aedat',
     # filename='C:/Users/steph/OneDrive/Documents/NIWC/NeuroComp/AEDATA_11-12-20/Davis346red-2020-06-26T12-26-42-0700-00000195-0_Test_2.aedat',
-    filename='C:/Users/steph/OneDrive/Documents/NIWC/NeuroComp/boat_tests/april_29/out_2021-04-29_17-56-14.raw',
+    filename='C:/Users/Stephanie/OneDrive/Documents/NIWC/NeuroComp/boat_tests/april_29/out_2021-04-29_17-56-14.raw',
     dt=30,
     event_consumer=event_processing.basic_consumer)

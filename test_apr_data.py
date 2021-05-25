@@ -4,10 +4,10 @@ Simple test of basic_consumer functionality
 import event_player
 import event_processing
 
-aedat_path = 'C:/Users/steph/OneDrive/Documents/NIWC/NeuroComp/boat_tests/'
+aedat_path = 'C:/Users/Stephanie/OneDrive/Documents/NIWC/NeuroComp/boat_tests/'
 annot_path = './example_annotations/'
 group = 'april_29'
-test = 1
+test = 2
 file_type = '.raw'
 
 boat_tests = {
