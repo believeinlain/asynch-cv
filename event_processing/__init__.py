@@ -6,3 +6,4 @@ from event_processing.discriminator import discriminator
 
 from event_processing.basic_filter import basic_filter
 from event_processing.spatial_filter import spatial_filter
+from event_processing.pmd_consumer import pmd_consumer
