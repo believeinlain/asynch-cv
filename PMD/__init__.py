@@ -49,11 +49,15 @@ class PersistentMotionDetector:
                 events_to_push= np.intersect1d(np.where(dest[:,0] == i), np.where(dest[:,1] == j))
                 self._input_queue[i, j].push_multiple(event_buffer[events_to_push])
     
-    def tick_all(self, event_callback):
+    def tick_all(self, sys_time, event_callback):
         # cycle through each event handler
         for i in range(self._x_div):
             for j in range(self._y_div):
-                self._event_handler[i, j].tick(event_callback)
+                self._event_handler[i, j].tick(sys_time, event_callback)
     
     def get_color(self, cluster_id):
         return self._cluster_buffer.get_color(cluster_id)
+
+    def get_cluster_map(self):
+        top, assigned = self._event_buffer.get_buffer_top()
+        return self._cluster_buffer.get_color(top[assigned]), assigned

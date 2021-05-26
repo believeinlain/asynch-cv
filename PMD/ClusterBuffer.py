@@ -14,14 +14,15 @@ class ClusterBuffer:
         self._cluster_weight_t = types.get('cluster_weight_t', 'u4')
         self._cluster_color_t = types.get('cluster_color_t', 'u1')
         self._xy_t = types.get('xy_t', 'u2')
+        self._xy_sum_t= types.get('xy_sum_t', 'u4')
 
         # Initialize
         self._event_buffer_t = [
             ('birth', self._timestamp_t), 
             ('weight', self._cluster_weight_t),
             ('color', self._cluster_color_t, (3,)),
-            ('x_sum', self._xy_t),
-            ('y_sum', self._xy_t)
+            ('x_sum', self._xy_sum_t),
+            ('y_sum', self._xy_sum_t)
             ]
         self._unassigned = np.iinfo(np.dtype(self._cluster_id_t)).max
         self._max_clusters = self._unassigned + 1
@@ -45,13 +46,13 @@ class ClusterBuffer:
             tries += 1
             new_id = randint(1, self._unassigned)
             # don't get stuck here
-            if tries > 100:
+            if tries > self._max_clusters//100:
                 print("\nClusterBuffer.create_new_cluster: Cluster buffer getting full, assigned event to existing cluster.")
                 return new_id
 
         self._clusters[new_id]['birth'] = t
-        self._clusters[new_id]['x_sum'] = 0
-        self._clusters[new_id]['y_sum'] = 0
+        self._clusters[new_id]['x_sum'] = x
+        self._clusters[new_id]['y_sum'] = y
         
         return new_id
     
@@ -72,4 +73,8 @@ class ClusterBuffer:
             self._clusters[id]['y_sum'] -= y
         
         return self._clusters[id]['weight']
-            
+    
+    def remove_events(self, counts, ids, x, y):
+        self._clusters['weight'] -= counts
+        self._clusters[ids]['x_sum'] -= np.array(x, dtype=self._xy_sum_t)
+        self._clusters[ids]['y_sum'] -= np.array(y, dtype=self._xy_sum_t)

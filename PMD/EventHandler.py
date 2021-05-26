@@ -36,7 +36,7 @@ class EventHandler:
         self._dt = 0
         self._last_t = 0
 
-    def tick(self, event_callback):
+    def tick(self, sys_time, event_callback):
         # reset prefilter accumulator and dt
         self._acc = 0
         self._dt = 0
@@ -49,9 +49,8 @@ class EventHandler:
             x, y, _, t = e
 
             # add the time between events to dt
-            if t > self._last_t:
-                self._dt += t-self._last_t
-                self._last_t = t
+            self._dt += t-self._last_t
+            self._last_t = t
             # compute density (events per millisecond)
             m = ( self._acc / (self._dt//1_000) ) if self._dt > 0 else 0
 
@@ -88,4 +87,6 @@ class EventHandler:
 
             event_callback(e, EventHandlerResult.CLUSTERED, assigned)
         
-        # TODO: remove expired events?
+        # remove expired events
+        u_counts, u_ids, u_x, u_y = self._event_buffer.remove_expired_events(self._domain, sys_time - self._tc)
+        self._cluster_buffer.remove_events(u_counts, u_ids, u_x, u_y)

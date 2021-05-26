@@ -13,23 +13,24 @@ class pmd_consumer(basic_consumer):
 
         # Process arguments
         parameters = consumer_args.get('parameters', {})
+        # explicitly set types to ensure consistency
         types = {
             'timestamp_t': 'u8',
             'cluster_id_t': 'u2',
             'cluster_weight_t': 'u4',
             'cluster_color_t': 'u1',
-            'xy_t': 'u2'
+            'xy_t': 'u2',
+            'xy_sum_t': 'u4'
         }
 
         self._pmd = PersistentMotionDetector(width, height, parameters, types)
 
     def process_event_array(self, t, event_buffer, frame_buffer=None):
-        del t
 
         self.init_frame(frame_buffer)
 
         self._pmd.process_events(event_buffer)
-        self._pmd.tick_all(self.event_callback)
+        self._pmd.tick_all(t, self.event_callback)
 
     def event_callback(self, e, result: EventHandlerResult, cluster=None):
         x, y, p, t = e
@@ -40,6 +41,10 @@ class pmd_consumer(basic_consumer):
 
     def init_frame(self, frame_buffer=None):
         super().init_frame(frame_buffer)
+
+        colors, assigned = self._pmd.get_cluster_map()
+        
+        self.frame_to_draw[assigned] = np.multiply(0.5, colors)
 
     def draw_event(self, x, y, p, t, color=None):
         if color is None:
