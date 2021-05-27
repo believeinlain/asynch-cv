@@ -44,9 +44,13 @@ class ClusterBuffer:
     def get_centroid(self, id):
         weight = self._clusters[id]['weight']
         if weight == 0:
+            print("\nClusterBuffer.get_centroid: Can't find centroid of empty cluster.")
             return (0, 0)
         else:
-            return (self._clusters[id]['x_sum']/weight, self._clusters[id]['y_sum']/weight)
+            return (self._clusters[id]['x_sum']//weight, self._clusters[id]['y_sum']//weight)
+    
+    def get_weight(self, id):
+        return self._clusters[id]['weight']
     
     def get_color(self, id):
         return (0, 0, 0) if (id is None) or (id is self._unassigned) else self._clusters[id]['color']
@@ -64,8 +68,8 @@ class ClusterBuffer:
                 return new_id
 
         self._clusters[new_id]['birth'] = t
-        self._clusters[new_id]['x_sum'] = x
-        self._clusters[new_id]['y_sum'] = y
+        self._clusters[new_id]['x_sum'] = 0
+        self._clusters[new_id]['y_sum'] = 0
         
         return new_id
     

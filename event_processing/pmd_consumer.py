@@ -40,12 +40,22 @@ class pmd_consumer(basic_consumer):
         elif result is EventHandlerResult.CLUSTERED:
             self.draw_event(x, y, p, t, self._pmd.get_color(cluster))
 
-    def cluster_callback(self, cluster, centroid):
+    def cluster_callback(self, id, centroid, weight, bb=None):
         int_c = tuple(np.array(centroid, dtype=np.uint16))
-        color = tuple(self._pmd.get_color(cluster).tolist())
+        color = tuple(self._pmd.get_color(id).tolist())
 
         # draw the region centroid
         cv2.circle(self.frame_to_draw, int_c, 1, color, thickness=2)
+
+        # draw weight
+        cv2.putText(self.frame_to_draw, f'{id}:{weight}', int_c, cv2.FONT_HERSHEY_PLAIN,
+            1, tuple(color), 1, cv2.LINE_AA)
+
+        # draw bb if given
+        if bb is not None:
+            x, y, w, h = bb
+            cv2.rectangle(self.frame_to_draw, (x, y), (x+w, y+h), color, 1)
+                    
 
     def init_frame(self, frame_buffer=None):
         super().init_frame(frame_buffer)

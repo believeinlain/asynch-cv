@@ -69,6 +69,6 @@ event_player.play_file(
             'tf': 150_000, # how far back in time to consider events for filtering
             'n': 4, # minimum number of correlated events required to allow a particular event through the filter
             'tc': 150_000, # how far back in time to consider events for clustering
-            'num_cluster_analyzers': 8
+            'num_cluster_analyzers': 16
         }
     })

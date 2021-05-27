@@ -75,5 +75,8 @@ class EventBuffer:
         return new_weights
 
     # get all locations belonging to the given cluster id
-    def get_cluster_locations(self, id):
-        return np.nonzero(self._id_buffer == id)[:-1]
+    # def get_cluster_locations(self, id):
+    #     return np.nonzero(self._id_buffer == id)[:-1]
+
+    def get_cluster_map(self, id):
+        return np.any(self._id_buffer == id, 2)

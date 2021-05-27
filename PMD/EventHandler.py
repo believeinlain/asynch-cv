@@ -27,6 +27,8 @@ class EventHandler:
         self._n = parameters.get('n', 4)
         # how far back in time to consider events for clustering
         self._tc = parameters.get('tc', 150_000)
+        
+        self._temporal_filter = parameters.get('temporal_filter', 1_000)
 
         self._domain = domain
         self._input_queue = input_queue
@@ -49,16 +51,20 @@ class EventHandler:
             x, y, _, t = e
 
             # add the time between events to dt
-            self._dt += t-self._last_t
+            dt = t-self._last_t
+            self._dt += dt
             self._last_t = t
-            # compute density (events per millisecond)
-            dt_ms = self._dt//1_000
-            m = (self._acc / dt_ms) if dt_ms > 0 else 0
 
-            # prefilter stage
-            if random() < self._a*(1-exp(-self._b*m)):
-                event_callback(e, EventHandlerResult.REJECTED)
-                continue
+            # temporal filter
+            self._temporal_filter
+
+            # # prefilter stage
+            # # compute density (events per millisecond)
+            # dt_ms = self._dt//1_000
+            # m = (self._acc / dt_ms) if dt_ms > 0 else 0
+            # if random() < self._a*(1-exp(-self._b*m)):
+            #     event_callback(e, EventHandlerResult.REJECTED)
+            #     continue
             
             (num_correlated, adjacent) = self._event_buffer.check_vicinity(x, y, t, self._tf, self._tc)
 
