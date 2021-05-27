@@ -146,7 +146,6 @@ class discriminator(segmentation_filter):
 
             # find the region centroid
             this_region = np.nonzero(self.buffer_ri == region)[:-1]
-
             c = np.average(this_region, 1)
             int_c = tuple(np.array(c, dtype=np.uint16))
 

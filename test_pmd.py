@@ -62,12 +62,13 @@ event_player.play_file(
         'parameters': {
             'x_div': 8,
             'y_div': 8,
-            'input_queue_depth': 128,
+            'input_queue_depth': 64,
             'event_buffer_depth': 4,
             'a': 0.0, # allows a minimum portion of events through regardless of prior event density
             'b': 0.8, # controls pre-filter sensitivity
             'tf': 150_000, # how far back in time to consider events for filtering
             'n': 4, # minimum number of correlated events required to allow a particular event through the filter
-            'tc': 150_000 # how far back in time to consider events for clustering
+            'tc': 150_000, # how far back in time to consider events for clustering
+            'num_cluster_analyzers': 8
         }
     })

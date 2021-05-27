@@ -52,7 +52,8 @@ class EventHandler:
             self._dt += t-self._last_t
             self._last_t = t
             # compute density (events per millisecond)
-            m = ( self._acc / (self._dt//1_000) ) if self._dt > 0 else 0
+            dt_ms = self._dt//1_000
+            m = (self._acc / dt_ms) if dt_ms > 0 else 0
 
             # prefilter stage
             if random() < self._a*(1-exp(-self._b*m)):
@@ -73,12 +74,9 @@ class EventHandler:
             elif adjacent.size > 1:
                 # find the oldest adjacent region
                 birth_order = self._cluster_buffer.get_birth_order(adjacent)
-                assigned = adjacent[birth_order[0]]
+                assigned = adjacent[birth_order]
             else:
                 assigned = self._cluster_buffer.create_new_cluster(x, y, t)
-
-            # print("event", e, "assigned to cluster", assigned)
-            # print("clusters", adjacent)
             
             # add the event to the event buffer
             self._event_buffer.add_event(x, y, t, assigned)
@@ -88,5 +86,5 @@ class EventHandler:
             event_callback(e, EventHandlerResult.CLUSTERED, assigned)
         
         # remove expired events
-        u_counts, u_ids, u_x, u_y = self._event_buffer.remove_expired_events(self._domain, sys_time - self._tc)
-        self._cluster_buffer.remove_events(u_counts, u_ids, u_x, u_y)
+        u_ids, u_x, u_y = self._event_buffer.remove_expired_events(self._domain, sys_time - self._tc)
+        self._cluster_buffer.remove_events(u_ids, u_x, u_y)

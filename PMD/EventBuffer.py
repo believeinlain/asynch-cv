@@ -14,6 +14,7 @@ class EventBuffer:
 
         # Initialize
         self._unassigned = np.iinfo(np.dtype(self._cluster_id_t)).max
+        self._max_clusters = self._unassigned + 1
         self._ts_buffer = np.zeros((width, height, depth), dtype=self._timestamp_t)
         self._id_buffer = np.full((width, height, depth), self._unassigned, dtype=self._cluster_id_t)
         self._top = np.zeros((width, height), dtype=self._buffer_depth_t)
@@ -56,15 +57,23 @@ class EventBuffer:
         assigned = id_buffer_slice != self._unassigned
         to_remove = np.where(np.logical_and(expired, assigned))
 
-        u_counts = np.array(np.bincount(id_buffer_slice[to_remove],
-            minlength=self._unassigned+1), dtype=self._cluster_weight_t)
-
+        u_ids = np.array(id_buffer_slice[to_remove])
+        
         id_buffer_slice[to_remove] = self._unassigned
 
         self._id_buffer[x_range, y_range, :] = id_buffer_slice
 
-        u_ids = id_buffer_slice[to_remove]
         u_x = np.add(x_range.start, to_remove[0])
         u_y = np.add(y_range.start, to_remove[1])
 
-        return u_counts, u_ids, u_x, u_y
+        return u_ids, u_x, u_y
+
+    # recount all clusters to provide a refernence point for the algorithm working properly
+    def recount_clusters(self, t):
+        active = np.nonzero(self._ts_buffer > t)[0]
+        new_weights = np.bincount(active, minlength=self._max_clusters)
+        return new_weights
+
+    # get all locations belonging to the given cluster id
+    def get_cluster_locations(self, id):
+        return np.nonzero(self._id_buffer == id)[:-1]

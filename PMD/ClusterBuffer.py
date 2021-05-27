@@ -17,23 +17,36 @@ class ClusterBuffer:
         self._xy_sum_t= types.get('xy_sum_t', 'u4')
 
         # Initialize
-        self._event_buffer_t = [
+        self._cluster_buffer_t = [
             ('birth', self._timestamp_t), 
             ('weight', self._cluster_weight_t),
             ('color', self._cluster_color_t, (3,)),
             ('x_sum', self._xy_sum_t),
-            ('y_sum', self._xy_sum_t)
+            ('y_sum', self._xy_sum_t),
+            ('priority', self._cluster_id_t)
             ]
         self._unassigned = np.iinfo(np.dtype(self._cluster_id_t)).max
         self._max_clusters = self._unassigned + 1
-        self._clusters = np.zeros(self._max_clusters, dtype=self._event_buffer_t)
+        self._clusters = np.zeros(self._max_clusters, dtype=self._cluster_buffer_t)
         # pick a different color for each region
         for i in range(self._max_clusters):
             self._clusters[i]['color'] = np.multiply(255.0, 
                 hsv_to_rgb((i*np.pi % 3.6)/3.6, 1.0, 1.0), casting='unsafe')
     
-    def get_birth_order(self, clusters):
-        return np.argsort(self._clusters[clusters]['birth'])
+    def get_birth_order(self, clusters=None):
+        sort_birth = np.copy(self._clusters[clusters]['birth'])
+        sort_birth[sort_birth == 0] = -1
+        return np.argsort(sort_birth)[0]
+
+    def get_weight_order(self, clusters=None):
+        return np.flip(np.argsort(self._clusters[clusters]['weight'])[0])
+
+    def get_centroid(self, id):
+        weight = self._clusters[id]['weight']
+        if weight == 0:
+            return (0, 0)
+        else:
+            return (self._clusters[id]['x_sum']/weight, self._clusters[id]['y_sum']/weight)
     
     def get_color(self, id):
         return (0, 0, 0) if (id is None) or (id is self._unassigned) else self._clusters[id]['color']
@@ -60,21 +73,14 @@ class ClusterBuffer:
         self._clusters[id]['weight'] += 1
         self._clusters[id]['x_sum'] += x
         self._clusters[id]['y_sum'] += y
+    
+    def remove_events(self, ids, x, y):
+        for i in range(len(ids)):
+            self._clusters[ids[i]]['x_sum'] -= x[i]
+            self._clusters[ids[i]]['y_sum'] -= y[i]
 
-        return self._clusters[id]['weight']
-    
-    def remove_event(self, x, y, id):
-        self._clusters[id]['weight'] -= 1
-        if self._clusters[id]['weight'] == 0:
-            self._clusters[id]['x_sum'] = 0
-            self._clusters[id]['y_sum'] = 0
-        else:
-            self._clusters[id]['x_sum'] -= x
-            self._clusters[id]['y_sum'] -= y
-        
-        return self._clusters[id]['weight']
-    
-    def remove_events(self, counts, ids, x, y):
-        self._clusters['weight'] -= counts
-        self._clusters[ids]['x_sum'] -= np.array(x, dtype=self._xy_sum_t)
-        self._clusters[ids]['y_sum'] -= np.array(y, dtype=self._xy_sum_t)
+        self._clusters['weight'] -= np.array(np.bincount(ids, minlength=self._max_clusters), 
+            dtype=self._cluster_weight_t)
+
+    def set_recount(self, weights):
+        self._clusters['weight'] = weights

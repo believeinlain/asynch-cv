@@ -1,4 +1,5 @@
 
+import cv2
 from event_processing import basic_consumer
 from PMD import *
 from PMD.EventHandler import EventHandlerResult
@@ -30,7 +31,7 @@ class pmd_consumer(basic_consumer):
         self.init_frame(frame_buffer)
 
         self._pmd.process_events(event_buffer)
-        self._pmd.tick_all(t, self.event_callback)
+        self._pmd.tick_all(t, self.event_callback, self.cluster_callback)
 
     def event_callback(self, e, result: EventHandlerResult, cluster=None):
         x, y, p, t = e
@@ -38,6 +39,13 @@ class pmd_consumer(basic_consumer):
             self.draw_event(x, y, p, t, (150, 150, 150))
         elif result is EventHandlerResult.CLUSTERED:
             self.draw_event(x, y, p, t, self._pmd.get_color(cluster))
+
+    def cluster_callback(self, cluster, centroid):
+        int_c = tuple(np.array(centroid, dtype=np.uint16))
+        color = tuple(self._pmd.get_color(cluster).tolist())
+
+        # draw the region centroid
+        cv2.circle(self.frame_to_draw, int_c, 1, color, thickness=2)
 
     def init_frame(self, frame_buffer=None):
         super().init_frame(frame_buffer)
