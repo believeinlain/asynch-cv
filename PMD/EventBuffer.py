@@ -37,15 +37,30 @@ class EventBuffer:
 
         return num_correlated, clusters
     
-    def get_buffer_top(self):
+    def get_flat_id_buffer(self):
         top = np.transpose(np.squeeze(np.take_along_axis(self._id_buffer, self._top[:, :, np.newaxis], axis=2)))
         assigned = np.nonzero(top!=self._unassigned)
         return top, assigned
 
+    def get_ts_buffer_top(self, x=None, y=None):
+        return self._id_buffer[x, y, self._top[x, y]]
+
     def add_event(self, x, y, t, cluster=None):
         self._top[x, y] = (self._top[x, y] + 1) % self._depth
+
+        if self._id_buffer[x, y, self._top[x, y]] == self._unassigned:
+            u_ids = np.array([])
+            u_x = np.array([])
+            u_y = np.array([])
+        else:
+            u_ids = np.array([self._id_buffer[x, y, self._top[x, y]]])
+            u_x = np.array([x])
+            u_y = np.array([y])
+
         self._ts_buffer[x, y, self._top[x, y]] = t
         self._id_buffer[x, y, self._top[x, y]] = self._unassigned if cluster is None else cluster
+
+        return u_ids, u_x, u_y
 
     def remove_expired_events(self, domain, t):
         x_range, y_range = domain
@@ -57,7 +72,7 @@ class EventBuffer:
         assigned = id_buffer_slice != self._unassigned
         to_remove = np.where(np.logical_and(expired, assigned))
 
-        u_ids = np.array(id_buffer_slice[to_remove])
+        u_ids = np.array(id_buffer_slice[to_remove], copy=True)
         
         id_buffer_slice[to_remove] = self._unassigned
 
@@ -69,10 +84,10 @@ class EventBuffer:
         return u_ids, u_x, u_y
 
     # recount all clusters to provide a refernence point for the algorithm working properly
-    def recount_clusters(self, t):
-        active = np.nonzero(self._ts_buffer > t)[0]
-        new_weights = np.bincount(active, minlength=self._max_clusters)
-        return new_weights
+    # def recount_clusters(self, t):
+    #     active = np.nonzero(self._ts_buffer > t)[0]
+    #     new_weights = np.bincount(active, minlength=self._max_clusters)
+    #     return new_weights
 
     # get all locations belonging to the given cluster id
     # def get_cluster_locations(self, id):

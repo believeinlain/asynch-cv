@@ -17,10 +17,10 @@ class EventHandler:
         # create empty dict if no parameters passed
         if parameters is None:
             parameters = {}
-        # allows a minimum portion of events through regardless of prior event density
-        self._a = parameters.get('a', 0.95)
-        # controls pre-filter sensitivity
-        self._b = parameters.get('b', 0.8)
+        # # allows a minimum portion of events through regardless of prior event density
+        # self._a = parameters.get('a', 0.95)
+        # # controls pre-filter sensitivity
+        # self._b = parameters.get('b', 0.8)
         # how far back in time to consider events for filtering
         self._tf = parameters.get('tf', 150_000)
         # minimum number of correlated events required to allow a particular event through the filter
@@ -34,14 +34,14 @@ class EventHandler:
         self._input_queue = input_queue
         self._event_buffer = event_buffer
         self._cluster_buffer = cluster_buffer
-        self._acc = 0
-        self._dt = 0
-        self._last_t = 0
+        # self._acc = 0
+        # self._dt = 0
+        # self._last_t = 0
 
     def tick(self, sys_time, event_callback):
         # reset prefilter accumulator and dt
-        self._acc = 0
-        self._dt = 0
+        # self._acc = 0
+        # self._dt = 0
 
         # handle all events in queue
         while True:
@@ -50,13 +50,15 @@ class EventHandler:
                 break
             x, y, _, t = e
 
-            # add the time between events to dt
-            dt = t-self._last_t
-            self._dt += dt
-            self._last_t = t
+            # temporal filter stage
+            if t-self._event_buffer.get_ts_buffer_top(x, y) < self._temporal_filter:
+                event_callback(e, EventHandlerResult.REJECTED)
+                continue
 
-            # temporal filter
-            self._temporal_filter
+            # add the time between events to dt
+            # dt = t-self._last_t
+            # self._dt += dt
+            # self._last_t = t
 
             # # prefilter stage
             # # compute density (events per millisecond)
@@ -85,12 +87,14 @@ class EventHandler:
                 assigned = self._cluster_buffer.create_new_cluster(x, y, t)
             
             # add the event to the event buffer
-            self._event_buffer.add_event(x, y, t, assigned)
+            u_ids, u_x, u_y = self._event_buffer.add_event(x, y, t, assigned)
             # add the event to the cluster buffer
             self._cluster_buffer.add_event(x, y, assigned)
+            # remove displaced event
+            self._cluster_buffer.remove_events(u_ids, u_x, u_y)
 
             event_callback(e, EventHandlerResult.CLUSTERED, assigned)
         
-        # remove expired events
+        # remove expired events in domain
         u_ids, u_x, u_y = self._event_buffer.remove_expired_events(self._domain, sys_time - self._tc)
         self._cluster_buffer.remove_events(u_ids, u_x, u_y)

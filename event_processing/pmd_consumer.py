@@ -14,7 +14,7 @@ class pmd_consumer(basic_consumer):
 
         # Process arguments
         parameters = consumer_args.get('parameters', {})
-        # explicitly set types to ensure consistency
+        # explicitly set types to ensure consistency between modules
         types = {
             'timestamp_t': 'u8',
             'cluster_id_t': 'u2',
@@ -48,7 +48,7 @@ class pmd_consumer(basic_consumer):
         cv2.circle(self.frame_to_draw, int_c, 1, color, thickness=2)
 
         # draw weight
-        cv2.putText(self.frame_to_draw, f'{id}:{weight}', int_c, cv2.FONT_HERSHEY_PLAIN,
+        cv2.putText(self.frame_to_draw, f'{weight}', int_c, cv2.FONT_HERSHEY_PLAIN,
             1, tuple(color), 1, cv2.LINE_AA)
 
         # draw bb if given

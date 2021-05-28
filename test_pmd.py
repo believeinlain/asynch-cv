@@ -3,11 +3,12 @@ Simple test of basic_consumer functionality
 '''
 import event_player
 import event_processing
+import os
 
-aedat_path = 'C:/Users/Stephanie/OneDrive/Documents/NIWC/NeuroComp/boat_tests/'
+aedat_path = f'C:/Users/{os.getlogin()}/OneDrive/Documents/NIWC/NeuroComp/boat_tests/'
 annot_path = './example_annotations/'
 group = 'april_29'
-test = 2
+test = 1
 file_type = '.raw'
 
 boat_tests = {
@@ -60,15 +61,16 @@ event_player.play_file(
         'run_name': run_name,
         'video_out': run_name+'.avi',
         'parameters': {
-            'x_div': 8,
-            'y_div': 8,
-            'input_queue_depth': 64,
+            'x_div': 2,
+            'y_div': 2,
+            'input_queue_depth': 640,
             'event_buffer_depth': 4,
             'a': 0.0, # allows a minimum portion of events through regardless of prior event density
             'b': 0.8, # controls pre-filter sensitivity
             'tf': 150_000, # how far back in time to consider events for filtering
             'n': 4, # minimum number of correlated events required to allow a particular event through the filter
             'tc': 150_000, # how far back in time to consider events for clustering
-            'num_cluster_analyzers': 16
+            'num_cluster_analyzers': 16,
+            'temporal_filter': 500
         }
     })

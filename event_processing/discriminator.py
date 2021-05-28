@@ -4,7 +4,7 @@ from math import exp
 import numpy as np
 import cv2
 from numpy.lib import average
-import xmltodict
+# import xmltodict
 import os
 
 from event_processing import segmentation_filter

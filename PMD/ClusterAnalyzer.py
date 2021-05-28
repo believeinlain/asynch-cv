@@ -14,10 +14,11 @@ class ClusterAnalyzer:
 
     def tick(self, cluster_callback):
         id = self._cluster_priority_module.get_priority_cluster(self._priority)
-        centroid = self._cluster_buffer.get_centroid(id)
         weight = self._cluster_buffer.get_weight(id)
         if weight == 0:
             return
+        
+        centroid = self._cluster_buffer.get_centroid(id)
         
         # this_cluster = self._event_buffer.get_cluster_locations(id)
         # if len(this_cluster[0]) > 0:

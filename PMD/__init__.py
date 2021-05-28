@@ -74,5 +74,5 @@ class PersistentMotionDetector:
         return self._cluster_buffer.get_color(cluster_id)
 
     def get_cluster_map(self):
-        top, assigned = self._event_buffer.get_buffer_top()
+        top, assigned = self._event_buffer.get_flat_id_buffer()
         return self._cluster_buffer.get_color(top[assigned]), assigned

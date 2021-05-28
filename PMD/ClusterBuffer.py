@@ -47,7 +47,7 @@ class ClusterBuffer:
             print("\nClusterBuffer.get_centroid: Can't find centroid of empty cluster.")
             return (0, 0)
         else:
-            return (self._clusters[id]['x_sum']//weight, self._clusters[id]['y_sum']//weight)
+            return (self._clusters[id]['x_sum']/weight, self._clusters[id]['y_sum']/weight)
     
     def get_weight(self, id):
         return self._clusters[id]['weight']
@@ -80,11 +80,12 @@ class ClusterBuffer:
     
     def remove_events(self, ids, x, y):
         for i in range(len(ids)):
+            self._clusters[ids[i]]['weight'] -= 1
             self._clusters[ids[i]]['x_sum'] -= x[i]
             self._clusters[ids[i]]['y_sum'] -= y[i]
 
-        self._clusters['weight'] -= np.array(np.bincount(ids, minlength=self._max_clusters), 
-            dtype=self._cluster_weight_t)
+        # self._clusters['weight'] -= np.array(np.bincount(ids, minlength=self._max_clusters), 
+        #     dtype=self._cluster_weight_t)
 
     def set_recount(self, weights):
         self._clusters['weight'] = weights
