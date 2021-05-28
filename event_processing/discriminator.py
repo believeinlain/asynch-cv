@@ -4,7 +4,7 @@ from math import exp
 import numpy as np
 import cv2
 from numpy.lib import average
-# import xmltodict
+import xmltodict
 import os
 
 from event_processing import segmentation_filter
@@ -154,64 +154,63 @@ class discriminator(segmentation_filter):
             self.profile_timestamps[region, self.profile_top[region]] = ts
             self.profile_centroids[region, self.profile_top[region], :] = c
 
-            if region in regions_of_interest:
-                # get the region color
-                color = tuple(self.regions_color[region].tolist())
-                # draw the region centroid
-                cv2.circle(self.frame_to_draw, int_c, 1, color, thickness=2)
+            # get the region color
+            color = tuple(self.regions_color[region].tolist())
+            # draw the region centroid
+            cv2.circle(self.frame_to_draw, int_c, 1, color, thickness=2)
 
-                current = np.nonzero(self.profile_timestamps[region,:] >= birth_time)
-                order = np.argsort(self.profile_timestamps[region, current][0])
-                past_locations = np.array(self.profile_centroids[region, current][0, order], dtype=np.float32)
-                # dt = np.diff(past_timestamps)
-                # dt_total = np.sum(dt, axis=0)
-                path_steps = np.diff(past_locations, axis=0)
-                if path_steps.size == 0:
-                    continue
+            current = np.nonzero(self.profile_timestamps[region,:] >= birth_time)
+            order = np.argsort(self.profile_timestamps[region, current][0])
+            past_locations = np.array(self.profile_centroids[region, current][0, order], dtype=np.float32)
+            # dt = np.diff(past_timestamps)
+            # dt_total = np.sum(dt, axis=0)
+            path_steps = np.diff(past_locations, axis=0)
+            if path_steps.size == 0:
+                continue
 
-                path_length = np.sqrt(np.sum(np.square(path_steps)))
-                displacement = np.sum(path_steps, axis=0)
-                self.region_displacement[region] = displacement
-                displacement_length = np.sqrt(np.sum(np.square(displacement)))
+            path_length = np.sqrt(np.sum(np.square(path_steps)))
+            displacement = np.sum(path_steps, axis=0)
+            self.region_displacement[region] = displacement
+            displacement_length = np.sqrt(np.sum(np.square(displacement)))
 
-                if path_length == 0:
-                    continue
+            if path_length == 0:
+                continue
 
-                scale = 10
-                ratio_th = 1.8
+            scale = 10
+            ratio_th = 1.8
 
-                endpoint = np.sum([int_c, np.array(scale*(displacement/path_length), dtype=np.int16)], axis=0)
-                cv2.arrowedLine(self.frame_to_draw, int_c, tuple(endpoint), color, thickness=1)
+            endpoint = np.sum([int_c, np.array(scale*(displacement/path_length), dtype=np.int16)], axis=0)
+            cv2.arrowedLine(self.frame_to_draw, int_c, tuple(endpoint), color, thickness=1)
 
-                cv2.circle(self.frame_to_draw, int_c, int(scale*ratio_th), color, thickness=1)
+            cv2.circle(self.frame_to_draw, int_c, int(scale*ratio_th), color, thickness=1)
 
-                if path_length != 0:
-                    boatness_delta = (displacement_length/path_length)/ratio_th - 1
-                    if (boatness_delta < 0 and self.region_boatness[region] > 0) or boatness_delta > 0:
-                        self.region_boatness[region] += boatness_delta
+            if path_length != 0:
+                boatness_delta = (displacement_length/path_length)/ratio_th - 1
+                if (boatness_delta < 0 and self.region_boatness[region] > 0) or boatness_delta > 0:
+                    self.region_boatness[region] += boatness_delta
 
-                (is_boat, conf) = self.is_region_boat(region, ts)
-                if is_boat:
-                    # binary image representing all locations belonging to this region
-                    # for cv2 image processing analysis
-                    image = np.multiply(255, np.transpose(np.any(self.buffer_ri == region, 2)), dtype=np.uint8)
+            (is_boat, conf) = self.is_region_boat(region, ts)
+            if is_boat:
+                # binary image representing all locations belonging to this region
+                # for cv2 image processing analysis
+                image = np.multiply(255, np.transpose(np.any(self.buffer_ri == region, 2)), dtype=np.uint8)
 
-                    # find and draw the bounding box
-                    x, y, w, h = cv2.boundingRect(image)
-                    
-                    if self.draw_bb:
-                        cv2.rectangle(self.frame_to_draw, (x, y),
-                                    (x+w, y+h), color, 1)
-                    cv2.putText(self.frame_to_draw, f'{self.regions_weight[region]}({conf:0.2f})', (x, y), cv2.FONT_HERSHEY_PLAIN,
-                                1, tuple(color), 1, cv2.LINE_AA)
+                # find and draw the bounding box
+                x, y, w, h = cv2.boundingRect(image)
+                
+                if self.draw_bb:
+                    cv2.rectangle(self.frame_to_draw, (x, y),
+                                (x+w, y+h), color, 1)
+                cv2.putText(self.frame_to_draw, f'{self.regions_weight[region]}({conf:0.2f})', (x, y), cv2.FONT_HERSHEY_PLAIN,
+                            1, tuple(color), 1, cv2.LINE_AA)
 
-                    # add it to detections
-                    image_name = f'frame_{self.frame_count:03d}.txt'
-                    box_str = f'boat {conf:0.2f} {int(x)} {int(y)} {int(w)} {int(h)}\n'
-                    if not image_name in self.detections:
-                        self.detections[image_name] = [box_str]
-                    else:
-                        self.detections[image_name].append(box_str)
+                # add it to detections
+                image_name = f'frame_{self.frame_count:03d}.txt'
+                box_str = f'boat {conf:0.2f} {int(x)} {int(y)} {int(w)} {int(h)}\n'
+                if not image_name in self.detections:
+                    self.detections[image_name] = [box_str]
+                else:
+                    self.detections[image_name].append(box_str)
 
     def create_region(self, x, y, p, t):
         region = super().create_region(x, y, p, t)

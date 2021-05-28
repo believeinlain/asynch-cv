@@ -44,9 +44,9 @@ class PersistentMotionDetector:
                 parameters)
               for i in range(self._x_div)] for j in range(self._y_div)], dtype=object)
         self._cluster_priority_module = ClusterPriorityModule(self._cluster_buffer, types)
-        self._cluster_analyzer = np.array(
+        self._cluster_analyzers = np.array(
             [ClusterAnalyzer(i, self._cluster_priority_module, self._cluster_buffer, self._event_buffer) 
-            for i in range(self._num_cluster_analyzers)])
+            for i in range(self._num_cluster_analyzers)], dtype=object)
     
     def process_events(self, event_buffer):
         # place events in their respective input queues
@@ -61,14 +61,11 @@ class PersistentMotionDetector:
         for i in range(self._x_div):
             for j in range(self._y_div):
                 self._event_handler[i, j].tick(sys_time, event_callback)
-        # DEBUG: recount all clusters for now to see the algorithm working
-        # new_weights = self._event_buffer.recount_clusters(sys_time)
-        # self._cluster_buffer.set_recount(new_weights)
         # run the cluster prioritizer
         self._cluster_priority_module.tick()
         # cycle through each cluster analyzer
-        for k in range(self._num_cluster_analyzers):
-            self._cluster_analyzer[k].tick(cluster_callback)
+        for analyzer in self._cluster_analyzers:
+            analyzer.tick(sys_time, cluster_callback)
     
     def get_color(self, cluster_id):
         return self._cluster_buffer.get_color(cluster_id)

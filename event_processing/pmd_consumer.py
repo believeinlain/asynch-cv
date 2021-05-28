@@ -40,21 +40,29 @@ class pmd_consumer(basic_consumer):
         elif result is EventHandlerResult.CLUSTERED:
             self.draw_event(x, y, p, t, self._pmd.get_color(cluster))
 
-    def cluster_callback(self, id, centroid, weight, bb=None):
-        int_c = tuple(np.array(centroid, dtype=np.uint16))
+    def cluster_callback(self, id, centroid, weight, conf, bb=None, endpoint=None, radius=None):
+        int_c = tuple(centroid)
         color = tuple(self._pmd.get_color(id).tolist())
 
         # draw the region centroid
         cv2.circle(self.frame_to_draw, int_c, 1, color, thickness=2)
 
         # draw weight
-        cv2.putText(self.frame_to_draw, f'{weight}', int_c, cv2.FONT_HERSHEY_PLAIN,
+        cv2.putText(self.frame_to_draw, f'{conf:0.2f}', int_c, cv2.FONT_HERSHEY_PLAIN,
             1, tuple(color), 1, cv2.LINE_AA)
 
         # draw bb if given
         if bb is not None:
             x, y, w, h = bb
             cv2.rectangle(self.frame_to_draw, (x, y), (x+w, y+h), color, 1)
+        
+        # draw arrow if endpoint given
+        if endpoint is not None:
+            cv2.arrowedLine(self.frame_to_draw, int_c, tuple(endpoint), color, thickness=1)
+
+        # draw circle if radius given
+        if radius is not None:
+            cv2.circle(self.frame_to_draw, int_c, radius, color, thickness=1)
                     
 
     def init_frame(self, frame_buffer=None):

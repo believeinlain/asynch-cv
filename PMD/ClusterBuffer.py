@@ -38,6 +38,9 @@ class ClusterBuffer:
         sort_birth[sort_birth == 0] = -1
         return np.argsort(sort_birth)[0]
 
+    def get_birth(self, id):
+        return self._clusters[id]['birth']
+
     def get_weight_order(self, clusters=None):
         return np.flip(np.argsort(self._clusters[clusters]['weight'])[0])
 
@@ -48,6 +51,15 @@ class ClusterBuffer:
             return (0, 0)
         else:
             return (self._clusters[id]['x_sum']/weight, self._clusters[id]['y_sum']/weight)
+    
+    def get_centroid_f(self, id):
+        weight = float(self._clusters[id]['weight'])
+        if weight > 0.0:
+            return (float(self._clusters[id]['x_sum'])/weight, 
+                float(self._clusters[id]['y_sum'])/weight)
+        else:
+            print("\nClusterBuffer.get_centroid: Can't find centroid of empty cluster.")
+            return (0.0, 0.0)
     
     def get_weight(self, id):
         return self._clusters[id]['weight']
@@ -87,5 +99,5 @@ class ClusterBuffer:
         # self._clusters['weight'] -= np.array(np.bincount(ids, minlength=self._max_clusters), 
         #     dtype=self._cluster_weight_t)
 
-    def set_recount(self, weights):
-        self._clusters['weight'] = weights
+    # def set_recount(self, weights):
+    #     self._clusters['weight'] = weights
