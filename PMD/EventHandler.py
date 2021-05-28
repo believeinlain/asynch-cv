@@ -47,32 +47,33 @@ class EventHandler:
 
             # correlational filter stage
             if num_correlated < self._n:
-                self._event_buffer.add_event(x, y, t)
+                u_ids, u_x, u_y = self._event_buffer.add_event(x, y, t)
                 event_callback(e, EventHandlerResult.FILTERED)
-                continue
-            
-            # segmentation stage
-            if adjacent.size == 1:
-                assigned = adjacent[0]
-            elif adjacent.size > 1:
-                # find the oldest adjacent region
-                birth_order = self._cluster_buffer.get_birth_order(adjacent)
-                assigned = adjacent[birth_order][0]
-                # merge if desired
-                if self._merge_clusters:
-                    self._event_buffer.merge_clusters(adjacent[birth_order])
-                    self._cluster_buffer.merge_clusters(adjacent[birth_order])
+
             else:
-                assigned = self._cluster_buffer.create_new_cluster(t)
+                # segmentation stage
+                if adjacent.size == 1:
+                    assigned = adjacent[0]
+                elif adjacent.size > 1:
+                    # find the oldest adjacent region
+                    birth_order = self._cluster_buffer.get_birth_order(adjacent)
+                    assigned = adjacent[birth_order][0]
+                    # merge if desired
+                    if self._merge_clusters:
+                        self._event_buffer.merge_clusters(adjacent[birth_order])
+                        self._cluster_buffer.merge_clusters(adjacent[birth_order])
+                else:
+                    assigned = self._cluster_buffer.create_new_cluster(t)
+                
+                # add the event to the event buffer
+                u_ids, u_x, u_y = self._event_buffer.add_event(x, y, t, assigned)
+                # add the event to the cluster buffer
+                self._cluster_buffer.add_event(x, y, assigned)
+
+                event_callback(e, EventHandlerResult.CLUSTERED, assigned)
             
-            # add the event to the event buffer
-            u_ids, u_x, u_y = self._event_buffer.add_event(x, y, t, assigned)
-            # add the event to the cluster buffer
-            self._cluster_buffer.add_event(x, y, assigned)
             # remove displaced event
             self._cluster_buffer.remove_events(u_ids, u_x, u_y)
-
-            event_callback(e, EventHandlerResult.CLUSTERED, assigned)
         
         # remove expired events in domain
         u_ids, u_x, u_y = self._event_buffer.remove_expired_events(self._domain, sys_time - self._tc)
