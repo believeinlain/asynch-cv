@@ -10,12 +10,17 @@ from PMD.ClusterAnalyzer import *
 
 class PersistentMotionDetector:
     def __init__(self, width, height, parameters=None, types=None):
+        # create empty dict if no types passed
+        if types is None:
+            types = {}
+        # Set data types
+        self._cluster_color_t = types.get('cluster_color_t', 'u1')
         # create empty dict if no parameters passed
         if parameters is None:
             parameters = {}
-        self._x_div = parameters.get('x_div', 3)
-        self._y_div = parameters.get('y_div', 3)
-        self._input_queue_depth = parameters.get('input_queue_depth', 32)
+        self._x_div = parameters.get('x_div', 8)
+        self._y_div = parameters.get('y_div', 8)
+        self._input_queue_depth = parameters.get('input_queue_depth', 64)
         self._event_buffer_depth = parameters.get('event_buffer_depth', 4)
         self._num_cluster_analyzers = parameters.get('num_cluster_analyzers', 8)
 
@@ -73,3 +78,8 @@ class PersistentMotionDetector:
     def get_cluster_map(self):
         top, assigned = self._event_buffer.get_flat_id_buffer()
         return self._cluster_buffer.get_color(top[assigned]), assigned
+    
+    def get_single_cluster_map(self, id):
+        footprint = self._event_buffer.get_cluster_map(id)
+        return  np.multiply(255, footprint, dtype=self._cluster_color_t)
+

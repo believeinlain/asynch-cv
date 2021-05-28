@@ -123,7 +123,7 @@ def play_metavision_file(filename, dt, event_consumer, consumer_args):
     else:
         device = mv_hal.DeviceDiscovery.open_raw_file(filename)
         if not device:
-            print("Error: could not open file '{}'.".format(filename))
+            print(f"Error: could not open file '{filename}'.")
             sys.exit(1)
 
         # Add the device interface to the pipeline
@@ -143,7 +143,7 @@ def play_metavision_file(filename, dt, event_consumer, consumer_args):
 
     # Add cd_producer to the pipeline
     controller.add_component(cd_producer, "CD Producer")
-    # Create Frame Generator with 20ms accumulation time
+    # Create Frame Generator with accumulation time based on set dt
     frame_gen = mvd_core.FrameGenerator(cd_producer)
     frame_gen.set_dt(dt*1_000)
     controller.add_component(frame_gen, "FrameGenerator")
@@ -211,6 +211,7 @@ def play_numpy_array_frames(event_data, consumer, frames):
     frame_start_time = timestamps[0]
     frame_end_time = frames[0][1]
     frames_drawn = 0
+    end_time = timestamps[-1]
 
     running = True
     while running:
@@ -229,7 +230,7 @@ def play_numpy_array_frames(event_data, consumer, frames):
         consumer.draw_frame()
         
         # end the loop
-        running = end_loop(start_time, (frame_end_time-frame_start_time)//1_000)
+        running = end_loop(start_time, (frame_end_time-frame_start_time)//1_000, end_time)
 
         # advance frame times
         frames_drawn += 1
@@ -262,7 +263,7 @@ def end_loop(start_time, dt):
         last_key = cv2.waitKey(1)
         actual_dt = end_time-start_time
     # update time elapsed
-    sys.stdout.write('\rFrame time: %i/%i(ms) '%(actual_dt, dt))
+    sys.stdout.write(f'\rFrame time: {actual_dt}/{dt}(ms) ')
     sys.stdout.flush()
 
     # if 'q' key pressed -> quit application

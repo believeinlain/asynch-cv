@@ -40,29 +40,31 @@ class pmd_consumer(basic_consumer):
         elif result is EventHandlerResult.CLUSTERED:
             self.draw_event(x, y, p, t, self._pmd.get_color(cluster))
 
-    def cluster_callback(self, id, centroid, weight, conf, bb=None, endpoint=None, radius=None):
-        int_c = tuple(centroid)
+    def cluster_callback(self, id, results):
+        centroid = tuple(results['centroid'])
         color = tuple(self._pmd.get_color(id).tolist())
 
         # draw the region centroid
-        cv2.circle(self.frame_to_draw, int_c, 1, color, thickness=2)
+        cv2.circle(self.frame_to_draw, centroid, 1, color, thickness=2)
 
-        # draw weight
-        cv2.putText(self.frame_to_draw, f'{conf:0.2f}', int_c, cv2.FONT_HERSHEY_PLAIN,
-            1, tuple(color), 1, cv2.LINE_AA)
-
-        # draw bb if given
-        if bb is not None:
-            x, y, w, h = bb
+        # draw stats if detected
+        if results['is_detected']:
+            # find the bounding box
+            image = np.transpose(self._pmd.get_single_cluster_map(id))
+            x, y, w, h = cv2.boundingRect(image)
             cv2.rectangle(self.frame_to_draw, (x, y), (x+w, y+h), color, 1)
+
+        # draw confidence
+        cv2.putText(self.frame_to_draw, f"{results['confidence']:0.2f}", centroid, cv2.FONT_HERSHEY_PLAIN,
+            1, tuple(color), 1, cv2.LINE_AA)
         
         # draw arrow if endpoint given
-        if endpoint is not None:
-            cv2.arrowedLine(self.frame_to_draw, int_c, tuple(endpoint), color, thickness=1)
+        if results['endpoint'] is not None:
+            cv2.arrowedLine(self.frame_to_draw, centroid, tuple(results['endpoint']), color, thickness=1)
 
         # draw circle if radius given
-        if radius is not None:
-            cv2.circle(self.frame_to_draw, int_c, radius, color, thickness=1)
+        # if results['radius'] is not None:
+        #     cv2.circle(self.frame_to_draw, centroid, results['radius'], color, thickness=1)
                     
 
     def init_frame(self, frame_buffer=None):

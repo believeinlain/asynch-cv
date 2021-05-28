@@ -13,7 +13,7 @@ class EventStream:
         self._width = width
         self._height = height
         self._x_boundaries = np.array([(width/x_div)*i for i in range(1, x_div)], dtype=self._xy_t)
-        self._y_boundaries = np.array([(width/y_div)*i for i in range(1, y_div)], dtype=self._xy_t)
+        self._y_boundaries = np.array([(height/y_div)*i for i in range(1, y_div)], dtype=self._xy_t)
     
     def place_events(self, event_buffer):
         return np.transpose(self.place_event(event_buffer[:]['x'], event_buffer[:]['y']))

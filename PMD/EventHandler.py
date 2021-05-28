@@ -1,8 +1,5 @@
 
-from random import random
-from math import exp
 from enum import Enum
-import numpy as np
 from PMD.InputQueue import *
 from PMD.EventBuffer import *
 from PMD.ClusterBuffer import *
@@ -17,16 +14,14 @@ class EventHandler:
         # create empty dict if no parameters passed
         if parameters is None:
             parameters = {}
-        # # allows a minimum portion of events through regardless of prior event density
-        # self._a = parameters.get('a', 0.95)
-        # # controls pre-filter sensitivity
-        # self._b = parameters.get('b', 0.8)
         # how far back in time to consider events for filtering
         self._tf = parameters.get('tf', 150_000)
         # minimum number of correlated events required to allow a particular event through the filter
         self._n = parameters.get('n', 4)
         # how far back in time to consider events for clustering
         self._tc = parameters.get('tc', 150_000)
+        # how far back in time to consider events for clustering
+        self._merge_clusters = parameters.get('merge_clusters', True)
         
         self._temporal_filter = parameters.get('temporal_filter', 1_000)
 
@@ -34,15 +29,8 @@ class EventHandler:
         self._input_queue = input_queue
         self._event_buffer = event_buffer
         self._cluster_buffer = cluster_buffer
-        # self._acc = 0
-        # self._dt = 0
-        # self._last_t = 0
 
     def tick(self, sys_time, event_callback):
-        # reset prefilter accumulator and dt
-        # self._acc = 0
-        # self._dt = 0
-
         # handle all events in queue
         while True:
             e = self._input_queue.pop()
@@ -54,19 +42,6 @@ class EventHandler:
             if t-self._event_buffer.get_ts_buffer_top(x, y) < self._temporal_filter:
                 event_callback(e, EventHandlerResult.REJECTED)
                 continue
-
-            # add the time between events to dt
-            # dt = t-self._last_t
-            # self._dt += dt
-            # self._last_t = t
-
-            # # prefilter stage
-            # # compute density (events per millisecond)
-            # dt_ms = self._dt//1_000
-            # m = (self._acc / dt_ms) if dt_ms > 0 else 0
-            # if random() < self._a*(1-exp(-self._b*m)):
-            #     event_callback(e, EventHandlerResult.REJECTED)
-            #     continue
             
             (num_correlated, adjacent) = self._event_buffer.check_vicinity(x, y, t, self._tf, self._tc)
 
@@ -82,9 +57,13 @@ class EventHandler:
             elif adjacent.size > 1:
                 # find the oldest adjacent region
                 birth_order = self._cluster_buffer.get_birth_order(adjacent)
-                assigned = adjacent[birth_order]
+                assigned = adjacent[birth_order][0]
+                # merge if desired
+                if self._merge_clusters:
+                    self._event_buffer.merge_clusters(adjacent[birth_order])
+                    self._cluster_buffer.merge_clusters(adjacent[birth_order])
             else:
-                assigned = self._cluster_buffer.create_new_cluster(x, y, t)
+                assigned = self._cluster_buffer.create_new_cluster(t)
             
             # add the event to the event buffer
             u_ids, u_x, u_y = self._event_buffer.add_event(x, y, t, assigned)
