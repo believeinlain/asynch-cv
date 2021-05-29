@@ -50,7 +50,7 @@ boat_tests = {
     }
 }
 
-for i in range(7, 9):
+for i in range(7, 8):
     filename = group+'/'+boat_tests[group][i]
     run_name = f'{group}_run_{i:02d}'
 

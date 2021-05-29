@@ -1,6 +1,5 @@
 
 from math import exp
-import cv2
 import numpy as np
 from PMD.ClusterBuffer import *
 from PMD.ClusterPriorityModule import *

@@ -3,7 +3,6 @@ from sys import stdout
 from math import exp
 import numpy as np
 import cv2
-from numpy.lib import average
 import xmltodict
 import os
 
