@@ -33,9 +33,9 @@ class EventBuffer:
         # count the number of correlated events within tf
         num_correlated = np.count_nonzero(ts_buffer_slice > t-tf)
         # get a sorted list of nearby cluster ids
-        clusters = np.unique(id_buffer_slice[ts_buffer_slice > t-tc])[:-1]
+        clusters = np.unique(id_buffer_slice[ts_buffer_slice > t-tc])
 
-        return num_correlated, clusters
+        return num_correlated, clusters[clusters != self._unassigned]
     
     def get_flat_id_buffer(self):
         top = np.transpose(np.squeeze(np.take_along_axis(self._id_buffer, self._top[:, :, np.newaxis], axis=2)))
@@ -90,8 +90,5 @@ class EventBuffer:
         target = ids[0]
         others = ids[1:]
 
-        # print("assigned ", others, "to ", target)
-
         for id in others:
-            # print("id", id, "buffer", self._id_buffer[self._id_buffer == id])
             self._id_buffer[self._id_buffer == id] = target

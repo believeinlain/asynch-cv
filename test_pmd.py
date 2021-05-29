@@ -5,10 +5,10 @@ import event_player
 import event_processing
 import os
 
-aedat_path = f'C:/Users/{os.getlogin()}/OneDrive/Documents/NIWC/NeuroComp/boat_tests/'
+aedat_path = f'C:/Users/Stephanie/OneDrive/Documents/NIWC/NeuroComp/boat_tests/'
 annot_path = './example_annotations/'
 group = 'april_29'
-test = 1
+test = 2
 file_type = '.raw'
 
 boat_tests = {
@@ -65,9 +65,9 @@ event_player.play_file(
             'y_div': 8,
             'input_queue_depth': 128,
             'event_buffer_depth': 4,
-            'tf': 150_000, # how far back in time to consider events for filtering
+            'tf': 200_000, # how far back in time to consider events for filtering
             'n': 4, # minimum number of correlated events required to allow a particular event through the filter
-            'tc': 150_000, # how far back in time to consider events for clustering
+            'tc': 200_000, # how far back in time to consider events for clustering
             'num_cluster_analyzers': 16,
             'temporal_filter': 500,
             'cluster_profile_length': 32,

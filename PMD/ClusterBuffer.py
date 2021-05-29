@@ -1,5 +1,5 @@
 
-from random import randint
+from random import randint, seed
 from colorsys import hsv_to_rgb
 import numpy as np
 
@@ -32,6 +32,8 @@ class ClusterBuffer:
         for i in range(self._max_clusters):
             self._clusters[i]['color'] = np.multiply(255.0, 
                 hsv_to_rgb((i*np.pi % 3.6)/3.6, 1.0, 1.0), casting='unsafe')
+
+        seed(1)
     
     def get_birth_order(self, clusters=None):
         """Called by EventHandler.tick to choose assignment for new events"""
@@ -107,6 +109,6 @@ class ClusterBuffer:
         # print("new weight of target:", self._clusters[target]['weight'])
 
         # self._clusters[others]['birth'] = 0
-        self._clusters[others]['weight'] = 0
-        self._clusters[others]['x_sum'] = 0
-        self._clusters[others]['y_sum'] = 0
+        np.put(self._clusters['weight'], others, 0)
+        np.put(self._clusters['x_sum'], others, 0)
+        np.put(self._clusters['y_sum'], others, 0)

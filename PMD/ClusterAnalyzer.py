@@ -91,7 +91,7 @@ class ClusterAnalyzer:
         results = {
             'is_detected': conf>self._confidence_threshold,
             'centroid': int_c,
-            'confidence': conf, #self._cluster_buffer._clusters[self._id]['weight'],
+            'confidence': conf,
             'endpoint': endpoint,
             'radius': radius
         }
