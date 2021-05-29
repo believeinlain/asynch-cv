@@ -31,6 +31,7 @@ class EventHandler:
         self._cluster_buffer = cluster_buffer
 
     def tick(self, sys_time, event_callback):
+        """Called by PersistentMotionDetector.tick_all"""
         # handle all events in queue
         while True:
             e = self._input_queue.pop()

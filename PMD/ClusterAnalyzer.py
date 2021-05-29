@@ -42,9 +42,14 @@ class ClusterAnalyzer:
         self._stability = 0
 
     def tick(self, sys_time, cluster_callback):
+        """Called by PersistentMotionDetector.tick_all"""
         if self._id == self._unassigned:
-            new_id = self._cluster_priority_module.get_next_target()
-            self._reassign_id(new_id)
+            # reassign to next highest priority id
+            self._id = self._cluster_priority_module.get_next_target()
+            self._profile_centroids = np.zeros((self._profile_length, 2), dtype=self._precision_xy_t)
+            self._profile_timestamps = np.zeros(self._profile_length, dtype=self._timestamp_t)
+            self._profile_top = 0
+            self._stability = 0
 
         if self._cluster_buffer.is_empty(self._id):
             self._cluster_priority_module.unassign_target(self._id)
@@ -97,10 +102,3 @@ class ClusterAnalyzer:
         }
 
         cluster_callback(self._id, results)
-    
-    def _reassign_id(self, id):
-        self._id = id
-        self._profile_centroids = np.zeros((self._profile_length, 2), dtype=self._precision_xy_t)
-        self._profile_timestamps = np.zeros(self._profile_length, dtype=self._timestamp_t)
-        self._profile_top = 0
-        self._stability = 0

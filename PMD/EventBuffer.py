@@ -22,8 +22,8 @@ class EventBuffer:
         self._height = height
         self._depth = depth
 
-    # look in the vicinity of (x, y), count nearby events and get all nearby clusters
     def check_vicinity(self, x, y, t, tf, tc):
+        """Called by EventHandler.tick to check neighborhood of each new event"""
         # clip indices to the edges of the buffer
         x_range = slice(max(x-1, 0), min(x+2, self._width))
         y_range = slice(max(y-1, 0), min(y+2, self._height))
@@ -38,14 +38,17 @@ class EventBuffer:
         return num_correlated, clusters[clusters != self._unassigned]
     
     def get_flat_id_buffer(self):
+        """Called by PersistentMotionDetector.get_cluster_map to draw all clusters"""
         top = np.transpose(np.squeeze(np.take_along_axis(self._id_buffer, self._top[:, :, np.newaxis], axis=2)))
         assigned = np.nonzero(top!=self._unassigned)
         return top, assigned
 
     def get_ts_buffer_top(self, x=None, y=None):
+        """Called by EventHandler.tick for temporal filter"""
         return self._id_buffer[x, y, self._top[x, y]]
 
     def add_event(self, x, y, t, cluster=None):
+        """Called by EventHandler.tick to add new events to buffer"""
         self._top[x, y] = (self._top[x, y] + 1) % self._depth
 
         if self._id_buffer[x, y, self._top[x, y]] == self._unassigned:
@@ -63,6 +66,7 @@ class EventBuffer:
         return u_ids, u_x, u_y
 
     def remove_expired_events(self, domain, t):
+        """Called by EventHandler.tick to remove events that are too old"""
         x_range, y_range = domain
         
         ts_buffer_slice = self._ts_buffer[x_range, y_range, :]
@@ -84,9 +88,11 @@ class EventBuffer:
         return u_ids, u_x, u_y
 
     def get_cluster_map(self, id):
+        """Called by PersistentMotionDetector.get_single_cluster_map to find bb"""
         return np.any(self._id_buffer == id, 2)
 
     def merge_clusters(self, ids):
+        """Called by EventHandler.tick when merge_clusters is True and a new event bridges clusters"""
         target = ids[0]
         others = ids[1:]
 

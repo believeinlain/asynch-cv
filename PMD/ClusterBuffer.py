@@ -60,7 +60,7 @@ class ClusterBuffer:
         return self._clusters[id]['weight'] == 0
     
     def get_color(self, id):
-        """Called by PersistentMotionDetector.get_cluster_map draw all clusters
+        """Called by PersistentMotionDetector.get_cluster_map to draw all clusters
         Called by PersistentMotionDetector.get_color to draw new events"""
         return (0, 0, 0) if (id is None) or (id is self._unassigned) else self._clusters[id]['color']
 
@@ -90,25 +90,21 @@ class ClusterBuffer:
         self._clusters[id]['y_sum'] += y
     
     def remove_events(self, ids, x, y):
+        """Called by EventHandler.tick when events are displaced and to remove expired events"""
         for i in range(len(ids)):
             self._clusters[ids[i]]['weight'] -= 1
             self._clusters[ids[i]]['x_sum'] -= x[i]
             self._clusters[ids[i]]['y_sum'] -= y[i]
 
     def merge_clusters(self, ids):
+        """Called by EventHandler.tick when merge_clusters is True and a new event bridges clusters"""
         target = ids[0]
         others = ids[1:]
 
-        # print("clusters to merge:", ids)
-        # print("all weights", self._clusters[ids]['weight'], "to", target)
+        np.put(self._clusters['weight'], target, np.sum(self._clusters[ids]['weight']))
+        np.put(self._clusters['x_sum'], target, np.sum(self._clusters[ids]['x_sum']))
+        np.put(self._clusters['y_sum'], target, np.sum(self._clusters[ids]['y_sum']))
 
-        self._clusters[target]['weight'] = np.sum(self._clusters[ids]['weight'])
-        self._clusters[target]['x_sum'] = np.sum(self._clusters[ids]['x_sum'])
-        self._clusters[target]['y_sum'] = np.sum(self._clusters[ids]['y_sum'])
-
-        # print("new weight of target:", self._clusters[target]['weight'])
-
-        # self._clusters[others]['birth'] = 0
         np.put(self._clusters['weight'], others, 0)
         np.put(self._clusters['x_sum'], others, 0)
         np.put(self._clusters['y_sum'], others, 0)

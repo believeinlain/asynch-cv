@@ -50,30 +50,31 @@ boat_tests = {
     }
 }
 
-filename = group+'/'+boat_tests[group][test]
-run_name = f'{group}_run_{test:02d}'
+for i in range(7, 9):
+    filename = group+'/'+boat_tests[group][i]
+    run_name = f'{group}_run_{i:02d}'
 
-event_player.play_file(
-    filename=aedat_path+filename+file_type,
-    dt=30,
-    event_consumer=event_processing.pmd_consumer,
-    consumer_args={
-        'run_name': run_name,
-        'video_out': run_name+'.avi',
-        'parameters': {
-            'x_div': 8,
-            'y_div': 8,
-            'input_queue_depth': 128,
-            'event_buffer_depth': 4,
-            'tf': 200_000, # how far back in time to consider events for filtering
-            'n': 4, # minimum number of correlated events required to allow a particular event through the filter
-            'tc': 200_000, # how far back in time to consider events for clustering
-            'num_cluster_analyzers': 16,
-            'temporal_filter': 500,
-            'cluster_profile_length': 32,
-            'stability_threshold': 1.5,
-            'stability_rate': 0.05,
-            'confidence_threshold': 0.75,
-            'merge_clusters': True
-        }
-    })
+    event_player.play_file(
+        filename=aedat_path+filename+file_type,
+        dt=30,
+        event_consumer=event_processing.pmd_consumer,
+        consumer_args={
+            'run_name': run_name,
+            'video_out': run_name+'.avi',
+            'parameters': {
+                'x_div': 8,
+                'y_div': 8,
+                'input_queue_depth': 128,
+                'event_buffer_depth': 4,
+                'tf': 200_000, # how far back in time to consider events for filtering
+                'n': 4, # minimum number of correlated events required to allow a particular event through the filter
+                'tc': 200_000, # how far back in time to consider events for clustering
+                'num_cluster_analyzers': 16,
+                'temporal_filter': 500,
+                'cluster_profile_length': 32,
+                'stability_threshold': 1.5,
+                'stability_rate': 0.05,
+                'confidence_threshold': 0.75,
+                'merge_clusters': False
+            }
+        })
