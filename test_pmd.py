@@ -73,7 +73,8 @@ for i in range(7, 9):
                 'temporal_filter': 500,
                 'cluster_profile_length': 32,
                 'stability_threshold': 1.5,
-                'stability_rate': 0.05,
+                'stability_loss_rate': 0.1,
+                'confidence_rate': 0.05,
                 'confidence_threshold': 0.75,
                 'merge_clusters': False
             }

@@ -14,8 +14,10 @@ class ClusterAnalyzer:
         # set parameters
         self._profile_length = parameters.get('cluster_profile_length', 32)
         self._stability_threshold = parameters.get('stability_threshold', 3.0)
-        self._stability_rate = parameters.get('stability_rate', 0.05)
+        self._confidence_rate = parameters.get('confidence_rate', 0.05)
+        self._stability_loss_rate = parameters.get('stability_loss_rate', 0.1)
         self._confidence_threshold = parameters.get('confidence_threshold', 0.75)
+
         # create empty dict if no types passed
         if types is None:
             types = {}
@@ -89,9 +91,12 @@ class ClusterAnalyzer:
                 # TODO: RuntimeWarning: invalid value encountered in half_scalars
                 delta = (displacement_length/path_length)/self._stability_threshold - 1
                 if self._stability + delta > 0:
-                    self._stability += delta
+                    if delta > 0:
+                        self._stability += delta
+                    else:
+                        self._stability += delta*self._stability_loss_rate
 
-                conf = 1 - exp(-self._stability_rate*self._stability)
+                conf = 1 - exp(-self._confidence_rate*self._stability)
 
         results = {
             'is_detected': conf>self._confidence_threshold,
