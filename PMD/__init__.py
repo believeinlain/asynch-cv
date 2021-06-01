@@ -50,7 +50,8 @@ class PersistentMotionDetector:
               for i in range(self._x_div)] for j in range(self._y_div)], dtype=object)
         self._cluster_priority_module = ClusterPriorityModule(self._cluster_buffer, types)
         self._cluster_analyzers = np.array(
-            [ClusterAnalyzer(i, self._cluster_priority_module, self._cluster_buffer, self._event_buffer) 
+            [ClusterAnalyzer(i, self._cluster_priority_module, 
+            self._cluster_buffer, self._event_buffer, parameters, types) 
             for i in range(self._num_cluster_analyzers)], dtype=object)
     
     def process_events(self, event_buffer, filetype):

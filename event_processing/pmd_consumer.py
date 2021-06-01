@@ -61,7 +61,7 @@ class pmd_consumer(basic_consumer):
             image = np.transpose(self._pmd.get_single_cluster_map(id))
             x, y, w, h = cv2.boundingRect(image)
             cv2.rectangle(self.frame_to_draw, (x, y), (x+w, y+h), color, 1)
-            cv2.circle(self.frame_to_draw, centroid, 3, color, thickness=1)
+            cv2.circle(self.frame_to_draw, centroid, 30, color, thickness=1)
 
         # draw confidence
         cv2.putText(self.frame_to_draw, f"{results['confidence']:0.2f}", centroid, cv2.FONT_HERSHEY_PLAIN,
