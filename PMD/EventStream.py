@@ -15,11 +15,15 @@ class EventStream:
         self._x_boundaries = np.array([(width/x_div)*i for i in range(1, x_div)], dtype=self._xy_t)
         self._y_boundaries = np.array([(height/y_div)*i for i in range(1, y_div)], dtype=self._xy_t)
     
-    def place_events(self, event_buffer):
-        return np.transpose(self.place_event(event_buffer[:]['x'], event_buffer[:]['y']))
+    def place_events(self, event_buffer, filetype):
+        if filetype == '.aedat':
+            return np.transpose(self.place_event(event_buffer[:,0], event_buffer[:,1]))
+        else:
+            return np.transpose(self.place_event(event_buffer[:]['x'], event_buffer[:]['y']))
 
     def place_event(self, x, y):
-        return (
+        dest = (
             np.searchsorted(self._x_boundaries, x),
             np.searchsorted(self._y_boundaries, y)
         )
+        return dest

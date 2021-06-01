@@ -20,9 +20,7 @@ class EventHandler:
         self._n = parameters.get('n', 4)
         # how far back in time to consider events for clustering
         self._tc = parameters.get('tc', 150_000)
-        # how far back in time to consider events for clustering
-        self._merge_clusters = parameters.get('merge_clusters', True)
-        
+        self._merge_clusters = parameters.get('merge_clusters', False)
         self._temporal_filter = parameters.get('temporal_filter', 1_000)
 
         self._domain = domain
@@ -73,7 +71,7 @@ class EventHandler:
 
                 event_callback(e, EventHandlerResult.CLUSTERED, assigned)
             
-            # remove displaced event
+            # remove displaced event(s)
             self._cluster_buffer.remove_events(u_ids, u_x, u_y)
         
         # remove expired events in domain

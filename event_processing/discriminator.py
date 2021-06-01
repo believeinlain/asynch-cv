@@ -20,24 +20,6 @@ class discriminator(segmentation_filter):
         self.detections = {}
         self.gts_images = []
 
-        # process consumer args
-        self.annotations = []
-        self.annotations_version = {}
-        self.annotations_meta = {}
-        if consumer_args is not None:
-            if 'annot_file' in consumer_args:
-                with open(consumer_args['annot_file']) as fd:
-                    doc = xmltodict.parse(fd.read())
-                    annot = doc['annotations']
-                    self.annotations_version = annot['version']
-                    self.annotations_meta = annot['meta']
-                    if type(annot['track']) is list:
-                        self.annotations = annot['track']
-                    else:
-                        self.annotations = [annot['track']]
-        else:
-            consumer_args = {}
-
         # establish arrays to profile region movement over time
         self.profile_depth = consumer_args.get('profile_depth', 16)
         self.profile_centroids = np.zeros((self.max_regions, self.profile_depth, 2), np.float32)
@@ -79,22 +61,13 @@ class discriminator(segmentation_filter):
             '@height': self.height,
             'box': []
         })
-        # read annotations
+
         for i in range(len(self.annotations)):
             box_frames = list(self.annotations[i]['box'])
             label = self.annotations[i]['@label']
-            color = (255, 255, 255) # tuple(int(label['color'][i:i+2], 16) for i in (1, 3, 5))
             if (self.frame_count < len(box_frames)):
                 # read box info
                 box = box_frames[self.frame_count]
-                xtl = int(float(box['@xtl']))
-                ytl = int(float(box['@ytl']))
-                xbr = int(float(box['@xbr']))
-                ybr = int(float(box['@ybr']))
-                # draw box on frame
-                cv2.rectangle(self.frame_to_draw, (xtl, ytl), (xbr, ybr), color)
-                cv2.putText(self.frame_to_draw, label, (xtl, ytl), cv2.FONT_HERSHEY_PLAIN,
-                    1, color, 1, cv2.LINE_AA)
                 # add box to converted annotations
                 # but only *boat*
                 if 'boat' in label:

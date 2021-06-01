@@ -53,9 +53,9 @@ class PersistentMotionDetector:
             [ClusterAnalyzer(i, self._cluster_priority_module, self._cluster_buffer, self._event_buffer) 
             for i in range(self._num_cluster_analyzers)], dtype=object)
     
-    def process_events(self, event_buffer):
+    def process_events(self, event_buffer, filetype):
         # place events in their respective input queues
-        dest = self._event_stream.place_events(event_buffer)
+        dest = self._event_stream.place_events(event_buffer, filetype)
         for i in range(self._x_div):
             for j in range(self._y_div):
                 events_to_push= np.intersect1d(np.where(dest[:,0] == i), np.where(dest[:,1] == j))
@@ -71,13 +71,10 @@ class PersistentMotionDetector:
         # cycle through each cluster analyzer
         for analyzer in self._cluster_analyzers:
             analyzer.tick(sys_time, cluster_callback)
-    
-    def get_color(self, cluster_id):
-        return self._cluster_buffer.get_color(cluster_id)
 
     def get_cluster_map(self):
         top, assigned = self._event_buffer.get_flat_id_buffer()
-        return self._cluster_buffer.get_color(top[assigned]), assigned
+        return top[assigned], assigned
     
     def get_single_cluster_map(self, id):
         footprint = self._event_buffer.get_cluster_map(id)

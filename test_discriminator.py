@@ -4,10 +4,10 @@ Simple test of basic_consumer functionality
 import event_player
 import event_processing
 
-aedat_path = 'C:/Users/steph/OneDrive/Documents/NIWC/NeuroComp/boat_tests/'
+aedat_path = 'C:/Users/Stephanie/OneDrive/Documents/NIWC/NeuroComp/boat_tests/'
 annot_path = './example_annotations/'
 group = 'june_12'
-test = 5
+test = 2
 
 boat_tests = {
     'june_12':{
@@ -44,7 +44,7 @@ run_name = f'{group}_run_{test:02d}'
 event_player.play_file(
     filename=aedat_path+filename+'.aedat4',
     dt=50,
-    event_consumer=event_processing.discriminator,
+    event_consumer=event_processing.segmentation_filter,
     consumer_args={
         'run_name': run_name,
         'annot_file': annot_path+filename+'.xml',

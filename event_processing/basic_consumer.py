@@ -2,6 +2,7 @@
 from sys import stdout
 import cv2
 import numpy as np
+import xmltodict
 import os
 
 class basic_consumer:
@@ -25,9 +26,13 @@ class basic_consumer:
         self.frame_count = 0
 
         # process consumer args
+        self.annotations = []
+        self.annotations_version = {}
+        self.annotations_meta = {}
         self.video_out = None
         self.run_name = 'test'
         if consumer_args is not None:
+            self._consumer_args = consumer_args
             if 'run_name' in consumer_args:
                 self.run_name = consumer_args['run_name']
                 print(f'Starting run "{self.run_name}"')
@@ -45,6 +50,23 @@ class basic_consumer:
                 # Define the codec and create VideoWriter object (fixed dt of 30)
                 fourcc = cv2.VideoWriter_fourcc(*'XVID')
                 self.video_out = cv2.VideoWriter(f'output/{video_out_filename}', fourcc, 30, (width, height))
+            
+            if 'annot_file' in consumer_args:
+                try:
+                    with open(consumer_args['annot_file']) as fd:
+                        doc = xmltodict.parse(fd.read())
+                        annot = doc['annotations']
+                        self.annotations_version = annot['version']
+                        self.annotations_meta = annot['meta']
+                        if type(annot['track']) is list:
+                            self.annotations = annot['track']
+                        else:
+                            self.annotations = [annot['track']]
+                except FileNotFoundError:
+                    print("Specified annotation file not found.")
+                    pass
+        else:
+            self._consumer_args = {}
 
     def metavision_event_callback(self, ts, src_events, src_2d_arrays):
         '''
@@ -86,7 +108,7 @@ class basic_consumer:
             # the actual event buffer data
             event_buffer = src_events[self.mv_cd_prod_name][2]
             # make sure we're producing the correct array format
-            assert event_buffer.dtype.names == ('x','y','p','t'), 'Unknown event buffer format'
+            # assert event_buffer.dtype.names == ('x','y','p','t'), 'Unknown event buffer format'
             # appropriately process the events
             self.process_event_array(ts, event_buffer)
 
@@ -105,6 +127,7 @@ class basic_consumer:
         # if we have a frame from a frame_producer, we can draw that
         # (a "frame_producer" is Metavision's way of compiling events into frames.
         # if we want to do any event processing outside of Metavision Designer, we won't use this)
+        print("entered basic_consumer process_event_array")
         if self.frame_producer_output is not None:
             self.frame_to_draw = self.frame_producer_output
         # otherwise just draw the events we received from event_buffer
@@ -125,6 +148,23 @@ class basic_consumer:
         # otherwise fill frame with grey
         else:
             self.frame_to_draw = np.full((self.height, self.width, 3), 100, dtype=np.uint8)
+        
+        # read annotations
+        for i in range(len(self.annotations)):
+            box_frames = list(self.annotations[i]['box'])
+            label = self.annotations[i]['@label']
+            color = (255, 255, 255) # tuple(int(label['color'][i:i+2], 16) for i in (1, 3, 5))
+            if (self.frame_count < len(box_frames)):
+                # read box info
+                box = box_frames[self.frame_count]
+                xtl = int(float(box['@xtl']))
+                ytl = int(float(box['@ytl']))
+                xbr = int(float(box['@xbr']))
+                ybr = int(float(box['@ybr']))
+                # draw box on frame
+                cv2.rectangle(self.frame_to_draw, (xtl, ytl), (xbr, ybr), color)
+                cv2.putText(self.frame_to_draw, label, (xtl, ytl), cv2.FONT_HERSHEY_PLAIN,
+                    1, color, 1, cv2.LINE_AA)
     
     def draw_event(self, x, y, p, t, color=None):
         '''

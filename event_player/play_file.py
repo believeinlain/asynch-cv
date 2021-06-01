@@ -211,7 +211,6 @@ def play_numpy_array_frames(event_data, consumer, frames):
     frame_start_time = timestamps[0]
     frame_end_time = frames[0][1]
     frames_drawn = 0
-    end_time = timestamps[-1]
 
     running = True
     while running:
@@ -230,7 +229,7 @@ def play_numpy_array_frames(event_data, consumer, frames):
         consumer.draw_frame()
         
         # end the loop
-        running = end_loop(start_time, (frame_end_time-frame_start_time)//1_000, end_time)
+        running = end_loop(start_time, (frame_end_time-frame_start_time)//1_000)
 
         # advance frame times
         frames_drawn += 1
