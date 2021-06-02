@@ -18,7 +18,8 @@ class pmd_consumer(basic_consumer):
             'cluster_weight_t': 'u4',
             'cluster_color_t': 'u1',
             'xy_t': 'u2',
-            'xy_sum_t': 'u4'
+            'xy_sum_t': 'u4',
+            'precision_xy_t': 'f4'
         }
 
         # get needed types to set colors
@@ -51,9 +52,6 @@ class pmd_consumer(basic_consumer):
     def cluster_callback(self, id, results):
         centroid = tuple(results['centroid'])
         color = tuple(self._cluster_color[id].tolist())
-
-        # draw the region centroid
-        cv2.circle(self.frame_to_draw, centroid, 1, color, thickness=2)
 
         # draw stats if detected
         if results['is_detected']:

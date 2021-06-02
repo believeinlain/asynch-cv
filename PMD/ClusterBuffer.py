@@ -21,13 +21,17 @@ class ClusterBuffer:
             ('weight', self._cluster_weight_t),
             ('x_sum', self._xy_sum_t),
             ('y_sum', self._xy_sum_t),
-            ('priority', self._cluster_id_t)
+            ('is_tracking', '?')
             ]
         self._unassigned = np.iinfo(np.dtype(self._cluster_id_t)).max
         self._max_clusters = self._unassigned + 1
         self._clusters = np.zeros(self._max_clusters, dtype=self._cluster_buffer_t)
 
         seed(1)
+    
+    def get_birth(self, id):
+        """Called by ClusterAnalyzer.tick to check tracked timestamps"""
+        return self._clusters[id]['birth']
     
     def get_birth_order(self, clusters=None):
         """Called by EventHandler.tick to choose assignment for new events"""
@@ -53,6 +57,7 @@ class ClusterBuffer:
         """Called by ClusterAnalyzer.tick to check if cluster is empty"""
         return self._clusters[id]['weight'] == 0
 
+    # TODO: There might be a bug here not letting region 0 die, or maybe just the seed?
     def create_new_cluster(self, t):
         """Called by EventHandler.tick to assign isolated events to a new cluster"""
         new_id = 0
@@ -60,7 +65,7 @@ class ClusterBuffer:
         # pick a random empty cluster
         while self._clusters[new_id]['weight'] > 0:
             tries += 1
-            new_id = randint(1, self._unassigned)
+            new_id = randint(1, self._unassigned-1)
             # don't get stuck here
             if tries > self._max_clusters//100:
                 print("\nClusterBuffer.create_new_cluster: Cluster buffer getting full, assigned event to existing cluster.")
@@ -84,6 +89,8 @@ class ClusterBuffer:
             self._clusters[ids[i]]['weight'] -= 1
             self._clusters[ids[i]]['x_sum'] -= x[i]
             self._clusters[ids[i]]['y_sum'] -= y[i]
+            if self._clusters[ids[i]]['weight'] == 0:
+                self._clusters[ids[i]]['is_tracking'] = False
 
     def merge_clusters(self, ids):
         """Called by EventHandler.tick when merge_clusters is True and a new event bridges clusters"""
@@ -97,3 +104,9 @@ class ClusterBuffer:
         np.put(self._clusters['weight'], others, 0)
         np.put(self._clusters['x_sum'], others, 0)
         np.put(self._clusters['y_sum'], others, 0)
+
+    def track_cluster(self, id):
+        self._clusters[id]['is_tracking'] = True
+
+    def is_tracking(self, id):
+        return self._clusters[id]['is_tracking']

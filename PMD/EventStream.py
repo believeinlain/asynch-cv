@@ -16,7 +16,7 @@ class EventStream:
         self._y_boundaries = np.array([(height/y_div)*i for i in range(1, y_div)], dtype=self._xy_t)
     
     def place_events(self, event_buffer, filetype):
-        if filetype == '.aedat':
+        if filetype == '.aedat4':
             return np.transpose(self.place_event(event_buffer[:,0], event_buffer[:,1]))
         else:
             return np.transpose(self.place_event(event_buffer[:]['x'], event_buffer[:]['y']))

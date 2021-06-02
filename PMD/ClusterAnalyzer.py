@@ -25,7 +25,7 @@ class ClusterAnalyzer:
         self._timestamp_t = types.get('timestamp_t', 'u8')
         self._cluster_id_t = types.get('cluster_id_t', 'u2')
         self._xy_t = types.get('xy_t', 'u2')
-        self._precision_xy_t = types.get('precision_xy_t', 'f2')
+        self._precision_xy_t = types.get('precision_xy_t', 'f4')
 
         self._unassigned = np.iinfo(np.dtype(self._cluster_id_t)).max
         self._priority = priority
@@ -44,6 +44,7 @@ class ClusterAnalyzer:
 
     def tick(self, sys_time, cluster_callback):
         """Called by PersistentMotionDetector.tick_all"""
+
         if self._id == self._unassigned:
             # reassign to next highest priority id
             self._id = self._cluster_priority_module.get_next_target()
@@ -53,8 +54,11 @@ class ClusterAnalyzer:
             self._stability = 0
 
         if self._cluster_buffer.is_empty(self._id):
-            self._cluster_priority_module.unassign_target(self._id)
             self._id = self._unassigned
+            return
+
+        # TODO: Debug region 0, it's buggy for some reason
+        if self._id == 0:
             return
         
         centroid = np.array(self._cluster_buffer.get_centroid_f(self._id), dtype=self._precision_xy_t)
@@ -65,29 +69,25 @@ class ClusterAnalyzer:
         self._profile_timestamps[self._profile_top] = sys_time
         self._profile_centroids[self._profile_top] = centroid
 
-        current = np.where(self._profile_timestamps > 0)[0]
+        current = np.where(self._profile_timestamps > self._cluster_buffer.get_birth(self._id))[0]
         order = np.argsort(self._profile_timestamps[current])
         past_locations = np.array(self._profile_centroids[current][order])
         path_steps = np.diff(past_locations, axis=0)
 
         # init callback variables
         endpoint = None
-        radius = None
         conf = 0.0
-
-        if path_steps.size > 0:
+        
+        if len(path_steps) > 0:
             path_length = np.sqrt(np.sum(np.square(path_steps))) # this doesn't really make sense, but works
             displacement = np.sum(path_steps, axis=0)
-            # TODO: RuntimeWarning: overflow encountered in square
             displacement_length = np.sqrt(np.sum(np.square(displacement)))
 
             if path_length > 0:
                 draw_scale = 10
 
                 endpoint = np.sum([int_c, np.array(draw_scale*(displacement/path_length))], axis=0)
-                radius = int(draw_scale*self._stability_threshold)
 
-                # TODO: RuntimeWarning: invalid value encountered in half_scalars
                 delta = (displacement_length/path_length)/self._stability_threshold - 1
                 if self._stability + delta > 0:
                     if delta > 0:
@@ -96,13 +96,13 @@ class ClusterAnalyzer:
                         self._stability += delta*self._stability_loss_rate
 
                 conf = 1 - exp(-self._confidence_rate*self._stability)
+        
 
         results = {
             'is_detected': conf>self._confidence_threshold,
             'centroid': int_c,
             'confidence': conf,
-            'endpoint': endpoint,
-            'radius': radius
+            'endpoint': endpoint
         }
 
         cluster_callback(self._id, results)

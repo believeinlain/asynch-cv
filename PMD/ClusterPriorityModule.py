@@ -15,18 +15,18 @@ class ClusterPriorityModule:
 
         self._cluster_buffer = cluster_buffer
         self._cluster_priorities = np.zeros(self._max_clusters, dtype=self._cluster_id_t)
-        self._analysis_targets = np.zeros(self._max_clusters, dtype='?')
+        # self._analysis_targets = np.zeros(self._max_clusters, dtype='?')
 
     def tick(self):
         self._cluster_priorities = self._cluster_buffer.get_weight_order()
 
     def get_next_target(self):
         for id in self._cluster_priorities:
-            if not self._analysis_targets[id]:
-                self._analysis_targets[id] = True
+            if not self._cluster_buffer.is_tracking(id):
+                self._cluster_buffer.track_cluster(id)
                 return id
         
         return self._unassigned
 
-    def unassign_target(self, id):
-        self._analysis_targets[id] = False
+    # def unassign_target(self, id):
+    #     self._analysis_targets[id] = False

@@ -32,10 +32,23 @@ class EventBuffer:
         id_buffer_slice = self._id_buffer[x_range, y_range, :]
         # count the number of correlated events within tf
         num_correlated = np.count_nonzero(ts_buffer_slice > t-tf)
+# #TEST
+#         # clip indices to the edges of the buffer
+#         x_range = slice(max(x-2, 0), min(x+3, self._width))
+#         y_range = slice(max(y-2, 0), min(y+3, self._height))
+
+#         ts_buffer_slice = self._ts_buffer[x_range, y_range, :]
+#         id_buffer_slice = self._id_buffer[x_range, y_range, :]
+# #TEST
         # get a sorted list of nearby cluster ids
         clusters = np.unique(id_buffer_slice[ts_buffer_slice > t-tc])
 
-        return num_correlated, clusters[clusters != self._unassigned]
+        adjacent = clusters[clusters != self._unassigned]
+
+        # if 0 in adjacent:
+        #     print("found 0, adjacent:", id_buffer_slice, "x,y:",(x,y))
+
+        return num_correlated, adjacent
     
     def get_flat_id_buffer(self):
         """Called by PersistentMotionDetector.get_cluster_map to draw all clusters"""
