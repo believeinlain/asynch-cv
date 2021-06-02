@@ -1,5 +1,6 @@
 
 import cv2
+from colorsys import hsv_to_rgb
 from event_processing import basic_consumer
 from PMD import *
 from PMD.EventHandler import EventHandlerResult

@@ -15,7 +15,6 @@ class ClusterPriorityModule:
 
         self._cluster_buffer = cluster_buffer
         self._cluster_priorities = np.zeros(self._max_clusters, dtype=self._cluster_id_t)
-        # self._analysis_targets = np.zeros(self._max_clusters, dtype='?')
 
     def tick(self):
         self._cluster_priorities = self._cluster_buffer.get_weight_order()
@@ -27,6 +26,3 @@ class ClusterPriorityModule:
                 return id
         
         return self._unassigned
-
-    # def unassign_target(self, id):
-    #     self._analysis_targets[id] = False

@@ -24,29 +24,20 @@ class EventBuffer:
 
     def check_vicinity(self, x, y, t, tf, tc):
         """Called by EventHandler.tick to check neighborhood of each new event"""
+        
         # clip indices to the edges of the buffer
         x_range = slice(max(x-1, 0), min(x+2, self._width))
         y_range = slice(max(y-1, 0), min(y+2, self._height))
 
         ts_buffer_slice = self._ts_buffer[x_range, y_range, :]
         id_buffer_slice = self._id_buffer[x_range, y_range, :]
+
         # count the number of correlated events within tf
         num_correlated = np.count_nonzero(ts_buffer_slice > t-tf)
-# #TEST
-#         # clip indices to the edges of the buffer
-#         x_range = slice(max(x-2, 0), min(x+3, self._width))
-#         y_range = slice(max(y-2, 0), min(y+3, self._height))
 
-#         ts_buffer_slice = self._ts_buffer[x_range, y_range, :]
-#         id_buffer_slice = self._id_buffer[x_range, y_range, :]
-# #TEST
         # get a sorted list of nearby cluster ids
         clusters = np.unique(id_buffer_slice[ts_buffer_slice > t-tc])
-
         adjacent = clusters[clusters != self._unassigned]
-
-        # if 0 in adjacent:
-        #     print("found 0, adjacent:", id_buffer_slice, "x,y:",(x,y))
 
         return num_correlated, adjacent
     

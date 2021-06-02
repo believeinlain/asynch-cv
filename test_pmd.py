@@ -7,9 +7,9 @@ import os
 
 aedat_path = f'C:/Users/Stephanie/OneDrive/Documents/NIWC/NeuroComp/boat_tests/'
 annot_path = './example_annotations/'
-group = 'june_12'
-test = 2
-file_type = '.aedat4'
+group = 'april_29'
+test = 8
+file_type = '.raw'
 
 boat_tests = {
     'june_12':{
@@ -50,35 +50,35 @@ boat_tests = {
     }
 }
 
-for test in boat_tests[group].keys():
+# for test in boat_tests[group].keys():
 
-    filename = group+'/'+boat_tests[group][test]
-    run_name = f'{group}_run_{test:02d}'
+filename = group+'/'+boat_tests[group][test]
+run_name = f'{group}_run_{test:02d}'
 
-    event_player.play_file(
-        filename=aedat_path+filename+file_type,
-        dt=30,
-        event_consumer=event_processing.pmd_consumer,
-        consumer_args={
-            'run_name': run_name,
-            'annot_file': annot_path+filename+'.xml',
-            'video_out': run_name+'.avi',
-            'filetype': file_type,
-            'parameters': {
-                'x_div': 8,
-                'y_div': 8,
-                'input_queue_depth': 64,
-                'event_buffer_depth': 4,
-                'tf': 200_000, # how far back in time to consider events for filtering
-                'n': 5, # minimum number of correlated events required to allow a particular event through the filter
-                'tc': 200_000, # how far back in time to consider events for clustering
-                'num_cluster_analyzers': 16,
-                'temporal_filter': 5_000,
-                'cluster_profile_length': 16,
-                'stability_threshold': 1.5,
-                'stability_loss_rate': 0.1,
-                'confidence_rate': 0.05,
-                'confidence_threshold': 0.5,
-                'merge_clusters': False
-            }
-        })
+event_player.play_file(
+    filename=aedat_path+filename+file_type,
+    dt=30,
+    event_consumer=event_processing.pmd_consumer,
+    consumer_args={
+        'run_name': run_name,
+        'annot_file': annot_path+filename+'.xml',
+        'video_out': run_name+'.avi',
+        'filetype': file_type,
+        'parameters': {
+            'x_div': 8,
+            'y_div': 8,
+            'input_queue_depth': 64,
+            'event_buffer_depth': 4,
+            'tf': 200_000, # how far back in time to consider events for filtering
+            'n': 5, # minimum number of correlated events required to allow a particular event through the filter
+            'tc': 200_000, # how far back in time to consider events for clustering
+            'num_cluster_analyzers': 16,
+            'temporal_filter': 5_000,
+            'cluster_profile_length': 16,
+            'stability_threshold': 1.5,
+            'stability_loss_rate': 0.1,
+            'confidence_rate': 0.05,
+            'confidence_threshold': 0.5,
+            'merge_clusters': False
+        }
+    })

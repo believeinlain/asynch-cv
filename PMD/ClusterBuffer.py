@@ -1,6 +1,5 @@
 
 from random import randint, seed
-from colorsys import hsv_to_rgb
 import numpy as np
 
 class ClusterBuffer:
@@ -106,7 +105,9 @@ class ClusterBuffer:
         np.put(self._clusters['y_sum'], others, 0)
 
     def track_cluster(self, id):
+        """Called by ClusterPriorityModule.tick to set cluster as being tracked"""
         self._clusters[id]['is_tracking'] = True
 
     def is_tracking(self, id):
+        """Called by ClusterPriorityModule.tick to find untracked clusters"""
         return self._clusters[id]['is_tracking']
