@@ -24,6 +24,7 @@ class basic_consumer:
         self.frame_producer_output = None
         
         self.frame_count = 0
+        self.events_this_frame = 0
 
         # process consumer args
         self.annotations = []
@@ -93,15 +94,15 @@ class basic_consumer:
                     [2] contains the 2D array data
         '''
         # If we have a frame producer, get that frame
-        if self.mv_frame_gen_name in src_2d_arrays:
-            # the shape of the frame in the analog buffer
-            buffer_shape = src_2d_arrays[self.mv_frame_gen_name][0]
-            # make sure the frames are the right size (height, width, rgb)
-            assert buffer_shape == [self.height, self.width, 3], 'Frame generator producing frames of incorrect shape'
-            # the actual analog buffer data
-            frame_buffer = src_2d_arrays[self.mv_frame_gen_name][2]
-            # convert the frame data into a format compatible with OpenCV
-            self.frame_producer_output = frame_buffer.squeeze()
+        # if self.mv_frame_gen_name in src_2d_arrays:
+        #     # the shape of the frame in the analog buffer
+        #     buffer_shape = src_2d_arrays[self.mv_frame_gen_name][0]
+        #     # make sure the frames are the right size (height, width, rgb)
+        #     assert buffer_shape == [self.height, self.width, 3], 'Frame generator producing frames of incorrect shape'
+        #     # the actual analog buffer data
+        #     frame_buffer = src_2d_arrays[self.mv_frame_gen_name][2]
+        #     # convert the frame data into a format compatible with OpenCV
+        #     self.frame_producer_output = frame_buffer.squeeze()
 
         # Prepare events for processing
         if self.mv_cd_prod_name in src_events:
@@ -127,7 +128,6 @@ class basic_consumer:
         # if we have a frame from a frame_producer, we can draw that
         # (a "frame_producer" is Metavision's way of compiling events into frames.
         # if we want to do any event processing outside of Metavision Designer, we won't use this)
-        print("entered basic_consumer process_event_array")
         if self.frame_producer_output is not None:
             self.frame_to_draw = self.frame_producer_output
         # otherwise just draw the events we received from event_buffer
@@ -136,9 +136,6 @@ class basic_consumer:
             # draw events colored by polarity
             for (x, y, p, t) in event_buffer:
                 self.draw_event(x, y, p, t)
-        
-        stdout.write('Processed %i events'%(len(event_buffer)))
-        stdout.flush()
     
     def init_frame(self, frame_buffer=None):
         # if we have a frame_buffer, start with that
@@ -187,6 +184,17 @@ class basic_consumer:
             self.video_out.write(self.frame_to_draw)
         
         self.frame_count += 1
+        stdout.write(f'frame {self.frame_count}')
+        stdout.flush()
+        capture = 50
+        if self.frame_count == capture:
+            # create directories if necessary
+            cwd = os.path.abspath(os.getcwd())
+            try:
+                os.mkdir(f'{cwd}\\output\\')
+            except FileExistsError:
+                pass
+            cv2.imwrite(f'output/{self.run_name}_frame_{capture}.png', self.frame_to_draw)
 
     def end(self):
         '''
