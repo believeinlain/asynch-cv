@@ -6,6 +6,7 @@ from PMD.EventBuffer import *
 from PMD.ClusterBuffer import *
 from PMD.ClusterPriorityModule import *
 from PMD.ClusterAnalyzer import *
+from PMD.DetectionMetrics import *
 
 
 class PersistentMotionDetector:

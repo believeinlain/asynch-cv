@@ -26,6 +26,9 @@ class basic_consumer:
         self.frame_count = 0
         self.events_this_frame = 0
 
+        # ground truth gathered from annotations
+        self._ground_truth = []
+
         # process consumer args
         self.annotations = []
         self.annotations_version = {}
@@ -94,15 +97,15 @@ class basic_consumer:
                     [2] contains the 2D array data
         '''
         # If we have a frame producer, get that frame
-        # if self.mv_frame_gen_name in src_2d_arrays:
-        #     # the shape of the frame in the analog buffer
-        #     buffer_shape = src_2d_arrays[self.mv_frame_gen_name][0]
-        #     # make sure the frames are the right size (height, width, rgb)
-        #     assert buffer_shape == [self.height, self.width, 3], 'Frame generator producing frames of incorrect shape'
-        #     # the actual analog buffer data
-        #     frame_buffer = src_2d_arrays[self.mv_frame_gen_name][2]
-        #     # convert the frame data into a format compatible with OpenCV
-        #     self.frame_producer_output = frame_buffer.squeeze()
+        if self.mv_frame_gen_name in src_2d_arrays:
+            # the shape of the frame in the analog buffer
+            buffer_shape = src_2d_arrays[self.mv_frame_gen_name][0]
+            # make sure the frames are the right size (height, width, rgb)
+            assert buffer_shape == [self.height, self.width, 3], 'Frame generator producing frames of incorrect shape'
+            # the actual analog buffer data
+            frame_buffer = src_2d_arrays[self.mv_frame_gen_name][2]
+            # convert the frame data into a format compatible with OpenCV
+            self.frame_producer_output = frame_buffer.squeeze()
 
         # Prepare events for processing
         if self.mv_cd_prod_name in src_events:
@@ -111,6 +114,7 @@ class basic_consumer:
             # make sure we're producing the correct array format
             # assert event_buffer.dtype.names == ('x','y','p','t'), 'Unknown event buffer format'
             # appropriately process the events
+            print(event_buffer.dtype)
             self.process_event_array(ts, event_buffer)
 
     def process_event_array(self, ts, event_buffer, frame_buffer=None):
@@ -146,6 +150,8 @@ class basic_consumer:
         else:
             self.frame_to_draw = np.full((self.height, self.width, 3), 100, dtype=np.uint8)
         
+        self._ground_truth.append([])
+
         # read annotations
         for i in range(len(self.annotations)):
             box_frames = list(self.annotations[i]['box'])
@@ -162,6 +168,13 @@ class basic_consumer:
                 cv2.rectangle(self.frame_to_draw, (xtl, ytl), (xbr, ybr), color)
                 cv2.putText(self.frame_to_draw, label, (xtl, ytl), cv2.FONT_HERSHEY_PLAIN,
                     1, color, 1, cv2.LINE_AA)
+                
+                # store in easy-to-read format
+                self._ground_truth[self.frame_count].append({
+                    'label': label,
+                    'bb': (xtl, ytl, xbr, ybr)
+                })
+
     
     def draw_event(self, x, y, p, t, color=None):
         '''
@@ -186,15 +199,15 @@ class basic_consumer:
         self.frame_count += 1
         stdout.write(f'frame {self.frame_count}')
         stdout.flush()
-        capture = 50
-        if self.frame_count == capture:
-            # create directories if necessary
-            cwd = os.path.abspath(os.getcwd())
-            try:
-                os.mkdir(f'{cwd}\\output\\')
-            except FileExistsError:
-                pass
-            cv2.imwrite(f'output/{self.run_name}_frame_{capture}.png', self.frame_to_draw)
+        # capture = None
+        # if self.frame_count == capture:
+        #     # create directories if necessary
+        #     cwd = os.path.abspath(os.getcwd())
+        #     try:
+        #         os.mkdir(f'{cwd}\\output\\')
+        #     except FileExistsError:
+        #         pass
+        #     cv2.imwrite(f'output/{self.run_name}_frame_{capture}.png', self.frame_to_draw)
 
     def end(self):
         '''

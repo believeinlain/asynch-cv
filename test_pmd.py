@@ -7,9 +7,9 @@ import os
 
 aedat_path = f'C:/Users/Stephanie/OneDrive/Documents/NIWC/NeuroComp/boat_tests/'
 annot_path = './example_annotations/'
-group = 'april_29'
-test = 5
-file_type = '.raw'
+group = 'june_12'
+test = 2
+file_type = '.aedat4'
 
 boat_tests = {
     'june_12':{

@@ -1,4 +1,5 @@
 
+from PMD.DetectionMetrics import DetectionMetrics
 import cv2
 from colorsys import hsv_to_rgb
 from event_processing import basic_consumer
@@ -38,6 +39,9 @@ class pmd_consumer(basic_consumer):
 
         self._pmd = PersistentMotionDetector(width, height, parameters, types)
 
+        self._metrics = DetectionMetrics(['boat', 'RHIB'])
+        self._detections = []
+
     def process_event_array(self, t, event_buffer, frame_buffer=None):
         self.init_frame(frame_buffer)
         self._pmd.process_events(event_buffer, self._filetype)
@@ -62,6 +66,10 @@ class pmd_consumer(basic_consumer):
             cv2.rectangle(self.frame_to_draw, (x, y), (x+w, y+h), color, 1)
             cv2.circle(self.frame_to_draw, centroid, 30, color, thickness=1)
 
+            # save the detection
+            results['bb'] = (x, y, x+w, y+h)
+            self._detections[self.frame_count].append(results)
+
         # draw confidence
         cv2.putText(self.frame_to_draw, f"{results['confidence']:0.2f}", centroid, cv2.FONT_HERSHEY_PLAIN,
             1, tuple(color), 1, cv2.LINE_AA)
@@ -77,9 +85,24 @@ class pmd_consumer(basic_consumer):
         
         self.frame_to_draw[assigned] = np.multiply(0.5, self._cluster_color[ids])
 
+        # add an empty list for this frame's detections
+        self._detections.append([])
+
     def draw_event(self, x, y, p, t, color=None):
         if color is None:
             super().draw_event(x, y, p, t)
         else:
             del t, p
             self.frame_to_draw[y, x, :] = color
+
+    def draw_frame(self):
+
+        self._metrics.count_detections(self.frame_count, self._ground_truth, self._detections)
+
+        # this is where self.frame_count is incremented
+        super().draw_frame()
+
+    def end(self):
+        super().end()
+
+        self._metrics.display_pr_curve(self.run_name)
