@@ -1,9 +1,0 @@
-# elevate submodules to event_player namespace
-from event_processing.basic_consumer import basic_consumer
-from event_processing.filter_consumer import filter_consumer
-from event_processing.segmentation_filter import segmentation_filter
-from event_processing.discriminator import discriminator
-
-from event_processing.basic_filter import basic_filter
-from event_processing.spatial_filter import spatial_filter
-from event_processing.pmd_consumer import pmd_consumer

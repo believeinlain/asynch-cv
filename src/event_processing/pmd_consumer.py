@@ -1,10 +1,11 @@
 
-from PMD.DetectionMetrics import DetectionMetrics
+from src.PMD.DetectionMetrics import DetectionMetrics
 import cv2
+import numpy as np
 from colorsys import hsv_to_rgb
-from event_processing import basic_consumer
-from PMD import *
-from PMD.EventHandler import EventHandlerResult
+from src.event_processing import basic_consumer
+from src.PMD import *
+from src.PMD.EventHandler import EventHandlerResult
 
 class pmd_consumer(basic_consumer):
     def __init__(self, width, height, consumer_args=None):
