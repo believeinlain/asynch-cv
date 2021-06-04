@@ -5,6 +5,8 @@ import numpy as np
 import xmltodict
 import os
 
+from src.event_processing import draw_events
+
 class basic_consumer:
     '''
     Basic consumer class that simply displays all events.
@@ -97,15 +99,15 @@ class basic_consumer:
                     [2] contains the 2D array data
         '''
         # If we have a frame producer, get that frame
-        if self.mv_frame_gen_name in src_2d_arrays:
-            # the shape of the frame in the analog buffer
-            buffer_shape = src_2d_arrays[self.mv_frame_gen_name][0]
-            # make sure the frames are the right size (height, width, rgb)
-            assert buffer_shape == [self.height, self.width, 3], 'Frame generator producing frames of incorrect shape'
-            # the actual analog buffer data
-            frame_buffer = src_2d_arrays[self.mv_frame_gen_name][2]
-            # convert the frame data into a format compatible with OpenCV
-            self.frame_producer_output = frame_buffer.squeeze()
+        # if self.mv_frame_gen_name in src_2d_arrays:
+        #     # the shape of the frame in the analog buffer
+        #     buffer_shape = src_2d_arrays[self.mv_frame_gen_name][0]
+        #     # make sure the frames are the right size (height, width, rgb)
+        #     assert buffer_shape == [self.height, self.width, 3], 'Frame generator producing frames of incorrect shape'
+        #     # the actual analog buffer data
+        #     frame_buffer = src_2d_arrays[self.mv_frame_gen_name][2]
+        #     # convert the frame data into a format compatible with OpenCV
+        #     self.frame_producer_output = frame_buffer.squeeze()
 
         # Prepare events for processing
         if self.mv_cd_prod_name in src_events:
@@ -114,7 +116,6 @@ class basic_consumer:
             # make sure we're producing the correct array format
             # assert event_buffer.dtype.names == ('x','y','p','t'), 'Unknown event buffer format'
             # appropriately process the events
-            print(event_buffer.dtype)
             self.process_event_array(ts, event_buffer)
 
     def process_event_array(self, ts, event_buffer, frame_buffer=None):
@@ -138,8 +139,11 @@ class basic_consumer:
         else:
             self.init_frame(frame_buffer)
             # draw events colored by polarity
-            for (x, y, p, t) in event_buffer:
-                self.draw_event(x, y, p, t)
+            x_buffer = event_buffer['x'][:]
+            y_buffer = event_buffer['y'][:]
+            p_buffer = event_buffer['p'][:]
+            self.frame_to_draw = draw_events.draw_events(
+                self.frame_to_draw, len(event_buffer), x_buffer, y_buffer, p_buffer)
     
     def init_frame(self, frame_buffer=None):
         # if we have a frame_buffer, start with that
@@ -175,16 +179,6 @@ class basic_consumer:
                     'bb': (xtl, ytl, xbr, ybr)
                 })
 
-    
-    def draw_event(self, x, y, p, t, color=None):
-        '''
-        Draw event
-        '''
-        del t
-        if color is None:
-            color = np.repeat(p*255, 3)
-        self.frame_to_draw[y, x, :] = color
-
     def draw_frame(self):
         '''
         Called from main thread to display frame
@@ -197,17 +191,8 @@ class basic_consumer:
             self.video_out.write(self.frame_to_draw)
         
         self.frame_count += 1
-        stdout.write(f'frame {self.frame_count}')
+        stdout.write(f' Frame: {self.frame_count:3}')
         stdout.flush()
-        # capture = None
-        # if self.frame_count == capture:
-        #     # create directories if necessary
-        #     cwd = os.path.abspath(os.getcwd())
-        #     try:
-        #         os.mkdir(f'{cwd}\\output\\')
-        #     except FileExistsError:
-        #         pass
-        #     cv2.imwrite(f'output/{self.run_name}_frame_{capture}.png', self.frame_to_draw)
 
     def end(self):
         '''

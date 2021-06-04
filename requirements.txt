@@ -4,3 +4,4 @@ dv==1.0.10
 PyAedatTools-believeinlain @ https://github.com/believeinlain/PyAedatTools/raw/import-only/dist/PyAedatTools-believeinlain-0.1.0.tar.gz
 untangle==1.1.1
 xmltodict==0.12.0
+cython==0.29.23

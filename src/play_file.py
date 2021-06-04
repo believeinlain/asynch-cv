@@ -262,7 +262,7 @@ def end_loop(start_time, dt):
         last_key = cv2.waitKey(1)
         actual_dt = end_time-start_time
     # update time elapsed
-    sys.stdout.write(f'\rFrame time: {actual_dt}/{dt}(ms) ')
+    sys.stdout.write(f'\rFrame time: {actual_dt:3}/{dt:2}(ms) ')
     sys.stdout.flush()
 
     # if 'q' key pressed -> quit application
