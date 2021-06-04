@@ -1,12 +1,12 @@
 
-from PMD.EventStream import *
-from PMD.InputQueue import *
-from PMD.EventHandler import *
-from PMD.EventBuffer import *
-from PMD.ClusterBuffer import *
-from PMD.ClusterPriorityModule import *
-from PMD.ClusterAnalyzer import *
-from PMD.DetectionMetrics import *
+from src.PMD.EventStream import *
+from src.PMD.InputQueue import *
+from src.PMD.EventHandler import *
+from src.PMD.EventBuffer import *
+from src.PMD.ClusterBuffer import *
+from src.PMD.ClusterPriorityModule import *
+from src.PMD.ClusterAnalyzer import *
+from src.PMD.DetectionMetrics import *
 
 
 class PersistentMotionDetector:

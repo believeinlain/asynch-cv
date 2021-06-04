@@ -1,11 +1,11 @@
 
-from src.PMD.DetectionMetrics import DetectionMetrics
 import cv2
 import numpy as np
 from colorsys import hsv_to_rgb
 from src.event_processing import basic_consumer
 from src.PMD import *
 from src.PMD.EventHandler import EventHandlerResult
+from src.PMD.DetectionMetrics import DetectionMetrics
 
 class pmd_consumer(basic_consumer):
     def __init__(self, width, height, consumer_args=None):
@@ -45,7 +45,14 @@ class pmd_consumer(basic_consumer):
 
     def process_event_array(self, t, event_buffer, frame_buffer=None):
         self.init_frame(frame_buffer)
-        self._pmd.process_events(event_buffer, self._filetype)
+        # unpack structured array
+        x_buffer = event_buffer['x'][:]
+        y_buffer = event_buffer['y'][:]
+        p_buffer = event_buffer['p'][:]
+        t_buffer = event_buffer['t'][:]
+        # feed events to the PMD
+        self._pmd.process_events(self.frame_to_draw, x_buffer, y_buffer, p_buffer, t_buffer)
+        # cycle the PMD modules
         self._pmd.tick_all(t, self.event_callback, self.cluster_callback)
 
     def event_callback(self, e, result: EventHandlerResult, cluster=None):
@@ -88,13 +95,6 @@ class pmd_consumer(basic_consumer):
 
         # add an empty list for this frame's detections
         self._detections.append([])
-
-    def draw_event(self, x, y, p, t, color=None):
-        if color is None:
-            super().draw_event(x, y, p, t)
-        else:
-            del t, p
-            self.frame_to_draw[y, x, :] = color
 
     def draw_frame(self):
 

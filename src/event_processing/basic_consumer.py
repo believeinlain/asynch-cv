@@ -5,6 +5,8 @@ import numpy as np
 import xmltodict
 import os
 
+import time
+
 from src.event_processing import draw_events
 
 class basic_consumer:
@@ -75,6 +77,8 @@ class basic_consumer:
             self._consumer_args = {}
 
     def metavision_event_callback(self, ts, src_events, src_2d_arrays):
+        del src_2d_arrays # we don't want to use a frame producer
+        # tic = time.perf_counter()*1_000
         '''
         Function to pass as a callback to use as an event consumer with Metavision Designer.
 
@@ -98,25 +102,17 @@ class basic_consumer:
                     [1] contains the Numpy dtype information of the pixel information;
                     [2] contains the 2D array data
         '''
-        # If we have a frame producer, get that frame
-        # if self.mv_frame_gen_name in src_2d_arrays:
-        #     # the shape of the frame in the analog buffer
-        #     buffer_shape = src_2d_arrays[self.mv_frame_gen_name][0]
-        #     # make sure the frames are the right size (height, width, rgb)
-        #     assert buffer_shape == [self.height, self.width, 3], 'Frame generator producing frames of incorrect shape'
-        #     # the actual analog buffer data
-        #     frame_buffer = src_2d_arrays[self.mv_frame_gen_name][2]
-        #     # convert the frame data into a format compatible with OpenCV
-        #     self.frame_producer_output = frame_buffer.squeeze()
-
         # Prepare events for processing
         if self.mv_cd_prod_name in src_events:
             # the actual event buffer data
             event_buffer = src_events[self.mv_cd_prod_name][2]
             # make sure we're producing the correct array format
-            # assert event_buffer.dtype.names == ('x','y','p','t'), 'Unknown event buffer format'
+            assert event_buffer.dtype.names == ('x','y','p','t'), 'Unknown event buffer format'
             # appropriately process the events
             self.process_event_array(ts, event_buffer)
+
+        # toc = time.perf_counter()*1_000
+        # print(f"Processed events in {toc - tic:0.4f} milliseconds")
 
     def process_event_array(self, ts, event_buffer, frame_buffer=None):
         '''
