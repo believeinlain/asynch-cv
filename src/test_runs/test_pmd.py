@@ -1,15 +1,15 @@
 '''
-Simple test of basic_consumer functionality
+Simple test of pmd_consumer functionality
 '''
-import event_player
-import event_processing
-import os
+import os.path
+from src import play_file
+from src import event_processing
 
-aedat_path = f'C:/Users/Stephanie/OneDrive/Documents/NIWC/NeuroComp/boat_tests/'
-annot_path = './example_annotations/'
-group = 'june_12'
-test = 2
-file_type = '.aedat4'
+data_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
+annot_root = './example_annotations/'
+group = 'april_29'
+test = 3
+file_type = '.raw'
 
 boat_tests = {
     'june_12':{
@@ -52,16 +52,19 @@ boat_tests = {
 
 # for test in boat_tests[group].keys():
 
-filename = group+'/'+boat_tests[group][test]
+filename = os.path.join(group, boat_tests[group][test])
 run_name = f'{group}_run_{test:02d}'
 
-event_player.play_file(
-    filename=aedat_path+filename+file_type,
+data_path = os.path.join(os.path.expanduser('~\\'), data_root, filename)+file_type
+annot_path = os.path.join(os.path.expanduser('~\\'), annot_root, filename)+'.xml'
+
+play_file(
+    filename=data_path,
     dt=30,
     event_consumer=event_processing.pmd_consumer,
     consumer_args={
         'run_name': run_name,
-        'annot_file': annot_path+filename+'.xml',
+        'annot_file': annot_path,
         'video_out': run_name+'.avi',
         'filetype': file_type,
         'parameters': {

@@ -143,17 +143,12 @@ def play_metavision_file(filename, dt, event_consumer, consumer_args):
 
     # Add cd_producer to the pipeline
     controller.add_component(cd_producer, "CD Producer")
-    # Create Frame Generator with accumulation time based on set dt
-    frame_gen = mvd_core.FrameGenerator(cd_producer)
-    frame_gen.set_dt(dt*1_000)
-    controller.add_component(frame_gen, "FrameGenerator")
 
     # We use PythonConsumer to "grab" the output of two components: cd_producer and frame_gen
     # pyconsumer will callback the application each time it receives data, using the event_callback function
     ev_proc = event_consumer(width, height, consumer_args)
     pyconsumer = mvd_core.PythonConsumer(ev_proc.metavision_event_callback)
     pyconsumer.add_source(cd_producer, ev_proc.mv_cd_prod_name)
-    pyconsumer.add_source(frame_gen, ev_proc.mv_frame_gen_name)
     controller.add_component(pyconsumer, "PythonConsumer")
 
     controller.set_slice_duration(dt*1_000)
@@ -195,7 +190,7 @@ def play_numpy_array_dt(event_data, consumer, dt, dt_us):
             frame_end = last_index
             running = False
         # process buffered events into frame
-        consumer.process_event_array(ts, event_data[frame_start:frame_end,:])
+        consumer.process_buffers(ts, event_data[frame_start:frame_end,:])
         # draw frame with the events
         consumer.draw_frame()
         
@@ -224,7 +219,7 @@ def play_numpy_array_frames(event_data, consumer, frames):
             frame_end = last_index
             running = False
         # process buffered events into frame
-        consumer.process_event_array(frame_end_time, event_data[frame_start:frame_end,:], frames[frames_drawn][0])
+        consumer.process_buffers(frame_end_time, event_data[frame_start:frame_end,:], frames[frames_drawn][0])
         # draw frame with the events
         consumer.draw_frame()
         
@@ -257,12 +252,11 @@ def end_loop(start_time, dt):
     
     if end_time < end_of_frame:
         last_key = cv2.waitKey(end_of_frame-end_time)
-        actual_dt = dt
     else:
         last_key = cv2.waitKey(1)
-        actual_dt = end_time-start_time
+    
     # update time elapsed
-    sys.stdout.write(f'\rFrame time: {actual_dt:3}/{dt:2}(ms) ')
+    sys.stdout.write(f'\rFrame time: {end_time-start_time:3}/{dt:2}(ms) ')
     sys.stdout.flush()
 
     # if 'q' key pressed -> quit application

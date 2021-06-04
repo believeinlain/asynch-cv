@@ -78,7 +78,6 @@ class basic_consumer:
 
     def metavision_event_callback(self, ts, src_events, src_2d_arrays):
         del src_2d_arrays # we don't want to use a frame producer
-        # tic = time.perf_counter()*1_000
         '''
         Function to pass as a callback to use as an event consumer with Metavision Designer.
 
@@ -109,12 +108,9 @@ class basic_consumer:
             # make sure we're producing the correct array format
             assert event_buffer.dtype.names == ('x','y','p','t'), 'Unknown event buffer format'
             # appropriately process the events
-            self.process_event_array(ts, event_buffer)
+            self.process_buffers(ts, event_buffer)
 
-        # toc = time.perf_counter()*1_000
-        # print(f"Processed events in {toc - tic:0.4f} milliseconds")
-
-    def process_event_array(self, ts, event_buffer, frame_buffer=None):
+    def process_buffers(self, ts, event_buffer, frame_buffer=None):
         '''
         Callback method to override to process events.
         
@@ -124,23 +120,13 @@ class basic_consumer:
             event_buffer: Array of events as tuples of the form ('x','y','p','t')
             frame_buffer: Array of greyscale pixels if captured by a conventional image chip
         '''
-        # ignore the timestamp for the default implementation
-        del ts
-        # if we have a frame from a frame_producer, we can draw that
-        # (a "frame_producer" is Metavision's way of compiling events into frames.
-        # if we want to do any event processing outside of Metavision Designer, we won't use this)
-        if self.frame_producer_output is not None:
-            self.frame_to_draw = self.frame_producer_output
-        # otherwise just draw the events we received from event_buffer
-        else:
-            self.init_frame(frame_buffer)
-            # draw events colored by polarity
-            x_buffer = event_buffer['x'][:]
-            y_buffer = event_buffer['y'][:]
-            p_buffer = event_buffer['p'][:]
-            self.frame_to_draw = draw_events.draw_events(
-                self.frame_to_draw, len(event_buffer), x_buffer, y_buffer, p_buffer)
-    
+        # draw the frame we received from frame_buffer
+        self.init_frame(frame_buffer)
+        # repack the event buffer
+        event_buffer = np.array(event_buffer, dtype=[('x','u2'), ('y','u2'), ('p','b'), ('t','u8')])
+        # process events accordingly
+        self.process_event_buffer(ts, event_buffer)
+
     def init_frame(self, frame_buffer=None):
         # if we have a frame_buffer, start with that
         if frame_buffer is not None:
@@ -174,6 +160,12 @@ class basic_consumer:
                     'label': label,
                     'bb': (xtl, ytl, xbr, ybr)
                 })
+    
+    def process_event_buffer(self, ts, event_buffer):
+        # we don't care about ts
+        del ts
+        # draw events colored by polarity
+        self.frame_to_draw = draw_events.draw_events(self.frame_to_draw, event_buffer)
 
     def draw_frame(self):
         '''
