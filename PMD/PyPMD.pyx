@@ -10,28 +10,28 @@ cdef class PyPMD:
     cdef xy_t width
     cdef xy_t height
 
-    def __cinit__(self, int width, int height, parameters param):
+    def __cinit__(self, int width, int height, param):
         self.width = width
         self.height = height
-        self.cpp_PMD = new PersistentMotionDetector(width, height, param)
-        
+
+        cdef parameters c_param
+        c_param.x_div = param.get('x_div', 8)
+        c_param.y_div = param.get('y_div', 8)
+        c_param.input_queue_depth = param.get('input_queue_depth', 64)
+
+        self.cpp_PMD = new PersistentMotionDetector(width, height, c_param)
     
     def __dealloc__(self):
         del self.cpp_PMD
 
-    def process_events(self, np.ndarray[unsigned char, ndim=3] frame, event[:] events):
+    cpdef void process_events(self, byte_t[:, :, ::1] frame, event[:] events):
         cdef int num_events = len(events)
         cdef int i, j
         cdef event e
-        cdef color c
+        cdef unsigned char c
 
-        new_frame = np.ascontiguousarray(frame)
+        self.cpp_PMD.process_events(&frame[0,0,0], &events[0], num_events)
+        
+        # detections = []
 
-        cdef array_2d[color] frame_array = array_2d[color](height, width, &new_frame[0,0])
-
-        for i in range(num_events):
-            e = events[i]
-            c = color(e.p*255, e.p*255, e.p*255)
-            frame_array.put(e.x, e.y, c)
-
-        return new_frame
+        

@@ -4,33 +4,35 @@ cdef extern from 'types.h':
     ctypedef unsigned short xy_t
     ctypedef signed char polarity_t
     ctypedef unsigned long long timestamp_t
+    ctypedef unsigned char byte_t
 
     cdef packed struct color:
-        unsigned char r, g, b
+        byte_t r, g, b
 
     cdef packed struct point:
         xy_t x, y
-        
-    # cdef packed struct event:
-    #     xy_t x, y
-    #     polarity_t p
-    #     timestamp_t t
 
-    cdef cppclass array_2d[T]:
-        array_2d(int width, int height)
-        array_2d(int width, int height, T *data)
-        void put(int i, int j, T val)
-        T get(int i, int j)
+    # cdef enum event_result:
+    #     EVENT_REJECTED
+    #     EVENT_FILTERED
+    #     EVENT_CLUSTERED
 
-# for some reason including this in extern breaks things
-cdef packed struct event:
-    xy_t x, y
-    polarity_t p
-    timestamp_t t
+    # cdef packed struct processed_event:
+    #     point position
+    #     event_result result
+    #     color c
 
-cdef extern from 'Partition.h' namespace 'PMD':
-    cdef cppclass Partition:
-        pass
+    # cdef packed struct detection:
+    #     char is_positive
+    #     point position
+    #     point velocity
+    #     float confidence
+
+    cdef packed struct event:
+        xy_t x
+        xy_t y
+        polarity_t p
+        timestamp_t t
 
 cdef extern from 'PersistentMotionDetector.h' namespace 'PMD':
     cdef packed struct parameters:
@@ -40,12 +42,4 @@ cdef extern from 'PersistentMotionDetector.h' namespace 'PMD':
     cdef cppclass PersistentMotionDetector:
         PersistentMotionDetector(int, int, parameters) except +
 
-        xy_t width, height
-
-        parameters param
-        int num_partitions
-
-        Partition *partition
-        array_2d input_queues
-
-        void update_frame(array_2d frame, event *events, int num_events)
+        void process_events(byte_t *frame, event *events, int num_events)

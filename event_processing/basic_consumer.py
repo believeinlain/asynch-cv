@@ -160,6 +160,9 @@ class basic_consumer:
                     'label': label,
                     'bb': (xtl, ytl, xbr, ybr)
                 })
+
+        # ensure the frame is contiguous for C processing
+        self.frame_to_draw = np.ascontiguousarray(self.frame_to_draw, dtype=np.uint8)
     
     def process_event_buffer(self, ts, event_buffer):
         # we don't care about ts

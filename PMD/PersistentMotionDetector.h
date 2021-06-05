@@ -27,7 +27,10 @@ namespace PMD {
         PersistentMotionDetector(xy_t width, xy_t height, parameters param);
         ~PersistentMotionDetector();
 
-        void update_frame(array_2d<color> &start_frame, event *events, int num_events);
+        void process_events(byte_t *frame, const event *events, int num_events);
+
+    protected:
+        void draw_event(byte_t *frame, const event &e);
     };
 };
 

@@ -18,7 +18,7 @@ namespace PMD {
         this->back = (this->back + 1) % this->depth;
 
         if (this->count < this->depth)
-            this->count = this->count + 1;
+            this->count++;
     }
 
     // get the item at the front
@@ -26,8 +26,8 @@ namespace PMD {
     bool InputQueue::pop(event &out) {
         if (this->count > 0) {
             out = this->queue[this->front];
-            this->count++;
             this->front = (this->front + 1) % this->depth;
+            this->count--;
             return true;
         }
         return false;

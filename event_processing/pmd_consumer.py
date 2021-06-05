@@ -13,6 +13,7 @@ class pmd_consumer(basic_consumer):
         # Process arguments
         self._filetype = self._consumer_args.get('filetype', '.raw')
         parameters = self._consumer_args.get('parameters', {})
+        
         # explicitly set types to ensure consistency between modules
         types = {}
 
@@ -38,14 +39,7 @@ class pmd_consumer(basic_consumer):
         # we don't care about ts
         del ts
         # pass events to the pmd to draw
-        self.frame_to_draw = self._pmd.process_events(self.frame_to_draw, event_buffer)
-
-    # def event_callback(self, e, result, cluster=None):
-    #     x, y, p, t = e
-    #     if result == 1:
-    #         self.draw_event(x, y, p, t, (150, 150, 150))
-    #     elif result == 2:
-    #         self.draw_event(x, y, p, t, self._cluster_color[cluster])
+        self._pmd.process_events(self.frame_to_draw, event_buffer)
 
     # def cluster_callback(self, id, results):
     #     centroid = tuple(results['centroid'])
