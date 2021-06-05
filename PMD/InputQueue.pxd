@@ -1,15 +1,14 @@
 
 from types cimport *
 
-cdef packed struct InputQueue_t:
-    int _depth
-    event_t *_queue
-    int _count
-    int _front
-    int _back
+cdef extern from "InputQueue.cpp":
+    pass
 
-cdef InputQueue_t init(int depth)
-cdef void dealloc(InputQueue_t *self)
-cdef bool is_empty(InputQueue_t *self)
-cdef void push(InputQueue_t *self, event_t event)
-cdef event_t pop(InputQueue_t *self)
+cdef extern from "InputQueue.h" namespace "PMD":
+    cdef cppclass InputQueue:
+        InputQueue(int depth)
+        int depth, count, front, back
+        event_t *queue
+
+        void push(event_t e)
+        bool pop(event_t &out)

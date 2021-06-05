@@ -3,6 +3,8 @@
 import numpy as np
 from libc.stdlib cimport malloc, free
 
+from PyInputQueue import PyInputQueue
+
 cdef class PersistentMotionDetector:
     def __init__(self, xy_t width, xy_t height, parameters=None):
         # create empty dict if no parameters passed
@@ -19,12 +21,12 @@ cdef class PersistentMotionDetector:
         self._height = height
 
         self._partition = Partition(width, height, self._x_div, self._y_div)
-        self._input_queues = <InputQueue_t*>malloc(self._x_div*self._y_div*sizeof(InputQueue_t))
+        self._input_queues = []
 
         cdef int i, j
         for i in range(self._x_div):
             for j in range(self._y_div):
-                self._input_queues[i + j*self._x_div] = InputQueue.init(self._input_queue_depth)
+                self._input_queues.append(PyInputQueue(self._input_queue_depth))
 
     cpdef np.ndarray[color_t, ndim=3] process_events(self,
             np.ndarray[color_t, ndim=3] frame, event_t[:] event_buffer):
@@ -38,12 +40,11 @@ cdef class PersistentMotionDetector:
         for i in range(num_events):
             e = event_buffer[i]
             place = self._partition.place_event(e.x, e.y)
-            InputQueue.push(&self._input_queues[place.x + place.y*self._x_div], e)
+            self._input_queues[place.x + place.y*self._x_div].push(e)
         
         # process input queues
         for i in range(self._x_div*self._y_div):
-            while not InputQueue.is_empty(&self._input_queues[i]):
-                e = InputQueue.pop(&self._input_queues[i])
+            if self._input_queues[i].pop(e):
                 color = e.p*255
                 frame[e.y, e.x, 0] = color
                 frame[e.y, e.x, 1] = color
@@ -52,9 +53,7 @@ cdef class PersistentMotionDetector:
         return frame
 
     def __dealloc__(self):
-        for i in range(self._x_div*self._y_div):
-            InputQueue.dealloc(&self._input_queues[i])
-        free(self._input_queues)
+        pass
     
     # def tick_all(self, sys_time, event_callback, cluster_callback):
     #     # cycle through each event handler
