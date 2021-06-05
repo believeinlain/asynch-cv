@@ -3,8 +3,8 @@ Simple test of basic_consumer functionality
 '''
 
 import os.path
-from src import play_file
-from src import event_processing
+from play_file import play_file
+from event_processing import basic_consumer
 
 data_path = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\april_29\\'
 filename = 'out_2021-04-29_18-02-48.raw'
@@ -17,7 +17,7 @@ run_name = 'test_basic_consumer'
 play_file(
     filename=path,
     dt=30,
-    event_consumer=event_processing.basic_consumer,
+    event_consumer=basic_consumer,
     consumer_args={
         'run_name': run_name,
         'video_out': run_name+'.avi'

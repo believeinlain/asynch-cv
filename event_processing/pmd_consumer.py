@@ -3,7 +3,7 @@
 import cv2
 import numpy as np
 from colorsys import hsv_to_rgb
-from src.event_processing import basic_consumer
+from event_processing import basic_consumer
 from PMD import PersistentMotionDetector
 
 class pmd_consumer(basic_consumer):
@@ -29,7 +29,7 @@ class pmd_consumer(basic_consumer):
             self._cluster_color[i] = np.multiply(255.0, 
                 hsv_to_rgb((i*np.pi % 3.6)/3.6, 1.0, 1.0), casting='unsafe')
 
-        self._pmd = PersistentMotionDetector(width, height, parameters)
+        self._pmd = PersistentMotionDetector.PersistentMotionDetector(width, height, parameters)
 
         # self._metrics = DetectionMetrics(['boat', 'RHIB'])
         # self._detections = []

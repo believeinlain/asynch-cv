@@ -1,21 +1,8 @@
-# cython: boundscheck=False
-# cython: wraparound=False
 
 import numpy as np
-cimport numpy as np
-from src.types cimport *
 
 cdef class PersistentMotionDetector:
-    cdef int _x_div
-    cdef int _y_div
-    cdef int _input_queue_depth
-    cdef int _event_buffer_depth
-    cdef int _num_cluster_analyzers
-
-    cdef xy_t _width
-    cdef xy_t _height
-
-    def __cinit__(self, width, height, parameters=None):
+    def __init__(self, xy_t width, xy_t height, parameters=None):
         # create empty dict if no parameters passed
         if parameters is None:
             parameters = {}
@@ -29,18 +16,19 @@ cdef class PersistentMotionDetector:
         self._width = width
         self._height = height
 
-    cpdef np.ndarray[color_t, ndim=3] process_events(
-                self,
-                np.ndarray[color_t, ndim=3] frame, 
-                event_t[:] event_buffer
-            ):
+        self._partition = Partition(width, height, self._x_div, self._y_div)
+
+    cpdef np.ndarray[color_t, ndim=3] process_events(self,
+            np.ndarray[color_t, ndim=3] frame, event_t[:] event_buffer):
         cdef int num_events = len(event_buffer)
         cdef int i
         cdef event_t e
         cdef color_t color
+        cdef point_t placement
 
         for i in range(num_events):
             e = event_buffer[i]
+            placement = self._partition.place_event(e.x, e.y)
             color = e.p*255
             frame[e.y, e.x, 0] = color
             frame[e.y, e.x, 1] = color
@@ -58,5 +46,4 @@ cdef class PersistentMotionDetector:
     #     # cycle through each cluster analyzer
     #     for analyzer in self._cluster_analyzers:
     #         analyzer.tick(sys_time, cluster_callback)
-
 

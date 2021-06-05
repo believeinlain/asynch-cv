@@ -1,13 +1,10 @@
+# cython boundscheck=False
+# cython wraparound=False
 
 import numpy as np
 cimport numpy as np
+from types cimport *
 
-cimport cython
-
-from src.types cimport *
-
-@cython.boundscheck(False) # turn off bounds-checking for entire function
-@cython.wraparound(False) # turn off negative index wrapping for entire function
 cpdef np.ndarray[color_t, ndim=3] draw_events(
             np.ndarray[color_t, ndim=3] frame, 
             event_t[:] event_buffer

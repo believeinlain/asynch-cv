@@ -5,9 +5,9 @@ import numpy as np
 import xmltodict
 import os
 
-import time
+import event_processing
 
-from src.event_processing import draw_events
+from event_processing import draw_events
 
 class basic_consumer:
     '''

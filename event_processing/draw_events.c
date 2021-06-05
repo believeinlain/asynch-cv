@@ -3,13 +3,22 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
-        "depends": [],
-        "name": "src.event_processing.draw_events",
+        "depends": [
+            "C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\numpy\\core\\include\\numpy\\arrayobject.h",
+            "C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\numpy\\core\\include\\numpy\\arrayscalars.h",
+            "C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\numpy\\core\\include\\numpy\\ndarrayobject.h",
+            "C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\numpy\\core\\include\\numpy\\ndarraytypes.h",
+            "C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\numpy\\core\\include\\numpy\\ufuncobject.h"
+        ],
+        "include_dirs": [
+            "C:\\Users\\Stephanie\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\numpy\\core\\include"
+        ],
+        "name": "event_processing.draw_events",
         "sources": [
-            "src\\event_processing\\draw_events.pyx"
+            "event_processing\\draw_events.pyx"
         ]
     },
-    "module_name": "src.event_processing.draw_events"
+    "module_name": "event_processing.draw_events"
 }
 END: Cython Metadata */
 
@@ -617,8 +626,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__src__event_processing__draw_events
-#define __PYX_HAVE_API__src__event_processing__draw_events
+#define __PYX_HAVE__event_processing__draw_events
+#define __PYX_HAVE_API__event_processing__draw_events
 /* Early includes */
 #include <string.h>
 #include <stdio.h>
@@ -863,7 +872,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "src\\event_processing\\draw_events.pyx",
+  "event_processing\\draw_events.pyx",
   "__init__.pxd",
   "stringsource",
   "type.pxd",
@@ -1173,68 +1182,77 @@ typedef npy_double __pyx_t_5numpy_double_t;
  */
 typedef npy_longdouble __pyx_t_5numpy_longdouble_t;
 
-/* "src/types.pxd":3
+/* "types.pxd":3
  * 
  * # type definitions
+ * ctypedef unsigned char bool             # <<<<<<<<<<<<<<
+ * 
+ * ctypedef unsigned short xy_t
+ */
+typedef unsigned char __pyx_t_5types_bool;
+
+/* "types.pxd":5
+ * ctypedef unsigned char bool
+ * 
  * ctypedef unsigned short xy_t             # <<<<<<<<<<<<<<
  * ctypedef signed char polarity_t
  * ctypedef unsigned long long timestamp_t
  */
-typedef unsigned short __pyx_t_3src_5types_xy_t;
+typedef unsigned short __pyx_t_5types_xy_t;
 
-/* "src/types.pxd":4
- * # type definitions
+/* "types.pxd":6
+ * 
  * ctypedef unsigned short xy_t
  * ctypedef signed char polarity_t             # <<<<<<<<<<<<<<
  * ctypedef unsigned long long timestamp_t
  * ctypedef unsigned char color_t
  */
-typedef signed char __pyx_t_3src_5types_polarity_t;
+typedef signed char __pyx_t_5types_polarity_t;
 
-/* "src/types.pxd":5
+/* "types.pxd":7
  * ctypedef unsigned short xy_t
  * ctypedef signed char polarity_t
  * ctypedef unsigned long long timestamp_t             # <<<<<<<<<<<<<<
  * ctypedef unsigned char color_t
  * 
  */
-typedef unsigned PY_LONG_LONG __pyx_t_3src_5types_timestamp_t;
+typedef unsigned PY_LONG_LONG __pyx_t_5types_timestamp_t;
 
-/* "src/types.pxd":6
+/* "types.pxd":8
  * ctypedef signed char polarity_t
  * ctypedef unsigned long long timestamp_t
  * ctypedef unsigned char color_t             # <<<<<<<<<<<<<<
  * 
  * ctypedef signed int xy_sum_t
  */
-typedef unsigned char __pyx_t_3src_5types_color_t;
+typedef unsigned char __pyx_t_5types_color_t;
 
-/* "src/types.pxd":8
+/* "types.pxd":10
  * ctypedef unsigned char color_t
  * 
  * ctypedef signed int xy_sum_t             # <<<<<<<<<<<<<<
  * ctypedef float xy_float_t
  * ctypedef unsigned int cluster_weight_t
  */
-typedef int __pyx_t_3src_5types_xy_sum_t;
+typedef int __pyx_t_5types_xy_sum_t;
 
-/* "src/types.pxd":9
+/* "types.pxd":11
  * 
  * ctypedef signed int xy_sum_t
  * ctypedef float xy_float_t             # <<<<<<<<<<<<<<
  * ctypedef unsigned int cluster_weight_t
  * 
  */
-typedef float __pyx_t_3src_5types_xy_float_t;
+typedef float __pyx_t_5types_xy_float_t;
 
-/* "src/types.pxd":10
+/* "types.pxd":12
  * ctypedef signed int xy_sum_t
  * ctypedef float xy_float_t
  * ctypedef unsigned int cluster_weight_t             # <<<<<<<<<<<<<<
  * 
  * # structs
  */
-typedef unsigned int __pyx_t_3src_5types_cluster_weight_t;
+typedef unsigned int __pyx_t_5types_cluster_weight_t;
 /* Declarations.proto */
 #if CYTHON_CCOMPLEX
   #ifdef __cplusplus
@@ -1301,11 +1319,34 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  * cdef inline object PyArray_MultiIterNew1(a):
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
-struct __pyx_t_3src_5types_event_t;
+struct __pyx_t_5types_point_t;
+struct __pyx_t_5types_event_t;
 
-/* "src/types.pxd":13
+/* "types.pxd":15
  * 
  * # structs
+ * cdef packed struct point_t:             # <<<<<<<<<<<<<<
+ *     xy_t x, y
+ * 
+ */
+#if defined(__SUNPRO_C)
+  #pragma pack(1)
+#elif !defined(__GNUC__)
+  #pragma pack(push, 1)
+#endif
+struct __Pyx_PACKED __pyx_t_5types_point_t {
+  __pyx_t_5types_xy_t x;
+  __pyx_t_5types_xy_t y;
+};
+#if defined(__SUNPRO_C)
+  #pragma pack()
+#elif !defined(__GNUC__)
+  #pragma pack(pop)
+#endif
+
+/* "types.pxd":18
+ *     xy_t x, y
+ * 
  * cdef packed struct event_t:             # <<<<<<<<<<<<<<
  *     xy_t x, y
  *     polarity_t p
@@ -1315,11 +1356,11 @@ struct __pyx_t_3src_5types_event_t;
 #elif !defined(__GNUC__)
   #pragma pack(push, 1)
 #endif
-struct __Pyx_PACKED __pyx_t_3src_5types_event_t {
-  __pyx_t_3src_5types_xy_t x;
-  __pyx_t_3src_5types_xy_t y;
-  __pyx_t_3src_5types_polarity_t p;
-  __pyx_t_3src_5types_timestamp_t t;
+struct __Pyx_PACKED __pyx_t_5types_event_t {
+  __pyx_t_5types_xy_t x;
+  __pyx_t_5types_xy_t y;
+  __pyx_t_5types_polarity_t p;
+  __pyx_t_5types_timestamp_t t;
 };
 #if defined(__SUNPRO_C)
   #pragma pack()
@@ -1546,6 +1587,9 @@ static void __Pyx_ZeroBuffer(Py_buffer* buf);
 static CYTHON_INLINE void __Pyx_SafeReleaseBuffer(Py_buffer* info);
 static Py_ssize_t __Pyx_minusones[] = { -1, -1, -1, -1, -1, -1, -1, -1 };
 static Py_ssize_t __Pyx_zeros[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+
+/* BufferIndexError.proto */
+static void __Pyx_RaiseBufferIndexError(int axis);
 
 #define __Pyx_BufPtrStrided3d(type, buf, i0, s0, i1, s1, i2, s2) (type)((char*)buf + i0 * s0 + i1 * s1 + i2 * s2)
 /* PyThreadStateGet.proto */
@@ -2062,18 +2106,18 @@ static int __Pyx_ValidateAndInit_memviewslice(
                 PyObject *original_obj);
 
 /* ObjectToMemviewSlice.proto */
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_nn_struct____pyx_t_3src_5types_event_t(PyObject *, int writable_flag);
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_nn_struct____pyx_t_5types_event_t(PyObject *, int writable_flag);
 
 /* GCCDiagnostics.proto */
 #if defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6))
 #define __Pyx_HAS_GCC_DIAGNOSTIC
 #endif
 
-struct __pyx_t_3src_5types_event_t;
-static PyObject* __pyx_convert__to_py_struct____pyx_t_3src_5types_event_t(struct __pyx_t_3src_5types_event_t s);
+struct __pyx_t_5types_event_t;
+static PyObject* __pyx_convert__to_py_struct____pyx_t_5types_event_t(struct __pyx_t_5types_event_t s);
 /* MemviewDtypeToObject.proto */
-static CYTHON_INLINE PyObject *__pyx_memview_get_nn_struct____pyx_t_3src_5types_event_t(const char *itemp);
-static CYTHON_INLINE int __pyx_memview_set_nn_struct____pyx_t_3src_5types_event_t(const char *itemp, PyObject *obj);
+static CYTHON_INLINE PyObject *__pyx_memview_get_nn_struct____pyx_t_5types_event_t(const char *itemp);
+static CYTHON_INLINE int __pyx_memview_set_nn_struct____pyx_t_5types_event_t(const char *itemp, PyObject *obj);
 
 /* RealImag.proto */
 #if CYTHON_CCOMPLEX
@@ -2268,13 +2312,9 @@ static PyTypeObject *__pyx_ptype_5numpy_flexible = 0;
 static PyTypeObject *__pyx_ptype_5numpy_character = 0;
 static PyTypeObject *__pyx_ptype_5numpy_ufunc = 0;
 
-/* Module declarations from 'cython.view' */
+/* Module declarations from 'types' */
 
-/* Module declarations from 'cython' */
-
-/* Module declarations from 'src.types' */
-
-/* Module declarations from 'src.event_processing.draw_events' */
+/* Module declarations from 'event_processing.draw_events' */
 static PyTypeObject *__pyx_array_type = 0;
 static PyTypeObject *__pyx_MemviewEnum_type = 0;
 static PyTypeObject *__pyx_memoryview_type = 0;
@@ -2286,8 +2326,8 @@ static PyObject *contiguous = 0;
 static PyObject *indirect_contiguous = 0;
 static int __pyx_memoryview_thread_locks_used;
 static PyThread_type_lock __pyx_memoryview_thread_locks[8];
-static PyArrayObject *__pyx_f_3src_16event_processing_11draw_events_draw_events(PyArrayObject *, __Pyx_memviewslice, int __pyx_skip_dispatch); /*proto*/
-static struct __pyx_t_3src_5types_event_t __pyx_convert__from_py_struct____pyx_t_3src_5types_event_t(PyObject *); /*proto*/
+static PyArrayObject *__pyx_f_16event_processing_11draw_events_draw_events(PyArrayObject *, __Pyx_memviewslice, int __pyx_skip_dispatch); /*proto*/
+static struct __pyx_t_5types_event_t __pyx_convert__from_py_struct____pyx_t_5types_event_t(PyObject *); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char *, char *); /*proto*/
 static void *__pyx_align_pointer(void *, size_t); /*proto*/
 static PyObject *__pyx_memoryview_new(PyObject *, int, int, __Pyx_TypeInfo *); /*proto*/
@@ -2321,23 +2361,23 @@ static void __pyx_memoryview_refcount_objects_in_slice(char *, Py_ssize_t *, Py_
 static void __pyx_memoryview_slice_assign_scalar(__Pyx_memviewslice *, int, size_t, void *, int); /*proto*/
 static void __pyx_memoryview__slice_assign_scalar(char *, Py_ssize_t *, Py_ssize_t *, int, size_t, void *); /*proto*/
 static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *, PyObject *); /*proto*/
-static __Pyx_TypeInfo __Pyx_TypeInfo_nn___pyx_t_3src_5types_color_t = { "color_t", NULL, sizeof(__pyx_t_3src_5types_color_t), { 0 }, 0, IS_UNSIGNED(__pyx_t_3src_5types_color_t) ? 'U' : 'I', IS_UNSIGNED(__pyx_t_3src_5types_color_t), 0 };
-static __Pyx_TypeInfo __Pyx_TypeInfo_nn___pyx_t_3src_5types_xy_t = { "xy_t", NULL, sizeof(__pyx_t_3src_5types_xy_t), { 0 }, 0, IS_UNSIGNED(__pyx_t_3src_5types_xy_t) ? 'U' : 'I', IS_UNSIGNED(__pyx_t_3src_5types_xy_t), 0 };
-static __Pyx_TypeInfo __Pyx_TypeInfo_nn___pyx_t_3src_5types_polarity_t = { "polarity_t", NULL, sizeof(__pyx_t_3src_5types_polarity_t), { 0 }, 0, IS_UNSIGNED(__pyx_t_3src_5types_polarity_t) ? 'U' : 'I', IS_UNSIGNED(__pyx_t_3src_5types_polarity_t), 0 };
-static __Pyx_TypeInfo __Pyx_TypeInfo_nn___pyx_t_3src_5types_timestamp_t = { "timestamp_t", NULL, sizeof(__pyx_t_3src_5types_timestamp_t), { 0 }, 0, IS_UNSIGNED(__pyx_t_3src_5types_timestamp_t) ? 'U' : 'I', IS_UNSIGNED(__pyx_t_3src_5types_timestamp_t), 0 };
-static __Pyx_StructField __Pyx_StructFields_nn_struct____pyx_t_3src_5types_event_t[] = {
-  {&__Pyx_TypeInfo_nn___pyx_t_3src_5types_xy_t, "x", offsetof(struct __pyx_t_3src_5types_event_t, x)},
-  {&__Pyx_TypeInfo_nn___pyx_t_3src_5types_xy_t, "y", offsetof(struct __pyx_t_3src_5types_event_t, y)},
-  {&__Pyx_TypeInfo_nn___pyx_t_3src_5types_polarity_t, "p", offsetof(struct __pyx_t_3src_5types_event_t, p)},
-  {&__Pyx_TypeInfo_nn___pyx_t_3src_5types_timestamp_t, "t", offsetof(struct __pyx_t_3src_5types_event_t, t)},
+static __Pyx_TypeInfo __Pyx_TypeInfo_nn___pyx_t_5types_color_t = { "color_t", NULL, sizeof(__pyx_t_5types_color_t), { 0 }, 0, IS_UNSIGNED(__pyx_t_5types_color_t) ? 'U' : 'I', IS_UNSIGNED(__pyx_t_5types_color_t), 0 };
+static __Pyx_TypeInfo __Pyx_TypeInfo_nn___pyx_t_5types_xy_t = { "xy_t", NULL, sizeof(__pyx_t_5types_xy_t), { 0 }, 0, IS_UNSIGNED(__pyx_t_5types_xy_t) ? 'U' : 'I', IS_UNSIGNED(__pyx_t_5types_xy_t), 0 };
+static __Pyx_TypeInfo __Pyx_TypeInfo_nn___pyx_t_5types_polarity_t = { "polarity_t", NULL, sizeof(__pyx_t_5types_polarity_t), { 0 }, 0, IS_UNSIGNED(__pyx_t_5types_polarity_t) ? 'U' : 'I', IS_UNSIGNED(__pyx_t_5types_polarity_t), 0 };
+static __Pyx_TypeInfo __Pyx_TypeInfo_nn___pyx_t_5types_timestamp_t = { "timestamp_t", NULL, sizeof(__pyx_t_5types_timestamp_t), { 0 }, 0, IS_UNSIGNED(__pyx_t_5types_timestamp_t) ? 'U' : 'I', IS_UNSIGNED(__pyx_t_5types_timestamp_t), 0 };
+static __Pyx_StructField __Pyx_StructFields_nn_struct____pyx_t_5types_event_t[] = {
+  {&__Pyx_TypeInfo_nn___pyx_t_5types_xy_t, "x", offsetof(struct __pyx_t_5types_event_t, x)},
+  {&__Pyx_TypeInfo_nn___pyx_t_5types_xy_t, "y", offsetof(struct __pyx_t_5types_event_t, y)},
+  {&__Pyx_TypeInfo_nn___pyx_t_5types_polarity_t, "p", offsetof(struct __pyx_t_5types_event_t, p)},
+  {&__Pyx_TypeInfo_nn___pyx_t_5types_timestamp_t, "t", offsetof(struct __pyx_t_5types_event_t, t)},
   {NULL, NULL, 0}
 };
-static __Pyx_TypeInfo __Pyx_TypeInfo_nn_struct____pyx_t_3src_5types_event_t = { "event_t", __Pyx_StructFields_nn_struct____pyx_t_3src_5types_event_t, sizeof(struct __pyx_t_3src_5types_event_t), { 0 }, 0, 'S', 0, __PYX_BUF_FLAGS_PACKED_STRUCT };
-#define __Pyx_MODULE_NAME "src.event_processing.draw_events"
-extern int __pyx_module_is_main_src__event_processing__draw_events;
-int __pyx_module_is_main_src__event_processing__draw_events = 0;
+static __Pyx_TypeInfo __Pyx_TypeInfo_nn_struct____pyx_t_5types_event_t = { "event_t", __Pyx_StructFields_nn_struct____pyx_t_5types_event_t, sizeof(struct __pyx_t_5types_event_t), { 0 }, 0, 'S', 0, __PYX_BUF_FLAGS_PACKED_STRUCT };
+#define __Pyx_MODULE_NAME "event_processing.draw_events"
+extern int __pyx_module_is_main_event_processing__draw_events;
+int __pyx_module_is_main_event_processing__draw_events = 0;
 
-/* Implementation of 'src.event_processing.draw_events' */
+/* Implementation of 'event_processing.draw_events' */
 static PyObject *__pyx_builtin_range;
 static PyObject *__pyx_builtin_ImportError;
 static PyObject *__pyx_builtin_TypeError;
@@ -2550,7 +2590,7 @@ static PyObject *__pyx_n_s_unpack;
 static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_s_x;
 static PyObject *__pyx_n_s_y;
-static PyObject *__pyx_pf_3src_16event_processing_11draw_events_draw_events(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_frame, __Pyx_memviewslice __pyx_v_event_buffer); /* proto */
+static PyObject *__pyx_pf_16event_processing_11draw_events_draw_events(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_frame, __Pyx_memviewslice __pyx_v_event_buffer); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(struct __pyx_array_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_array___pyx_pf_15View_dot_MemoryView_5array_4__dealloc__(struct __pyx_array_obj *__pyx_v_self); /* proto */
@@ -2634,20 +2674,20 @@ static PyObject *__pyx_tuple__30;
 static PyObject *__pyx_codeobj__31;
 /* Late includes */
 
-/* "src/event_processing/draw_events.pyx":11
- * @cython.boundscheck(False) # turn off bounds-checking for entire function
- * @cython.wraparound(False) # turn off negative index wrapping for entire function
+/* "event_processing/draw_events.pyx":8
+ * from types cimport *
+ * 
  * cpdef np.ndarray[color_t, ndim=3] draw_events(             # <<<<<<<<<<<<<<
  *             np.ndarray[color_t, ndim=3] frame,
  *             event_t[:] event_buffer
  */
 
-static PyObject *__pyx_pw_3src_16event_processing_11draw_events_1draw_events(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyArrayObject *__pyx_f_3src_16event_processing_11draw_events_draw_events(PyArrayObject *__pyx_v_frame, __Pyx_memviewslice __pyx_v_event_buffer, CYTHON_UNUSED int __pyx_skip_dispatch) {
+static PyObject *__pyx_pw_16event_processing_11draw_events_1draw_events(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyArrayObject *__pyx_f_16event_processing_11draw_events_draw_events(PyArrayObject *__pyx_v_frame, __Pyx_memviewslice __pyx_v_event_buffer, CYTHON_UNUSED int __pyx_skip_dispatch) {
   int __pyx_v_num_events;
   int __pyx_v_i;
-  struct __pyx_t_3src_5types_event_t __pyx_v_e;
-  __pyx_t_3src_5types_color_t __pyx_v_color;
+  struct __pyx_t_5types_event_t __pyx_v_e;
+  __pyx_t_5types_color_t __pyx_v_color;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_frame;
   __Pyx_Buffer __pyx_pybuffer_frame;
   PyArrayObject *__pyx_r = NULL;
@@ -2657,7 +2697,8 @@ static PyArrayObject *__pyx_f_3src_16event_processing_11draw_events_draw_events(
   int __pyx_t_3;
   int __pyx_t_4;
   Py_ssize_t __pyx_t_5;
-  size_t __pyx_t_6;
+  int __pyx_t_6;
+  size_t __pyx_t_7;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -2668,11 +2709,11 @@ static PyArrayObject *__pyx_f_3src_16event_processing_11draw_events_draw_events(
   __pyx_pybuffernd_frame.rcbuffer = &__pyx_pybuffer_frame;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_frame.rcbuffer->pybuffer, (PyObject*)__pyx_v_frame, &__Pyx_TypeInfo_nn___pyx_t_3src_5types_color_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 3, 0, __pyx_stack) == -1)) __PYX_ERR(0, 11, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_frame.rcbuffer->pybuffer, (PyObject*)__pyx_v_frame, &__Pyx_TypeInfo_nn___pyx_t_5types_color_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 3, 0, __pyx_stack) == -1)) __PYX_ERR(0, 8, __pyx_L1_error)
   }
   __pyx_pybuffernd_frame.diminfo[0].strides = __pyx_pybuffernd_frame.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_frame.diminfo[0].shape = __pyx_pybuffernd_frame.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_frame.diminfo[1].strides = __pyx_pybuffernd_frame.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_frame.diminfo[1].shape = __pyx_pybuffernd_frame.rcbuffer->pybuffer.shape[1]; __pyx_pybuffernd_frame.diminfo[2].strides = __pyx_pybuffernd_frame.rcbuffer->pybuffer.strides[2]; __pyx_pybuffernd_frame.diminfo[2].shape = __pyx_pybuffernd_frame.rcbuffer->pybuffer.shape[2];
 
-  /* "src/event_processing/draw_events.pyx":15
+  /* "event_processing/draw_events.pyx":12
  *             event_t[:] event_buffer
  *         ):
  *     cdef int num_events = len(event_buffer)             # <<<<<<<<<<<<<<
@@ -2682,7 +2723,7 @@ static PyArrayObject *__pyx_f_3src_16event_processing_11draw_events_draw_events(
   __pyx_t_1 = __Pyx_MemoryView_Len(__pyx_v_event_buffer); 
   __pyx_v_num_events = __pyx_t_1;
 
-  /* "src/event_processing/draw_events.pyx":20
+  /* "event_processing/draw_events.pyx":17
  *     cdef color_t color
  * 
  *     for i in range(num_events):             # <<<<<<<<<<<<<<
@@ -2694,7 +2735,7 @@ static PyArrayObject *__pyx_f_3src_16event_processing_11draw_events_draw_events(
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "src/event_processing/draw_events.pyx":21
+    /* "event_processing/draw_events.pyx":18
  * 
  *     for i in range(num_events):
  *         e = event_buffer[i]             # <<<<<<<<<<<<<<
@@ -2702,9 +2743,18 @@ static PyArrayObject *__pyx_f_3src_16event_processing_11draw_events_draw_events(
  *         frame[e.y, e.x, 0] = color
  */
     __pyx_t_5 = __pyx_v_i;
-    __pyx_v_e = (*((struct __pyx_t_3src_5types_event_t *) ( /* dim=0 */ (__pyx_v_event_buffer.data + __pyx_t_5 * __pyx_v_event_buffer.strides[0]) )));
+    __pyx_t_6 = -1;
+    if (__pyx_t_5 < 0) {
+      __pyx_t_5 += __pyx_v_event_buffer.shape[0];
+      if (unlikely(__pyx_t_5 < 0)) __pyx_t_6 = 0;
+    } else if (unlikely(__pyx_t_5 >= __pyx_v_event_buffer.shape[0])) __pyx_t_6 = 0;
+    if (unlikely(__pyx_t_6 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_6);
+      __PYX_ERR(0, 18, __pyx_L1_error)
+    }
+    __pyx_v_e = (*((struct __pyx_t_5types_event_t *) ( /* dim=0 */ (__pyx_v_event_buffer.data + __pyx_t_5 * __pyx_v_event_buffer.strides[0]) )));
 
-    /* "src/event_processing/draw_events.pyx":22
+    /* "event_processing/draw_events.pyx":19
  *     for i in range(num_events):
  *         e = event_buffer[i]
  *         color = e.p*255             # <<<<<<<<<<<<<<
@@ -2713,7 +2763,7 @@ static PyArrayObject *__pyx_f_3src_16event_processing_11draw_events_draw_events(
  */
     __pyx_v_color = (__pyx_v_e.p * 0xFF);
 
-    /* "src/event_processing/draw_events.pyx":23
+    /* "event_processing/draw_events.pyx":20
  *         e = event_buffer[i]
  *         color = e.p*255
  *         frame[e.y, e.x, 0] = color             # <<<<<<<<<<<<<<
@@ -2721,23 +2771,45 @@ static PyArrayObject *__pyx_f_3src_16event_processing_11draw_events_draw_events(
  *         frame[e.y, e.x, 2] = color
  */
     __pyx_t_1 = __pyx_v_e.y;
-    __pyx_t_6 = __pyx_v_e.x;
+    __pyx_t_7 = __pyx_v_e.x;
     __pyx_t_5 = 0;
-    *__Pyx_BufPtrStrided3d(__pyx_t_3src_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_6, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_5, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
+    __pyx_t_6 = -1;
+    if (unlikely(__pyx_t_1 >= (size_t)__pyx_pybuffernd_frame.diminfo[0].shape)) __pyx_t_6 = 0;
+    if (unlikely(__pyx_t_7 >= (size_t)__pyx_pybuffernd_frame.diminfo[1].shape)) __pyx_t_6 = 1;
+    if (__pyx_t_5 < 0) {
+      __pyx_t_5 += __pyx_pybuffernd_frame.diminfo[2].shape;
+      if (unlikely(__pyx_t_5 < 0)) __pyx_t_6 = 2;
+    } else if (unlikely(__pyx_t_5 >= __pyx_pybuffernd_frame.diminfo[2].shape)) __pyx_t_6 = 2;
+    if (unlikely(__pyx_t_6 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_6);
+      __PYX_ERR(0, 20, __pyx_L1_error)
+    }
+    *__Pyx_BufPtrStrided3d(__pyx_t_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_7, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_5, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
 
-    /* "src/event_processing/draw_events.pyx":24
+    /* "event_processing/draw_events.pyx":21
  *         color = e.p*255
  *         frame[e.y, e.x, 0] = color
  *         frame[e.y, e.x, 1] = color             # <<<<<<<<<<<<<<
  *         frame[e.y, e.x, 2] = color
  * 
  */
-    __pyx_t_6 = __pyx_v_e.y;
+    __pyx_t_7 = __pyx_v_e.y;
     __pyx_t_1 = __pyx_v_e.x;
     __pyx_t_5 = 1;
-    *__Pyx_BufPtrStrided3d(__pyx_t_3src_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_6, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_1, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_5, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
+    __pyx_t_6 = -1;
+    if (unlikely(__pyx_t_7 >= (size_t)__pyx_pybuffernd_frame.diminfo[0].shape)) __pyx_t_6 = 0;
+    if (unlikely(__pyx_t_1 >= (size_t)__pyx_pybuffernd_frame.diminfo[1].shape)) __pyx_t_6 = 1;
+    if (__pyx_t_5 < 0) {
+      __pyx_t_5 += __pyx_pybuffernd_frame.diminfo[2].shape;
+      if (unlikely(__pyx_t_5 < 0)) __pyx_t_6 = 2;
+    } else if (unlikely(__pyx_t_5 >= __pyx_pybuffernd_frame.diminfo[2].shape)) __pyx_t_6 = 2;
+    if (unlikely(__pyx_t_6 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_6);
+      __PYX_ERR(0, 21, __pyx_L1_error)
+    }
+    *__Pyx_BufPtrStrided3d(__pyx_t_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_7, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_1, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_5, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
 
-    /* "src/event_processing/draw_events.pyx":25
+    /* "event_processing/draw_events.pyx":22
  *         frame[e.y, e.x, 0] = color
  *         frame[e.y, e.x, 1] = color
  *         frame[e.y, e.x, 2] = color             # <<<<<<<<<<<<<<
@@ -2745,12 +2817,23 @@ static PyArrayObject *__pyx_f_3src_16event_processing_11draw_events_draw_events(
  *     return frame
  */
     __pyx_t_1 = __pyx_v_e.y;
-    __pyx_t_6 = __pyx_v_e.x;
+    __pyx_t_7 = __pyx_v_e.x;
     __pyx_t_5 = 2;
-    *__Pyx_BufPtrStrided3d(__pyx_t_3src_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_6, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_5, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
+    __pyx_t_6 = -1;
+    if (unlikely(__pyx_t_1 >= (size_t)__pyx_pybuffernd_frame.diminfo[0].shape)) __pyx_t_6 = 0;
+    if (unlikely(__pyx_t_7 >= (size_t)__pyx_pybuffernd_frame.diminfo[1].shape)) __pyx_t_6 = 1;
+    if (__pyx_t_5 < 0) {
+      __pyx_t_5 += __pyx_pybuffernd_frame.diminfo[2].shape;
+      if (unlikely(__pyx_t_5 < 0)) __pyx_t_6 = 2;
+    } else if (unlikely(__pyx_t_5 >= __pyx_pybuffernd_frame.diminfo[2].shape)) __pyx_t_6 = 2;
+    if (unlikely(__pyx_t_6 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_6);
+      __PYX_ERR(0, 22, __pyx_L1_error)
+    }
+    *__Pyx_BufPtrStrided3d(__pyx_t_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_7, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_5, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
   }
 
-  /* "src/event_processing/draw_events.pyx":27
+  /* "event_processing/draw_events.pyx":24
  *         frame[e.y, e.x, 2] = color
  * 
  *     return frame             # <<<<<<<<<<<<<<
@@ -2760,9 +2843,9 @@ static PyArrayObject *__pyx_f_3src_16event_processing_11draw_events_draw_events(
   __pyx_r = ((PyArrayObject *)__pyx_v_frame);
   goto __pyx_L0;
 
-  /* "src/event_processing/draw_events.pyx":11
- * @cython.boundscheck(False) # turn off bounds-checking for entire function
- * @cython.wraparound(False) # turn off negative index wrapping for entire function
+  /* "event_processing/draw_events.pyx":8
+ * from types cimport *
+ * 
  * cpdef np.ndarray[color_t, ndim=3] draw_events(             # <<<<<<<<<<<<<<
  *             np.ndarray[color_t, ndim=3] frame,
  *             event_t[:] event_buffer
@@ -2776,7 +2859,7 @@ static PyArrayObject *__pyx_f_3src_16event_processing_11draw_events_draw_events(
     __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_frame.rcbuffer->pybuffer);
   __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_AddTraceback("src.event_processing.draw_events.draw_events", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("event_processing.draw_events.draw_events", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   goto __pyx_L2;
   __pyx_L0:;
@@ -2788,8 +2871,8 @@ static PyArrayObject *__pyx_f_3src_16event_processing_11draw_events_draw_events(
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_16event_processing_11draw_events_1draw_events(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_3src_16event_processing_11draw_events_1draw_events(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_16event_processing_11draw_events_1draw_events(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_16event_processing_11draw_events_1draw_events(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyArrayObject *__pyx_v_frame = 0;
   __Pyx_memviewslice __pyx_v_event_buffer = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_lineno = 0;
@@ -2821,11 +2904,11 @@ static PyObject *__pyx_pw_3src_16event_processing_11draw_events_1draw_events(PyO
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_event_buffer)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("draw_events", 1, 2, 2, 1); __PYX_ERR(0, 11, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("draw_events", 1, 2, 2, 1); __PYX_ERR(0, 8, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "draw_events") < 0)) __PYX_ERR(0, 11, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "draw_events") < 0)) __PYX_ERR(0, 8, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2834,18 +2917,18 @@ static PyObject *__pyx_pw_3src_16event_processing_11draw_events_1draw_events(PyO
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
     __pyx_v_frame = ((PyArrayObject *)values[0]);
-    __pyx_v_event_buffer = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_struct____pyx_t_3src_5types_event_t(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_event_buffer.memview)) __PYX_ERR(0, 13, __pyx_L3_error)
+    __pyx_v_event_buffer = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_struct____pyx_t_5types_event_t(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_event_buffer.memview)) __PYX_ERR(0, 10, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("draw_events", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 11, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("draw_events", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 8, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("src.event_processing.draw_events.draw_events", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("event_processing.draw_events.draw_events", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_frame), __pyx_ptype_5numpy_ndarray, 1, "frame", 0))) __PYX_ERR(0, 12, __pyx_L1_error)
-  __pyx_r = __pyx_pf_3src_16event_processing_11draw_events_draw_events(__pyx_self, __pyx_v_frame, __pyx_v_event_buffer);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_frame), __pyx_ptype_5numpy_ndarray, 1, "frame", 0))) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_r = __pyx_pf_16event_processing_11draw_events_draw_events(__pyx_self, __pyx_v_frame, __pyx_v_event_buffer);
 
   /* function exit code */
   goto __pyx_L0;
@@ -2856,7 +2939,7 @@ static PyObject *__pyx_pw_3src_16event_processing_11draw_events_1draw_events(PyO
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_3src_16event_processing_11draw_events_draw_events(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_frame, __Pyx_memviewslice __pyx_v_event_buffer) {
+static PyObject *__pyx_pf_16event_processing_11draw_events_draw_events(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_frame, __Pyx_memviewslice __pyx_v_event_buffer) {
   __Pyx_LocalBuf_ND __pyx_pybuffernd_frame;
   __Pyx_Buffer __pyx_pybuffer_frame;
   PyObject *__pyx_r = NULL;
@@ -2872,12 +2955,12 @@ static PyObject *__pyx_pf_3src_16event_processing_11draw_events_draw_events(CYTH
   __pyx_pybuffernd_frame.rcbuffer = &__pyx_pybuffer_frame;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_frame.rcbuffer->pybuffer, (PyObject*)__pyx_v_frame, &__Pyx_TypeInfo_nn___pyx_t_3src_5types_color_t, PyBUF_FORMAT| PyBUF_STRIDES, 3, 0, __pyx_stack) == -1)) __PYX_ERR(0, 11, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_frame.rcbuffer->pybuffer, (PyObject*)__pyx_v_frame, &__Pyx_TypeInfo_nn___pyx_t_5types_color_t, PyBUF_FORMAT| PyBUF_STRIDES, 3, 0, __pyx_stack) == -1)) __PYX_ERR(0, 8, __pyx_L1_error)
   }
   __pyx_pybuffernd_frame.diminfo[0].strides = __pyx_pybuffernd_frame.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_frame.diminfo[0].shape = __pyx_pybuffernd_frame.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_frame.diminfo[1].strides = __pyx_pybuffernd_frame.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_frame.diminfo[1].shape = __pyx_pybuffernd_frame.rcbuffer->pybuffer.shape[1]; __pyx_pybuffernd_frame.diminfo[2].strides = __pyx_pybuffernd_frame.rcbuffer->pybuffer.strides[2]; __pyx_pybuffernd_frame.diminfo[2].shape = __pyx_pybuffernd_frame.rcbuffer->pybuffer.shape[2];
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_event_buffer.memview)) { __Pyx_RaiseUnboundLocalError("event_buffer"); __PYX_ERR(0, 11, __pyx_L1_error) }
-  __pyx_t_1 = ((PyObject *)__pyx_f_3src_16event_processing_11draw_events_draw_events(__pyx_v_frame, __pyx_v_event_buffer, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
+  if (unlikely(!__pyx_v_event_buffer.memview)) { __Pyx_RaiseUnboundLocalError("event_buffer"); __PYX_ERR(0, 8, __pyx_L1_error) }
+  __pyx_t_1 = ((PyObject *)__pyx_f_16event_processing_11draw_events_draw_events(__pyx_v_frame, __pyx_v_event_buffer, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2892,7 +2975,7 @@ static PyObject *__pyx_pf_3src_16event_processing_11draw_events_draw_events(CYTH
     __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_frame.rcbuffer->pybuffer);
   __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_AddTraceback("src.event_processing.draw_events.draw_events", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("event_processing.draw_events.draw_events", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   goto __pyx_L2;
   __pyx_L0:;
@@ -3923,16 +4006,16 @@ static CYTHON_INLINE NPY_DATETIMEUNIT __pyx_f_5numpy_get_datetime64_unit(PyObjec
 
 /* "FromPyStructUtility":11
  * 
- * @cname("__pyx_convert__from_py_struct____pyx_t_3src_5types_event_t")
- * cdef struct_type __pyx_convert__from_py_struct____pyx_t_3src_5types_event_t(obj) except *:             # <<<<<<<<<<<<<<
+ * @cname("__pyx_convert__from_py_struct____pyx_t_5types_event_t")
+ * cdef struct_type __pyx_convert__from_py_struct____pyx_t_5types_event_t(obj) except *:             # <<<<<<<<<<<<<<
  *     cdef struct_type result
  *     if not PyMapping_Check(obj):
  */
 
-static struct __pyx_t_3src_5types_event_t __pyx_convert__from_py_struct____pyx_t_3src_5types_event_t(PyObject *__pyx_v_obj) {
-  struct __pyx_t_3src_5types_event_t __pyx_v_result;
+static struct __pyx_t_5types_event_t __pyx_convert__from_py_struct____pyx_t_5types_event_t(PyObject *__pyx_v_obj) {
+  struct __pyx_t_5types_event_t __pyx_v_result;
   PyObject *__pyx_v_value = NULL;
-  struct __pyx_t_3src_5types_event_t __pyx_r;
+  struct __pyx_t_5types_event_t __pyx_r;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -3943,16 +4026,16 @@ static struct __pyx_t_3src_5types_event_t __pyx_convert__from_py_struct____pyx_t
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
   PyObject *__pyx_t_9 = NULL;
-  __pyx_t_3src_5types_xy_t __pyx_t_10;
-  __pyx_t_3src_5types_polarity_t __pyx_t_11;
-  __pyx_t_3src_5types_timestamp_t __pyx_t_12;
+  __pyx_t_5types_xy_t __pyx_t_10;
+  __pyx_t_5types_polarity_t __pyx_t_11;
+  __pyx_t_5types_timestamp_t __pyx_t_12;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__pyx_convert__from_py_struct____pyx_t_3src_5types_event_t", 0);
+  __Pyx_RefNannySetupContext("__pyx_convert__from_py_struct____pyx_t_5types_event_t", 0);
 
   /* "FromPyStructUtility":13
- * cdef struct_type __pyx_convert__from_py_struct____pyx_t_3src_5types_event_t(obj) except *:
+ * cdef struct_type __pyx_convert__from_py_struct____pyx_t_5types_event_t(obj) except *:
  *     cdef struct_type result
  *     if not PyMapping_Check(obj):             # <<<<<<<<<<<<<<
  *         PyErr_Format(TypeError, b"Expected %.16s, got %.200s", b"a mapping", Py_TYPE(obj).tp_name)
@@ -3973,7 +4056,7 @@ static struct __pyx_t_3src_5types_event_t __pyx_convert__from_py_struct____pyx_t
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
     /* "FromPyStructUtility":13
- * cdef struct_type __pyx_convert__from_py_struct____pyx_t_3src_5types_event_t(obj) except *:
+ * cdef struct_type __pyx_convert__from_py_struct____pyx_t_5types_event_t(obj) except *:
  *     cdef struct_type result
  *     if not PyMapping_Check(obj):             # <<<<<<<<<<<<<<
  *         PyErr_Format(TypeError, b"Expected %.16s, got %.200s", b"a mapping", Py_TYPE(obj).tp_name)
@@ -4033,7 +4116,7 @@ static struct __pyx_t_3src_5types_event_t __pyx_convert__from_py_struct____pyx_t
  */
     __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
     if (__pyx_t_6) {
-      __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct____pyx_t_3src_5types_event_t", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct____pyx_t_5types_event_t", __pyx_clineno, __pyx_lineno, __pyx_filename);
       if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_7, &__pyx_t_8) < 0) __PYX_ERR(2, 18, __pyx_L6_except_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_GOTREF(__pyx_t_7);
@@ -4135,7 +4218,7 @@ static struct __pyx_t_3src_5types_event_t __pyx_convert__from_py_struct____pyx_t
  */
     __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
     if (__pyx_t_6) {
-      __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct____pyx_t_3src_5types_event_t", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct____pyx_t_5types_event_t", __pyx_clineno, __pyx_lineno, __pyx_filename);
       if (__Pyx_GetException(&__pyx_t_8, &__pyx_t_7, &__pyx_t_2) < 0) __PYX_ERR(2, 23, __pyx_L14_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_GOTREF(__pyx_t_7);
@@ -4237,7 +4320,7 @@ static struct __pyx_t_3src_5types_event_t __pyx_convert__from_py_struct____pyx_t
  */
     __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
     if (__pyx_t_6) {
-      __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct____pyx_t_3src_5types_event_t", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct____pyx_t_5types_event_t", __pyx_clineno, __pyx_lineno, __pyx_filename);
       if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_7, &__pyx_t_8) < 0) __PYX_ERR(2, 28, __pyx_L22_except_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_GOTREF(__pyx_t_7);
@@ -4339,7 +4422,7 @@ static struct __pyx_t_3src_5types_event_t __pyx_convert__from_py_struct____pyx_t
  */
     __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
     if (__pyx_t_6) {
-      __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct____pyx_t_3src_5types_event_t", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct____pyx_t_5types_event_t", __pyx_clineno, __pyx_lineno, __pyx_filename);
       if (__Pyx_GetException(&__pyx_t_8, &__pyx_t_7, &__pyx_t_2) < 0) __PYX_ERR(2, 33, __pyx_L30_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_GOTREF(__pyx_t_7);
@@ -4398,8 +4481,8 @@ static struct __pyx_t_3src_5types_event_t __pyx_convert__from_py_struct____pyx_t
 
   /* "FromPyStructUtility":11
  * 
- * @cname("__pyx_convert__from_py_struct____pyx_t_3src_5types_event_t")
- * cdef struct_type __pyx_convert__from_py_struct____pyx_t_3src_5types_event_t(obj) except *:             # <<<<<<<<<<<<<<
+ * @cname("__pyx_convert__from_py_struct____pyx_t_5types_event_t")
+ * cdef struct_type __pyx_convert__from_py_struct____pyx_t_5types_event_t(obj) except *:             # <<<<<<<<<<<<<<
  *     cdef struct_type result
  *     if not PyMapping_Check(obj):
  */
@@ -4410,7 +4493,7 @@ static struct __pyx_t_3src_5types_event_t __pyx_convert__from_py_struct____pyx_t
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct____pyx_t_3src_5types_event_t", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct____pyx_t_5types_event_t", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_pretend_to_initialize(&__pyx_r);
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_value);
@@ -17558,7 +17641,7 @@ static PyBufferProcs __pyx_tp_as_buffer_array = {
 
 static PyTypeObject __pyx_type___pyx_array = {
   PyVarObject_HEAD_INIT(0, 0)
-  "src.event_processing.draw_events.array", /*tp_name*/
+  "event_processing.draw_events.array", /*tp_name*/
   sizeof(struct __pyx_array_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_array, /*tp_dealloc*/
@@ -17677,7 +17760,7 @@ static PyMethodDef __pyx_methods_Enum[] = {
 
 static PyTypeObject __pyx_type___pyx_MemviewEnum = {
   PyVarObject_HEAD_INIT(0, 0)
-  "src.event_processing.draw_events.Enum", /*tp_name*/
+  "event_processing.draw_events.Enum", /*tp_name*/
   sizeof(struct __pyx_MemviewEnum_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_Enum, /*tp_dealloc*/
@@ -17938,7 +18021,7 @@ static PyBufferProcs __pyx_tp_as_buffer_memoryview = {
 
 static PyTypeObject __pyx_type___pyx_memoryview = {
   PyVarObject_HEAD_INIT(0, 0)
-  "src.event_processing.draw_events.memoryview", /*tp_name*/
+  "event_processing.draw_events.memoryview", /*tp_name*/
   sizeof(struct __pyx_memoryview_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_memoryview, /*tp_dealloc*/
@@ -18076,7 +18159,7 @@ static struct PyGetSetDef __pyx_getsets__memoryviewslice[] = {
 
 static PyTypeObject __pyx_type___pyx_memoryviewslice = {
   PyVarObject_HEAD_INIT(0, 0)
-  "src.event_processing.draw_events._memoryviewslice", /*tp_name*/
+  "event_processing.draw_events._memoryviewslice", /*tp_name*/
   sizeof(struct __pyx_memoryviewslice_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc__memoryviewslice, /*tp_dealloc*/
@@ -18152,7 +18235,7 @@ static PyTypeObject __pyx_type___pyx_memoryviewslice = {
 };
 
 static PyMethodDef __pyx_methods[] = {
-  {"draw_events", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_3src_16event_processing_11draw_events_1draw_events, METH_VARARGS|METH_KEYWORDS, 0},
+  {"draw_events", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_16event_processing_11draw_events_1draw_events, METH_VARARGS|METH_KEYWORDS, 0},
   {0, 0, 0, 0}
 };
 
@@ -18303,7 +18386,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 17, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(1, 947, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(2, 14, __pyx_L1_error)
   __pyx_builtin_KeyError = __Pyx_GetBuiltinName(__pyx_n_s_KeyError); if (!__pyx_builtin_KeyError) __PYX_ERR(2, 18, __pyx_L1_error)
@@ -18652,11 +18735,11 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 }
 
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
-  if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 2, __pyx_L1_error);
-  __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 2, __pyx_L1_error)
-  __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 2, __pyx_L1_error)
-  __pyx_int_184977713 = PyInt_FromLong(184977713L); if (unlikely(!__pyx_int_184977713)) __PYX_ERR(0, 2, __pyx_L1_error)
-  __pyx_int_neg_1 = PyInt_FromLong(-1); if (unlikely(!__pyx_int_neg_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_184977713 = PyInt_FromLong(184977713L); if (unlikely(!__pyx_int_184977713)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_neg_1 = PyInt_FromLong(-1); if (unlikely(!__pyx_int_neg_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -18959,30 +19042,30 @@ if (!__Pyx_RefNanny) {
 }
 #endif
   __Pyx_RefNannySetupContext("__Pyx_PyMODINIT_FUNC PyInit_draw_events(void)", 0);
-  if (__Pyx_check_binary_version() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__Pyx_check_binary_version() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #ifdef __Pxy_PyFrame_Initialize_Offsets
   __Pxy_PyFrame_Initialize_Offsets();
   #endif
-  __pyx_empty_tuple = PyTuple_New(0); if (unlikely(!__pyx_empty_tuple)) __PYX_ERR(0, 2, __pyx_L1_error)
-  __pyx_empty_bytes = PyBytes_FromStringAndSize("", 0); if (unlikely(!__pyx_empty_bytes)) __PYX_ERR(0, 2, __pyx_L1_error)
-  __pyx_empty_unicode = PyUnicode_FromStringAndSize("", 0); if (unlikely(!__pyx_empty_unicode)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_empty_tuple = PyTuple_New(0); if (unlikely(!__pyx_empty_tuple)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_empty_bytes = PyBytes_FromStringAndSize("", 0); if (unlikely(!__pyx_empty_bytes)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_empty_unicode = PyUnicode_FromStringAndSize("", 0); if (unlikely(!__pyx_empty_unicode)) __PYX_ERR(0, 1, __pyx_L1_error)
   #ifdef __Pyx_CyFunction_USED
-  if (__pyx_CyFunction_init() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__pyx_CyFunction_init() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
   #ifdef __Pyx_FusedFunction_USED
-  if (__pyx_FusedFunction_init() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__pyx_FusedFunction_init() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
   #ifdef __Pyx_Coroutine_USED
-  if (__pyx_Coroutine_init() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__pyx_Coroutine_init() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
   #ifdef __Pyx_Generator_USED
-  if (__pyx_Generator_init() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__pyx_Generator_init() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
   #ifdef __Pyx_AsyncGen_USED
-  if (__pyx_AsyncGen_init() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__pyx_AsyncGen_init() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
   #ifdef __Pyx_StopAsyncIteration_USED
-  if (__pyx_StopAsyncIteration_init() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__pyx_StopAsyncIteration_init() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
   /*--- Library function declarations ---*/
   /*--- Threads initialization code ---*/
@@ -19001,69 +19084,68 @@ if (!__Pyx_RefNanny) {
   #else
   __pyx_m = PyModule_Create(&__pyx_moduledef);
   #endif
-  if (unlikely(!__pyx_m)) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (unlikely(!__pyx_m)) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  __pyx_d = PyModule_GetDict(__pyx_m); if (unlikely(!__pyx_d)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_d = PyModule_GetDict(__pyx_m); if (unlikely(!__pyx_d)) __PYX_ERR(0, 1, __pyx_L1_error)
   Py_INCREF(__pyx_d);
-  __pyx_b = PyImport_AddModule(__Pyx_BUILTIN_MODULE_NAME); if (unlikely(!__pyx_b)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_b = PyImport_AddModule(__Pyx_BUILTIN_MODULE_NAME); if (unlikely(!__pyx_b)) __PYX_ERR(0, 1, __pyx_L1_error)
   Py_INCREF(__pyx_b);
-  __pyx_cython_runtime = PyImport_AddModule((char *) "cython_runtime"); if (unlikely(!__pyx_cython_runtime)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_cython_runtime = PyImport_AddModule((char *) "cython_runtime"); if (unlikely(!__pyx_cython_runtime)) __PYX_ERR(0, 1, __pyx_L1_error)
   Py_INCREF(__pyx_cython_runtime);
-  if (PyObject_SetAttrString(__pyx_m, "__builtins__", __pyx_b) < 0) __PYX_ERR(0, 2, __pyx_L1_error);
+  if (PyObject_SetAttrString(__pyx_m, "__builtins__", __pyx_b) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   /*--- Initialize various global constants etc. ---*/
-  if (__Pyx_InitGlobals() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__Pyx_InitGlobals() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
-  if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  if (__pyx_module_is_main_src__event_processing__draw_events) {
-    if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name_2, __pyx_n_s_main) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__pyx_module_is_main_event_processing__draw_events) {
+    if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name_2, __pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   #if PY_MAJOR_VERSION >= 3
   {
-    PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 2, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "src.event_processing.draw_events")) {
-      if (unlikely(PyDict_SetItemString(modules, "src.event_processing.draw_events", __pyx_m) < 0)) __PYX_ERR(0, 2, __pyx_L1_error)
+    PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "event_processing.draw_events")) {
+      if (unlikely(PyDict_SetItemString(modules, "event_processing.draw_events", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   #endif
   /*--- Builtin init code ---*/
-  if (__Pyx_InitCachedBuiltins() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__Pyx_InitCachedBuiltins() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   /*--- Constants init code ---*/
-  if (__Pyx_InitCachedConstants() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__Pyx_InitCachedConstants() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   /*--- Global type/function init code ---*/
   (void)__Pyx_modinit_global_init_code();
   (void)__Pyx_modinit_variable_export_code();
   (void)__Pyx_modinit_function_export_code();
-  if (unlikely(__Pyx_modinit_type_init_code() < 0)) __PYX_ERR(0, 2, __pyx_L1_error)
-  if (unlikely(__Pyx_modinit_type_import_code() < 0)) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (unlikely(__Pyx_modinit_type_init_code() < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (unlikely(__Pyx_modinit_type_import_code() < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
   (void)__Pyx_modinit_variable_import_code();
   (void)__Pyx_modinit_function_import_code();
   /*--- Execution code ---*/
   #if defined(__Pyx_Generator_USED) || defined(__Pyx_Coroutine_USED)
-  if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "src/event_processing/draw_events.pyx":2
+  /* "event_processing/draw_events.pyx":4
+ * # cython wraparound=False
  * 
  * import numpy as np             # <<<<<<<<<<<<<<
  * cimport numpy as np
- * 
+ * from types cimport *
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "src/event_processing/draw_events.pyx":11
- * @cython.boundscheck(False) # turn off bounds-checking for entire function
- * @cython.wraparound(False) # turn off negative index wrapping for entire function
- * cpdef np.ndarray[color_t, ndim=3] draw_events(             # <<<<<<<<<<<<<<
- *             np.ndarray[color_t, ndim=3] frame,
- *             event_t[:] event_buffer
+  /* "event_processing/draw_events.pyx":1
+ * # cython boundscheck=False             # <<<<<<<<<<<<<<
+ * # cython wraparound=False
+ * 
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "View.MemoryView":209
@@ -19226,11 +19308,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_XDECREF(__pyx_t_1);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init src.event_processing.draw_events", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init event_processing.draw_events", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_CLEAR(__pyx_m);
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init src.event_processing.draw_events");
+    PyErr_SetString(PyExc_ImportError, "init event_processing.draw_events");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -19847,6 +19929,12 @@ static int __Pyx__GetBufferAndValidate(
 fail:;
   __Pyx_SafeReleaseBuffer(buf);
   return -1;
+}
+
+/* BufferIndexError */
+  static void __Pyx_RaiseBufferIndexError(int axis) {
+  PyErr_Format(PyExc_IndexError,
+     "Out of bounds on buffer access (axis %d)", axis);
 }
 
 /* PyErrFetchRestore */
@@ -22310,7 +22398,7 @@ no_fail:
 }
 
 /* ObjectToMemviewSlice */
-  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_nn_struct____pyx_t_3src_5types_event_t(PyObject *obj, int writable_flag) {
+  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_nn_struct____pyx_t_5types_event_t(PyObject *obj, int writable_flag) {
     __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
     __Pyx_BufFmt_StackElem stack[2];
     int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED) };
@@ -22321,7 +22409,7 @@ no_fail:
     }
     retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, 0,
                                                  PyBUF_RECORDS_RO | writable_flag, 1,
-                                                 &__Pyx_TypeInfo_nn_struct____pyx_t_3src_5types_event_t, stack,
+                                                 &__Pyx_TypeInfo_nn_struct____pyx_t_5types_event_t, stack,
                                                  &result, obj);
     if (unlikely(retcode == -1))
         goto __pyx_fail;
@@ -22332,7 +22420,7 @@ __pyx_fail:
     return result;
 }
 
-static PyObject* __pyx_convert__to_py_struct____pyx_t_3src_5types_event_t(struct __pyx_t_3src_5types_event_t s) {
+static PyObject* __pyx_convert__to_py_struct____pyx_t_5types_event_t(struct __pyx_t_5types_event_t s) {
     PyObject* res;
     PyObject* member;
     res = __Pyx_PyDict_NewPresized(4); if (unlikely(!res)) return NULL;
@@ -22377,14 +22465,14 @@ static PyObject* __pyx_convert__to_py_struct____pyx_t_3src_5types_event_t(struct
     }
 
 /* MemviewDtypeToObject */
-  static CYTHON_INLINE PyObject *__pyx_memview_get_nn_struct____pyx_t_3src_5types_event_t(const char *itemp) {
-    return (PyObject *) __pyx_convert__to_py_struct____pyx_t_3src_5types_event_t(*(struct __pyx_t_3src_5types_event_t *) itemp);
+  static CYTHON_INLINE PyObject *__pyx_memview_get_nn_struct____pyx_t_5types_event_t(const char *itemp) {
+    return (PyObject *) __pyx_convert__to_py_struct____pyx_t_5types_event_t(*(struct __pyx_t_5types_event_t *) itemp);
 }
-static CYTHON_INLINE int __pyx_memview_set_nn_struct____pyx_t_3src_5types_event_t(const char *itemp, PyObject *obj) {
-    struct __pyx_t_3src_5types_event_t value = __pyx_convert__from_py_struct____pyx_t_3src_5types_event_t(obj);
+static CYTHON_INLINE int __pyx_memview_set_nn_struct____pyx_t_5types_event_t(const char *itemp, PyObject *obj) {
+    struct __pyx_t_5types_event_t value = __pyx_convert__from_py_struct____pyx_t_5types_event_t(obj);
     if (PyErr_Occurred())
         return 0;
-    *(struct __pyx_t_3src_5types_event_t *) itemp = value;
+    *(struct __pyx_t_5types_event_t *) itemp = value;
     return 1;
 }
 

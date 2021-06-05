@@ -2,8 +2,8 @@
 Simple test of pmd_consumer functionality
 '''
 import os.path
-from src import play_file
-from src import event_processing
+from play_file import play_file
+from event_processing import pmd_consumer
 
 data_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 annot_root = './example_annotations/'
@@ -61,7 +61,7 @@ annot_path = os.path.join(os.path.expanduser('~\\'), annot_root, filename)+'.xml
 play_file(
     filename=data_path,
     dt=30,
-    event_consumer=event_processing.pmd_consumer,
+    event_consumer=pmd_consumer,
     consumer_args={
         'run_name': run_name,
         'annot_file': annot_path,
