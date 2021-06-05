@@ -123,7 +123,7 @@ class basic_consumer:
         # draw the frame we received from frame_buffer
         self.init_frame(frame_buffer)
         # repack the event buffer
-        event_buffer = np.array(event_buffer, dtype=[('x','u2'), ('y','u2'), ('p','b'), ('t','u8')])
+        event_buffer = np.array(event_buffer, dtype=[('x','u2'), ('y','u2'), ('p','i1'), ('t','u8')])
         # process events accordingly
         self.process_event_buffer(ts, event_buffer)
 

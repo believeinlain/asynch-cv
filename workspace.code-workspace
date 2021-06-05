@@ -9,7 +9,17 @@
       "iterator": "cpp",
       "xhash": "cpp",
       "xutility": "cpp",
-      "xiosbase": "cpp"
+      "xiosbase": "cpp",
+      "istream": "cpp",
+      "memory": "cpp",
+      "tuple": "cpp",
+      "type_traits": "cpp",
+      "utility": "cpp",
+      "xlocnum": "cpp",
+      "initializer_list": "cpp",
+      "list": "cpp",
+      "vector": "cpp",
+      "xstring": "cpp"
     }
   }
 }
