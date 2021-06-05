@@ -33,7 +33,7 @@ END: Cython Metadata */
 #else
 #define CYTHON_ABI "0_29_23"
 #define CYTHON_HEX_VERSION 0x001D17F0
-#define CYTHON_FUTURE_DIVISION 0
+#define CYTHON_FUTURE_DIVISION 1
 #include <stddef.h>
 #ifndef offsetof
   #define offsetof(type, member) ( (size_t) & ((type*)0) -> member )
@@ -1588,9 +1588,6 @@ static CYTHON_INLINE void __Pyx_SafeReleaseBuffer(Py_buffer* info);
 static Py_ssize_t __Pyx_minusones[] = { -1, -1, -1, -1, -1, -1, -1, -1 };
 static Py_ssize_t __Pyx_zeros[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
-/* BufferIndexError.proto */
-static void __Pyx_RaiseBufferIndexError(int axis);
-
 #define __Pyx_BufPtrStrided3d(type, buf, i0, s0, i1, s1, i2, s2) (type)((char*)buf + i0 * s0 + i1 * s1 + i2 * s2)
 /* PyThreadStateGet.proto */
 #if CYTHON_FAST_THREAD_STATE
@@ -1784,9 +1781,6 @@ static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int 
 #else
 #define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
 #endif
-
-/* None.proto */
-static CYTHON_INLINE Py_ssize_t __Pyx_div_Py_ssize_t(Py_ssize_t, Py_ssize_t);
 
 /* UnaryNegOverflows.proto */
 #define UNARY_NEG_WOULD_OVERFLOW(x)\
@@ -1987,9 +1981,6 @@ static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
 #else
 #define __Pyx_PyList_Append(L,x) PyList_Append(L,x)
 #endif
-
-/* None.proto */
-static CYTHON_INLINE long __Pyx_div_long(long, long);
 
 /* ImportFrom.proto */
 static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
@@ -2552,8 +2543,8 @@ static PyObject *__pyx_n_s_new;
 static PyObject *__pyx_kp_s_no_default___reduce___due_to_non;
 static PyObject *__pyx_n_s_np;
 static PyObject *__pyx_n_s_numpy;
-static PyObject *__pyx_kp_s_numpy_core_multiarray_failed_to;
-static PyObject *__pyx_kp_s_numpy_core_umath_failed_to_impor;
+static PyObject *__pyx_kp_u_numpy_core_multiarray_failed_to;
+static PyObject *__pyx_kp_u_numpy_core_umath_failed_to_impor;
 static PyObject *__pyx_n_s_obj;
 static PyObject *__pyx_n_s_p;
 static PyObject *__pyx_n_s_pack;
@@ -2674,7 +2665,7 @@ static PyObject *__pyx_tuple__30;
 static PyObject *__pyx_codeobj__31;
 /* Late includes */
 
-/* "event_processing/draw_events.pyx":8
+/* "event_processing/draw_events.pyx":7
  * from types cimport *
  * 
  * cpdef np.ndarray[color_t, ndim=3] draw_events(             # <<<<<<<<<<<<<<
@@ -2697,8 +2688,7 @@ static PyArrayObject *__pyx_f_16event_processing_11draw_events_draw_events(PyArr
   int __pyx_t_3;
   int __pyx_t_4;
   Py_ssize_t __pyx_t_5;
-  int __pyx_t_6;
-  size_t __pyx_t_7;
+  size_t __pyx_t_6;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -2709,11 +2699,11 @@ static PyArrayObject *__pyx_f_16event_processing_11draw_events_draw_events(PyArr
   __pyx_pybuffernd_frame.rcbuffer = &__pyx_pybuffer_frame;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_frame.rcbuffer->pybuffer, (PyObject*)__pyx_v_frame, &__Pyx_TypeInfo_nn___pyx_t_5types_color_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 3, 0, __pyx_stack) == -1)) __PYX_ERR(0, 8, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_frame.rcbuffer->pybuffer, (PyObject*)__pyx_v_frame, &__Pyx_TypeInfo_nn___pyx_t_5types_color_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 3, 0, __pyx_stack) == -1)) __PYX_ERR(0, 7, __pyx_L1_error)
   }
   __pyx_pybuffernd_frame.diminfo[0].strides = __pyx_pybuffernd_frame.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_frame.diminfo[0].shape = __pyx_pybuffernd_frame.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_frame.diminfo[1].strides = __pyx_pybuffernd_frame.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_frame.diminfo[1].shape = __pyx_pybuffernd_frame.rcbuffer->pybuffer.shape[1]; __pyx_pybuffernd_frame.diminfo[2].strides = __pyx_pybuffernd_frame.rcbuffer->pybuffer.strides[2]; __pyx_pybuffernd_frame.diminfo[2].shape = __pyx_pybuffernd_frame.rcbuffer->pybuffer.shape[2];
 
-  /* "event_processing/draw_events.pyx":12
+  /* "event_processing/draw_events.pyx":11
  *             event_t[:] event_buffer
  *         ):
  *     cdef int num_events = len(event_buffer)             # <<<<<<<<<<<<<<
@@ -2723,7 +2713,7 @@ static PyArrayObject *__pyx_f_16event_processing_11draw_events_draw_events(PyArr
   __pyx_t_1 = __Pyx_MemoryView_Len(__pyx_v_event_buffer); 
   __pyx_v_num_events = __pyx_t_1;
 
-  /* "event_processing/draw_events.pyx":17
+  /* "event_processing/draw_events.pyx":16
  *     cdef color_t color
  * 
  *     for i in range(num_events):             # <<<<<<<<<<<<<<
@@ -2735,7 +2725,7 @@ static PyArrayObject *__pyx_f_16event_processing_11draw_events_draw_events(PyArr
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "event_processing/draw_events.pyx":18
+    /* "event_processing/draw_events.pyx":17
  * 
  *     for i in range(num_events):
  *         e = event_buffer[i]             # <<<<<<<<<<<<<<
@@ -2743,18 +2733,9 @@ static PyArrayObject *__pyx_f_16event_processing_11draw_events_draw_events(PyArr
  *         frame[e.y, e.x, 0] = color
  */
     __pyx_t_5 = __pyx_v_i;
-    __pyx_t_6 = -1;
-    if (__pyx_t_5 < 0) {
-      __pyx_t_5 += __pyx_v_event_buffer.shape[0];
-      if (unlikely(__pyx_t_5 < 0)) __pyx_t_6 = 0;
-    } else if (unlikely(__pyx_t_5 >= __pyx_v_event_buffer.shape[0])) __pyx_t_6 = 0;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(0, 18, __pyx_L1_error)
-    }
     __pyx_v_e = (*((struct __pyx_t_5types_event_t *) ( /* dim=0 */ (__pyx_v_event_buffer.data + __pyx_t_5 * __pyx_v_event_buffer.strides[0]) )));
 
-    /* "event_processing/draw_events.pyx":19
+    /* "event_processing/draw_events.pyx":18
  *     for i in range(num_events):
  *         e = event_buffer[i]
  *         color = e.p*255             # <<<<<<<<<<<<<<
@@ -2763,7 +2744,7 @@ static PyArrayObject *__pyx_f_16event_processing_11draw_events_draw_events(PyArr
  */
     __pyx_v_color = (__pyx_v_e.p * 0xFF);
 
-    /* "event_processing/draw_events.pyx":20
+    /* "event_processing/draw_events.pyx":19
  *         e = event_buffer[i]
  *         color = e.p*255
  *         frame[e.y, e.x, 0] = color             # <<<<<<<<<<<<<<
@@ -2771,45 +2752,23 @@ static PyArrayObject *__pyx_f_16event_processing_11draw_events_draw_events(PyArr
  *         frame[e.y, e.x, 2] = color
  */
     __pyx_t_1 = __pyx_v_e.y;
-    __pyx_t_7 = __pyx_v_e.x;
+    __pyx_t_6 = __pyx_v_e.x;
     __pyx_t_5 = 0;
-    __pyx_t_6 = -1;
-    if (unlikely(__pyx_t_1 >= (size_t)__pyx_pybuffernd_frame.diminfo[0].shape)) __pyx_t_6 = 0;
-    if (unlikely(__pyx_t_7 >= (size_t)__pyx_pybuffernd_frame.diminfo[1].shape)) __pyx_t_6 = 1;
-    if (__pyx_t_5 < 0) {
-      __pyx_t_5 += __pyx_pybuffernd_frame.diminfo[2].shape;
-      if (unlikely(__pyx_t_5 < 0)) __pyx_t_6 = 2;
-    } else if (unlikely(__pyx_t_5 >= __pyx_pybuffernd_frame.diminfo[2].shape)) __pyx_t_6 = 2;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(0, 20, __pyx_L1_error)
-    }
-    *__Pyx_BufPtrStrided3d(__pyx_t_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_7, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_5, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
+    *__Pyx_BufPtrStrided3d(__pyx_t_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_6, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_5, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
 
-    /* "event_processing/draw_events.pyx":21
+    /* "event_processing/draw_events.pyx":20
  *         color = e.p*255
  *         frame[e.y, e.x, 0] = color
  *         frame[e.y, e.x, 1] = color             # <<<<<<<<<<<<<<
  *         frame[e.y, e.x, 2] = color
  * 
  */
-    __pyx_t_7 = __pyx_v_e.y;
+    __pyx_t_6 = __pyx_v_e.y;
     __pyx_t_1 = __pyx_v_e.x;
     __pyx_t_5 = 1;
-    __pyx_t_6 = -1;
-    if (unlikely(__pyx_t_7 >= (size_t)__pyx_pybuffernd_frame.diminfo[0].shape)) __pyx_t_6 = 0;
-    if (unlikely(__pyx_t_1 >= (size_t)__pyx_pybuffernd_frame.diminfo[1].shape)) __pyx_t_6 = 1;
-    if (__pyx_t_5 < 0) {
-      __pyx_t_5 += __pyx_pybuffernd_frame.diminfo[2].shape;
-      if (unlikely(__pyx_t_5 < 0)) __pyx_t_6 = 2;
-    } else if (unlikely(__pyx_t_5 >= __pyx_pybuffernd_frame.diminfo[2].shape)) __pyx_t_6 = 2;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(0, 21, __pyx_L1_error)
-    }
-    *__Pyx_BufPtrStrided3d(__pyx_t_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_7, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_1, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_5, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
+    *__Pyx_BufPtrStrided3d(__pyx_t_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_6, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_1, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_5, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
 
-    /* "event_processing/draw_events.pyx":22
+    /* "event_processing/draw_events.pyx":21
  *         frame[e.y, e.x, 0] = color
  *         frame[e.y, e.x, 1] = color
  *         frame[e.y, e.x, 2] = color             # <<<<<<<<<<<<<<
@@ -2817,23 +2776,12 @@ static PyArrayObject *__pyx_f_16event_processing_11draw_events_draw_events(PyArr
  *     return frame
  */
     __pyx_t_1 = __pyx_v_e.y;
-    __pyx_t_7 = __pyx_v_e.x;
+    __pyx_t_6 = __pyx_v_e.x;
     __pyx_t_5 = 2;
-    __pyx_t_6 = -1;
-    if (unlikely(__pyx_t_1 >= (size_t)__pyx_pybuffernd_frame.diminfo[0].shape)) __pyx_t_6 = 0;
-    if (unlikely(__pyx_t_7 >= (size_t)__pyx_pybuffernd_frame.diminfo[1].shape)) __pyx_t_6 = 1;
-    if (__pyx_t_5 < 0) {
-      __pyx_t_5 += __pyx_pybuffernd_frame.diminfo[2].shape;
-      if (unlikely(__pyx_t_5 < 0)) __pyx_t_6 = 2;
-    } else if (unlikely(__pyx_t_5 >= __pyx_pybuffernd_frame.diminfo[2].shape)) __pyx_t_6 = 2;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(0, 22, __pyx_L1_error)
-    }
-    *__Pyx_BufPtrStrided3d(__pyx_t_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_7, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_5, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
+    *__Pyx_BufPtrStrided3d(__pyx_t_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_6, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_5, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
   }
 
-  /* "event_processing/draw_events.pyx":24
+  /* "event_processing/draw_events.pyx":23
  *         frame[e.y, e.x, 2] = color
  * 
  *     return frame             # <<<<<<<<<<<<<<
@@ -2843,7 +2791,7 @@ static PyArrayObject *__pyx_f_16event_processing_11draw_events_draw_events(PyArr
   __pyx_r = ((PyArrayObject *)__pyx_v_frame);
   goto __pyx_L0;
 
-  /* "event_processing/draw_events.pyx":8
+  /* "event_processing/draw_events.pyx":7
  * from types cimport *
  * 
  * cpdef np.ndarray[color_t, ndim=3] draw_events(             # <<<<<<<<<<<<<<
@@ -2904,11 +2852,11 @@ static PyObject *__pyx_pw_16event_processing_11draw_events_1draw_events(PyObject
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_event_buffer)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("draw_events", 1, 2, 2, 1); __PYX_ERR(0, 8, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("draw_events", 1, 2, 2, 1); __PYX_ERR(0, 7, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "draw_events") < 0)) __PYX_ERR(0, 8, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "draw_events") < 0)) __PYX_ERR(0, 7, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2917,17 +2865,17 @@ static PyObject *__pyx_pw_16event_processing_11draw_events_1draw_events(PyObject
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
     __pyx_v_frame = ((PyArrayObject *)values[0]);
-    __pyx_v_event_buffer = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_struct____pyx_t_5types_event_t(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_event_buffer.memview)) __PYX_ERR(0, 10, __pyx_L3_error)
+    __pyx_v_event_buffer = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_struct____pyx_t_5types_event_t(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_event_buffer.memview)) __PYX_ERR(0, 9, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("draw_events", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 8, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("draw_events", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 7, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("event_processing.draw_events.draw_events", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_frame), __pyx_ptype_5numpy_ndarray, 1, "frame", 0))) __PYX_ERR(0, 9, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_frame), __pyx_ptype_5numpy_ndarray, 1, "frame", 0))) __PYX_ERR(0, 8, __pyx_L1_error)
   __pyx_r = __pyx_pf_16event_processing_11draw_events_draw_events(__pyx_self, __pyx_v_frame, __pyx_v_event_buffer);
 
   /* function exit code */
@@ -2955,12 +2903,12 @@ static PyObject *__pyx_pf_16event_processing_11draw_events_draw_events(CYTHON_UN
   __pyx_pybuffernd_frame.rcbuffer = &__pyx_pybuffer_frame;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_frame.rcbuffer->pybuffer, (PyObject*)__pyx_v_frame, &__Pyx_TypeInfo_nn___pyx_t_5types_color_t, PyBUF_FORMAT| PyBUF_STRIDES, 3, 0, __pyx_stack) == -1)) __PYX_ERR(0, 8, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_frame.rcbuffer->pybuffer, (PyObject*)__pyx_v_frame, &__Pyx_TypeInfo_nn___pyx_t_5types_color_t, PyBUF_FORMAT| PyBUF_STRIDES, 3, 0, __pyx_stack) == -1)) __PYX_ERR(0, 7, __pyx_L1_error)
   }
   __pyx_pybuffernd_frame.diminfo[0].strides = __pyx_pybuffernd_frame.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_frame.diminfo[0].shape = __pyx_pybuffernd_frame.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_frame.diminfo[1].strides = __pyx_pybuffernd_frame.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_frame.diminfo[1].shape = __pyx_pybuffernd_frame.rcbuffer->pybuffer.shape[1]; __pyx_pybuffernd_frame.diminfo[2].strides = __pyx_pybuffernd_frame.rcbuffer->pybuffer.strides[2]; __pyx_pybuffernd_frame.diminfo[2].shape = __pyx_pybuffernd_frame.rcbuffer->pybuffer.shape[2];
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_event_buffer.memview)) { __Pyx_RaiseUnboundLocalError("event_buffer"); __PYX_ERR(0, 8, __pyx_L1_error) }
-  __pyx_t_1 = ((PyObject *)__pyx_f_16event_processing_11draw_events_draw_events(__pyx_v_frame, __pyx_v_event_buffer, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  if (unlikely(!__pyx_v_event_buffer.memview)) { __Pyx_RaiseUnboundLocalError("event_buffer"); __PYX_ERR(0, 7, __pyx_L1_error) }
+  __pyx_t_1 = ((PyObject *)__pyx_f_16event_processing_11draw_events_draw_events(__pyx_v_frame, __pyx_v_event_buffer, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5186,7 +5134,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
         PyErr_SetString(PyExc_OverflowError, "value too large to perform division");
         __PYX_ERR(2, 180, __pyx_L1_error)
       }
-      __pyx_t_1 = __Pyx_div_Py_ssize_t(__pyx_v_self->len, __pyx_v_itemsize);
+      __pyx_t_1 = (__pyx_v_self->len / __pyx_v_itemsize);
       __pyx_t_9 = __pyx_t_1;
       for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_9; __pyx_t_11+=1) {
         __pyx_v_i = __pyx_t_11;
@@ -8867,7 +8815,7 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
  * 
  */
         __Pyx_XDECREF(__pyx_r);
-        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_result, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 498, __pyx_L5_except_error)
+        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_result, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 498, __pyx_L5_except_error)
         __Pyx_GOTREF(__pyx_t_1);
         __pyx_r = __pyx_t_1;
         __pyx_t_1 = 0;
@@ -13182,7 +13130,7 @@ static char *__pyx_pybuffer_index(Py_buffer *__pyx_v_view, char *__pyx_v_bufp, P
       PyErr_SetString(PyExc_OverflowError, "value too large to perform division");
       __PYX_ERR(2, 917, __pyx_L1_error)
     }
-    __pyx_v_shape = __Pyx_div_Py_ssize_t(__pyx_v_view->len, __pyx_v_itemsize);
+    __pyx_v_shape = (__pyx_v_view->len / __pyx_v_itemsize);
 
     /* "View.MemoryView":918
  *     if view.ndim == 0:
@@ -13487,7 +13435,7 @@ static int __pyx_memslice_transpose(__Pyx_memviewslice *__pyx_v_memslice) {
  *         j = ndim - 1 - i
  *         strides[i], strides[j] = strides[j], strides[i]
  */
-  __pyx_t_3 = __Pyx_div_long(__pyx_v_ndim, 2);
+  __pyx_t_3 = (__pyx_v_ndim / 2);
   __pyx_t_4 = __pyx_t_3;
   for (__pyx_t_1 = 0; __pyx_t_1 < __pyx_t_4; __pyx_t_1+=1) {
     __pyx_v_i = __pyx_t_1;
@@ -17422,7 +17370,7 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->name);
@@ -17467,7 +17415,7 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 14, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
@@ -18345,8 +18293,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_no_default___reduce___due_to_non, __pyx_k_no_default___reduce___due_to_non, sizeof(__pyx_k_no_default___reduce___due_to_non), 0, 0, 1, 0},
   {&__pyx_n_s_np, __pyx_k_np, sizeof(__pyx_k_np), 0, 0, 1, 1},
   {&__pyx_n_s_numpy, __pyx_k_numpy, sizeof(__pyx_k_numpy), 0, 0, 1, 1},
-  {&__pyx_kp_s_numpy_core_multiarray_failed_to, __pyx_k_numpy_core_multiarray_failed_to, sizeof(__pyx_k_numpy_core_multiarray_failed_to), 0, 0, 1, 0},
-  {&__pyx_kp_s_numpy_core_umath_failed_to_impor, __pyx_k_numpy_core_umath_failed_to_impor, sizeof(__pyx_k_numpy_core_umath_failed_to_impor), 0, 0, 1, 0},
+  {&__pyx_kp_u_numpy_core_multiarray_failed_to, __pyx_k_numpy_core_multiarray_failed_to, sizeof(__pyx_k_numpy_core_multiarray_failed_to), 0, 1, 0, 0},
+  {&__pyx_kp_u_numpy_core_umath_failed_to_impor, __pyx_k_numpy_core_umath_failed_to_impor, sizeof(__pyx_k_numpy_core_umath_failed_to_impor), 0, 1, 0, 0},
   {&__pyx_n_s_obj, __pyx_k_obj, sizeof(__pyx_k_obj), 0, 0, 1, 1},
   {&__pyx_n_s_p, __pyx_k_p, sizeof(__pyx_k_p), 0, 0, 1, 1},
   {&__pyx_n_s_pack, __pyx_k_pack, sizeof(__pyx_k_pack), 0, 0, 1, 1},
@@ -18386,7 +18334,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 16, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(1, 947, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(2, 14, __pyx_L1_error)
   __pyx_builtin_KeyError = __Pyx_GetBuiltinName(__pyx_n_s_KeyError); if (!__pyx_builtin_KeyError) __PYX_ERR(2, 18, __pyx_L1_error)
@@ -18412,7 +18360,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple_)) __PYX_ERR(1, 947, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple_)) __PYX_ERR(1, 947, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -18423,7 +18371,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(1, 953, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(1, 953, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -19126,22 +19074,22 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "event_processing/draw_events.pyx":4
- * # cython wraparound=False
+  /* "event_processing/draw_events.pyx":3
+ * # cython: language_level=3, boundscheck=False, wraparound=False, nonecheck=False, cdivision=True
  * 
  * import numpy as np             # <<<<<<<<<<<<<<
  * cimport numpy as np
  * from types cimport *
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "event_processing/draw_events.pyx":1
- * # cython boundscheck=False             # <<<<<<<<<<<<<<
- * # cython wraparound=False
+ * # cython: language_level=3, boundscheck=False, wraparound=False, nonecheck=False, cdivision=True             # <<<<<<<<<<<<<<
  * 
+ * import numpy as np
  */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -19929,12 +19877,6 @@ static int __Pyx__GetBufferAndValidate(
 fail:;
   __Pyx_SafeReleaseBuffer(buf);
   return -1;
-}
-
-/* BufferIndexError */
-  static void __Pyx_RaiseBufferIndexError(int axis) {
-  PyErr_Format(PyExc_IndexError,
-     "Out of bounds on buffer access (axis %d)", axis);
 }
 
 /* PyErrFetchRestore */
@@ -20999,14 +20941,6 @@ return_ne:
 #endif
 }
 
-/* None */
-  static CYTHON_INLINE Py_ssize_t __Pyx_div_Py_ssize_t(Py_ssize_t a, Py_ssize_t b) {
-    Py_ssize_t q = a / b;
-    Py_ssize_t r = a - q*b;
-    q -= ((r != 0) & ((r ^ b) < 0));
-    return q;
-}
-
 /* GetAttr */
   static CYTHON_INLINE PyObject *__Pyx_GetAttr(PyObject *o, PyObject *n) {
 #if CYTHON_USE_TYPE_SLOTS
@@ -21599,14 +21533,6 @@ static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED
     return (inplace ? PyNumber_InPlaceAdd : PyNumber_Add)(op1, op2);
 }
 #endif
-
-/* None */
-  static CYTHON_INLINE long __Pyx_div_long(long a, long b) {
-    long q = a / b;
-    long r = a - q*b;
-    q -= ((r != 0) & ((r ^ b) < 0));
-    return q;
-}
 
 /* ImportFrom */
   static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name) {

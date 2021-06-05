@@ -1,13 +1,15 @@
 
 from types cimport *
 
-cdef class InputQueue:
-    cdef int _depth
-    cdef event_t *_queue
-    cdef int _count
-    cdef int _front
-    cdef int _back
-    
-    cdef bool is_empty(self)
-    cdef void push(self, event_t event)
-    cdef event_t pop(self)
+cdef packed struct InputQueue_t:
+    int _depth
+    event_t *_queue
+    int _count
+    int _front
+    int _back
+
+cdef InputQueue_t init(int depth)
+cdef void dealloc(InputQueue_t self)
+cdef bool is_empty(InputQueue_t)
+cdef void push(InputQueue_t, event_t event)
+cdef event_t pop(InputQueue_t)

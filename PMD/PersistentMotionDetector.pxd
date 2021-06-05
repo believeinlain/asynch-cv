@@ -1,9 +1,10 @@
 
-
 cimport numpy as np
 from types cimport *
 
 from Partition cimport *
+cimport InputQueue
+from InputQueue cimport InputQueue_t
 
 cdef class PersistentMotionDetector:
     cdef int _x_div
@@ -16,6 +17,7 @@ cdef class PersistentMotionDetector:
     cdef xy_t _height
 
     cdef Partition _partition
+    cdef InputQueue_t *_input_queues
 
     cpdef np.ndarray[color_t, ndim=3] process_events(self,
             np.ndarray[color_t, ndim=3] frame, event_t[:] event_buffer)

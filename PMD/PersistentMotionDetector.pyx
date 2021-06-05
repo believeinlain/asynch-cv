@@ -1,5 +1,7 @@
+# cython: language_level=3, boundscheck=False, wraparound=False, nonecheck=False, cdivision=True
 
 import numpy as np
+from libc.stdlib cimport malloc, free
 
 cdef class PersistentMotionDetector:
     def __init__(self, xy_t width, xy_t height, parameters=None):
@@ -17,6 +19,12 @@ cdef class PersistentMotionDetector:
         self._height = height
 
         self._partition = Partition(width, height, self._x_div, self._y_div)
+        self._input_queues = <InputQueue_t*>malloc(self._x_div*self._y_div*sizeof(InputQueue_t))
+
+        cdef int i, j
+        for i in range(self._x_div):
+            for j in range(self._y_div):
+                self._input_queues[i*self._x_div + j] = InputQueue.init(self._input_queue_depth)
 
     cpdef np.ndarray[color_t, ndim=3] process_events(self,
             np.ndarray[color_t, ndim=3] frame, event_t[:] event_buffer):
@@ -28,13 +36,17 @@ cdef class PersistentMotionDetector:
 
         for i in range(num_events):
             e = event_buffer[i]
-            placement = self._partition.place_event(e.x, e.y)
+            place = self._partition.place_event(e.x, e.y)
+            InputQueue.push(self._input_queues[place.x*self._x_div + place.y], e)
             color = e.p*255
             frame[e.y, e.x, 0] = color
             frame[e.y, e.x, 1] = color
             frame[e.y, e.x, 2] = color
         
         return frame
+
+    def __dealloc__(self):
+        free(self._input_queues)
     
     # def tick_all(self, sys_time, event_callback, cluster_callback):
     #     # cycle through each event handler
