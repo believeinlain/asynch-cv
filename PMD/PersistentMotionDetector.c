@@ -2193,15 +2193,6 @@ static PyObject* __pyx_convert__to_py_struct____pyx_t_5types_event_t(struct __py
 static CYTHON_INLINE PyObject *__pyx_memview_get_nn_struct____pyx_t_5types_event_t(const char *itemp);
 static CYTHON_INLINE int __pyx_memview_set_nn_struct____pyx_t_5types_event_t(const char *itemp, PyObject *obj);
 
-struct __pyx_t_5types_point_t;
-static PyObject* __pyx_convert__to_py_struct____pyx_t_5types_point_t(struct __pyx_t_5types_point_t s);
-/* Print.proto */
-static int __Pyx_Print(PyObject*, PyObject *, int);
-#if CYTHON_COMPILING_IN_PYPY || PY_MAJOR_VERSION >= 3
-static PyObject* __pyx_print = 0;
-static PyObject* __pyx_print_kwargs = 0;
-#endif
-
 /* RealImag.proto */
 #if CYTHON_CCOMPLEX
   #ifdef __cplusplus
@@ -2336,9 +2327,6 @@ static CYTHON_INLINE unsigned PY_LONG_LONG __Pyx_PyInt_As_unsigned_PY_LONG_LONG(
 
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
-
-/* PrintOne.proto */
-static int __Pyx_PrintOne(PyObject* stream, PyObject *o);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE char __Pyx_PyInt_As_char(PyObject *);
@@ -2487,13 +2475,11 @@ static const char __pyx_k_x[] = "x";
 static const char __pyx_k_y[] = "y";
 static const char __pyx_k_id[] = "id";
 static const char __pyx_k_np[] = "np";
-static const char __pyx_k_end[] = "end";
 static const char __pyx_k_get[] = "get";
 static const char __pyx_k_new[] = "__new__";
 static const char __pyx_k_obj[] = "obj";
 static const char __pyx_k_base[] = "base";
 static const char __pyx_k_dict[] = "__dict__";
-static const char __pyx_k_file[] = "file";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_mode[] = "mode";
 static const char __pyx_k_name[] = "name";
@@ -2509,7 +2495,6 @@ static const char __pyx_k_error[] = "error";
 static const char __pyx_k_flags[] = "flags";
 static const char __pyx_k_frame[] = "frame";
 static const char __pyx_k_numpy[] = "numpy";
-static const char __pyx_k_print[] = "print";
 static const char __pyx_k_range[] = "range";
 static const char __pyx_k_shape[] = "shape";
 static const char __pyx_k_start[] = "start";
@@ -2639,12 +2624,10 @@ static PyObject *__pyx_kp_s_contiguous_and_indirect;
 static PyObject *__pyx_n_s_dict;
 static PyObject *__pyx_n_s_dtype_is_object;
 static PyObject *__pyx_n_s_encode;
-static PyObject *__pyx_n_s_end;
 static PyObject *__pyx_n_s_enumerate;
 static PyObject *__pyx_n_s_error;
 static PyObject *__pyx_n_s_event_buffer;
 static PyObject *__pyx_n_s_event_buffer_depth;
-static PyObject *__pyx_n_s_file;
 static PyObject *__pyx_n_s_flags;
 static PyObject *__pyx_n_s_format;
 static PyObject *__pyx_n_s_fortran;
@@ -2677,7 +2660,6 @@ static PyObject *__pyx_n_s_p;
 static PyObject *__pyx_n_s_pack;
 static PyObject *__pyx_n_s_parameters;
 static PyObject *__pyx_n_s_pickle;
-static PyObject *__pyx_n_s_print;
 static PyObject *__pyx_n_s_process_events;
 static PyObject *__pyx_n_s_pyx_PickleError;
 static PyObject *__pyx_n_s_pyx_checksum;
@@ -3126,6 +3108,7 @@ static PyArrayObject *__pyx_f_3PMD_24PersistentMotionDetector_24PersistentMotion
   int __pyx_v_i;
   struct __pyx_t_5types_event_t __pyx_v_e;
   __pyx_t_5types_color_t __pyx_v_color;
+  CYTHON_UNUSED struct __pyx_t_5types_point_t __pyx_v_placement;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_frame;
   __Pyx_Buffer __pyx_pybuffer_frame;
   PyArrayObject *__pyx_r = NULL;
@@ -3249,23 +3232,23 @@ static PyArrayObject *__pyx_f_3PMD_24PersistentMotionDetector_24PersistentMotion
   __pyx_t_8 = __Pyx_MemoryView_Len(__pyx_v_event_buffer); 
   __pyx_v_num_events = __pyx_t_8;
 
-  /* "PMD/PersistentMotionDetector.pyx":28
- *         cdef color_t color
+  /* "PMD/PersistentMotionDetector.pyx":29
+ *         cdef point_t placement
  * 
  *         for i in range(num_events):             # <<<<<<<<<<<<<<
  *             e = event_buffer[i]
- *             print(self._partition.place_event(e.x, e.y))
+ *             placement = self._partition.place_event(e.x, e.y)
  */
   __pyx_t_6 = __pyx_v_num_events;
   __pyx_t_9 = __pyx_t_6;
   for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
     __pyx_v_i = __pyx_t_10;
 
-    /* "PMD/PersistentMotionDetector.pyx":29
+    /* "PMD/PersistentMotionDetector.pyx":30
  * 
  *         for i in range(num_events):
  *             e = event_buffer[i]             # <<<<<<<<<<<<<<
- *             print(self._partition.place_event(e.x, e.y))
+ *             placement = self._partition.place_event(e.x, e.y)
  *             color = e.p*255
  */
     __pyx_t_11 = __pyx_v_i;
@@ -3276,33 +3259,30 @@ static PyArrayObject *__pyx_f_3PMD_24PersistentMotionDetector_24PersistentMotion
     } else if (unlikely(__pyx_t_11 >= __pyx_v_event_buffer.shape[0])) __pyx_t_12 = 0;
     if (unlikely(__pyx_t_12 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_12);
-      __PYX_ERR(0, 29, __pyx_L1_error)
+      __PYX_ERR(0, 30, __pyx_L1_error)
     }
     __pyx_v_e = (*((struct __pyx_t_5types_event_t *) ( /* dim=0 */ (__pyx_v_event_buffer.data + __pyx_t_11 * __pyx_v_event_buffer.strides[0]) )));
 
-    /* "PMD/PersistentMotionDetector.pyx":30
+    /* "PMD/PersistentMotionDetector.pyx":31
  *         for i in range(num_events):
  *             e = event_buffer[i]
- *             print(self._partition.place_event(e.x, e.y))             # <<<<<<<<<<<<<<
+ *             placement = self._partition.place_event(e.x, e.y)             # <<<<<<<<<<<<<<
  *             color = e.p*255
  *             frame[e.y, e.x, 0] = color
  */
-    __pyx_t_1 = __pyx_convert__to_py_struct____pyx_t_5types_point_t(((struct __pyx_vtabstruct_3PMD_9Partition_Partition *)__pyx_v_self->_partition->__pyx_vtab)->place_event(__pyx_v_self->_partition, __pyx_v_e.x, __pyx_v_e.y)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    if (__Pyx_PrintOne(0, __pyx_t_1) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_v_placement = ((struct __pyx_vtabstruct_3PMD_9Partition_Partition *)__pyx_v_self->_partition->__pyx_vtab)->place_event(__pyx_v_self->_partition, __pyx_v_e.x, __pyx_v_e.y);
 
-    /* "PMD/PersistentMotionDetector.pyx":31
+    /* "PMD/PersistentMotionDetector.pyx":32
  *             e = event_buffer[i]
- *             print(self._partition.place_event(e.x, e.y))
+ *             placement = self._partition.place_event(e.x, e.y)
  *             color = e.p*255             # <<<<<<<<<<<<<<
  *             frame[e.y, e.x, 0] = color
  *             frame[e.y, e.x, 1] = color
  */
     __pyx_v_color = (__pyx_v_e.p * 0xFF);
 
-    /* "PMD/PersistentMotionDetector.pyx":32
- *             print(self._partition.place_event(e.x, e.y))
+    /* "PMD/PersistentMotionDetector.pyx":33
+ *             placement = self._partition.place_event(e.x, e.y)
  *             color = e.p*255
  *             frame[e.y, e.x, 0] = color             # <<<<<<<<<<<<<<
  *             frame[e.y, e.x, 1] = color
@@ -3320,11 +3300,11 @@ static PyArrayObject *__pyx_f_3PMD_24PersistentMotionDetector_24PersistentMotion
     } else if (unlikely(__pyx_t_11 >= __pyx_pybuffernd_frame.diminfo[2].shape)) __pyx_t_12 = 2;
     if (unlikely(__pyx_t_12 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_12);
-      __PYX_ERR(0, 32, __pyx_L1_error)
+      __PYX_ERR(0, 33, __pyx_L1_error)
     }
     *__Pyx_BufPtrStrided3d(__pyx_t_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_8, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_13, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_11, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
 
-    /* "PMD/PersistentMotionDetector.pyx":33
+    /* "PMD/PersistentMotionDetector.pyx":34
  *             color = e.p*255
  *             frame[e.y, e.x, 0] = color
  *             frame[e.y, e.x, 1] = color             # <<<<<<<<<<<<<<
@@ -3343,11 +3323,11 @@ static PyArrayObject *__pyx_f_3PMD_24PersistentMotionDetector_24PersistentMotion
     } else if (unlikely(__pyx_t_11 >= __pyx_pybuffernd_frame.diminfo[2].shape)) __pyx_t_12 = 2;
     if (unlikely(__pyx_t_12 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_12);
-      __PYX_ERR(0, 33, __pyx_L1_error)
+      __PYX_ERR(0, 34, __pyx_L1_error)
     }
     *__Pyx_BufPtrStrided3d(__pyx_t_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_8, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_11, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
 
-    /* "PMD/PersistentMotionDetector.pyx":34
+    /* "PMD/PersistentMotionDetector.pyx":35
  *             frame[e.y, e.x, 0] = color
  *             frame[e.y, e.x, 1] = color
  *             frame[e.y, e.x, 2] = color             # <<<<<<<<<<<<<<
@@ -3366,12 +3346,12 @@ static PyArrayObject *__pyx_f_3PMD_24PersistentMotionDetector_24PersistentMotion
     } else if (unlikely(__pyx_t_11 >= __pyx_pybuffernd_frame.diminfo[2].shape)) __pyx_t_12 = 2;
     if (unlikely(__pyx_t_12 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_12);
-      __PYX_ERR(0, 34, __pyx_L1_error)
+      __PYX_ERR(0, 35, __pyx_L1_error)
     }
     *__Pyx_BufPtrStrided3d(__pyx_t_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_8, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_13, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_11, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
   }
 
-  /* "PMD/PersistentMotionDetector.pyx":36
+  /* "PMD/PersistentMotionDetector.pyx":37
  *             frame[e.y, e.x, 2] = color
  * 
  *         return frame             # <<<<<<<<<<<<<<
@@ -19792,12 +19772,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_dict, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
   {&__pyx_n_s_dtype_is_object, __pyx_k_dtype_is_object, sizeof(__pyx_k_dtype_is_object), 0, 0, 1, 1},
   {&__pyx_n_s_encode, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
-  {&__pyx_n_s_end, __pyx_k_end, sizeof(__pyx_k_end), 0, 0, 1, 1},
   {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
   {&__pyx_n_s_error, __pyx_k_error, sizeof(__pyx_k_error), 0, 0, 1, 1},
   {&__pyx_n_s_event_buffer, __pyx_k_event_buffer, sizeof(__pyx_k_event_buffer), 0, 0, 1, 1},
   {&__pyx_n_s_event_buffer_depth, __pyx_k_event_buffer_depth, sizeof(__pyx_k_event_buffer_depth), 0, 0, 1, 1},
-  {&__pyx_n_s_file, __pyx_k_file, sizeof(__pyx_k_file), 0, 0, 1, 1},
   {&__pyx_n_s_flags, __pyx_k_flags, sizeof(__pyx_k_flags), 0, 0, 1, 1},
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
   {&__pyx_n_s_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 0, 1, 1},
@@ -19830,7 +19808,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pack, __pyx_k_pack, sizeof(__pyx_k_pack), 0, 0, 1, 1},
   {&__pyx_n_s_parameters, __pyx_k_parameters, sizeof(__pyx_k_parameters), 0, 0, 1, 1},
   {&__pyx_n_s_pickle, __pyx_k_pickle, sizeof(__pyx_k_pickle), 0, 0, 1, 1},
-  {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
   {&__pyx_n_s_process_events, __pyx_k_process_events, sizeof(__pyx_k_process_events), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_PickleError, __pyx_k_pyx_PickleError, sizeof(__pyx_k_pyx_PickleError), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_checksum, __pyx_k_pyx_checksum, sizeof(__pyx_k_pyx_checksum), 0, 0, 1, 1},
@@ -19871,7 +19848,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 29, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 947, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 14, __pyx_L1_error)
   __pyx_builtin_KeyError = __Pyx_GetBuiltinName(__pyx_n_s_KeyError); if (!__pyx_builtin_KeyError) __PYX_ERR(1, 18, __pyx_L1_error)
@@ -24079,128 +24056,6 @@ static CYTHON_INLINE int __pyx_memview_set_nn_struct____pyx_t_5types_event_t(con
     return 1;
 }
 
-static PyObject* __pyx_convert__to_py_struct____pyx_t_5types_point_t(struct __pyx_t_5types_point_t s) {
-    PyObject* res;
-    PyObject* member;
-    res = __Pyx_PyDict_NewPresized(2); if (unlikely(!res)) return NULL;
-    member = __Pyx_PyInt_From_unsigned_short(s.x); if (unlikely(!member)) goto bad;
-    if (unlikely(PyDict_SetItem(res, __pyx_n_s_x, member) < 0)) goto bad;
-    Py_DECREF(member);
-    member = __Pyx_PyInt_From_unsigned_short(s.y); if (unlikely(!member)) goto bad;
-    if (unlikely(PyDict_SetItem(res, __pyx_n_s_y, member) < 0)) goto bad;
-    Py_DECREF(member);
-    return res;
-    bad:
-    Py_XDECREF(member);
-    Py_DECREF(res);
-    return NULL;
-  }
-  /* Print */
-  #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
-static PyObject *__Pyx_GetStdout(void) {
-    PyObject *f = PySys_GetObject((char *)"stdout");
-    if (!f) {
-        PyErr_SetString(PyExc_RuntimeError, "lost sys.stdout");
-    }
-    return f;
-}
-static int __Pyx_Print(PyObject* f, PyObject *arg_tuple, int newline) {
-    int i;
-    if (!f) {
-        if (!(f = __Pyx_GetStdout()))
-            return -1;
-    }
-    Py_INCREF(f);
-    for (i=0; i < PyTuple_GET_SIZE(arg_tuple); i++) {
-        PyObject* v;
-        if (PyFile_SoftSpace(f, 1)) {
-            if (PyFile_WriteString(" ", f) < 0)
-                goto error;
-        }
-        v = PyTuple_GET_ITEM(arg_tuple, i);
-        if (PyFile_WriteObject(v, f, Py_PRINT_RAW) < 0)
-            goto error;
-        if (PyString_Check(v)) {
-            char *s = PyString_AsString(v);
-            Py_ssize_t len = PyString_Size(v);
-            if (len > 0) {
-                switch (s[len-1]) {
-                    case ' ': break;
-                    case '\f': case '\r': case '\n': case '\t': case '\v':
-                        PyFile_SoftSpace(f, 0);
-                        break;
-                    default:  break;
-                }
-            }
-        }
-    }
-    if (newline) {
-        if (PyFile_WriteString("\n", f) < 0)
-            goto error;
-        PyFile_SoftSpace(f, 0);
-    }
-    Py_DECREF(f);
-    return 0;
-error:
-    Py_DECREF(f);
-    return -1;
-}
-#else
-static int __Pyx_Print(PyObject* stream, PyObject *arg_tuple, int newline) {
-    PyObject* kwargs = 0;
-    PyObject* result = 0;
-    PyObject* end_string;
-    if (unlikely(!__pyx_print)) {
-        __pyx_print = PyObject_GetAttr(__pyx_b, __pyx_n_s_print);
-        if (!__pyx_print)
-            return -1;
-    }
-    if (stream) {
-        kwargs = PyDict_New();
-        if (unlikely(!kwargs))
-            return -1;
-        if (unlikely(PyDict_SetItem(kwargs, __pyx_n_s_file, stream) < 0))
-            goto bad;
-        if (!newline) {
-            end_string = PyUnicode_FromStringAndSize(" ", 1);
-            if (unlikely(!end_string))
-                goto bad;
-            if (PyDict_SetItem(kwargs, __pyx_n_s_end, end_string) < 0) {
-                Py_DECREF(end_string);
-                goto bad;
-            }
-            Py_DECREF(end_string);
-        }
-    } else if (!newline) {
-        if (unlikely(!__pyx_print_kwargs)) {
-            __pyx_print_kwargs = PyDict_New();
-            if (unlikely(!__pyx_print_kwargs))
-                return -1;
-            end_string = PyUnicode_FromStringAndSize(" ", 1);
-            if (unlikely(!end_string))
-                return -1;
-            if (PyDict_SetItem(__pyx_print_kwargs, __pyx_n_s_end, end_string) < 0) {
-                Py_DECREF(end_string);
-                return -1;
-            }
-            Py_DECREF(end_string);
-        }
-        kwargs = __pyx_print_kwargs;
-    }
-    result = PyObject_Call(__pyx_print, arg_tuple, kwargs);
-    if (unlikely(kwargs) && (kwargs != __pyx_print_kwargs))
-        Py_DECREF(kwargs);
-    if (!result)
-        return -1;
-    Py_DECREF(result);
-    return 0;
-bad:
-    if (kwargs != __pyx_print_kwargs)
-        Py_XDECREF(kwargs);
-    return -1;
-}
-#endif
-
 /* Declarations */
   #if CYTHON_CCOMPLEX
   #ifdef __cplusplus
@@ -25745,43 +25600,6 @@ raise_neg_overflow:
                                      little, !is_unsigned);
     }
 }
-
-/* PrintOne */
-  #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
-static int __Pyx_PrintOne(PyObject* f, PyObject *o) {
-    if (!f) {
-        if (!(f = __Pyx_GetStdout()))
-            return -1;
-    }
-    Py_INCREF(f);
-    if (PyFile_SoftSpace(f, 0)) {
-        if (PyFile_WriteString(" ", f) < 0)
-            goto error;
-    }
-    if (PyFile_WriteObject(o, f, Py_PRINT_RAW) < 0)
-        goto error;
-    if (PyFile_WriteString("\n", f) < 0)
-        goto error;
-    Py_DECREF(f);
-    return 0;
-error:
-    Py_DECREF(f);
-    return -1;
-    /* the line below is just to avoid C compiler
-     * warnings about unused functions */
-    return __Pyx_Print(f, NULL, 0);
-}
-#else
-static int __Pyx_PrintOne(PyObject* stream, PyObject *o) {
-    int res;
-    PyObject* arg_tuple = PyTuple_Pack(1, o);
-    if (unlikely(!arg_tuple))
-        return -1;
-    res = __Pyx_Print(stream, arg_tuple, 1);
-    Py_DECREF(arg_tuple);
-    return res;
-}
-#endif
 
 /* CIntFromPy */
   static CYTHON_INLINE char __Pyx_PyInt_As_char(PyObject *x) {
