@@ -1273,7 +1273,7 @@ static struct __pyx_t_3PMD_10InputQueue_InputQueue_t __pyx_f_3PMD_10InputQueue_i
  *     new_queue._count = 0
  *     return new_queue             # <<<<<<<<<<<<<<
  * 
- * cdef void dealloc(InputQueue_t self):
+ * cdef void dealloc(InputQueue_t *self):
  */
   __pyx_r = __pyx_v_new_queue;
   goto __pyx_L0;
@@ -1295,28 +1295,28 @@ static struct __pyx_t_3PMD_10InputQueue_InputQueue_t __pyx_f_3PMD_10InputQueue_i
 /* "PMD/InputQueue.pyx":14
  *     return new_queue
  * 
- * cdef void dealloc(InputQueue_t self):             # <<<<<<<<<<<<<<
+ * cdef void dealloc(InputQueue_t *self):             # <<<<<<<<<<<<<<
  *     free(self._queue)
  * 
  */
 
-static void __pyx_f_3PMD_10InputQueue_dealloc(struct __pyx_t_3PMD_10InputQueue_InputQueue_t __pyx_v_self) {
+static void __pyx_f_3PMD_10InputQueue_dealloc(struct __pyx_t_3PMD_10InputQueue_InputQueue_t *__pyx_v_self) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("dealloc", 0);
 
   /* "PMD/InputQueue.pyx":15
  * 
- * cdef void dealloc(InputQueue_t self):
+ * cdef void dealloc(InputQueue_t *self):
  *     free(self._queue)             # <<<<<<<<<<<<<<
  * 
- * cdef bool is_empty(InputQueue_t self):
+ * cdef bool is_empty(InputQueue_t *self):
  */
-  free(__pyx_v_self._queue);
+  free(__pyx_v_self->_queue);
 
   /* "PMD/InputQueue.pyx":14
  *     return new_queue
  * 
- * cdef void dealloc(InputQueue_t self):             # <<<<<<<<<<<<<<
+ * cdef void dealloc(InputQueue_t *self):             # <<<<<<<<<<<<<<
  *     free(self._queue)
  * 
  */
@@ -1328,30 +1328,30 @@ static void __pyx_f_3PMD_10InputQueue_dealloc(struct __pyx_t_3PMD_10InputQueue_I
 /* "PMD/InputQueue.pyx":17
  *     free(self._queue)
  * 
- * cdef bool is_empty(InputQueue_t self):             # <<<<<<<<<<<<<<
+ * cdef bool is_empty(InputQueue_t *self):             # <<<<<<<<<<<<<<
  *     return (self._count == 0)
  * 
  */
 
-static __pyx_t_5types_bool __pyx_f_3PMD_10InputQueue_is_empty(struct __pyx_t_3PMD_10InputQueue_InputQueue_t __pyx_v_self) {
+static __pyx_t_5types_bool __pyx_f_3PMD_10InputQueue_is_empty(struct __pyx_t_3PMD_10InputQueue_InputQueue_t *__pyx_v_self) {
   __pyx_t_5types_bool __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("is_empty", 0);
 
   /* "PMD/InputQueue.pyx":18
  * 
- * cdef bool is_empty(InputQueue_t self):
+ * cdef bool is_empty(InputQueue_t *self):
  *     return (self._count == 0)             # <<<<<<<<<<<<<<
  * 
- * cdef void push(InputQueue_t self, event_t event):
+ * cdef void push(InputQueue_t *self, event_t event):
  */
-  __pyx_r = (__pyx_v_self._count == 0);
+  __pyx_r = (__pyx_v_self->_count == 0);
   goto __pyx_L0;
 
   /* "PMD/InputQueue.pyx":17
  *     free(self._queue)
  * 
- * cdef bool is_empty(InputQueue_t self):             # <<<<<<<<<<<<<<
+ * cdef bool is_empty(InputQueue_t *self):             # <<<<<<<<<<<<<<
  *     return (self._count == 0)
  * 
  */
@@ -1365,58 +1365,58 @@ static __pyx_t_5types_bool __pyx_f_3PMD_10InputQueue_is_empty(struct __pyx_t_3PM
 /* "PMD/InputQueue.pyx":20
  *     return (self._count == 0)
  * 
- * cdef void push(InputQueue_t self, event_t event):             # <<<<<<<<<<<<<<
+ * cdef void push(InputQueue_t *self, event_t event):             # <<<<<<<<<<<<<<
  *     self._queue[self._back] = event
  *     self._back = (self._back + 1) % self._depth
  */
 
-static void __pyx_f_3PMD_10InputQueue_push(struct __pyx_t_3PMD_10InputQueue_InputQueue_t __pyx_v_self, struct __pyx_t_5types_event_t __pyx_v_event) {
+static void __pyx_f_3PMD_10InputQueue_push(struct __pyx_t_3PMD_10InputQueue_InputQueue_t *__pyx_v_self, struct __pyx_t_5types_event_t __pyx_v_event) {
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("push", 0);
 
   /* "PMD/InputQueue.pyx":21
  * 
- * cdef void push(InputQueue_t self, event_t event):
+ * cdef void push(InputQueue_t *self, event_t event):
  *     self._queue[self._back] = event             # <<<<<<<<<<<<<<
  *     self._back = (self._back + 1) % self._depth
  * 
  */
-  (__pyx_v_self._queue[__pyx_v_self._back]) = __pyx_v_event;
+  (__pyx_v_self->_queue[__pyx_v_self->_back]) = __pyx_v_event;
 
   /* "PMD/InputQueue.pyx":22
- * cdef void push(InputQueue_t self, event_t event):
+ * cdef void push(InputQueue_t *self, event_t event):
  *     self._queue[self._back] = event
  *     self._back = (self._back + 1) % self._depth             # <<<<<<<<<<<<<<
  * 
  *     if self._count < self._depth:
  */
-  __pyx_v_self._back = ((__pyx_v_self._back + 1) % __pyx_v_self._depth);
+  __pyx_v_self->_back = ((__pyx_v_self->_back + 1) % __pyx_v_self->_depth);
 
   /* "PMD/InputQueue.pyx":24
  *     self._back = (self._back + 1) % self._depth
  * 
  *     if self._count < self._depth:             # <<<<<<<<<<<<<<
- *         self._count += 1
+ *         self._count = self._count + 1
  * 
  */
-  __pyx_t_1 = ((__pyx_v_self._count < __pyx_v_self._depth) != 0);
+  __pyx_t_1 = ((__pyx_v_self->_count < __pyx_v_self->_depth) != 0);
   if (__pyx_t_1) {
 
     /* "PMD/InputQueue.pyx":25
  * 
  *     if self._count < self._depth:
- *         self._count += 1             # <<<<<<<<<<<<<<
+ *         self._count = self._count + 1             # <<<<<<<<<<<<<<
  * 
- * cdef event_t pop(InputQueue_t self):
+ * cdef event_t pop(InputQueue_t *self):
  */
-    __pyx_v_self._count = (__pyx_v_self._count + 1);
+    __pyx_v_self->_count = (__pyx_v_self->_count + 1);
 
     /* "PMD/InputQueue.pyx":24
  *     self._back = (self._back + 1) % self._depth
  * 
  *     if self._count < self._depth:             # <<<<<<<<<<<<<<
- *         self._count += 1
+ *         self._count = self._count + 1
  * 
  */
   }
@@ -1424,7 +1424,7 @@ static void __pyx_f_3PMD_10InputQueue_push(struct __pyx_t_3PMD_10InputQueue_Inpu
   /* "PMD/InputQueue.pyx":20
  *     return (self._count == 0)
  * 
- * cdef void push(InputQueue_t self, event_t event):             # <<<<<<<<<<<<<<
+ * cdef void push(InputQueue_t *self, event_t event):             # <<<<<<<<<<<<<<
  *     self._queue[self._back] = event
  *     self._back = (self._back + 1) % self._depth
  */
@@ -1434,14 +1434,14 @@ static void __pyx_f_3PMD_10InputQueue_push(struct __pyx_t_3PMD_10InputQueue_Inpu
 }
 
 /* "PMD/InputQueue.pyx":27
- *         self._count += 1
+ *         self._count = self._count + 1
  * 
- * cdef event_t pop(InputQueue_t self):             # <<<<<<<<<<<<<<
+ * cdef event_t pop(InputQueue_t *self):             # <<<<<<<<<<<<<<
  *     cdef event_t item
  * 
  */
 
-static struct __pyx_t_5types_event_t __pyx_f_3PMD_10InputQueue_pop(struct __pyx_t_3PMD_10InputQueue_InputQueue_t __pyx_v_self) {
+static struct __pyx_t_5types_event_t __pyx_f_3PMD_10InputQueue_pop(struct __pyx_t_3PMD_10InputQueue_InputQueue_t *__pyx_v_self) {
   struct __pyx_t_5types_event_t __pyx_v_item;
   struct __pyx_t_5types_event_t __pyx_r;
   __Pyx_RefNannyDeclarations
@@ -1455,7 +1455,7 @@ static struct __pyx_t_5types_event_t __pyx_f_3PMD_10InputQueue_pop(struct __pyx_
  *         item = self._queue[self._front]
  *         self._count -= 1
  */
-  __pyx_t_1 = ((__pyx_v_self._count > 0) != 0);
+  __pyx_t_1 = ((__pyx_v_self->_count > 0) != 0);
   if (__pyx_t_1) {
 
     /* "PMD/InputQueue.pyx":31
@@ -1465,7 +1465,7 @@ static struct __pyx_t_5types_event_t __pyx_f_3PMD_10InputQueue_pop(struct __pyx_
  *         self._count -= 1
  *         self._front = (self._front + 1) % self._depth
  */
-    __pyx_v_item = (__pyx_v_self._queue[__pyx_v_self._front]);
+    __pyx_v_item = (__pyx_v_self->_queue[__pyx_v_self->_front]);
 
     /* "PMD/InputQueue.pyx":32
  *     if self._count > 0:
@@ -1474,7 +1474,7 @@ static struct __pyx_t_5types_event_t __pyx_f_3PMD_10InputQueue_pop(struct __pyx_
  *         self._front = (self._front + 1) % self._depth
  * 
  */
-    __pyx_v_self._count = (__pyx_v_self._count - 1);
+    __pyx_v_self->_count = (__pyx_v_self->_count - 1);
 
     /* "PMD/InputQueue.pyx":33
  *         item = self._queue[self._front]
@@ -1483,7 +1483,7 @@ static struct __pyx_t_5types_event_t __pyx_f_3PMD_10InputQueue_pop(struct __pyx_
  * 
  *     return item
  */
-    __pyx_v_self._front = ((__pyx_v_self._front + 1) % __pyx_v_self._depth);
+    __pyx_v_self->_front = ((__pyx_v_self->_front + 1) % __pyx_v_self->_depth);
 
     /* "PMD/InputQueue.pyx":30
  *     cdef event_t item
@@ -1503,9 +1503,9 @@ static struct __pyx_t_5types_event_t __pyx_f_3PMD_10InputQueue_pop(struct __pyx_
   goto __pyx_L0;
 
   /* "PMD/InputQueue.pyx":27
- *         self._count += 1
+ *         self._count = self._count + 1
  * 
- * cdef event_t pop(InputQueue_t self):             # <<<<<<<<<<<<<<
+ * cdef event_t pop(InputQueue_t *self):             # <<<<<<<<<<<<<<
  *     cdef event_t item
  * 
  */
@@ -1618,10 +1618,10 @@ static int __Pyx_modinit_function_export_code(void) {
   __Pyx_RefNannySetupContext("__Pyx_modinit_function_export_code", 0);
   /*--- Function export code ---*/
   if (__Pyx_ExportFunction("init", (void (*)(void))__pyx_f_3PMD_10InputQueue_init, "struct __pyx_t_3PMD_10InputQueue_InputQueue_t (int)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__Pyx_ExportFunction("dealloc", (void (*)(void))__pyx_f_3PMD_10InputQueue_dealloc, "void (struct __pyx_t_3PMD_10InputQueue_InputQueue_t)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__Pyx_ExportFunction("is_empty", (void (*)(void))__pyx_f_3PMD_10InputQueue_is_empty, "__pyx_t_5types_bool (struct __pyx_t_3PMD_10InputQueue_InputQueue_t)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__Pyx_ExportFunction("push", (void (*)(void))__pyx_f_3PMD_10InputQueue_push, "void (struct __pyx_t_3PMD_10InputQueue_InputQueue_t, struct __pyx_t_5types_event_t)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__Pyx_ExportFunction("pop", (void (*)(void))__pyx_f_3PMD_10InputQueue_pop, "struct __pyx_t_5types_event_t (struct __pyx_t_3PMD_10InputQueue_InputQueue_t)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("dealloc", (void (*)(void))__pyx_f_3PMD_10InputQueue_dealloc, "void (struct __pyx_t_3PMD_10InputQueue_InputQueue_t *)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("is_empty", (void (*)(void))__pyx_f_3PMD_10InputQueue_is_empty, "__pyx_t_5types_bool (struct __pyx_t_3PMD_10InputQueue_InputQueue_t *)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("push", (void (*)(void))__pyx_f_3PMD_10InputQueue_push, "void (struct __pyx_t_3PMD_10InputQueue_InputQueue_t *, struct __pyx_t_5types_event_t)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("pop", (void (*)(void))__pyx_f_3PMD_10InputQueue_pop, "struct __pyx_t_5types_event_t (struct __pyx_t_3PMD_10InputQueue_InputQueue_t *)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;

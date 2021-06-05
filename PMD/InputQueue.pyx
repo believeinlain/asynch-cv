@@ -11,20 +11,20 @@ cdef InputQueue_t init(int depth):
     new_queue._count = 0
     return new_queue
 
-cdef void dealloc(InputQueue_t self):
+cdef void dealloc(InputQueue_t *self):
     free(self._queue)
 
-cdef bool is_empty(InputQueue_t self):
+cdef bool is_empty(InputQueue_t *self):
     return (self._count == 0)
 
-cdef void push(InputQueue_t self, event_t event):
+cdef void push(InputQueue_t *self, event_t event):
     self._queue[self._back] = event
     self._back = (self._back + 1) % self._depth
 
     if self._count < self._depth:
-        self._count += 1
+        self._count = self._count + 1
 
-cdef event_t pop(InputQueue_t self):
+cdef event_t pop(InputQueue_t *self):
     cdef event_t item
 
     if self._count > 0:

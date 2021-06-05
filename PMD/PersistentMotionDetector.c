@@ -2415,7 +2415,10 @@ static PyTypeObject *__pyx_ptype_3PMD_9Partition_Partition = 0;
 
 /* Module declarations from 'PMD.InputQueue' */
 static struct __pyx_t_3PMD_10InputQueue_InputQueue_t (*__pyx_f_3PMD_10InputQueue_init)(int); /*proto*/
-static void (*__pyx_f_3PMD_10InputQueue_push)(struct __pyx_t_3PMD_10InputQueue_InputQueue_t, struct __pyx_t_5types_event_t); /*proto*/
+static void (*__pyx_f_3PMD_10InputQueue_dealloc)(struct __pyx_t_3PMD_10InputQueue_InputQueue_t *); /*proto*/
+static __pyx_t_5types_bool (*__pyx_f_3PMD_10InputQueue_is_empty)(struct __pyx_t_3PMD_10InputQueue_InputQueue_t *); /*proto*/
+static void (*__pyx_f_3PMD_10InputQueue_push)(struct __pyx_t_3PMD_10InputQueue_InputQueue_t *, struct __pyx_t_5types_event_t); /*proto*/
+static struct __pyx_t_5types_event_t (*__pyx_f_3PMD_10InputQueue_pop)(struct __pyx_t_3PMD_10InputQueue_InputQueue_t *); /*proto*/
 
 /* Module declarations from 'libc.stdlib' */
 
@@ -3111,7 +3114,7 @@ static int __pyx_pf_3PMD_24PersistentMotionDetector_24PersistentMotionDetector__
  *         cdef int i, j
  *         for i in range(self._x_div):             # <<<<<<<<<<<<<<
  *             for j in range(self._y_div):
- *                 self._input_queues[i*self._x_div + j] = InputQueue.init(self._input_queue_depth)
+ *                 self._input_queues[i + j*self._x_div] = InputQueue.init(self._input_queue_depth)
  */
   __pyx_t_5 = __pyx_v_self->_x_div;
   __pyx_t_9 = __pyx_t_5;
@@ -3122,7 +3125,7 @@ static int __pyx_pf_3PMD_24PersistentMotionDetector_24PersistentMotionDetector__
  *         cdef int i, j
  *         for i in range(self._x_div):
  *             for j in range(self._y_div):             # <<<<<<<<<<<<<<
- *                 self._input_queues[i*self._x_div + j] = InputQueue.init(self._input_queue_depth)
+ *                 self._input_queues[i + j*self._x_div] = InputQueue.init(self._input_queue_depth)
  * 
  */
     __pyx_t_11 = __pyx_v_self->_y_div;
@@ -3133,11 +3136,11 @@ static int __pyx_pf_3PMD_24PersistentMotionDetector_24PersistentMotionDetector__
       /* "PMD/PersistentMotionDetector.pyx":27
  *         for i in range(self._x_div):
  *             for j in range(self._y_div):
- *                 self._input_queues[i*self._x_div + j] = InputQueue.init(self._input_queue_depth)             # <<<<<<<<<<<<<<
+ *                 self._input_queues[i + j*self._x_div] = InputQueue.init(self._input_queue_depth)             # <<<<<<<<<<<<<<
  * 
  *     cpdef np.ndarray[color_t, ndim=3] process_events(self,
  */
-      (__pyx_v_self->_input_queues[((__pyx_v_i * __pyx_v_self->_x_div) + __pyx_v_j)]) = __pyx_f_3PMD_10InputQueue_init(__pyx_v_self->_input_queue_depth);
+      (__pyx_v_self->_input_queues[(__pyx_v_i + (__pyx_v_j * __pyx_v_self->_x_div))]) = __pyx_f_3PMD_10InputQueue_init(__pyx_v_self->_input_queue_depth);
     }
   }
 
@@ -3167,7 +3170,7 @@ static int __pyx_pf_3PMD_24PersistentMotionDetector_24PersistentMotionDetector__
 }
 
 /* "PMD/PersistentMotionDetector.pyx":29
- *                 self._input_queues[i*self._x_div + j] = InputQueue.init(self._input_queue_depth)
+ *                 self._input_queues[i + j*self._x_div] = InputQueue.init(self._input_queue_depth)
  * 
  *     cpdef np.ndarray[color_t, ndim=3] process_events(self,             # <<<<<<<<<<<<<<
  *             np.ndarray[color_t, ndim=3] frame, event_t[:] event_buffer):
@@ -3196,7 +3199,8 @@ static PyArrayObject *__pyx_f_3PMD_24PersistentMotionDetector_24PersistentMotion
   int __pyx_t_9;
   int __pyx_t_10;
   Py_ssize_t __pyx_t_11;
-  size_t __pyx_t_12;
+  int __pyx_t_12;
+  size_t __pyx_t_13;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -3303,9 +3307,9 @@ static PyArrayObject *__pyx_f_3PMD_24PersistentMotionDetector_24PersistentMotion
   __pyx_t_8 = __Pyx_MemoryView_Len(__pyx_v_event_buffer); 
   __pyx_v_num_events = __pyx_t_8;
 
-  /* "PMD/PersistentMotionDetector.pyx":37
- *         cdef point_t placement
+  /* "PMD/PersistentMotionDetector.pyx":38
  * 
+ *         # sort incoming events
  *         for i in range(num_events):             # <<<<<<<<<<<<<<
  *             e = event_buffer[i]
  *             place = self._partition.place_event(e.x, e.y)
@@ -3315,82 +3319,116 @@ static PyArrayObject *__pyx_f_3PMD_24PersistentMotionDetector_24PersistentMotion
   for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
     __pyx_v_i = __pyx_t_10;
 
-    /* "PMD/PersistentMotionDetector.pyx":38
- * 
+    /* "PMD/PersistentMotionDetector.pyx":39
+ *         # sort incoming events
  *         for i in range(num_events):
  *             e = event_buffer[i]             # <<<<<<<<<<<<<<
  *             place = self._partition.place_event(e.x, e.y)
- *             InputQueue.push(self._input_queues[place.x*self._x_div + place.y], e)
+ *             InputQueue.push(&self._input_queues[place.x + place.y*self._x_div], e)
  */
     __pyx_t_11 = __pyx_v_i;
     __pyx_v_e = (*((struct __pyx_t_5types_event_t *) ( /* dim=0 */ (__pyx_v_event_buffer.data + __pyx_t_11 * __pyx_v_event_buffer.strides[0]) )));
 
-    /* "PMD/PersistentMotionDetector.pyx":39
+    /* "PMD/PersistentMotionDetector.pyx":40
  *         for i in range(num_events):
  *             e = event_buffer[i]
  *             place = self._partition.place_event(e.x, e.y)             # <<<<<<<<<<<<<<
- *             InputQueue.push(self._input_queues[place.x*self._x_div + place.y], e)
- *             color = e.p*255
+ *             InputQueue.push(&self._input_queues[place.x + place.y*self._x_div], e)
+ * 
  */
     __pyx_v_place = ((struct __pyx_vtabstruct_3PMD_9Partition_Partition *)__pyx_v_self->_partition->__pyx_vtab)->place_event(__pyx_v_self->_partition, __pyx_v_e.x, __pyx_v_e.y);
 
-    /* "PMD/PersistentMotionDetector.pyx":40
+    /* "PMD/PersistentMotionDetector.pyx":41
  *             e = event_buffer[i]
  *             place = self._partition.place_event(e.x, e.y)
- *             InputQueue.push(self._input_queues[place.x*self._x_div + place.y], e)             # <<<<<<<<<<<<<<
- *             color = e.p*255
- *             frame[e.y, e.x, 0] = color
+ *             InputQueue.push(&self._input_queues[place.x + place.y*self._x_div], e)             # <<<<<<<<<<<<<<
+ * 
+ *         # process input queues
  */
-    __pyx_f_3PMD_10InputQueue_push((__pyx_v_self->_input_queues[((__pyx_v_place.x * __pyx_v_self->_x_div) + __pyx_v_place.y)]), __pyx_v_e);
+    __pyx_f_3PMD_10InputQueue_push((&(__pyx_v_self->_input_queues[(__pyx_v_place.x + (__pyx_v_place.y * __pyx_v_self->_x_div))])), __pyx_v_e);
+  }
 
-    /* "PMD/PersistentMotionDetector.pyx":41
- *             place = self._partition.place_event(e.x, e.y)
- *             InputQueue.push(self._input_queues[place.x*self._x_div + place.y], e)
- *             color = e.p*255             # <<<<<<<<<<<<<<
- *             frame[e.y, e.x, 0] = color
- *             frame[e.y, e.x, 1] = color
+  /* "PMD/PersistentMotionDetector.pyx":44
+ * 
+ *         # process input queues
+ *         for i in range(self._x_div*self._y_div):             # <<<<<<<<<<<<<<
+ *             while not InputQueue.is_empty(&self._input_queues[i]):
+ *                 e = InputQueue.pop(&self._input_queues[i])
  */
-    __pyx_v_color = (__pyx_v_e.p * 0xFF);
+  __pyx_t_6 = (__pyx_v_self->_x_div * __pyx_v_self->_y_div);
+  __pyx_t_9 = __pyx_t_6;
+  for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
+    __pyx_v_i = __pyx_t_10;
 
-    /* "PMD/PersistentMotionDetector.pyx":42
- *             InputQueue.push(self._input_queues[place.x*self._x_div + place.y], e)
- *             color = e.p*255
- *             frame[e.y, e.x, 0] = color             # <<<<<<<<<<<<<<
- *             frame[e.y, e.x, 1] = color
- *             frame[e.y, e.x, 2] = color
+    /* "PMD/PersistentMotionDetector.pyx":45
+ *         # process input queues
+ *         for i in range(self._x_div*self._y_div):
+ *             while not InputQueue.is_empty(&self._input_queues[i]):             # <<<<<<<<<<<<<<
+ *                 e = InputQueue.pop(&self._input_queues[i])
+ *                 color = e.p*255
  */
-    __pyx_t_8 = __pyx_v_e.y;
-    __pyx_t_12 = __pyx_v_e.x;
-    __pyx_t_11 = 0;
-    *__Pyx_BufPtrStrided3d(__pyx_t_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_8, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_12, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_11, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
+    while (1) {
+      __pyx_t_12 = ((!(__pyx_f_3PMD_10InputQueue_is_empty((&(__pyx_v_self->_input_queues[__pyx_v_i]))) != 0)) != 0);
+      if (!__pyx_t_12) break;
 
-    /* "PMD/PersistentMotionDetector.pyx":43
- *             color = e.p*255
- *             frame[e.y, e.x, 0] = color
- *             frame[e.y, e.x, 1] = color             # <<<<<<<<<<<<<<
- *             frame[e.y, e.x, 2] = color
+      /* "PMD/PersistentMotionDetector.pyx":46
+ *         for i in range(self._x_div*self._y_div):
+ *             while not InputQueue.is_empty(&self._input_queues[i]):
+ *                 e = InputQueue.pop(&self._input_queues[i])             # <<<<<<<<<<<<<<
+ *                 color = e.p*255
+ *                 frame[e.y, e.x, 0] = color
+ */
+      __pyx_v_e = __pyx_f_3PMD_10InputQueue_pop((&(__pyx_v_self->_input_queues[__pyx_v_i])));
+
+      /* "PMD/PersistentMotionDetector.pyx":47
+ *             while not InputQueue.is_empty(&self._input_queues[i]):
+ *                 e = InputQueue.pop(&self._input_queues[i])
+ *                 color = e.p*255             # <<<<<<<<<<<<<<
+ *                 frame[e.y, e.x, 0] = color
+ *                 frame[e.y, e.x, 1] = color
+ */
+      __pyx_v_color = (__pyx_v_e.p * 0xFF);
+
+      /* "PMD/PersistentMotionDetector.pyx":48
+ *                 e = InputQueue.pop(&self._input_queues[i])
+ *                 color = e.p*255
+ *                 frame[e.y, e.x, 0] = color             # <<<<<<<<<<<<<<
+ *                 frame[e.y, e.x, 1] = color
+ *                 frame[e.y, e.x, 2] = color
+ */
+      __pyx_t_8 = __pyx_v_e.y;
+      __pyx_t_13 = __pyx_v_e.x;
+      __pyx_t_11 = 0;
+      *__Pyx_BufPtrStrided3d(__pyx_t_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_8, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_13, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_11, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
+
+      /* "PMD/PersistentMotionDetector.pyx":49
+ *                 color = e.p*255
+ *                 frame[e.y, e.x, 0] = color
+ *                 frame[e.y, e.x, 1] = color             # <<<<<<<<<<<<<<
+ *                 frame[e.y, e.x, 2] = color
  * 
  */
-    __pyx_t_12 = __pyx_v_e.y;
-    __pyx_t_8 = __pyx_v_e.x;
-    __pyx_t_11 = 1;
-    *__Pyx_BufPtrStrided3d(__pyx_t_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_12, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_8, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_11, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
+      __pyx_t_13 = __pyx_v_e.y;
+      __pyx_t_8 = __pyx_v_e.x;
+      __pyx_t_11 = 1;
+      *__Pyx_BufPtrStrided3d(__pyx_t_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_8, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_11, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
 
-    /* "PMD/PersistentMotionDetector.pyx":44
- *             frame[e.y, e.x, 0] = color
- *             frame[e.y, e.x, 1] = color
- *             frame[e.y, e.x, 2] = color             # <<<<<<<<<<<<<<
+      /* "PMD/PersistentMotionDetector.pyx":50
+ *                 frame[e.y, e.x, 0] = color
+ *                 frame[e.y, e.x, 1] = color
+ *                 frame[e.y, e.x, 2] = color             # <<<<<<<<<<<<<<
  * 
  *         return frame
  */
-    __pyx_t_8 = __pyx_v_e.y;
-    __pyx_t_12 = __pyx_v_e.x;
-    __pyx_t_11 = 2;
-    *__Pyx_BufPtrStrided3d(__pyx_t_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_8, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_12, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_11, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
+      __pyx_t_8 = __pyx_v_e.y;
+      __pyx_t_13 = __pyx_v_e.x;
+      __pyx_t_11 = 2;
+      *__Pyx_BufPtrStrided3d(__pyx_t_5types_color_t *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_8, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_13, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_11, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
+    }
   }
 
-  /* "PMD/PersistentMotionDetector.pyx":46
- *             frame[e.y, e.x, 2] = color
+  /* "PMD/PersistentMotionDetector.pyx":52
+ *                 frame[e.y, e.x, 2] = color
  * 
  *         return frame             # <<<<<<<<<<<<<<
  * 
@@ -3402,7 +3440,7 @@ static PyArrayObject *__pyx_f_3PMD_24PersistentMotionDetector_24PersistentMotion
   goto __pyx_L0;
 
   /* "PMD/PersistentMotionDetector.pyx":29
- *                 self._input_queues[i*self._x_div + j] = InputQueue.init(self._input_queue_depth)
+ *                 self._input_queues[i + j*self._x_div] = InputQueue.init(self._input_queue_depth)
  * 
  *     cpdef np.ndarray[color_t, ndim=3] process_events(self,             # <<<<<<<<<<<<<<
  *             np.ndarray[color_t, ndim=3] frame, event_t[:] event_buffer):
@@ -3551,12 +3589,12 @@ static PyObject *__pyx_pf_3PMD_24PersistentMotionDetector_24PersistentMotionDete
   return __pyx_r;
 }
 
-/* "PMD/PersistentMotionDetector.pyx":48
+/* "PMD/PersistentMotionDetector.pyx":54
  *         return frame
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
- *         free(self._input_queues)
- * 
+ *         for i in range(self._x_div*self._y_div):
+ *             InputQueue.dealloc(&self._input_queues[i])
  */
 
 /* Python wrapper */
@@ -3571,24 +3609,50 @@ static void __pyx_pw_3PMD_24PersistentMotionDetector_24PersistentMotionDetector_
 }
 
 static void __pyx_pf_3PMD_24PersistentMotionDetector_24PersistentMotionDetector_4__dealloc__(struct __pyx_obj_3PMD_24PersistentMotionDetector_PersistentMotionDetector *__pyx_v_self) {
+  int __pyx_v_i;
   __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  int __pyx_t_2;
+  int __pyx_t_3;
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "PMD/PersistentMotionDetector.pyx":49
+  /* "PMD/PersistentMotionDetector.pyx":55
  * 
  *     def __dealloc__(self):
+ *         for i in range(self._x_div*self._y_div):             # <<<<<<<<<<<<<<
+ *             InputQueue.dealloc(&self._input_queues[i])
+ *         free(self._input_queues)
+ */
+  __pyx_t_1 = (__pyx_v_self->_x_div * __pyx_v_self->_y_div);
+  __pyx_t_2 = __pyx_t_1;
+  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_i = __pyx_t_3;
+
+    /* "PMD/PersistentMotionDetector.pyx":56
+ *     def __dealloc__(self):
+ *         for i in range(self._x_div*self._y_div):
+ *             InputQueue.dealloc(&self._input_queues[i])             # <<<<<<<<<<<<<<
+ *         free(self._input_queues)
+ * 
+ */
+    __pyx_f_3PMD_10InputQueue_dealloc((&(__pyx_v_self->_input_queues[__pyx_v_i])));
+  }
+
+  /* "PMD/PersistentMotionDetector.pyx":57
+ *         for i in range(self._x_div*self._y_div):
+ *             InputQueue.dealloc(&self._input_queues[i])
  *         free(self._input_queues)             # <<<<<<<<<<<<<<
  * 
  *     # def tick_all(self, sys_time, event_callback, cluster_callback):
  */
   free(__pyx_v_self->_input_queues);
 
-  /* "PMD/PersistentMotionDetector.pyx":48
+  /* "PMD/PersistentMotionDetector.pyx":54
  *         return frame
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
- *         free(self._input_queues)
- * 
+ *         for i in range(self._x_div*self._y_div):
+ *             InputQueue.dealloc(&self._input_queues[i])
  */
 
   /* function exit code */
@@ -19884,7 +19948,10 @@ static int __Pyx_modinit_function_import_code(void) {
   __pyx_t_1 = PyImport_ImportModule("PMD.InputQueue"); if (!__pyx_t_1) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_ImportFunction(__pyx_t_1, "init", (void (**)(void))&__pyx_f_3PMD_10InputQueue_init, "struct __pyx_t_3PMD_10InputQueue_InputQueue_t (int)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__Pyx_ImportFunction(__pyx_t_1, "push", (void (**)(void))&__pyx_f_3PMD_10InputQueue_push, "void (struct __pyx_t_3PMD_10InputQueue_InputQueue_t, struct __pyx_t_5types_event_t)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ImportFunction(__pyx_t_1, "dealloc", (void (**)(void))&__pyx_f_3PMD_10InputQueue_dealloc, "void (struct __pyx_t_3PMD_10InputQueue_InputQueue_t *)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ImportFunction(__pyx_t_1, "is_empty", (void (**)(void))&__pyx_f_3PMD_10InputQueue_is_empty, "__pyx_t_5types_bool (struct __pyx_t_3PMD_10InputQueue_InputQueue_t *)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ImportFunction(__pyx_t_1, "push", (void (**)(void))&__pyx_f_3PMD_10InputQueue_push, "void (struct __pyx_t_3PMD_10InputQueue_InputQueue_t *, struct __pyx_t_5types_event_t)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ImportFunction(__pyx_t_1, "pop", (void (**)(void))&__pyx_f_3PMD_10InputQueue_pop, "struct __pyx_t_5types_event_t (struct __pyx_t_3PMD_10InputQueue_InputQueue_t *)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;

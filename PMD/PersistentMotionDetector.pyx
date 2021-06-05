@@ -24,7 +24,7 @@ cdef class PersistentMotionDetector:
         cdef int i, j
         for i in range(self._x_div):
             for j in range(self._y_div):
-                self._input_queues[i*self._x_div + j] = InputQueue.init(self._input_queue_depth)
+                self._input_queues[i + j*self._x_div] = InputQueue.init(self._input_queue_depth)
 
     cpdef np.ndarray[color_t, ndim=3] process_events(self,
             np.ndarray[color_t, ndim=3] frame, event_t[:] event_buffer):
@@ -34,18 +34,26 @@ cdef class PersistentMotionDetector:
         cdef color_t color
         cdef point_t placement
 
+        # sort incoming events
         for i in range(num_events):
             e = event_buffer[i]
             place = self._partition.place_event(e.x, e.y)
-            InputQueue.push(self._input_queues[place.x*self._x_div + place.y], e)
-            color = e.p*255
-            frame[e.y, e.x, 0] = color
-            frame[e.y, e.x, 1] = color
-            frame[e.y, e.x, 2] = color
+            InputQueue.push(&self._input_queues[place.x + place.y*self._x_div], e)
+        
+        # process input queues
+        for i in range(self._x_div*self._y_div):
+            while not InputQueue.is_empty(&self._input_queues[i]):
+                e = InputQueue.pop(&self._input_queues[i])
+                color = e.p*255
+                frame[e.y, e.x, 0] = color
+                frame[e.y, e.x, 1] = color
+                frame[e.y, e.x, 2] = color
         
         return frame
 
     def __dealloc__(self):
+        for i in range(self._x_div*self._y_div):
+            InputQueue.dealloc(&self._input_queues[i])
         free(self._input_queues)
     
     # def tick_all(self, sys_time, event_callback, cluster_callback):

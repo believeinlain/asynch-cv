@@ -9,7 +9,7 @@ cdef packed struct InputQueue_t:
     int _back
 
 cdef InputQueue_t init(int depth)
-cdef void dealloc(InputQueue_t self)
-cdef bool is_empty(InputQueue_t)
-cdef void push(InputQueue_t, event_t event)
-cdef event_t pop(InputQueue_t)
+cdef void dealloc(InputQueue_t *self)
+cdef bool is_empty(InputQueue_t *self)
+cdef void push(InputQueue_t *self, event_t event)
+cdef event_t pop(InputQueue_t *self)
