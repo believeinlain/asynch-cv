@@ -7,8 +7,6 @@ import os
 
 import event_processing
 
-from event_processing import draw_events
-
 class basic_consumer:
     '''
     Basic consumer class that simply displays all events.
@@ -168,7 +166,11 @@ class basic_consumer:
         # we don't care about ts
         del ts
         # draw events colored by polarity
-        self.frame_to_draw = draw_events.draw_events(self.frame_to_draw, event_buffer)
+        for e in event_buffer:
+            color = e['p']*255
+            self.frame_to_draw[e['y'], e['x'], 0] = color
+            self.frame_to_draw[e['y'], e['x'], 1] = color
+            self.frame_to_draw[e['y'], e['x'], 2] = color
 
     def draw_frame(self):
         '''

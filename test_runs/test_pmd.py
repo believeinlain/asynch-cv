@@ -8,7 +8,7 @@ from event_processing import pmd_consumer
 data_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 annot_root = './example_annotations/'
 group = 'april_29'
-test = 3
+test = 2
 file_type = '.raw'
 
 boat_tests = {
@@ -70,7 +70,7 @@ play_file(
         'parameters': {
             'x_div': 8,
             'y_div': 8,
-            'input_queue_depth': 64,
+            'input_queue_depth': 32,
             'input_queue_expiration_us': 30_000,
             'event_handler_us_per_event': 100,
             'cycle_period_us': 10,

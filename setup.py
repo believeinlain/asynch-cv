@@ -15,10 +15,6 @@ extensions = [
         include_dirs=[np.get_include()],
         language="c++",    
         define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")]
-    ),
-    Extension('event_processing\\*', ['event_processing\\*.pyx'],
-        include_dirs=[np.get_include()],    
-        define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")]
     )
 ]
 setup(
