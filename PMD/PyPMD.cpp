@@ -29,7 +29,8 @@
             "PMD\\PersistentMotionDetector.cpp",
             "PMD\\Partition.cpp",
             "PMD\\InputQueue.cpp",
-            "PMD\\EventHandler.cpp"
+            "PMD\\EventHandler.cpp",
+            "PMD\\EventBuffer.cpp"
         ]
     },
     "module_name": "PMD.PyPMD"
@@ -1289,7 +1290,7 @@ struct __pyx_obj_3PMD_5PyPMD_PyPMD {
   PMD::PersistentMotionDetector *cpp_PMD;
   PMD::xy_t width;
   PMD::xy_t height;
-  PMD::timestamp_t cycle_period_us;
+  PMD::ts_t cycle_period_us;
 };
 
 
@@ -2198,7 +2199,7 @@ __pyx_memoryview_copy_new_contig(const __Pyx_memviewslice *from_mvs,
 static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
 
 /* CIntFromPy.proto */
-static CYTHON_INLINE PMD::timestamp_t __Pyx_PyInt_As_PMD_3a__3a_timestamp_t(PyObject *);
+static CYTHON_INLINE PMD::ts_t __Pyx_PyInt_As_PMD_3a__3a_ts_t(PyObject *);
 
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_PMD_3a__3a_byte_t(PMD::byte_t value);
@@ -2210,16 +2211,16 @@ static CYTHON_INLINE PMD::byte_t __Pyx_PyInt_As_PMD_3a__3a_byte_t(PyObject *);
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_PMD_3a__3a_xy_t(PMD::xy_t value);
 
 /* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_PMD_3a__3a_polarity_t(PMD::polarity_t value);
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_PMD_3a__3a_p_t(PMD::p_t value);
 
 /* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_PMD_3a__3a_timestamp_t(PMD::timestamp_t value);
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_PMD_3a__3a_ts_t(PMD::ts_t value);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE PMD::xy_t __Pyx_PyInt_As_PMD_3a__3a_xy_t(PyObject *);
 
 /* CIntFromPy.proto */
-static CYTHON_INLINE PMD::polarity_t __Pyx_PyInt_As_PMD_3a__3a_polarity_t(PyObject *);
+static CYTHON_INLINE PMD::p_t __Pyx_PyInt_As_PMD_3a__3a_p_t(PyObject *);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
@@ -2340,13 +2341,13 @@ static void __pyx_memoryview__slice_assign_scalar(char *, Py_ssize_t *, Py_ssize
 static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *, PyObject *); /*proto*/
 static __Pyx_TypeInfo __Pyx_TypeInfo_nn_PMD_3a__3a_byte_t = { "byte_t", NULL, sizeof(PMD::byte_t), { 0 }, 0, IS_UNSIGNED(PMD::byte_t) ? 'U' : 'I', IS_UNSIGNED(PMD::byte_t), 0 };
 static __Pyx_TypeInfo __Pyx_TypeInfo_nn_PMD_3a__3a_xy_t = { "xy_t", NULL, sizeof(PMD::xy_t), { 0 }, 0, IS_UNSIGNED(PMD::xy_t) ? 'U' : 'I', IS_UNSIGNED(PMD::xy_t), 0 };
-static __Pyx_TypeInfo __Pyx_TypeInfo_nn_PMD_3a__3a_polarity_t = { "polarity_t", NULL, sizeof(PMD::polarity_t), { 0 }, 0, IS_UNSIGNED(PMD::polarity_t) ? 'U' : 'I', IS_UNSIGNED(PMD::polarity_t), 0 };
-static __Pyx_TypeInfo __Pyx_TypeInfo_nn_PMD_3a__3a_timestamp_t = { "timestamp_t", NULL, sizeof(PMD::timestamp_t), { 0 }, 0, IS_UNSIGNED(PMD::timestamp_t) ? 'U' : 'I', IS_UNSIGNED(PMD::timestamp_t), 0 };
+static __Pyx_TypeInfo __Pyx_TypeInfo_nn_PMD_3a__3a_p_t = { "p_t", NULL, sizeof(PMD::p_t), { 0 }, 0, IS_UNSIGNED(PMD::p_t) ? 'U' : 'I', IS_UNSIGNED(PMD::p_t), 0 };
+static __Pyx_TypeInfo __Pyx_TypeInfo_nn_PMD_3a__3a_ts_t = { "ts_t", NULL, sizeof(PMD::ts_t), { 0 }, 0, IS_UNSIGNED(PMD::ts_t) ? 'U' : 'I', IS_UNSIGNED(PMD::ts_t), 0 };
 static __Pyx_StructField __Pyx_StructFields_nn_struct__PMD_3a__3a_event[] = {
   {&__Pyx_TypeInfo_nn_PMD_3a__3a_xy_t, "x", offsetof(struct PMD::event, x)},
   {&__Pyx_TypeInfo_nn_PMD_3a__3a_xy_t, "y", offsetof(struct PMD::event, y)},
-  {&__Pyx_TypeInfo_nn_PMD_3a__3a_polarity_t, "p", offsetof(struct PMD::event, p)},
-  {&__Pyx_TypeInfo_nn_PMD_3a__3a_timestamp_t, "t", offsetof(struct PMD::event, t)},
+  {&__Pyx_TypeInfo_nn_PMD_3a__3a_p_t, "p", offsetof(struct PMD::event, p)},
+  {&__Pyx_TypeInfo_nn_PMD_3a__3a_ts_t, "t", offsetof(struct PMD::event, t)},
   {NULL, NULL, 0}
 };
 static __Pyx_TypeInfo __Pyx_TypeInfo_nn_struct__PMD_3a__3a_event = { "event", __Pyx_StructFields_nn_struct__PMD_3a__3a_event, sizeof(struct PMD::event), { 0 }, 0, 'S', 0, __PYX_BUF_FLAGS_PACKED_STRUCT };
@@ -2692,7 +2693,7 @@ static PyObject *__pyx_codeobj__39;
 /* Late includes */
 
 /* "PMD/PyPMD.pyx":12
- *     cdef timestamp_t cycle_period_us
+ *     cdef ts_t cycle_period_us
  * 
  *     def __cinit__(self, int width, int height, param):             # <<<<<<<<<<<<<<
  *         self.width = width
@@ -2781,7 +2782,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
   int __pyx_t_3;
-  PMD::timestamp_t __pyx_t_4;
+  PMD::ts_t __pyx_t_4;
   PMD::PersistentMotionDetector *__pyx_t_5;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -2898,7 +2899,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyInt_As_PMD_3a__3a_timestamp_t(__pyx_t_1); if (unlikely((__pyx_t_4 == ((PMD::timestamp_t)-1)) && PyErr_Occurred())) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_PMD_3a__3a_ts_t(__pyx_t_1); if (unlikely((__pyx_t_4 == ((PMD::ts_t)-1)) && PyErr_Occurred())) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->cycle_period_us = __pyx_t_4;
 
@@ -2918,7 +2919,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   __pyx_v_self->cpp_PMD = __pyx_t_5;
 
   /* "PMD/PyPMD.pyx":12
- *     cdef timestamp_t cycle_period_us
+ *     cdef ts_t cycle_period_us
  * 
  *     def __cinit__(self, int width, int height, param):             # <<<<<<<<<<<<<<
  *         self.width = width
@@ -2993,11 +2994,11 @@ static void __pyx_pf_3PMD_5PyPMD_5PyPMD_2__dealloc__(struct __pyx_obj_3PMD_5PyPM
 static PyObject *__pyx_pw_3PMD_5PyPMD_5PyPMD_5process_events(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static void __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx_obj_3PMD_5PyPMD_PyPMD *__pyx_v_self, __Pyx_memviewslice __pyx_v_frame, __Pyx_memviewslice __pyx_v_events, int __pyx_skip_dispatch) {
   int __pyx_v_num_events;
-  PMD::timestamp_t __pyx_v_start_time;
-  PMD::timestamp_t __pyx_v_end_time;
-  PMD::timestamp_t __pyx_v_interval;
+  PMD::ts_t __pyx_v_start_time;
+  PMD::ts_t __pyx_v_end_time;
+  PMD::ts_t __pyx_v_interval;
   int __pyx_v_last_index;
-  PMD::timestamp_t __pyx_v_time;
+  PMD::ts_t __pyx_v_time;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -3011,7 +3012,7 @@ static void __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx_obj_3PMD_5PyP
   Py_ssize_t __pyx_t_10;
   Py_ssize_t __pyx_t_11;
   Py_ssize_t __pyx_t_12;
-  PMD::timestamp_t __pyx_t_13;
+  PMD::ts_t __pyx_t_13;
   Py_ssize_t __pyx_t_14;
   PyObject *(*__pyx_t_15)(PyObject *);
   int __pyx_lineno = 0;
@@ -3117,8 +3118,8 @@ static void __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx_obj_3PMD_5PyP
  *         cdef unsigned char c
  * 
  *         self.cpp_PMD.init_framebuffer(&frame[0,0,0])             # <<<<<<<<<<<<<<
- *         cdef timestamp_t start_time = events[0].t
- *         cdef timestamp_t end_time = events[num_events-1].t+1
+ *         cdef ts_t start_time = events[0].t
+ *         cdef ts_t end_time = events[num_events-1].t+1
  */
   __pyx_t_10 = 0;
   __pyx_t_11 = 0;
@@ -3128,9 +3129,9 @@ static void __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx_obj_3PMD_5PyP
   /* "PMD/PyPMD.pyx":37
  * 
  *         self.cpp_PMD.init_framebuffer(&frame[0,0,0])
- *         cdef timestamp_t start_time = events[0].t             # <<<<<<<<<<<<<<
- *         cdef timestamp_t end_time = events[num_events-1].t+1
- *         cdef timestamp_t interval = self.cycle_period_us
+ *         cdef ts_t start_time = events[0].t             # <<<<<<<<<<<<<<
+ *         cdef ts_t end_time = events[num_events-1].t+1
+ *         cdef ts_t interval = self.cycle_period_us
  */
   __pyx_t_12 = 0;
   __pyx_t_13 = (*((struct PMD::event *) ( /* dim=0 */ (__pyx_v_events.data + __pyx_t_12 * __pyx_v_events.strides[0]) ))).t;
@@ -3138,18 +3139,18 @@ static void __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx_obj_3PMD_5PyP
 
   /* "PMD/PyPMD.pyx":38
  *         self.cpp_PMD.init_framebuffer(&frame[0,0,0])
- *         cdef timestamp_t start_time = events[0].t
- *         cdef timestamp_t end_time = events[num_events-1].t+1             # <<<<<<<<<<<<<<
- *         cdef timestamp_t interval = self.cycle_period_us
+ *         cdef ts_t start_time = events[0].t
+ *         cdef ts_t end_time = events[num_events-1].t+1             # <<<<<<<<<<<<<<
+ *         cdef ts_t interval = self.cycle_period_us
  * 
  */
   __pyx_t_12 = (__pyx_v_num_events - 1);
   __pyx_v_end_time = ((*((struct PMD::event *) ( /* dim=0 */ (__pyx_v_events.data + __pyx_t_12 * __pyx_v_events.strides[0]) ))).t + 1);
 
   /* "PMD/PyPMD.pyx":39
- *         cdef timestamp_t start_time = events[0].t
- *         cdef timestamp_t end_time = events[num_events-1].t+1
- *         cdef timestamp_t interval = self.cycle_period_us             # <<<<<<<<<<<<<<
+ *         cdef ts_t start_time = events[0].t
+ *         cdef ts_t end_time = events[num_events-1].t+1
+ *         cdef ts_t interval = self.cycle_period_us             # <<<<<<<<<<<<<<
  * 
  *         ##Ignore events before each cycle_period start
  */
@@ -3172,11 +3173,11 @@ static void __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx_obj_3PMD_5PyP
  *             last_index = self.cpp_PMD.input_events_until(time, &events[0], num_events, last_index)
  *             self.cpp_PMD.process_until(time)
  */
-  __pyx_t_1 = __Pyx_PyInt_From_PMD_3a__3a_timestamp_t(__pyx_v_start_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_PMD_3a__3a_ts_t(__pyx_v_start_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_From_PMD_3a__3a_timestamp_t(__pyx_v_end_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_PMD_3a__3a_ts_t(__pyx_v_end_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = __Pyx_PyInt_From_PMD_3a__3a_timestamp_t(__pyx_v_interval); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_From_PMD_3a__3a_ts_t(__pyx_v_interval); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_8 = PyTuple_New(3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
@@ -3232,7 +3233,7 @@ static void __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx_obj_3PMD_5PyP
       }
       __Pyx_GOTREF(__pyx_t_5);
     }
-    __pyx_t_13 = __Pyx_PyInt_As_PMD_3a__3a_timestamp_t(__pyx_t_5); if (unlikely((__pyx_t_13 == ((PMD::timestamp_t)-1)) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L1_error)
+    __pyx_t_13 = __Pyx_PyInt_As_PMD_3a__3a_ts_t(__pyx_t_5); if (unlikely((__pyx_t_13 == ((PMD::ts_t)-1)) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_time = __pyx_t_13;
 
@@ -4554,8 +4555,8 @@ static struct PMD::event __pyx_convert__from_py_struct__PMD_3a__3a_event(PyObjec
   PyObject *__pyx_t_8 = NULL;
   PyObject *__pyx_t_9 = NULL;
   PMD::xy_t __pyx_t_10;
-  PMD::polarity_t __pyx_t_11;
-  PMD::timestamp_t __pyx_t_12;
+  PMD::p_t __pyx_t_11;
+  PMD::ts_t __pyx_t_12;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -4891,7 +4892,7 @@ static struct PMD::event __pyx_convert__from_py_struct__PMD_3a__3a_event(PyObjec
  *     try:
  *         value = obj['t']
  */
-  __pyx_t_11 = __Pyx_PyInt_As_PMD_3a__3a_polarity_t(__pyx_v_value); if (unlikely((__pyx_t_11 == ((PMD::polarity_t)-1)) && PyErr_Occurred())) __PYX_ERR(1, 30, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyInt_As_PMD_3a__3a_p_t(__pyx_v_value); if (unlikely((__pyx_t_11 == ((PMD::p_t)-1)) && PyErr_Occurred())) __PYX_ERR(1, 30, __pyx_L1_error)
   __pyx_v_result.p = __pyx_t_11;
 
   /* "FromPyStructUtility":31
@@ -4993,7 +4994,7 @@ static struct PMD::event __pyx_convert__from_py_struct__PMD_3a__3a_event(PyObjec
  *     return result
  * 
  */
-  __pyx_t_12 = __Pyx_PyInt_As_PMD_3a__3a_timestamp_t(__pyx_v_value); if (unlikely((__pyx_t_12 == ((PMD::timestamp_t)-1)) && PyErr_Occurred())) __PYX_ERR(1, 35, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyInt_As_PMD_3a__3a_ts_t(__pyx_v_value); if (unlikely((__pyx_t_12 == ((PMD::ts_t)-1)) && PyErr_Occurred())) __PYX_ERR(1, 35, __pyx_L1_error)
   __pyx_v_result.t = __pyx_t_12;
 
   /* "FromPyStructUtility":36
@@ -23211,10 +23212,10 @@ static PyObject* __pyx_convert__to_py_struct__PMD_3a__3a_event(struct PMD::event
     member = __Pyx_PyInt_From_PMD_3a__3a_xy_t(s.y); if (unlikely(!member)) goto bad;
     if (unlikely(PyDict_SetItem(res, __pyx_n_s_y, member) < 0)) goto bad;
     Py_DECREF(member);
-    member = __Pyx_PyInt_From_PMD_3a__3a_polarity_t(s.p); if (unlikely(!member)) goto bad;
+    member = __Pyx_PyInt_From_PMD_3a__3a_p_t(s.p); if (unlikely(!member)) goto bad;
     if (unlikely(PyDict_SetItem(res, __pyx_n_s_p, member) < 0)) goto bad;
     Py_DECREF(member);
-    member = __Pyx_PyInt_From_PMD_3a__3a_timestamp_t(s.t); if (unlikely(!member)) goto bad;
+    member = __Pyx_PyInt_From_PMD_3a__3a_ts_t(s.t); if (unlikely(!member)) goto bad;
     if (unlikely(PyDict_SetItem(res, __pyx_n_s_t, member) < 0)) goto bad;
     Py_DECREF(member);
     return res;
@@ -23807,26 +23808,26 @@ raise_neg_overflow:
 }
 
 /* CIntFromPy */
-  static CYTHON_INLINE PMD::timestamp_t __Pyx_PyInt_As_PMD_3a__3a_timestamp_t(PyObject *x) {
+  static CYTHON_INLINE PMD::ts_t __Pyx_PyInt_As_PMD_3a__3a_ts_t(PyObject *x) {
 #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wconversion"
 #endif
-    const PMD::timestamp_t neg_one = (PMD::timestamp_t) -1, const_zero = (PMD::timestamp_t) 0;
+    const PMD::ts_t neg_one = (PMD::ts_t) -1, const_zero = (PMD::ts_t) 0;
 #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
 #pragma GCC diagnostic pop
 #endif
     const int is_unsigned = neg_one > const_zero;
 #if PY_MAJOR_VERSION < 3
     if (likely(PyInt_Check(x))) {
-        if (sizeof(PMD::timestamp_t) < sizeof(long)) {
-            __PYX_VERIFY_RETURN_INT(PMD::timestamp_t, long, PyInt_AS_LONG(x))
+        if (sizeof(PMD::ts_t) < sizeof(long)) {
+            __PYX_VERIFY_RETURN_INT(PMD::ts_t, long, PyInt_AS_LONG(x))
         } else {
             long val = PyInt_AS_LONG(x);
             if (is_unsigned && unlikely(val < 0)) {
                 goto raise_neg_overflow;
             }
-            return (PMD::timestamp_t) val;
+            return (PMD::ts_t) val;
         }
     } else
 #endif
@@ -23835,32 +23836,32 @@ raise_neg_overflow:
 #if CYTHON_USE_PYLONG_INTERNALS
             const digit* digits = ((PyLongObject*)x)->ob_digit;
             switch (Py_SIZE(x)) {
-                case  0: return (PMD::timestamp_t) 0;
-                case  1: __PYX_VERIFY_RETURN_INT(PMD::timestamp_t, digit, digits[0])
+                case  0: return (PMD::ts_t) 0;
+                case  1: __PYX_VERIFY_RETURN_INT(PMD::ts_t, digit, digits[0])
                 case 2:
-                    if (8 * sizeof(PMD::timestamp_t) > 1 * PyLong_SHIFT) {
+                    if (8 * sizeof(PMD::ts_t) > 1 * PyLong_SHIFT) {
                         if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(PMD::timestamp_t, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(PMD::timestamp_t) >= 2 * PyLong_SHIFT) {
-                            return (PMD::timestamp_t) (((((PMD::timestamp_t)digits[1]) << PyLong_SHIFT) | (PMD::timestamp_t)digits[0]));
+                            __PYX_VERIFY_RETURN_INT(PMD::ts_t, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(PMD::ts_t) >= 2 * PyLong_SHIFT) {
+                            return (PMD::ts_t) (((((PMD::ts_t)digits[1]) << PyLong_SHIFT) | (PMD::ts_t)digits[0]));
                         }
                     }
                     break;
                 case 3:
-                    if (8 * sizeof(PMD::timestamp_t) > 2 * PyLong_SHIFT) {
+                    if (8 * sizeof(PMD::ts_t) > 2 * PyLong_SHIFT) {
                         if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(PMD::timestamp_t, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(PMD::timestamp_t) >= 3 * PyLong_SHIFT) {
-                            return (PMD::timestamp_t) (((((((PMD::timestamp_t)digits[2]) << PyLong_SHIFT) | (PMD::timestamp_t)digits[1]) << PyLong_SHIFT) | (PMD::timestamp_t)digits[0]));
+                            __PYX_VERIFY_RETURN_INT(PMD::ts_t, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(PMD::ts_t) >= 3 * PyLong_SHIFT) {
+                            return (PMD::ts_t) (((((((PMD::ts_t)digits[2]) << PyLong_SHIFT) | (PMD::ts_t)digits[1]) << PyLong_SHIFT) | (PMD::ts_t)digits[0]));
                         }
                     }
                     break;
                 case 4:
-                    if (8 * sizeof(PMD::timestamp_t) > 3 * PyLong_SHIFT) {
+                    if (8 * sizeof(PMD::ts_t) > 3 * PyLong_SHIFT) {
                         if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(PMD::timestamp_t, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(PMD::timestamp_t) >= 4 * PyLong_SHIFT) {
-                            return (PMD::timestamp_t) (((((((((PMD::timestamp_t)digits[3]) << PyLong_SHIFT) | (PMD::timestamp_t)digits[2]) << PyLong_SHIFT) | (PMD::timestamp_t)digits[1]) << PyLong_SHIFT) | (PMD::timestamp_t)digits[0]));
+                            __PYX_VERIFY_RETURN_INT(PMD::ts_t, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(PMD::ts_t) >= 4 * PyLong_SHIFT) {
+                            return (PMD::ts_t) (((((((((PMD::ts_t)digits[3]) << PyLong_SHIFT) | (PMD::ts_t)digits[2]) << PyLong_SHIFT) | (PMD::ts_t)digits[1]) << PyLong_SHIFT) | (PMD::ts_t)digits[0]));
                         }
                     }
                     break;
@@ -23874,86 +23875,86 @@ raise_neg_overflow:
             {
                 int result = PyObject_RichCompareBool(x, Py_False, Py_LT);
                 if (unlikely(result < 0))
-                    return (PMD::timestamp_t) -1;
+                    return (PMD::ts_t) -1;
                 if (unlikely(result == 1))
                     goto raise_neg_overflow;
             }
 #endif
-            if (sizeof(PMD::timestamp_t) <= sizeof(unsigned long)) {
-                __PYX_VERIFY_RETURN_INT_EXC(PMD::timestamp_t, unsigned long, PyLong_AsUnsignedLong(x))
+            if (sizeof(PMD::ts_t) <= sizeof(unsigned long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(PMD::ts_t, unsigned long, PyLong_AsUnsignedLong(x))
 #ifdef HAVE_LONG_LONG
-            } else if (sizeof(PMD::timestamp_t) <= sizeof(unsigned PY_LONG_LONG)) {
-                __PYX_VERIFY_RETURN_INT_EXC(PMD::timestamp_t, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
+            } else if (sizeof(PMD::ts_t) <= sizeof(unsigned PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(PMD::ts_t, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
 #endif
             }
         } else {
 #if CYTHON_USE_PYLONG_INTERNALS
             const digit* digits = ((PyLongObject*)x)->ob_digit;
             switch (Py_SIZE(x)) {
-                case  0: return (PMD::timestamp_t) 0;
-                case -1: __PYX_VERIFY_RETURN_INT(PMD::timestamp_t, sdigit, (sdigit) (-(sdigit)digits[0]))
-                case  1: __PYX_VERIFY_RETURN_INT(PMD::timestamp_t,  digit, +digits[0])
+                case  0: return (PMD::ts_t) 0;
+                case -1: __PYX_VERIFY_RETURN_INT(PMD::ts_t, sdigit, (sdigit) (-(sdigit)digits[0]))
+                case  1: __PYX_VERIFY_RETURN_INT(PMD::ts_t,  digit, +digits[0])
                 case -2:
-                    if (8 * sizeof(PMD::timestamp_t) - 1 > 1 * PyLong_SHIFT) {
+                    if (8 * sizeof(PMD::ts_t) - 1 > 1 * PyLong_SHIFT) {
                         if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(PMD::timestamp_t, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(PMD::timestamp_t) - 1 > 2 * PyLong_SHIFT) {
-                            return (PMD::timestamp_t) (((PMD::timestamp_t)-1)*(((((PMD::timestamp_t)digits[1]) << PyLong_SHIFT) | (PMD::timestamp_t)digits[0])));
+                            __PYX_VERIFY_RETURN_INT(PMD::ts_t, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(PMD::ts_t) - 1 > 2 * PyLong_SHIFT) {
+                            return (PMD::ts_t) (((PMD::ts_t)-1)*(((((PMD::ts_t)digits[1]) << PyLong_SHIFT) | (PMD::ts_t)digits[0])));
                         }
                     }
                     break;
                 case 2:
-                    if (8 * sizeof(PMD::timestamp_t) > 1 * PyLong_SHIFT) {
+                    if (8 * sizeof(PMD::ts_t) > 1 * PyLong_SHIFT) {
                         if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(PMD::timestamp_t, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(PMD::timestamp_t) - 1 > 2 * PyLong_SHIFT) {
-                            return (PMD::timestamp_t) ((((((PMD::timestamp_t)digits[1]) << PyLong_SHIFT) | (PMD::timestamp_t)digits[0])));
+                            __PYX_VERIFY_RETURN_INT(PMD::ts_t, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(PMD::ts_t) - 1 > 2 * PyLong_SHIFT) {
+                            return (PMD::ts_t) ((((((PMD::ts_t)digits[1]) << PyLong_SHIFT) | (PMD::ts_t)digits[0])));
                         }
                     }
                     break;
                 case -3:
-                    if (8 * sizeof(PMD::timestamp_t) - 1 > 2 * PyLong_SHIFT) {
+                    if (8 * sizeof(PMD::ts_t) - 1 > 2 * PyLong_SHIFT) {
                         if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(PMD::timestamp_t, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(PMD::timestamp_t) - 1 > 3 * PyLong_SHIFT) {
-                            return (PMD::timestamp_t) (((PMD::timestamp_t)-1)*(((((((PMD::timestamp_t)digits[2]) << PyLong_SHIFT) | (PMD::timestamp_t)digits[1]) << PyLong_SHIFT) | (PMD::timestamp_t)digits[0])));
+                            __PYX_VERIFY_RETURN_INT(PMD::ts_t, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(PMD::ts_t) - 1 > 3 * PyLong_SHIFT) {
+                            return (PMD::ts_t) (((PMD::ts_t)-1)*(((((((PMD::ts_t)digits[2]) << PyLong_SHIFT) | (PMD::ts_t)digits[1]) << PyLong_SHIFT) | (PMD::ts_t)digits[0])));
                         }
                     }
                     break;
                 case 3:
-                    if (8 * sizeof(PMD::timestamp_t) > 2 * PyLong_SHIFT) {
+                    if (8 * sizeof(PMD::ts_t) > 2 * PyLong_SHIFT) {
                         if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(PMD::timestamp_t, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(PMD::timestamp_t) - 1 > 3 * PyLong_SHIFT) {
-                            return (PMD::timestamp_t) ((((((((PMD::timestamp_t)digits[2]) << PyLong_SHIFT) | (PMD::timestamp_t)digits[1]) << PyLong_SHIFT) | (PMD::timestamp_t)digits[0])));
+                            __PYX_VERIFY_RETURN_INT(PMD::ts_t, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(PMD::ts_t) - 1 > 3 * PyLong_SHIFT) {
+                            return (PMD::ts_t) ((((((((PMD::ts_t)digits[2]) << PyLong_SHIFT) | (PMD::ts_t)digits[1]) << PyLong_SHIFT) | (PMD::ts_t)digits[0])));
                         }
                     }
                     break;
                 case -4:
-                    if (8 * sizeof(PMD::timestamp_t) - 1 > 3 * PyLong_SHIFT) {
+                    if (8 * sizeof(PMD::ts_t) - 1 > 3 * PyLong_SHIFT) {
                         if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(PMD::timestamp_t, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(PMD::timestamp_t) - 1 > 4 * PyLong_SHIFT) {
-                            return (PMD::timestamp_t) (((PMD::timestamp_t)-1)*(((((((((PMD::timestamp_t)digits[3]) << PyLong_SHIFT) | (PMD::timestamp_t)digits[2]) << PyLong_SHIFT) | (PMD::timestamp_t)digits[1]) << PyLong_SHIFT) | (PMD::timestamp_t)digits[0])));
+                            __PYX_VERIFY_RETURN_INT(PMD::ts_t, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(PMD::ts_t) - 1 > 4 * PyLong_SHIFT) {
+                            return (PMD::ts_t) (((PMD::ts_t)-1)*(((((((((PMD::ts_t)digits[3]) << PyLong_SHIFT) | (PMD::ts_t)digits[2]) << PyLong_SHIFT) | (PMD::ts_t)digits[1]) << PyLong_SHIFT) | (PMD::ts_t)digits[0])));
                         }
                     }
                     break;
                 case 4:
-                    if (8 * sizeof(PMD::timestamp_t) > 3 * PyLong_SHIFT) {
+                    if (8 * sizeof(PMD::ts_t) > 3 * PyLong_SHIFT) {
                         if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(PMD::timestamp_t, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(PMD::timestamp_t) - 1 > 4 * PyLong_SHIFT) {
-                            return (PMD::timestamp_t) ((((((((((PMD::timestamp_t)digits[3]) << PyLong_SHIFT) | (PMD::timestamp_t)digits[2]) << PyLong_SHIFT) | (PMD::timestamp_t)digits[1]) << PyLong_SHIFT) | (PMD::timestamp_t)digits[0])));
+                            __PYX_VERIFY_RETURN_INT(PMD::ts_t, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(PMD::ts_t) - 1 > 4 * PyLong_SHIFT) {
+                            return (PMD::ts_t) ((((((((((PMD::ts_t)digits[3]) << PyLong_SHIFT) | (PMD::ts_t)digits[2]) << PyLong_SHIFT) | (PMD::ts_t)digits[1]) << PyLong_SHIFT) | (PMD::ts_t)digits[0])));
                         }
                     }
                     break;
             }
 #endif
-            if (sizeof(PMD::timestamp_t) <= sizeof(long)) {
-                __PYX_VERIFY_RETURN_INT_EXC(PMD::timestamp_t, long, PyLong_AsLong(x))
+            if (sizeof(PMD::ts_t) <= sizeof(long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(PMD::ts_t, long, PyLong_AsLong(x))
 #ifdef HAVE_LONG_LONG
-            } else if (sizeof(PMD::timestamp_t) <= sizeof(PY_LONG_LONG)) {
-                __PYX_VERIFY_RETURN_INT_EXC(PMD::timestamp_t, PY_LONG_LONG, PyLong_AsLongLong(x))
+            } else if (sizeof(PMD::ts_t) <= sizeof(PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(PMD::ts_t, PY_LONG_LONG, PyLong_AsLongLong(x))
 #endif
             }
         }
@@ -23962,7 +23963,7 @@ raise_neg_overflow:
             PyErr_SetString(PyExc_RuntimeError,
                             "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
 #else
-            PMD::timestamp_t val;
+            PMD::ts_t val;
             PyObject *v = __Pyx_PyNumber_IntOrLong(x);
  #if PY_MAJOR_VERSION < 3
             if (likely(v) && !PyLong_Check(v)) {
@@ -23982,24 +23983,24 @@ raise_neg_overflow:
                     return val;
             }
 #endif
-            return (PMD::timestamp_t) -1;
+            return (PMD::ts_t) -1;
         }
     } else {
-        PMD::timestamp_t val;
+        PMD::ts_t val;
         PyObject *tmp = __Pyx_PyNumber_IntOrLong(x);
-        if (!tmp) return (PMD::timestamp_t) -1;
-        val = __Pyx_PyInt_As_PMD_3a__3a_timestamp_t(tmp);
+        if (!tmp) return (PMD::ts_t) -1;
+        val = __Pyx_PyInt_As_PMD_3a__3a_ts_t(tmp);
         Py_DECREF(tmp);
         return val;
     }
 raise_overflow:
     PyErr_SetString(PyExc_OverflowError,
-        "value too large to convert to PMD::timestamp_t");
-    return (PMD::timestamp_t) -1;
+        "value too large to convert to PMD::ts_t");
+    return (PMD::ts_t) -1;
 raise_neg_overflow:
     PyErr_SetString(PyExc_OverflowError,
-        "can't convert negative value to PMD::timestamp_t");
-    return (PMD::timestamp_t) -1;
+        "can't convert negative value to PMD::ts_t");
+    return (PMD::ts_t) -1;
 }
 
 /* CIntToPy */
@@ -24275,31 +24276,31 @@ raise_neg_overflow:
 }
 
 /* CIntToPy */
-  static CYTHON_INLINE PyObject* __Pyx_PyInt_From_PMD_3a__3a_polarity_t(PMD::polarity_t value) {
+  static CYTHON_INLINE PyObject* __Pyx_PyInt_From_PMD_3a__3a_p_t(PMD::p_t value) {
 #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wconversion"
 #endif
-    const PMD::polarity_t neg_one = (PMD::polarity_t) -1, const_zero = (PMD::polarity_t) 0;
+    const PMD::p_t neg_one = (PMD::p_t) -1, const_zero = (PMD::p_t) 0;
 #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
 #pragma GCC diagnostic pop
 #endif
     const int is_unsigned = neg_one > const_zero;
     if (is_unsigned) {
-        if (sizeof(PMD::polarity_t) < sizeof(long)) {
+        if (sizeof(PMD::p_t) < sizeof(long)) {
             return PyInt_FromLong((long) value);
-        } else if (sizeof(PMD::polarity_t) <= sizeof(unsigned long)) {
+        } else if (sizeof(PMD::p_t) <= sizeof(unsigned long)) {
             return PyLong_FromUnsignedLong((unsigned long) value);
 #ifdef HAVE_LONG_LONG
-        } else if (sizeof(PMD::polarity_t) <= sizeof(unsigned PY_LONG_LONG)) {
+        } else if (sizeof(PMD::p_t) <= sizeof(unsigned PY_LONG_LONG)) {
             return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
 #endif
         }
     } else {
-        if (sizeof(PMD::polarity_t) <= sizeof(long)) {
+        if (sizeof(PMD::p_t) <= sizeof(long)) {
             return PyInt_FromLong((long) value);
 #ifdef HAVE_LONG_LONG
-        } else if (sizeof(PMD::polarity_t) <= sizeof(PY_LONG_LONG)) {
+        } else if (sizeof(PMD::p_t) <= sizeof(PY_LONG_LONG)) {
             return PyLong_FromLongLong((PY_LONG_LONG) value);
 #endif
         }
@@ -24307,37 +24308,37 @@ raise_neg_overflow:
     {
         int one = 1; int little = (int)*(unsigned char *)&one;
         unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(PMD::polarity_t),
+        return _PyLong_FromByteArray(bytes, sizeof(PMD::p_t),
                                      little, !is_unsigned);
     }
 }
 
 /* CIntToPy */
-  static CYTHON_INLINE PyObject* __Pyx_PyInt_From_PMD_3a__3a_timestamp_t(PMD::timestamp_t value) {
+  static CYTHON_INLINE PyObject* __Pyx_PyInt_From_PMD_3a__3a_ts_t(PMD::ts_t value) {
 #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wconversion"
 #endif
-    const PMD::timestamp_t neg_one = (PMD::timestamp_t) -1, const_zero = (PMD::timestamp_t) 0;
+    const PMD::ts_t neg_one = (PMD::ts_t) -1, const_zero = (PMD::ts_t) 0;
 #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
 #pragma GCC diagnostic pop
 #endif
     const int is_unsigned = neg_one > const_zero;
     if (is_unsigned) {
-        if (sizeof(PMD::timestamp_t) < sizeof(long)) {
+        if (sizeof(PMD::ts_t) < sizeof(long)) {
             return PyInt_FromLong((long) value);
-        } else if (sizeof(PMD::timestamp_t) <= sizeof(unsigned long)) {
+        } else if (sizeof(PMD::ts_t) <= sizeof(unsigned long)) {
             return PyLong_FromUnsignedLong((unsigned long) value);
 #ifdef HAVE_LONG_LONG
-        } else if (sizeof(PMD::timestamp_t) <= sizeof(unsigned PY_LONG_LONG)) {
+        } else if (sizeof(PMD::ts_t) <= sizeof(unsigned PY_LONG_LONG)) {
             return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
 #endif
         }
     } else {
-        if (sizeof(PMD::timestamp_t) <= sizeof(long)) {
+        if (sizeof(PMD::ts_t) <= sizeof(long)) {
             return PyInt_FromLong((long) value);
 #ifdef HAVE_LONG_LONG
-        } else if (sizeof(PMD::timestamp_t) <= sizeof(PY_LONG_LONG)) {
+        } else if (sizeof(PMD::ts_t) <= sizeof(PY_LONG_LONG)) {
             return PyLong_FromLongLong((PY_LONG_LONG) value);
 #endif
         }
@@ -24345,7 +24346,7 @@ raise_neg_overflow:
     {
         int one = 1; int little = (int)*(unsigned char *)&one;
         unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(PMD::timestamp_t),
+        return _PyLong_FromByteArray(bytes, sizeof(PMD::ts_t),
                                      little, !is_unsigned);
     }
 }
@@ -24547,26 +24548,26 @@ raise_neg_overflow:
 }
 
 /* CIntFromPy */
-  static CYTHON_INLINE PMD::polarity_t __Pyx_PyInt_As_PMD_3a__3a_polarity_t(PyObject *x) {
+  static CYTHON_INLINE PMD::p_t __Pyx_PyInt_As_PMD_3a__3a_p_t(PyObject *x) {
 #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wconversion"
 #endif
-    const PMD::polarity_t neg_one = (PMD::polarity_t) -1, const_zero = (PMD::polarity_t) 0;
+    const PMD::p_t neg_one = (PMD::p_t) -1, const_zero = (PMD::p_t) 0;
 #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
 #pragma GCC diagnostic pop
 #endif
     const int is_unsigned = neg_one > const_zero;
 #if PY_MAJOR_VERSION < 3
     if (likely(PyInt_Check(x))) {
-        if (sizeof(PMD::polarity_t) < sizeof(long)) {
-            __PYX_VERIFY_RETURN_INT(PMD::polarity_t, long, PyInt_AS_LONG(x))
+        if (sizeof(PMD::p_t) < sizeof(long)) {
+            __PYX_VERIFY_RETURN_INT(PMD::p_t, long, PyInt_AS_LONG(x))
         } else {
             long val = PyInt_AS_LONG(x);
             if (is_unsigned && unlikely(val < 0)) {
                 goto raise_neg_overflow;
             }
-            return (PMD::polarity_t) val;
+            return (PMD::p_t) val;
         }
     } else
 #endif
@@ -24575,32 +24576,32 @@ raise_neg_overflow:
 #if CYTHON_USE_PYLONG_INTERNALS
             const digit* digits = ((PyLongObject*)x)->ob_digit;
             switch (Py_SIZE(x)) {
-                case  0: return (PMD::polarity_t) 0;
-                case  1: __PYX_VERIFY_RETURN_INT(PMD::polarity_t, digit, digits[0])
+                case  0: return (PMD::p_t) 0;
+                case  1: __PYX_VERIFY_RETURN_INT(PMD::p_t, digit, digits[0])
                 case 2:
-                    if (8 * sizeof(PMD::polarity_t) > 1 * PyLong_SHIFT) {
+                    if (8 * sizeof(PMD::p_t) > 1 * PyLong_SHIFT) {
                         if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(PMD::polarity_t, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(PMD::polarity_t) >= 2 * PyLong_SHIFT) {
-                            return (PMD::polarity_t) (((((PMD::polarity_t)digits[1]) << PyLong_SHIFT) | (PMD::polarity_t)digits[0]));
+                            __PYX_VERIFY_RETURN_INT(PMD::p_t, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(PMD::p_t) >= 2 * PyLong_SHIFT) {
+                            return (PMD::p_t) (((((PMD::p_t)digits[1]) << PyLong_SHIFT) | (PMD::p_t)digits[0]));
                         }
                     }
                     break;
                 case 3:
-                    if (8 * sizeof(PMD::polarity_t) > 2 * PyLong_SHIFT) {
+                    if (8 * sizeof(PMD::p_t) > 2 * PyLong_SHIFT) {
                         if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(PMD::polarity_t, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(PMD::polarity_t) >= 3 * PyLong_SHIFT) {
-                            return (PMD::polarity_t) (((((((PMD::polarity_t)digits[2]) << PyLong_SHIFT) | (PMD::polarity_t)digits[1]) << PyLong_SHIFT) | (PMD::polarity_t)digits[0]));
+                            __PYX_VERIFY_RETURN_INT(PMD::p_t, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(PMD::p_t) >= 3 * PyLong_SHIFT) {
+                            return (PMD::p_t) (((((((PMD::p_t)digits[2]) << PyLong_SHIFT) | (PMD::p_t)digits[1]) << PyLong_SHIFT) | (PMD::p_t)digits[0]));
                         }
                     }
                     break;
                 case 4:
-                    if (8 * sizeof(PMD::polarity_t) > 3 * PyLong_SHIFT) {
+                    if (8 * sizeof(PMD::p_t) > 3 * PyLong_SHIFT) {
                         if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(PMD::polarity_t, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(PMD::polarity_t) >= 4 * PyLong_SHIFT) {
-                            return (PMD::polarity_t) (((((((((PMD::polarity_t)digits[3]) << PyLong_SHIFT) | (PMD::polarity_t)digits[2]) << PyLong_SHIFT) | (PMD::polarity_t)digits[1]) << PyLong_SHIFT) | (PMD::polarity_t)digits[0]));
+                            __PYX_VERIFY_RETURN_INT(PMD::p_t, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(PMD::p_t) >= 4 * PyLong_SHIFT) {
+                            return (PMD::p_t) (((((((((PMD::p_t)digits[3]) << PyLong_SHIFT) | (PMD::p_t)digits[2]) << PyLong_SHIFT) | (PMD::p_t)digits[1]) << PyLong_SHIFT) | (PMD::p_t)digits[0]));
                         }
                     }
                     break;
@@ -24614,86 +24615,86 @@ raise_neg_overflow:
             {
                 int result = PyObject_RichCompareBool(x, Py_False, Py_LT);
                 if (unlikely(result < 0))
-                    return (PMD::polarity_t) -1;
+                    return (PMD::p_t) -1;
                 if (unlikely(result == 1))
                     goto raise_neg_overflow;
             }
 #endif
-            if (sizeof(PMD::polarity_t) <= sizeof(unsigned long)) {
-                __PYX_VERIFY_RETURN_INT_EXC(PMD::polarity_t, unsigned long, PyLong_AsUnsignedLong(x))
+            if (sizeof(PMD::p_t) <= sizeof(unsigned long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(PMD::p_t, unsigned long, PyLong_AsUnsignedLong(x))
 #ifdef HAVE_LONG_LONG
-            } else if (sizeof(PMD::polarity_t) <= sizeof(unsigned PY_LONG_LONG)) {
-                __PYX_VERIFY_RETURN_INT_EXC(PMD::polarity_t, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
+            } else if (sizeof(PMD::p_t) <= sizeof(unsigned PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(PMD::p_t, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
 #endif
             }
         } else {
 #if CYTHON_USE_PYLONG_INTERNALS
             const digit* digits = ((PyLongObject*)x)->ob_digit;
             switch (Py_SIZE(x)) {
-                case  0: return (PMD::polarity_t) 0;
-                case -1: __PYX_VERIFY_RETURN_INT(PMD::polarity_t, sdigit, (sdigit) (-(sdigit)digits[0]))
-                case  1: __PYX_VERIFY_RETURN_INT(PMD::polarity_t,  digit, +digits[0])
+                case  0: return (PMD::p_t) 0;
+                case -1: __PYX_VERIFY_RETURN_INT(PMD::p_t, sdigit, (sdigit) (-(sdigit)digits[0]))
+                case  1: __PYX_VERIFY_RETURN_INT(PMD::p_t,  digit, +digits[0])
                 case -2:
-                    if (8 * sizeof(PMD::polarity_t) - 1 > 1 * PyLong_SHIFT) {
+                    if (8 * sizeof(PMD::p_t) - 1 > 1 * PyLong_SHIFT) {
                         if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(PMD::polarity_t, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(PMD::polarity_t) - 1 > 2 * PyLong_SHIFT) {
-                            return (PMD::polarity_t) (((PMD::polarity_t)-1)*(((((PMD::polarity_t)digits[1]) << PyLong_SHIFT) | (PMD::polarity_t)digits[0])));
+                            __PYX_VERIFY_RETURN_INT(PMD::p_t, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(PMD::p_t) - 1 > 2 * PyLong_SHIFT) {
+                            return (PMD::p_t) (((PMD::p_t)-1)*(((((PMD::p_t)digits[1]) << PyLong_SHIFT) | (PMD::p_t)digits[0])));
                         }
                     }
                     break;
                 case 2:
-                    if (8 * sizeof(PMD::polarity_t) > 1 * PyLong_SHIFT) {
+                    if (8 * sizeof(PMD::p_t) > 1 * PyLong_SHIFT) {
                         if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(PMD::polarity_t, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(PMD::polarity_t) - 1 > 2 * PyLong_SHIFT) {
-                            return (PMD::polarity_t) ((((((PMD::polarity_t)digits[1]) << PyLong_SHIFT) | (PMD::polarity_t)digits[0])));
+                            __PYX_VERIFY_RETURN_INT(PMD::p_t, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(PMD::p_t) - 1 > 2 * PyLong_SHIFT) {
+                            return (PMD::p_t) ((((((PMD::p_t)digits[1]) << PyLong_SHIFT) | (PMD::p_t)digits[0])));
                         }
                     }
                     break;
                 case -3:
-                    if (8 * sizeof(PMD::polarity_t) - 1 > 2 * PyLong_SHIFT) {
+                    if (8 * sizeof(PMD::p_t) - 1 > 2 * PyLong_SHIFT) {
                         if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(PMD::polarity_t, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(PMD::polarity_t) - 1 > 3 * PyLong_SHIFT) {
-                            return (PMD::polarity_t) (((PMD::polarity_t)-1)*(((((((PMD::polarity_t)digits[2]) << PyLong_SHIFT) | (PMD::polarity_t)digits[1]) << PyLong_SHIFT) | (PMD::polarity_t)digits[0])));
+                            __PYX_VERIFY_RETURN_INT(PMD::p_t, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(PMD::p_t) - 1 > 3 * PyLong_SHIFT) {
+                            return (PMD::p_t) (((PMD::p_t)-1)*(((((((PMD::p_t)digits[2]) << PyLong_SHIFT) | (PMD::p_t)digits[1]) << PyLong_SHIFT) | (PMD::p_t)digits[0])));
                         }
                     }
                     break;
                 case 3:
-                    if (8 * sizeof(PMD::polarity_t) > 2 * PyLong_SHIFT) {
+                    if (8 * sizeof(PMD::p_t) > 2 * PyLong_SHIFT) {
                         if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(PMD::polarity_t, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(PMD::polarity_t) - 1 > 3 * PyLong_SHIFT) {
-                            return (PMD::polarity_t) ((((((((PMD::polarity_t)digits[2]) << PyLong_SHIFT) | (PMD::polarity_t)digits[1]) << PyLong_SHIFT) | (PMD::polarity_t)digits[0])));
+                            __PYX_VERIFY_RETURN_INT(PMD::p_t, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(PMD::p_t) - 1 > 3 * PyLong_SHIFT) {
+                            return (PMD::p_t) ((((((((PMD::p_t)digits[2]) << PyLong_SHIFT) | (PMD::p_t)digits[1]) << PyLong_SHIFT) | (PMD::p_t)digits[0])));
                         }
                     }
                     break;
                 case -4:
-                    if (8 * sizeof(PMD::polarity_t) - 1 > 3 * PyLong_SHIFT) {
+                    if (8 * sizeof(PMD::p_t) - 1 > 3 * PyLong_SHIFT) {
                         if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(PMD::polarity_t, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(PMD::polarity_t) - 1 > 4 * PyLong_SHIFT) {
-                            return (PMD::polarity_t) (((PMD::polarity_t)-1)*(((((((((PMD::polarity_t)digits[3]) << PyLong_SHIFT) | (PMD::polarity_t)digits[2]) << PyLong_SHIFT) | (PMD::polarity_t)digits[1]) << PyLong_SHIFT) | (PMD::polarity_t)digits[0])));
+                            __PYX_VERIFY_RETURN_INT(PMD::p_t, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(PMD::p_t) - 1 > 4 * PyLong_SHIFT) {
+                            return (PMD::p_t) (((PMD::p_t)-1)*(((((((((PMD::p_t)digits[3]) << PyLong_SHIFT) | (PMD::p_t)digits[2]) << PyLong_SHIFT) | (PMD::p_t)digits[1]) << PyLong_SHIFT) | (PMD::p_t)digits[0])));
                         }
                     }
                     break;
                 case 4:
-                    if (8 * sizeof(PMD::polarity_t) > 3 * PyLong_SHIFT) {
+                    if (8 * sizeof(PMD::p_t) > 3 * PyLong_SHIFT) {
                         if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(PMD::polarity_t, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(PMD::polarity_t) - 1 > 4 * PyLong_SHIFT) {
-                            return (PMD::polarity_t) ((((((((((PMD::polarity_t)digits[3]) << PyLong_SHIFT) | (PMD::polarity_t)digits[2]) << PyLong_SHIFT) | (PMD::polarity_t)digits[1]) << PyLong_SHIFT) | (PMD::polarity_t)digits[0])));
+                            __PYX_VERIFY_RETURN_INT(PMD::p_t, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(PMD::p_t) - 1 > 4 * PyLong_SHIFT) {
+                            return (PMD::p_t) ((((((((((PMD::p_t)digits[3]) << PyLong_SHIFT) | (PMD::p_t)digits[2]) << PyLong_SHIFT) | (PMD::p_t)digits[1]) << PyLong_SHIFT) | (PMD::p_t)digits[0])));
                         }
                     }
                     break;
             }
 #endif
-            if (sizeof(PMD::polarity_t) <= sizeof(long)) {
-                __PYX_VERIFY_RETURN_INT_EXC(PMD::polarity_t, long, PyLong_AsLong(x))
+            if (sizeof(PMD::p_t) <= sizeof(long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(PMD::p_t, long, PyLong_AsLong(x))
 #ifdef HAVE_LONG_LONG
-            } else if (sizeof(PMD::polarity_t) <= sizeof(PY_LONG_LONG)) {
-                __PYX_VERIFY_RETURN_INT_EXC(PMD::polarity_t, PY_LONG_LONG, PyLong_AsLongLong(x))
+            } else if (sizeof(PMD::p_t) <= sizeof(PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(PMD::p_t, PY_LONG_LONG, PyLong_AsLongLong(x))
 #endif
             }
         }
@@ -24702,7 +24703,7 @@ raise_neg_overflow:
             PyErr_SetString(PyExc_RuntimeError,
                             "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
 #else
-            PMD::polarity_t val;
+            PMD::p_t val;
             PyObject *v = __Pyx_PyNumber_IntOrLong(x);
  #if PY_MAJOR_VERSION < 3
             if (likely(v) && !PyLong_Check(v)) {
@@ -24722,24 +24723,24 @@ raise_neg_overflow:
                     return val;
             }
 #endif
-            return (PMD::polarity_t) -1;
+            return (PMD::p_t) -1;
         }
     } else {
-        PMD::polarity_t val;
+        PMD::p_t val;
         PyObject *tmp = __Pyx_PyNumber_IntOrLong(x);
-        if (!tmp) return (PMD::polarity_t) -1;
-        val = __Pyx_PyInt_As_PMD_3a__3a_polarity_t(tmp);
+        if (!tmp) return (PMD::p_t) -1;
+        val = __Pyx_PyInt_As_PMD_3a__3a_p_t(tmp);
         Py_DECREF(tmp);
         return val;
     }
 raise_overflow:
     PyErr_SetString(PyExc_OverflowError,
-        "value too large to convert to PMD::polarity_t");
-    return (PMD::polarity_t) -1;
+        "value too large to convert to PMD::p_t");
+    return (PMD::p_t) -1;
 raise_neg_overflow:
     PyErr_SetString(PyExc_OverflowError,
-        "can't convert negative value to PMD::polarity_t");
-    return (PMD::polarity_t) -1;
+        "can't convert negative value to PMD::p_t");
+    return (PMD::p_t) -1;
 }
 
 /* CIntFromPy */

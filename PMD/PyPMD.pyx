@@ -7,7 +7,7 @@ from PMD.PersistentMotionDetector cimport *
 cdef class PyPMD:
     cdef PersistentMotionDetector *cpp_PMD
     cdef xy_t width, height
-    cdef timestamp_t cycle_period_us
+    cdef ts_t cycle_period_us
 
     def __cinit__(self, int width, int height, param):
         self.width = width
@@ -34,9 +34,9 @@ cdef class PyPMD:
         cdef unsigned char c
 
         self.cpp_PMD.init_framebuffer(&frame[0,0,0])
-        cdef timestamp_t start_time = events[0].t
-        cdef timestamp_t end_time = events[num_events-1].t+1
-        cdef timestamp_t interval = self.cycle_period_us
+        cdef ts_t start_time = events[0].t
+        cdef ts_t end_time = events[num_events-1].t+1
+        cdef ts_t interval = self.cycle_period_us
 
         ##Ignore events before each cycle_period start
         # this will flush stale events if IQ is really big and/or EH is really slow

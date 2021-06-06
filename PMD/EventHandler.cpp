@@ -11,7 +11,7 @@ namespace PMD {
     {}
     EventHandler::~EventHandler() {}
 
-    void EventHandler::process_until(timestamp_t time_us) {
+    void EventHandler::process_until(ts_t time_us) {
         // if the queue is empty, just return
         const event *front = this->input_queue->peek();
         if (front == nullptr) return;

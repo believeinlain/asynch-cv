@@ -1,14 +1,14 @@
 
 cdef extern from 'types.h' namespace 'PMD':
     ctypedef unsigned short xy_t
-    ctypedef int polarity_t
-    ctypedef unsigned long long timestamp_t
+    ctypedef int p_t
+    ctypedef unsigned long long ts_t
 
     cdef packed struct event:
         xy_t x
         xy_t y
-        polarity_t p
-        timestamp_t t
+        p_t p
+        ts_t t
         
     ctypedef unsigned char byte_t
 
@@ -29,5 +29,5 @@ cdef extern from 'PersistentMotionDetector.h' namespace 'PMD':
         PersistentMotionDetector(int, int, parameters) except +
 
         void init_framebuffer(byte_t *frame)
-        int input_events_until(timestamp_t time_us, const event *events, int num_events, int start_at)
-        void process_until(timestamp_t time_us)
+        int input_events_until(ts_t time_us, const event *events, int num_events, int start_at)
+        void process_until(ts_t time_us)

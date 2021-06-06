@@ -34,7 +34,7 @@ namespace PMD {
     }
 
     uint_t PersistentMotionDetector::input_events_until(
-            timestamp_t time_us, const event *events, uint_t num_events, uint_t start_at) {
+            ts_t time_us, const event *events, uint_t num_events, uint_t start_at) {
         for (uint_t i=start_at; i<num_events; i++) {
             const event &e = events[i];
             // return the last event processed if we're over time
@@ -45,12 +45,12 @@ namespace PMD {
         return num_events - 1;
     }
 
-    void PersistentMotionDetector::process_until(timestamp_t time_us) {
+    void PersistentMotionDetector::process_until(ts_t time_us) {
         for (uint_t i=0; i<this->num_parts; i++) 
             this->event_handlers[i]->process_until(time_us);
     }
 
-    void PersistentMotionDetector::event_callback(const event &e, bool is_filtered, cluster_id_t cluster) {
+    void PersistentMotionDetector::event_callback(const event &e, bool is_filtered, cid_t cluster) {
         if (this->framebuffer == nullptr) return;
         const uint_t xy_index = 3*(this->width*e.y + e.x);
         color event_color;

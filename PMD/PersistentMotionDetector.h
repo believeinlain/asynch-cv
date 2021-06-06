@@ -56,12 +56,12 @@ namespace PMD {
 
         void init_framebuffer(byte_t *frame);
 
-        uint_t input_events_until(timestamp_t time_us, const event *events, uint_t num_events, uint_t start_at);
+        uint_t input_events_until(ts_t time_us, const event *events, uint_t num_events, uint_t start_at);
 
-        void process_until(timestamp_t time_us);
+        void process_until(ts_t time_us);
 
     protected:
-        void event_callback(const event &e, bool is_filtered=false, cluster_id_t cluster=UNASSIGNED_CLUSTER);
+        void event_callback(const event &e, bool is_filtered=false, cid_t cluster=UNASSIGNED_CLUSTER);
     };
 };
 

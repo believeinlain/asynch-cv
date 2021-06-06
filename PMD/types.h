@@ -8,14 +8,14 @@ namespace PMD {
     // types carefully chosen to fit 4-byte alignment
     // this is important because of how it interfaces with python
     typedef unsigned short xy_t; // 2 bytes
-    typedef int polarity_t; // should be 4 bytes
-    typedef unsigned long long timestamp_t; // 8 bytes
+    typedef int p_t; // should be 4 bytes
+    typedef unsigned long long ts_t; // 8 bytes
 
     struct event {
         xy_t x; // 2 bytes
         xy_t y; // 2 bytes
-        polarity_t p; // 4 bytes
-        timestamp_t t; // 8 bytes
+        p_t p; // 4 bytes
+        ts_t t; // 8 bytes
     }; // total 16 bytes per event - only 13 of which are really needed
 
     // define convenient shorthand for single byte variables
@@ -47,9 +47,8 @@ namespace PMD {
         point tl, br;
     };
 
-    typedef unsigned int cluster_id_t;
-    const cluster_id_t UNASSIGNED_CLUSTER = std::numeric_limits<cluster_id_t>::max();
-    const unsigned long MAX_CLUSTERS = UNASSIGNED_CLUSTER + 1;
+    typedef unsigned int cid_t;
+    const cid_t UNASSIGNED_CLUSTER = std::numeric_limits<cid_t>::max();
 };
 
 #endif

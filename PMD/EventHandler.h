@@ -18,13 +18,13 @@ namespace PMD {
         // reference to the overall PMD
         PersistentMotionDetector *pmd;
         // time to limit rate of event processing
-        timestamp_t current_time_us;
+        ts_t current_time_us;
 
     public:
         EventHandler(PersistentMotionDetector *pmd, InputQueue *input_queue, const parameters &param);
         ~EventHandler();
 
-        void process_until(timestamp_t time_us);
+        void process_until(ts_t time_us);
     };
 };
 
