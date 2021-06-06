@@ -17,6 +17,25 @@ namespace PMD {
         uint_t input_queue_expiration_us = 0;
     };
 
+    struct detection {
+        bool is_positive;
+        point position;
+        point velocity;
+        float confidence;
+    };
+
+    enum event_result {
+        EVENT_REJECTED,
+        EVENT_FILTERED,
+        EVENT_CLUSTERED
+    };
+
+    struct processed_event {
+        point position;
+        event_result result;
+        color c;
+    };
+
     class PersistentMotionDetector {
         friend class EventHandler;
         
@@ -42,7 +61,7 @@ namespace PMD {
         void process_until(timestamp_t time_us);
 
     protected:
-        void draw_event(const event &e);
+        void event_callback(const event &e, bool is_filtered=false, cluster_id_t cluster=UNASSIGNED_CLUSTER);
     };
 };
 

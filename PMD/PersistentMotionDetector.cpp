@@ -50,9 +50,12 @@ namespace PMD {
             this->event_handlers[i]->process_until(time_us);
     }
 
-    void PersistentMotionDetector::draw_event(const event &e) {
+    void PersistentMotionDetector::event_callback(const event &e, bool is_filtered, cluster_id_t cluster) {
         if (this->framebuffer == nullptr) return;
-        byte_t c = e.p*255;
-        for (uint_t z=0; z<3; z++) this->framebuffer[z + 3*(this->width*e.y + e.x)] = c;
+        const uint_t xy_index = 3*(this->width*e.y + e.x);
+        color event_color;
+        if (is_filtered) event_color = color(100);
+        else event_color = color(e.p*255);
+        for (uint_t z=0; z<3; z++) this->framebuffer[z + xy_index] = event_color[z];
     }
 };

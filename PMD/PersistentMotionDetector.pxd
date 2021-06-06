@@ -1,5 +1,5 @@
 
-cdef extern from 'types.h':
+cdef extern from 'types.h' namespace 'PMD':
     ctypedef unsigned short xy_t
     ctypedef int polarity_t
     ctypedef unsigned long long timestamp_t
@@ -17,22 +17,6 @@ cdef extern from 'types.h':
 
     cdef packed struct point:
         xy_t x, y
-
-    # cdef enum event_result:
-    #     EVENT_REJECTED
-    #     EVENT_FILTERED
-    #     EVENT_CLUSTERED
-
-    # cdef packed struct processed_event:
-    #     point position
-    #     event_result result
-    #     color c
-
-    # cdef packed struct detection:
-    #     char is_positive
-    #     point position
-    #     point velocity
-    #     float confidence
 
 cdef extern from 'PersistentMotionDetector.h' namespace 'PMD':
     cdef packed struct parameters:

@@ -24,7 +24,7 @@ namespace PMD {
                 if (e.t < this->current_time_us-this->input_queue_expiration_us) 
                     continue;
             // actually process the event
-            this->pmd->draw_event(e);
+            this->pmd->event_callback(e);
             // current time must at least be the time this event fired
             if (e.t > this->current_time_us) this->current_time_us = e.t;
             // plus the time it took to process
