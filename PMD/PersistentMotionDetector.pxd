@@ -1,9 +1,15 @@
-# distutils: language = c++
 
 cdef extern from 'types.h':
     ctypedef unsigned short xy_t
-    ctypedef signed char polarity_t
+    ctypedef int polarity_t
     ctypedef unsigned long long timestamp_t
+
+    cdef packed struct event:
+        xy_t x
+        xy_t y
+        polarity_t p
+        timestamp_t t
+        
     ctypedef unsigned char byte_t
 
     cdef packed struct color:
@@ -28,18 +34,15 @@ cdef extern from 'types.h':
     #     point velocity
     #     float confidence
 
-    cdef packed struct event:
-        xy_t x
-        xy_t y
-        polarity_t p
-        timestamp_t t
-
 cdef extern from 'PersistentMotionDetector.h' namespace 'PMD':
     cdef packed struct parameters:
-        xy_t x_div, y_div
+        int x_div, y_div
         int input_queue_depth
+        int events_per_ms
     
     cdef cppclass PersistentMotionDetector:
         PersistentMotionDetector(int, int, parameters) except +
 
-        void process_events(byte_t *frame, event *events, int num_events)
+        void init_framebuffer(byte_t *frame)
+        void input_events(const event *events, int num_events)
+        void process_until(timestamp_t time_us)

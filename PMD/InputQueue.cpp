@@ -2,7 +2,7 @@
 #include "InputQueue.h"
 
 namespace PMD {
-    InputQueue::InputQueue(int depth) :
+    InputQueue::InputQueue(uint_t depth) :
         depth(depth), count(0), front(0), back(0) 
     {
         this->queue = new event[depth];
@@ -11,8 +11,6 @@ namespace PMD {
         delete this->queue;
     }
 
-    // add an item to the back of the queue
-    // will discard the item at the front if full
     void InputQueue::push(event e) {
         this->queue[this->back] = e;
         this->back = (this->back + 1) % this->depth;
@@ -21,8 +19,6 @@ namespace PMD {
             this->count++;
     }
 
-    // get the item at the front
-    // returns true if successful, false if queue is empty
     bool InputQueue::pop(event &out) {
         if (this->count > 0) {
             out = this->queue[this->front];
@@ -31,5 +27,10 @@ namespace PMD {
             return true;
         }
         return false;
+    }
+
+    const event *InputQueue::peek() {
+        if (this->count > 0) return &this->queue[this->front];
+        return nullptr;
     }
 };
