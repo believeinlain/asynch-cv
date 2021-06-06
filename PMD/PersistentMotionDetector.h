@@ -13,7 +13,7 @@ namespace PMD {
         xy_t x_div = 8;
         xy_t y_div = 8;
         uint_t input_queue_depth = 64;
-        uint_t events_per_ms = 0;
+        uint_t event_handler_us_per_event = 0;
     };
 
     class PersistentMotionDetector {
@@ -36,7 +36,7 @@ namespace PMD {
 
         void init_framebuffer(byte_t *frame);
 
-        void input_events(const event *events, uint_t num_events);
+        uint_t input_events_until(timestamp_t time_us, const event *events, uint_t num_events, uint_t start_at);
 
         void process_until(timestamp_t time_us);
 

@@ -5,8 +5,8 @@
 #include <iostream>
 
 namespace PMD {
-    EventHandler::EventHandler(PersistentMotionDetector *pmd, InputQueue *input_queue, uint_t events_per_ms) :
-        pmd(pmd), input_queue(input_queue), events_per_ms(events_per_ms)
+    EventHandler::EventHandler(PersistentMotionDetector *pmd, InputQueue *input_queue, uint_t us_per_event) :
+        current_time_us(0), pmd(pmd), input_queue(input_queue), us_per_event(us_per_event)
     {}
     EventHandler::~EventHandler() {}
 
@@ -15,20 +15,17 @@ namespace PMD {
         const event *front = this->input_queue->peek();
         if (front == nullptr) return;
 
-        // initialize time to earliest event in queue
-        timestamp_t last_time = front->t;
-        // calculate the max number of events we can to process
-        uint_t event_limit = this->events_per_ms*(time_us - last_time)/1000;
-        // no event limit if events_per_ms is set to 0
-        bool is_limited = this->events_per_ms > 0;
-        // count the events we've processed
-        uint_t event_count = 0;
-
         event e;
-        while ((event_count <= event_limit) && (last_time <= time_us) && this->input_queue->pop(e)) {
+        // while we still have time and there are still events to process
+        while ((this->current_time_us <= time_us) && this->input_queue->pop(e)) {
+            // actually process the event
             this->pmd->draw_event(e);
-            last_time = e.t;
-            if (is_limited) event_count++;
+            // current time must at least be the time this event fired
+            if (e.t > this->current_time_us) this->current_time_us = e.t;
+            // plus the time it took to process
+            this->current_time_us += this->us_per_event;
         }
+        // make sure we update the time appropriately
+        if (time_us > this->current_time_us) this->current_time_us = time_us;
     }
 };

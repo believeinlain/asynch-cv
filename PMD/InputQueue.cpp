@@ -8,7 +8,7 @@ namespace PMD {
         this->queue = new event[depth];
     }
     InputQueue::~InputQueue() {
-        delete this->queue;
+        delete[] this->queue;
     }
 
     void InputQueue::push(event e) {
@@ -17,6 +17,8 @@ namespace PMD {
 
         if (this->count < this->depth)
             this->count++;
+        else
+            this->front = (this->front + 1) % this->depth;
     }
 
     bool InputQueue::pop(event &out) {

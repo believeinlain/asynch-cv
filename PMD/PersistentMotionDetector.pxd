@@ -38,11 +38,11 @@ cdef extern from 'PersistentMotionDetector.h' namespace 'PMD':
     cdef packed struct parameters:
         int x_div, y_div
         int input_queue_depth
-        int events_per_ms
+        int event_handler_us_per_event
     
     cdef cppclass PersistentMotionDetector:
         PersistentMotionDetector(int, int, parameters) except +
 
         void init_framebuffer(byte_t *frame)
-        void input_events(const event *events, int num_events)
+        int input_events_until(timestamp_t time_us, const event *events, int num_events, int start_at)
         void process_until(timestamp_t time_us)

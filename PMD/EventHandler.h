@@ -10,16 +10,17 @@ namespace PMD {
     class PersistentMotionDetector;
 
     class EventHandler {
-        // events the handler will process for each ms of operation
-        // 0 for unlimited
-        uint_t events_per_ms;
+        // time cost of processing an event (for simulation/consistency)
+        uint_t us_per_event;
         // reference to the corresponding input queue
         InputQueue *input_queue;
         // reference to the overall PMD
         PersistentMotionDetector *pmd;
+        // time to limit rate of event processing
+        timestamp_t current_time_us;
 
     public:
-        EventHandler(PersistentMotionDetector *pmd, InputQueue *input_queue, uint_t events_per_ms);
+        EventHandler(PersistentMotionDetector *pmd, InputQueue *input_queue, uint_t us_per_event);
         ~EventHandler();
 
         void process_until(timestamp_t time_us);

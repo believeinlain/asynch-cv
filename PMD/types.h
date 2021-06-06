@@ -55,7 +55,7 @@ struct processed_event {
     event_result result;
     color c;
 };
-
+/* 
 template <class T>
 class array_2d {
     uint_t size;
@@ -78,5 +78,5 @@ public:
         return this->elements[i+j*this->width];
     }
 };
-
+ */
 #endif

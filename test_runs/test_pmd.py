@@ -71,17 +71,19 @@ play_file(
             'x_div': 8,
             'y_div': 8,
             'input_queue_depth': 640,
-            'event_buffer_depth': 4,
-            'tf': 200_000, # how far back in time to consider events for filtering
-            'n': 5, # minimum number of correlated events required to allow a particular event through the filter
-            'tc': 200_000, # how far back in time to consider events for clustering
-            'num_cluster_analyzers': 16,
-            'temporal_filter': 5_000,
-            'cluster_profile_length': 16,
-            'stability_threshold': 1.5,
-            'stability_loss_rate': 0.1,
-            'confidence_rate': 0.05,
-            'confidence_threshold': 0.5,
-            'merge_clusters': False
+            'event_handler_us_per_event': 1000,
+            'cycle_period_us': 100
+            # 'event_buffer_depth': 4,
+            # 'tf': 200_000, # how far back in time to consider events for filtering
+            # 'n': 5, # minimum number of correlated events required to allow a particular event through the filter
+            # 'tc': 200_000, # how far back in time to consider events for clustering
+            # 'num_cluster_analyzers': 16,
+            # 'temporal_filter': 5_000,
+            # 'cluster_profile_length': 16,
+            # 'stability_threshold': 1.5,
+            # 'stability_loss_rate': 0.1,
+            # 'confidence_rate': 0.05,
+            # 'confidence_threshold': 0.5,
+            # 'merge_clusters': False
         }
     })

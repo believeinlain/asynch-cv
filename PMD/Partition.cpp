@@ -16,8 +16,8 @@ namespace PMD {
         }
     }
     Partition::~Partition() {
-        delete this->x_bounds;
-        delete this->y_bounds;
+        delete[] this->x_bounds;
+        delete[] this->y_bounds;
     }
 
     point Partition::place_event(xy_t x, xy_t y) {
