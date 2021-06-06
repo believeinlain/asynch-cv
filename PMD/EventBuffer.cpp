@@ -48,7 +48,7 @@ namespace PMD {
                     // add to count if within filter threshold
                     if (ts > e.t-tf) count++;
                     // add to adjacent clusters if within cluster threshold
-                    if ((ts > e.t-tc) && (cid != UNASSIGNED_CLUSTER)) out_adjacent.push_back(cid);
+                    if ((cid != UNASSIGNED_CLUSTER) && (ts > e.t-tc)) out_adjacent.push_back(cid);
                 }
             }
         }
