@@ -70,9 +70,10 @@ play_file(
         'parameters': {
             'x_div': 8,
             'y_div': 8,
-            'input_queue_depth': 640,
-            'event_handler_us_per_event': 1000,
-            'cycle_period_us': 100
+            'input_queue_depth': 64,
+            'input_queue_expiration_us': 30_000,
+            'event_handler_us_per_event': 100,
+            'cycle_period_us': 10
             # 'event_buffer_depth': 4,
             # 'tf': 200_000, # how far back in time to consider events for filtering
             # 'n': 5, # minimum number of correlated events required to allow a particular event through the filter

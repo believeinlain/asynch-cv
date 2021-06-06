@@ -14,6 +14,7 @@ namespace PMD {
         xy_t y_div = 8;
         uint_t input_queue_depth = 64;
         uint_t event_handler_us_per_event = 0;
+        uint_t input_queue_expiration_us = 0;
     };
 
     class PersistentMotionDetector {

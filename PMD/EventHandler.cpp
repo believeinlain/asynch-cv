@@ -5,8 +5,9 @@
 #include <iostream>
 
 namespace PMD {
-    EventHandler::EventHandler(PersistentMotionDetector *pmd, InputQueue *input_queue, uint_t us_per_event) :
-        current_time_us(0), pmd(pmd), input_queue(input_queue), us_per_event(us_per_event)
+    EventHandler::EventHandler(PersistentMotionDetector *pmd, InputQueue *input_queue, const parameters &param) :
+        current_time_us(0), pmd(pmd), input_queue(input_queue), us_per_event(param.event_handler_us_per_event),
+        input_queue_expiration_us(param.input_queue_expiration_us)
     {}
     EventHandler::~EventHandler() {}
 
@@ -18,6 +19,10 @@ namespace PMD {
         event e;
         // while we still have time and there are still events to process
         while ((this->current_time_us <= time_us) && this->input_queue->pop(e)) {
+            // if event is expired, skip it
+            if (this->input_queue_expiration_us > 0)
+                if (e.t < this->current_time_us-this->input_queue_expiration_us) 
+                    continue;
             // actually process the event
             this->pmd->draw_event(e);
             // current time must at least be the time this event fired

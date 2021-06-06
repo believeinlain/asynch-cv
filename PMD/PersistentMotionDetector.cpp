@@ -14,7 +14,7 @@ namespace PMD {
         this->event_handlers = new EventHandler*[param.x_div*param.y_div];
         for (uint_t i=0; i<this->num_parts; i++) {
             this->input_queues[i] = new InputQueue(param.input_queue_depth);
-            this->event_handlers[i] = new EventHandler(this, this->input_queues[i], param.event_handler_us_per_event);
+            this->event_handlers[i] = new EventHandler(this, this->input_queues[i], param);
         }
 
         this->framebuffer = nullptr;
