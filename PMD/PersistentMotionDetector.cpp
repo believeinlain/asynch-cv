@@ -10,11 +10,12 @@ namespace PMD {
         this->num_parts = param.x_div*param.y_div;
 
         this->partition = new Partition(width, height, param.x_div, param.y_div);
+        this->event_buffer = new EventBuffer(width, height, param.event_buffer_depth);
         this->input_queues = new InputQueue*[param.x_div*param.y_div];
         this->event_handlers = new EventHandler*[param.x_div*param.y_div];
         for (uint_t i=0; i<this->num_parts; i++) {
             this->input_queues[i] = new InputQueue(param.input_queue_depth);
-            this->event_handlers[i] = new EventHandler(this, this->input_queues[i], param);
+            this->event_handlers[i] = new EventHandler(this, this->input_queues[i], this->event_buffer, param);
         }
 
         this->framebuffer = nullptr;
@@ -54,7 +55,7 @@ namespace PMD {
         if (this->framebuffer == nullptr) return;
         const uint_t xy_index = 3*(this->width*e.y + e.x);
         color event_color;
-        if (is_filtered) event_color = color(100);
+        if (is_filtered) event_color = color(120);
         else event_color = color(e.p*255);
         for (uint_t z=0; z<3; z++) this->framebuffer[z + xy_index] = event_color[z];
     }

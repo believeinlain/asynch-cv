@@ -6,6 +6,7 @@
 #include "Partition.h"
 #include "InputQueue.h"
 #include "EventHandler.h"
+#include "EventBuffer.h"
 
 namespace PMD {
 
@@ -15,27 +16,19 @@ namespace PMD {
         uint_t input_queue_depth = 64;
         uint_t event_handler_us_per_event = 0;
         uint_t input_queue_expiration_us = 0;
+        uint_t event_buffer_depth = 4;
+        uint_t tf = 200000;
+        uint_t tc = 200000;
+        uint_t n = 5;
     };
-
+/* 
     struct detection {
         bool is_positive;
         point position;
         point velocity;
         float confidence;
     };
-
-    enum event_result {
-        EVENT_REJECTED,
-        EVENT_FILTERED,
-        EVENT_CLUSTERED
-    };
-
-    struct processed_event {
-        point position;
-        event_result result;
-        color c;
-    };
-
+ */
     class PersistentMotionDetector {
         friend class EventHandler;
         
@@ -47,6 +40,7 @@ namespace PMD {
         Partition *partition;
         InputQueue **input_queues;
         EventHandler **event_handlers;
+        EventBuffer *event_buffer;
 
         byte_t *framebuffer;
 

@@ -1,15 +1,27 @@
 
 #include "EventHandler.h"
-#include "PersistentMotionDetector.h"
 
-#include <iostream>
+#include "PersistentMotionDetector.h"
+#include "InputQueue.h"
+#include "EventBuffer.h"
 
 namespace PMD {
-    EventHandler::EventHandler(PersistentMotionDetector *pmd, InputQueue *input_queue, const parameters &param) :
-        current_time_us(0), pmd(pmd), input_queue(input_queue), us_per_event(param.event_handler_us_per_event),
-        input_queue_expiration_us(param.input_queue_expiration_us)
+    EventHandler::EventHandler(
+            PersistentMotionDetector *pmd, 
+            InputQueue *input_queue, 
+            EventBuffer *event_buffer,
+            const parameters &param
+    ) :
+        pmd(pmd),
+        input_queue(input_queue), 
+        event_buffer(event_buffer),
+        us_per_event(param.event_handler_us_per_event),
+        input_queue_expiration_us(param.input_queue_expiration_us),
+        tf(param.tf),
+        tc(param.tc),
+        n(param.n),
+        current_time_us(0)
     {}
-    EventHandler::~EventHandler() {}
 
     void EventHandler::process_until(ts_t time_us) {
         // if the queue is empty, just return
@@ -23,8 +35,15 @@ namespace PMD {
             if (this->input_queue_expiration_us > 0)
                 if (e.t < this->current_time_us-this->input_queue_expiration_us) 
                     continue;
+            
             // actually process the event
-            this->pmd->event_callback(e);
+            cid_vector adjacent = cid_vector();
+            uint_t count = this->event_buffer->check_vicinity(e, this->tf, this->tc, adjacent);
+            cid_t assigned = UNASSIGNED_CLUSTER;
+            bool is_filtered = (count < this->n);
+            this->pmd->event_callback(e, is_filtered, assigned);
+            this->event_buffer->add_event(e, assigned);
+
             // current time must at least be the time this event fired
             if (e.t > this->current_time_us) this->current_time_us = e.t;
             // plus the time it took to process

@@ -134,7 +134,7 @@ class basic_consumer:
             self.frame_to_draw = np.repeat(frame_buffer, 3, 2)
         # otherwise fill frame with grey
         else:
-            self.frame_to_draw = np.full((self.height, self.width, 3), 100, dtype=np.uint8)
+            self.frame_to_draw = np.full((self.height, self.width, 3), 80, dtype=np.uint8)
         
         self._ground_truth.append([])
 

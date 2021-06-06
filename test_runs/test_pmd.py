@@ -73,11 +73,11 @@ play_file(
             'input_queue_depth': 64,
             'input_queue_expiration_us': 30_000,
             'event_handler_us_per_event': 100,
-            'cycle_period_us': 10
-            # 'event_buffer_depth': 4,
-            # 'tf': 200_000, # how far back in time to consider events for filtering
-            # 'n': 5, # minimum number of correlated events required to allow a particular event through the filter
-            # 'tc': 200_000, # how far back in time to consider events for clustering
+            'cycle_period_us': 10,
+            'event_buffer_depth': 4,
+            'tf': 200_000, # how far back in time to consider events for filtering
+            'tc': 200_000, # how far back in time to consider events for clustering
+            'n': 5 # minimum number of correlated events required to allow a particular event through the filter
             # 'num_cluster_analyzers': 16,
             # 'temporal_filter': 5_000,
             # 'cluster_profile_length': 16,

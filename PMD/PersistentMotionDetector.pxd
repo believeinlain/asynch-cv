@@ -24,6 +24,8 @@ cdef extern from 'PersistentMotionDetector.h' namespace 'PMD':
         int input_queue_depth
         int event_handler_us_per_event
         int input_queue_expiration_us
+        int event_buffer_depth
+        int tf, tc, n
     
     cdef cppclass PersistentMotionDetector:
         PersistentMotionDetector(int, int, parameters) except +

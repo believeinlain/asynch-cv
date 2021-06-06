@@ -19,6 +19,10 @@ cdef class PyPMD:
         c_param.input_queue_depth = param.get('input_queue_depth', 64)
         c_param.input_queue_expiration_us = param.get('input_queue_expiration_us', 0)
         c_param.event_handler_us_per_event = param.get('event_handler_us_per_event', 0)
+        c_param.event_buffer_depth = param.get('event_buffer_depth', 4)
+        c_param.tf = param.get('tf', 200_000)
+        c_param.tc = param.get('tc', 200_000)
+        c_param.n = param.get('n', 5)
 
         self.cycle_period_us = param.get('cycle_period_us', 1000)
 
