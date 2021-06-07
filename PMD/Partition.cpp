@@ -30,7 +30,7 @@ namespace PMD {
             d_height*(place_y+1)
         );
     }
-
+#if !USE_THREADS
     point Partition::place_event(xy_t x, xy_t y) {
         point dest;
         xy_t i;
@@ -38,15 +38,14 @@ namespace PMD {
         for (i=0; i<(x_div-1); i++)
             if (this->x_bounds[i] > x) 
                 break;
-
         dest.x = i;
 
         for (i=0; i<(y_div-1); i++)
             if (this->y_bounds[i] > y) 
                 break;
-
         dest.y = i;
 
         return dest;
     }
+#endif
 };

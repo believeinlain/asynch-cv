@@ -3,6 +3,7 @@
 #define _PARTITION_H
 
 #include "types.h"
+#include "options.h"
 
 namespace PMD {
     class Partition {
@@ -15,8 +16,9 @@ namespace PMD {
         ~Partition();
 
         rect get_domain(xy_t place_x, xy_t place_y);
-
+#if !USE_THREADS
         point place_event(xy_t x, xy_t y);
+#endif
     };
 };
 

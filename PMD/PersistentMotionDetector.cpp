@@ -1,13 +1,13 @@
 
 #include "PersistentMotionDetector.h"
 
+#include "options.h"
+
 #if USE_THREADS
 #include <thread>
 #include <vector>
-#endif
-
-#include <iostream>
 using namespace std;
+#endif
 
 namespace PMD {
     PersistentMotionDetector::PersistentMotionDetector(xy_t width, xy_t height, parameters param) : 
@@ -45,6 +45,7 @@ namespace PMD {
         vector<thread> event_handler_threads(this->num_parts);
         // branch off each event handler to a separate thread to handle events
         for (uint_t i=0; i<this->num_parts; i++) {
+            // each event handler will loop through events concurrently
             event_handler_threads[i] = thread(
                 &EventHandler::process_event_buffer, this->event_handlers[i], events, num_events);
         }
@@ -54,16 +55,13 @@ namespace PMD {
         }
 #else
         point place;
-        ts_t time;
 
         // iterate through the sequence of events
         for (uint_t i=0; i<num_events; i++) {
             const event &e = events[i];
-            // update the simulation time
-            time = e.t;
             // first place the event
             place = this->partition->place_event(e.x, e.y);
-            // handle the event
+            // then handle the event
             this->event_handlers[place.x + place.y*this->param.x_div]->process_event(e);
         }
 #endif
