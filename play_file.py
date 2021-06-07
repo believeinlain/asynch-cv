@@ -3,7 +3,7 @@
 # pylint: disable=invalid-name
 from os import path
 import sys
-import time
+from time import time_ns
 import cv2
 import numpy as np
 
@@ -167,6 +167,8 @@ def play_metavision_file(filename, dt, event_consumer, consumer_args):
         ev_proc.draw_frame()
 
         running = end_loop(start_time, dt)
+    
+    ev_proc.end()
 
 def play_numpy_array_dt(event_data, consumer, dt, dt_us):
     '''
@@ -241,13 +243,13 @@ def begin_loop():
     '''
     Call at the beginning of each loop to mark frame start
     '''
-    return time.time_ns() // 1_000_000 # time in msec
+    return time_ns() // 1_000_000 # time in msec
 
 def end_loop(start_time, dt):
     '''
     Call at the end of each loop to evaluate time to process and display each frame
     '''
-    end_time = time.time_ns() // 1_000_000 # time in msec
+    end_time = time_ns() // 1_000_000 # time in msec
     end_of_frame = start_time + dt
     
     if end_time < end_of_frame:

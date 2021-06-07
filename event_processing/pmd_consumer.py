@@ -6,6 +6,8 @@ from colorsys import hsv_to_rgb
 from event_processing import basic_consumer
 from PMD import PyPMD
 
+from time import time_ns
+
 class pmd_consumer(basic_consumer):
     def __init__(self, width, height, consumer_args=None):
         super().__init__(width, height, consumer_args)
@@ -34,6 +36,9 @@ class pmd_consumer(basic_consumer):
 
         # self._metrics = DetectionMetrics(['boat', 'RHIB'])
         # self._detections = []
+
+        self._frame_start = 0
+        self._max_frametime = 0
     
     def process_event_buffer(self, ts, event_buffer):
         # we don't care about ts
@@ -41,32 +46,10 @@ class pmd_consumer(basic_consumer):
         # pass events to the pmd to draw
         self._pmd.process_events(self.frame_to_draw, event_buffer)
 
-    # def cluster_callback(self, id, results):
-    #     centroid = tuple(results['centroid'])
-    #     color = tuple(self._cluster_color[id].tolist())
-
-    #     # draw stats if detected
-    #     if results['is_detected']:
-    #         # find the bounding box
-    #         image = np.transpose(self._pmd.get_single_cluster_map(id))
-    #         x, y, w, h = cv2.boundingRect(image)
-    #         cv2.rectangle(self.frame_to_draw, (x, y), (x+w, y+h), color, 1)
-    #         cv2.circle(self.frame_to_draw, centroid, 30, color, thickness=1)
-
-    #         # save the detection
-    #         results['bb'] = (x, y, x+w, y+h)
-    #         self._detections[self.frame_count].append(results)
-
-    #     # draw confidence
-    #     cv2.putText(self.frame_to_draw, f"{results['confidence']:0.2f}", centroid, cv2.FONT_HERSHEY_PLAIN,
-    #         1, tuple(color), 1, cv2.LINE_AA)
-        
-    #     # draw arrow if endpoint given
-    #     if results['endpoint'] is not None:
-    #         cv2.arrowedLine(self.frame_to_draw, centroid, tuple(results['endpoint']), color, thickness=1)
-
     def init_frame(self, frame_buffer=None):
         super().init_frame(frame_buffer)
+
+        self._frame_start = time_ns() // 1_000_000
 
         # ids, assigned = self._pmd.get_cluster_map()
         
@@ -84,5 +67,9 @@ class pmd_consumer(basic_consumer):
 
     def end(self):
         super().end()
+
+        frame_end = time_ns() // 1_000_000
+        self._max_frametime = max(self._max_frametime, frame_end-self._frame_start)
+        print("Max frame time:", self._max_frametime)
 
         # self._metrics.display_pr_curve(self.run_name)

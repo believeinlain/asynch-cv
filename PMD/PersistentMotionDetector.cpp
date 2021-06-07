@@ -1,8 +1,6 @@
 
 #include "PersistentMotionDetector.h"
 
-#include <iostream>
-
 namespace PMD {
     PersistentMotionDetector::PersistentMotionDetector(xy_t width, xy_t height, parameters param) : 
         width(width), height(height), param(param)
@@ -11,22 +9,16 @@ namespace PMD {
 
         this->partition = new Partition(width, height, param.x_div, param.y_div);
         this->event_buffer = new EventBuffer(width, height, param.event_buffer_depth);
-        this->input_queues = new InputQueue*[param.x_div*param.y_div];
         this->event_handlers = new EventHandler*[param.x_div*param.y_div];
-        for (uint_t i=0; i<this->num_parts; i++) {
-            this->input_queues[i] = new InputQueue(param.input_queue_depth);
-            this->event_handlers[i] = new EventHandler(this, this->input_queues[i], this->event_buffer, param);
-        }
+        for (uint_t i=0; i<this->num_parts; i++)
+            this->event_handlers[i] = new EventHandler(this, this->event_buffer, param);
 
         this->framebuffer = nullptr;
     }
     PersistentMotionDetector::~PersistentMotionDetector() {
         delete this->partition;
-        for (uint_t i=0; i<this->num_parts; i++) {
-            delete this->input_queues[i];
+        for (uint_t i=0; i<this->num_parts; i++) 
             delete this->event_handlers[i];
-        }
-        delete[] this->input_queues;
         delete[] this->event_handlers;
     }
 
@@ -34,21 +26,20 @@ namespace PMD {
         this->framebuffer = frame;
     }
 
-    uint_t PersistentMotionDetector::input_events_until(
-            ts_t time_us, const event *events, uint_t num_events, uint_t start_at) {
-        for (uint_t i=start_at; i<num_events; i++) {
-            const event &e = events[i];
-            // return the last event processed if we're over time
-            if (e.t > time_us) return i;
-            point place = this->partition->place_event(e.x, e.y);
-            this->input_queues[place.x + place.y*this->param.x_div]->push(e);
-        }
-        return num_events - 1;
-    }
+    void PersistentMotionDetector::process_events(const event *events, uint_t num_events) {
+        point place;
+        ts_t time;
 
-    void PersistentMotionDetector::process_until(ts_t time_us) {
-        for (uint_t i=0; i<this->num_parts; i++) 
-            this->event_handlers[i]->process_until(time_us);
+        // iterate through the sequence of events
+        for (uint_t i=0; i<num_events; i++) {
+            const event &e = events[i];
+            // update the simulation time
+            time = e.t;
+            // first place the event
+            place = this->partition->place_event(e.x, e.y);
+            // handle the event
+            this->event_handlers[place.x + place.y*this->param.x_div]->process_event(e);
+        }
     }
 
     void PersistentMotionDetector::event_callback(const event &e, bool is_filtered, cid_t cluster) {
