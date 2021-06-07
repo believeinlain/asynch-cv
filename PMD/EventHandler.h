@@ -19,15 +19,22 @@ namespace PMD {
         PersistentMotionDetector *pmd;
         EventBuffer *event_buffer;
 
+        // partition index of this handler
+        point place;
+        // area for which this handler if responsible
+        rect domain;
+
         // thresholds
         uint_t tf, tc;
         // min correlated events to allow event through filter
         uint_t n;
 
     public:
-        EventHandler(PersistentMotionDetector *pmd, EventBuffer *event_buffer, const parameters &param);
+        EventHandler(PersistentMotionDetector *pmd, EventBuffer *event_buffer, 
+            point place, rect domain, const parameters &param);
         ~EventHandler() {}
 
+        void process_event_buffer(const event *events, uint_t num_events);
         void process_event(const event &e);
     };
 };

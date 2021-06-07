@@ -11,11 +11,11 @@ namespace PMD {
         this->top = new uint_t[slice_size];
 
         // initialize values
-        for (int i=0; i<size; i++) {
+        for (uint_t i=0; i<size; i++) {
             this->ts_buffer[i] = 0;
             this->cid_buffer[i] = UNASSIGNED_CLUSTER;
         }
-        for (int i=0; i<slice_size; i++) 
+        for (uint_t i=0; i<slice_size; i++) 
             this->top[i] = 0;
     }
     EventBuffer::~EventBuffer() {

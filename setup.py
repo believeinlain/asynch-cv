@@ -11,9 +11,9 @@ extensions = [
             'PMD\\EventHandler.cpp',
             'PMD\\EventBuffer.cpp'
         ],
-        include_dirs=[np.get_include()],
-        language="c++",    
-        define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")]
+        include_dirs = [np.get_include()],
+        language = 'c++',    
+        define_macros = [('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION'), ('USE_THREADS', 1)]
     )
 ]
 setup(

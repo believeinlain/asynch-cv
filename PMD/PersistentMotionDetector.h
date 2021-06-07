@@ -45,7 +45,6 @@ namespace PMD {
         ~PersistentMotionDetector();
 
         void init_framebuffer(byte_t *frame);
-
         void process_events(const event *events, uint_t num_events);
 
     protected:

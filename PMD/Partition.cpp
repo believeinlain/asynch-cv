@@ -20,6 +20,17 @@ namespace PMD {
         delete[] this->y_bounds;
     }
 
+    rect Partition::get_domain(xy_t place_x, xy_t place_y) {
+        xy_t d_width = this->width/this->x_div;
+        xy_t d_height = this->height/this->y_div;
+        return rect(
+            d_width*(place_x),
+            d_height*(place_y),
+            d_width*(place_x+1),
+            d_height*(place_y+1)
+        );
+    }
+
     point Partition::place_event(xy_t x, xy_t y) {
         point dest;
         xy_t i;

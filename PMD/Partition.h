@@ -14,6 +14,8 @@ namespace PMD {
         Partition(xy_t width, xy_t height, xy_t x_div, xy_t y_div);
         ~Partition();
 
+        rect get_domain(xy_t place_x, xy_t place_y);
+
         point place_event(xy_t x, xy_t y);
     };
 };
