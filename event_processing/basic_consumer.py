@@ -103,8 +103,8 @@ class basic_consumer:
         if self.mv_cd_prod_name in src_events:
             # the actual event buffer data
             event_buffer = src_events[self.mv_cd_prod_name][2]
-            # make sure we're producing the correct array format
-            assert event_buffer.dtype.names == ('x','y','p','t'), 'Unknown event buffer format'
+            # repack the event buffer (spacing to fit 4-byte sections, polarity is essentially padding)
+            event_buffer = np.array(event_buffer, dtype=[('x','u2'), ('y','u2'), ('p','i4'), ('t','u8')])
             # appropriately process the events
             self.process_buffers(ts, event_buffer)
 
@@ -118,10 +118,10 @@ class basic_consumer:
             event_buffer: Array of events as tuples of the form ('x','y','p','t')
             frame_buffer: Array of greyscale pixels if captured by a conventional image chip
         '''
+        # make sure we're producing the correct array format
+        assert event_buffer.dtype.names == ('x','y','p','t'), 'Unknown event buffer format'
         # draw the frame we received from frame_buffer
         self.init_frame(frame_buffer)
-        # repack the event buffer (spacing to fit 4-byte sections, polarity is essentially padding)
-        event_buffer = np.array(event_buffer, dtype=[('x','u2'), ('y','u2'), ('p','i4'), ('t','u8')])
         # process events accordingly
         self.process_event_buffer(ts, event_buffer)
 

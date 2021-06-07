@@ -36,9 +36,6 @@ class pmd_consumer(basic_consumer):
 
         # self._metrics = DetectionMetrics(['boat', 'RHIB'])
         # self._detections = []
-
-        self._frame_start = 0
-        self._max_frametime = 0
     
     def process_event_buffer(self, ts, event_buffer):
         # we don't care about ts
@@ -46,10 +43,8 @@ class pmd_consumer(basic_consumer):
         # pass events to the pmd to draw
         self._pmd.process_events(self.frame_to_draw, event_buffer)
 
-    def init_frame(self, frame_buffer=None):
-        super().init_frame(frame_buffer)
-
-        self._frame_start = time_ns() // 1_000_000
+    # def init_frame(self, frame_buffer=None):
+    #     super().init_frame(frame_buffer)
 
         # ids, assigned = self._pmd.get_cluster_map()
         
@@ -58,18 +53,14 @@ class pmd_consumer(basic_consumer):
         # add an empty list for this frame's detections
         # self._detections.append([])
 
-    def draw_frame(self):
+    # def draw_frame(self):
 
         # self._metrics.count_detections(self.frame_count, self._ground_truth, self._detections)
 
         # this is where self.frame_count is incremented
-        super().draw_frame()
+        # super().draw_frame()
 
     def end(self):
         super().end()
-
-        frame_end = time_ns() // 1_000_000
-        self._max_frametime = max(self._max_frametime, frame_end-self._frame_start)
-        print("Max frame time:", self._max_frametime)
 
         # self._metrics.display_pr_curve(self.run_name)

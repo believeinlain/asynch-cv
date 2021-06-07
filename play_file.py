@@ -221,7 +221,10 @@ def play_numpy_array_frames(event_data, consumer, frames):
             frame_end = last_index
             running = False
         # process buffered events into frame
-        consumer.process_buffers(frame_end_time, event_data[frame_start:frame_end,:], frames[frames_drawn][0])
+        event_array = event_data[frame_start:frame_end,:]
+        struct_array = np.core.records.fromarrays(
+            event_array.transpose(), names = 'x, y, p, t', formats = 'u2, u2, i4, u8')
+        consumer.process_buffers(frame_end_time, struct_array, frames[frames_drawn][0])
         # draw frame with the events
         consumer.draw_frame()
         

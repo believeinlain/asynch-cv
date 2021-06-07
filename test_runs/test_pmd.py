@@ -7,6 +7,11 @@ from event_processing import pmd_consumer
 
 data_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 annot_root = './example_annotations/'
+
+# group = 'june_12'
+# test = 3
+# file_type = '.aedat4'
+
 group = 'april_29'
 test = 3
 file_type = '.raw'
