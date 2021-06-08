@@ -37,11 +37,15 @@ namespace PMD {
                 this->process_event(e);
             }
         }
+        // catch up processing to the last event time
+        this->process_until(events[num_events-1].t);
     }
 
-    inline void EventHandler::process_event(const event &e) {
+    void EventHandler::process_event(const event &e) {
         // if we're ready for another event
         if (e.t > this->next_idle_time) {
+            // catch up processing
+            this->process_until(e.t);
             // process the event
             cluster_map adjacent = cluster_map();
             uint_t count = this->event_buffer->check_vicinity(e, this->tf, this->tc, adjacent);
@@ -56,12 +60,27 @@ namespace PMD {
                 else if (adjacent.size() == 1) assigned = adjacent.begin()->first;
                 // otherwise decide what to do
                 else {
-                    // find the cluster with the most adjacent events to this one
-                    auto nearest = adjacent.begin();
-                    for (auto i = next(nearest); i != adjacent.end(); i++)
-                        if (i->second > nearest->second) nearest = i;
+                    // maybe parameterize this?
 
-                    assigned = nearest->first;
+                    // find the cluster with the most adjacent events to this one
+                    // auto nearest = adjacent.begin();
+                    // for (auto i = next(nearest); i != adjacent.end(); i++)
+                    //     if (i->second > nearest->second) nearest = i;
+                    // assigned = nearest->first;
+                    
+                    // find the cluster with the most events total
+                    // assigned = adjacent.begin()->first;
+                    // for (auto i = next(adjacent.begin()); i != adjacent.end(); i++)
+                    //     if ( (this->cluster_buffer->get_cluster(i->first).weight 
+                    //         > this->cluster_buffer->get_cluster(assigned).weight) )
+                    //         assigned = i->first;
+
+                    // find the cluster with the earliest birth time
+                    assigned = adjacent.begin()->first;
+                    for (auto i = next(adjacent.begin()); i != adjacent.end(); i++)
+                        if ( (this->cluster_buffer->get_cluster(i->first).birth 
+                            < this->cluster_buffer->get_cluster(assigned).birth) )
+                            assigned = i->first;
                 }
                 
                 // add to cluster buffer
@@ -83,7 +102,19 @@ namespace PMD {
         }
     }
 
-    void flush_event_buffer(ts_t t) {
-        
+    void EventHandler::process_until(ts_t t) {
+        // check if it's time to flush the buffer
+        if (t > this->last_buffer_flush+this->buffer_flush_period)
+            this->flush_event_buffer(t);
+    }
+
+    void EventHandler::flush_event_buffer(ts_t t) {
+        this->last_buffer_flush = t;
+
+        buffered_event_vector removed;
+        this->event_buffer->flush_domain(t-this->tc, this->domain, removed);
+
+        for (auto i = removed.begin(); i != removed.end(); i++)
+            this->cluster_buffer->remove_event_from_cluster(i->x, i->y, i->cid);
     }
 };

@@ -30,6 +30,11 @@ namespace PMD {
         ClusterBuffer() : rand_gen(0), rand(0, UNASSIGNED_CLUSTER-1) {}
         ~ClusterBuffer() {}
 
+        cluster get_cluster(cid_t cid) const {
+            if (cid == UNASSIGNED_CLUSTER) return cluster();
+            else return this->buffer[cid];
+        }
+
         cid_t create_new_cluster(ts_t t);
         void add_event_to_cluster(const event &e, cid_t cid);
         void remove_event_from_cluster(xy_t x, xy_t y, cid_t cid);

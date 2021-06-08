@@ -40,8 +40,14 @@ namespace PMD {
             ClusterBuffer *cluster_buffer, point place, rect domain, const parameters &param);
         ~EventHandler() {}
 
+        // process an entire buffer of events
         void process_event_buffer(const event *events, uint_t num_events);
+        // process a single event
         void process_event(const event &e);
+        // catch up processing in case the handler receives no events for a while
+        void process_until(ts_t t);
+    
+    protected:
         void flush_event_buffer(ts_t t);
     };
 };

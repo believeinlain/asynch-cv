@@ -58,6 +58,27 @@ namespace PMD {
         return count;
     }
 
+    void EventBuffer::flush_domain(ts_t t, const rect &domain, buffered_event_vector &out_removed) {
+        uint_t buffer_xy, index; 
+        ts_t ts;
+        cid_t cid;
+        for (uint_t i = domain.tl.x; i < domain.br.x; i++) {
+            for (uint_t j = domain.tl.y; j < domain.br.y; j++) {
+                buffer_xy = this->depth*(i + this->width*j);
+                // iterate through all depth positions at this xy
+                for (index = buffer_xy; index < (buffer_xy+this->depth); index++) {
+                    ts = this->ts_buffer[index];
+                    cid = this->cid_buffer[index];
+                    // if any assigned events are too old, unassign them
+                    if ((cid != UNASSIGNED_CLUSTER) && (ts < t)) {
+                        out_removed.push_back(buffered_event(i, j, cid));
+                        this->cid_buffer[index] = UNASSIGNED_CLUSTER;
+                    }
+                }
+            }
+        }
+    }
+
     // add event to buffer, return cid of displaced event
     cid_t EventBuffer::add_event(const event &e, cid_t cid) {
         // compute the xy position in 2d top array

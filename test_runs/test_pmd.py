@@ -13,7 +13,7 @@ annot_root = './example_annotations/'
 # file_type = '.aedat4'
 
 group = 'april_29'
-test = 3
+test = 4
 file_type = '.raw'
 
 boat_tests = {
@@ -70,17 +70,17 @@ play_file(
     consumer_args={
         'run_name': run_name,
         'annot_file': annot_path,
-        'video_out': run_name+'.avi',
+        # 'video_out': run_name+'.avi',
         'filetype': file_type,
         'parameters': {
             'x_div': 8,
             'y_div': 8,
-            'us_per_event': 75,
+            'us_per_event': 100,
             'event_buffer_depth': 4,
-            'tf': 200_000, # how far back in time to consider events for filtering
-            'tc': 200_000, # how far back in time to consider events for clustering
+            'tf': 300_000, # how far back in time to consider events for filtering
+            'tc': 100_000, # how far back in time to consider events for clustering
             'n': 5, # minimum number of correlated events required to allow a particular event through the filter
-            # 'buffer_flush_period': 1_000
+            'buffer_flush_period': 10_000,
 
             # 'num_cluster_analyzers': 16,
             # 'temporal_filter': 5_000,
