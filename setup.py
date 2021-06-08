@@ -9,7 +9,8 @@ extensions = [
             'PMD\\PersistentMotionDetector.cpp',
             'PMD\\Partition.cpp',
             'PMD\\EventHandler.cpp',
-            'PMD\\EventBuffer.cpp'
+            'PMD\\EventBuffer.cpp',
+            'PMD\\ClusterBuffer.cpp'
         ],
         include_dirs = [np.get_include()],
         language = 'c++',    

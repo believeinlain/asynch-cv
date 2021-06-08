@@ -69,8 +69,7 @@ class basic_consumer:
                         else:
                             self.annotations = [annot['track']]
                 except FileNotFoundError:
-                    print("Specified annotation file not found.")
-                    pass
+                    print(f'Annotation file "{consumer_args["annot_file"]}" not found.')
         else:
             self._consumer_args = {}
 
@@ -151,7 +150,7 @@ class basic_consumer:
                 # draw box on frame
                 cv2.rectangle(self.frame_to_draw, (xtl, ytl), (xbr, ybr), color)
                 cv2.putText(self.frame_to_draw, label, (xtl, ytl), cv2.FONT_HERSHEY_PLAIN,
-                    1, color, 1, cv2.LINE_AA)
+                    0.5, color, 1, cv2.LINE_AA)
                 
                 # store in easy-to-read format
                 self._ground_truth[self.frame_count].append({

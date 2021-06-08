@@ -61,11 +61,11 @@ filename = os.path.join(group, boat_tests[group][test])
 run_name = f'{group}_run_{test:02d}'
 
 data_path = os.path.join(os.path.expanduser('~\\'), data_root, filename)+file_type
-annot_path = os.path.join(os.path.expanduser('~\\'), annot_root, filename)+'.xml'
+annot_path = os.path.join(annot_root, filename)+'.xml'
 
 play_file(
     filename=data_path,
-    dt=30,
+    dt=33,
     event_consumer=pmd_consumer,
     consumer_args={
         'run_name': run_name,
@@ -75,11 +75,13 @@ play_file(
         'parameters': {
             'x_div': 8,
             'y_div': 8,
-            'us_per_event': 50,
+            'us_per_event': 75,
             'event_buffer_depth': 4,
             'tf': 200_000, # how far back in time to consider events for filtering
             'tc': 200_000, # how far back in time to consider events for clustering
-            'n': 5 # minimum number of correlated events required to allow a particular event through the filter
+            'n': 2, # minimum number of correlated events required to allow a particular event through the filter
+            # 'buffer_flush_period': 1_000
+
             # 'num_cluster_analyzers': 16,
             # 'temporal_filter': 5_000,
             # 'cluster_profile_length': 16,

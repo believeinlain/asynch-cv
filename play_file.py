@@ -20,8 +20,10 @@ def play_file(filename, dt, event_consumer, consumer_args=None):
 
     # Check validity of input arguments
     if not(path.exists(filename) and path.isfile(filename)):
-        print("Error: provided input path '{}' does not exist or is not a file.".format(filename))
+        print(f'Error: provided input path "{filename}" does not exist or is not a file.')
         return -1
+
+    print(f'Playing file "{filename}".')
 
     if filename.endswith('.raw') or filename.endswith('.dat'):
         play_metavision_file(filename, dt, event_consumer, consumer_args)

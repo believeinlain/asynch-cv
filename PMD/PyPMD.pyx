@@ -6,10 +6,9 @@ from PMD.PersistentMotionDetector cimport *
 
 cdef class PyPMD:
     cdef PersistentMotionDetector *cpp_PMD
-    cdef xy_t width, height
-    cdef ts_t cycle_period_us
+    cdef unsigned short width, height
 
-    def __cinit__(self, int width, int height, param):
+    def __cinit__(self, unsigned short width, unsigned short height, param):
         self.width = width
         self.height = height
 
@@ -21,6 +20,7 @@ cdef class PyPMD:
         c_param.tf = param.get('tf', 200_000)
         c_param.tc = param.get('tc', 200_000)
         c_param.n = param.get('n', 5)
+        c_param.n = param.get('buffer_flush_period', 1_000)
 
         self.cpp_PMD = new PersistentMotionDetector(width, height, c_param)
     
@@ -28,7 +28,7 @@ cdef class PyPMD:
         del self.cpp_PMD
 
     cpdef void process_events(self, byte_t[:, :, ::1] frame, event[:] events):
-        cdef int num_events = len(events)
+        cdef unsigned int num_events = len(events)
 
         self.cpp_PMD.init_framebuffer(&frame[0,0,0])
         self.cpp_PMD.process_events(&events[0], num_events)
