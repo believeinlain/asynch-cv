@@ -42,7 +42,7 @@ namespace PMD {
                 fmod(double(i)*PI*10.0, 360.0), 1.0);
 
         #if USE_THREADS
-            cout<<"Starting PersistentMotionDetector with support for thread support :)"<<endl;
+            cout<<"Starting PersistentMotionDetector with support for threads :)"<<endl;
         #else
             cout<<"Starting PersistentMotionDetector without thread support."<<endl;
             cout<<"Use option \"-D USE_THREADS=1\" to compile with thread support."<<endl;

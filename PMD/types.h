@@ -64,9 +64,9 @@ namespace PMD {
     struct rect {
         rect(xy_t tlx, xy_t tly, xy_t brx, xy_t bry) : 
             tl(tlx, tly), br(brx, bry) {}
-        rect() {}
+        rect() : tl(), br() {}
         point tl, br;
-        inline bool contains(xy_t x, xy_t y) {
+        bool contains(xy_t x, xy_t y) {
             return (tl.x <= x) 
                 && (tl.y <= y) 
                 && (x < br.x) 
