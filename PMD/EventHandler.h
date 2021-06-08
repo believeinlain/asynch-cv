@@ -3,7 +3,6 @@
 #define _EVENT_HANDLER_H
 
 #include "types.h"
-
 namespace PMD {
     class PersistentMotionDetector;
     class EventBuffer;
@@ -12,43 +11,47 @@ namespace PMD {
 
     class EventHandler {
         // time cost of processing an event
-        uint_t us_per_event;
+        uint_t _us_per_event;
         // when the handler will be ready for another event
-        ts_t next_idle_time;
+        ts_t _next_idle_time;
         // how often the handler will flush the input buffer
-        uint_t buffer_flush_period;
+        uint_t _buffer_flush_period;
         // when the buffer was last flushed
-        ts_t last_buffer_flush;
+        ts_t _last_buffer_flush;
 
-        // PMD reference pointers
-        PersistentMotionDetector *pmd;
-        EventBuffer *event_buffer;
-        ClusterBuffer *cluster_buffer;
+        // PMD references
+        PersistentMotionDetector &_pmd;
+        EventBuffer &_event_buffer;
+        ClusterBuffer &_cluster_buffer;
 
         // partition index of this handler
-        point place;
+        point _place;
         // area for which this handler if responsible
-        rect domain;
+        rect _domain;
 
         // thresholds
-        ts_t tf, tc;
+        ts_t _tf, _tc;
         // min correlated events to allow event through filter
-        uint_t n;
+        uint_t _n;
 
     public:
-        EventHandler(PersistentMotionDetector *pmd, EventBuffer *event_buffer, 
-            ClusterBuffer *cluster_buffer, point place, rect domain, const parameters &param);
+        EventHandler(
+            PersistentMotionDetector &pmd, 
+            EventBuffer &event_buffer, 
+            ClusterBuffer &cluster_buffer, 
+            point place, rect domain, 
+            parameters param);
         ~EventHandler() {}
 
         // process an entire buffer of events
-        void process_event_buffer(const event *events, uint_t num_events);
+        void processEventBuffer(const event *events, uint_t num_events);
         // process a single event
-        void process_event(const event &e);
+        void processEvent(event e);
         // catch up processing in case the handler receives no events for a while
-        void process_until(ts_t t);
+        void processUntil(ts_t t);
     
     protected:
-        void flush_event_buffer(ts_t t);
+        void flushEventBuffer(ts_t t);
     };
 };
 

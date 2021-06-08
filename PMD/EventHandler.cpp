@@ -5,59 +5,54 @@
 #include "EventBuffer.h"
 #include "ClusterBuffer.h"
 
-#include <iostream>
-using namespace std;
 namespace PMD {
     EventHandler::EventHandler(
-        PersistentMotionDetector *pmd, 
-        EventBuffer *event_buffer, 
-        ClusterBuffer *cluster_buffer,
-        point place, 
-        rect domain, 
-        const parameters &param
+        PersistentMotionDetector &pmd, 
+        EventBuffer &event_buffer, 
+        ClusterBuffer &cluster_buffer,
+        point place, rect domain, 
+        parameters param
     ) :
-        pmd(pmd), 
-        event_buffer(event_buffer), 
-        cluster_buffer(cluster_buffer), 
-        place(place), 
-        domain(domain), 
-        us_per_event(param.us_per_event), 
-        tf(param.tf), tc(param.tc), n(param.n), 
-        next_idle_time(0),
-        buffer_flush_period(param.buffer_flush_period),
-        last_buffer_flush(0)
+        _pmd(pmd), 
+        _event_buffer(event_buffer), 
+        _cluster_buffer(cluster_buffer), 
+        _place(place), _domain(domain), 
+        _us_per_event(param.us_per_event), 
+        _tf(param.tf), _tc(param.tc), _n(param.n), 
+        _buffer_flush_period(param.buffer_flush_period),
+        _next_idle_time(0), _last_buffer_flush(0)
     {}
 
-    void EventHandler::process_event_buffer(const event *events, uint_t num_events) {
+    void EventHandler::processEventBuffer(
+        const event *events, uint_t num_events) 
+    {
         // iterate through the sequence of events
-        for (uint_t i=0; i<num_events; i++) {
-            const event &e = events[i];
-            // handle the event
-            if (this->domain.contains(e.x, e.y)) {
-                this->process_event(e);
-            }
-        }
+        for (uint_t i=0; i<num_events; ++i)
+            if (_domain.contains(events[i].x, events[i].y))
+                processEvent(events[i]);
+        
         // catch up processing to the last event time
-        this->process_until(events[num_events-1].t);
+        processUntil(events[num_events-1].t);
     }
 
-    void EventHandler::process_event(const event &e) {
+    void EventHandler::processEvent(event e) {
         // if we're ready for another event
-        if (e.t > this->next_idle_time) {
+        if (e.t > _next_idle_time) {
             // catch up processing
-            this->process_until(e.t);
+            processUntil(e.t);
             // process the event
-            cluster_map adjacent = cluster_map();
-            uint_t count = this->event_buffer->check_vicinity(e, this->tf, this->tc, adjacent);
+            ushort_t count = 0;
+            auto adj = _event_buffer.checkVicinity(e, _tf, _tc, count);
             
-            cid_t assigned = UNASSIGNED_CLUSTER;
-
+            cid_t assigned = NO_CID;
             // cluster only if passed the correlational filter
-            if (count >= this->n) {
+            if (count >= _n) {
                 // if no adjacent clusters, make a new one
-                if (adjacent.empty()) assigned = this->cluster_buffer->create_new_cluster(e.t);
+                if (adj.empty()) 
+                    assigned = _cluster_buffer.createNewCluster(e.t);
                 // just one adjacent cluster, assign to that
-                else if (adjacent.size() == 1) assigned = adjacent.begin()->first;
+                else if (adj.size() == 1) 
+                    assigned = adj.begin()->first;
                 // otherwise decide what to do
                 else {
                     // maybe parameterize this?
@@ -76,45 +71,44 @@ namespace PMD {
                     //         assigned = i->first;
 
                     // find the cluster with the earliest birth time
-                    assigned = adjacent.begin()->first;
-                    for (auto i = next(adjacent.begin()); i != adjacent.end(); i++)
-                        if ( (this->cluster_buffer->get_cluster(i->first).birth 
-                            < this->cluster_buffer->get_cluster(assigned).birth) )
+                    assigned = adj.begin()->first;
+                    for (auto i = next(adj.begin()); i != adj.end(); ++i)
+                        if ( (_cluster_buffer[i->first].birth 
+                            < _cluster_buffer[assigned].birth) )
                             assigned = i->first;
                 }
                 
                 // add to cluster buffer
-                this->cluster_buffer->add_event_to_cluster(e, assigned);
+                _cluster_buffer.addEventToCluster(e, assigned);
             }
 
             // callback to draw the event on the frame buffer
-            this->pmd->event_callback(e, assigned);
+            _pmd.eventCallback(e, assigned);
             
             // add the event to the event buffer
-            cid_t displaced = this->event_buffer->add_event(e, assigned);
+            cid_t displaced = _event_buffer.addEvent(e, assigned);
 
             // remove displaced event from cluster buffer if applicable
-            if (displaced != UNASSIGNED_CLUSTER)
-                this->cluster_buffer->remove_event_from_cluster(e.x, e.y, displaced);
+            if (displaced != NO_CID)
+                _cluster_buffer.removeEventFromCluster(e.x, e.y, displaced);
 
             // compute when we'll be ready for another event
-            this->next_idle_time = e.t + this->us_per_event;
+            _next_idle_time = e.t + _us_per_event;
         }
     }
 
-    void EventHandler::process_until(ts_t t) {
+    void EventHandler::processUntil(ts_t t) {
         // check if it's time to flush the buffer
-        if (t > this->last_buffer_flush+this->buffer_flush_period)
-            this->flush_event_buffer(t);
+        if (t > _last_buffer_flush+_buffer_flush_period)
+            flushEventBuffer(t);
     }
 
-    void EventHandler::flush_event_buffer(ts_t t) {
-        this->last_buffer_flush = t;
+    void EventHandler::flushEventBuffer(ts_t t) {
+        _last_buffer_flush = t;
 
-        buffered_event_vector removed;
-        this->event_buffer->flush_domain(t-this->tc, this->domain, removed);
+        auto rem = _event_buffer.flushDomain(t-_tc, _domain);
 
-        for (auto i = removed.begin(); i != removed.end(); i++)
-            this->cluster_buffer->remove_event_from_cluster(i->x, i->y, i->cid);
+        for (auto i = rem.begin(); i != rem.end(); ++i)
+            _cluster_buffer.removeEventFromCluster(i->x, i->y, i->cid);
     }
 };

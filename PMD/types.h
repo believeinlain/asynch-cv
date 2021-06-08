@@ -6,7 +6,7 @@
 #include <math.h>
 
 namespace PMD {
-    
+    // types used to interface with python bindings
     typedef unsigned short xy_t;
     typedef int p_t;
     typedef unsigned long long ts_t;
@@ -23,7 +23,9 @@ namespace PMD {
     // this is used to access the framebuffer, so it's important to be a single byte
     typedef unsigned char byte_t;
     
+    // general unsigned integert shorthands
     typedef unsigned int uint_t;
+    typedef unsigned int ushort_t;
 
     struct color {
         // rgb, int from 0 tp 255
@@ -46,7 +48,7 @@ namespace PMD {
         color() : r(0), g(0), b(0) {}
         byte_t r, g, b;
         // allow indexing as an array
-        inline byte_t &operator[](uint_t index) {
+        byte_t &operator[](uint_t index) {
             if (index == 1) return g;
             else if (index == 2) return b;
             else return r;
@@ -64,16 +66,17 @@ namespace PMD {
             tl(tlx, tly), br(brx, bry) {}
         rect() {}
         point tl, br;
-        inline bool contains(const xy_t &x, const xy_t &y) {
-            return (this->tl.x <= x) 
-                && (this->tl.y <= y) 
-                && (x < this->br.x) 
-                && (y < this->br.y);
+        inline bool contains(xy_t x, xy_t y) {
+            return (tl.x <= x) 
+                && (tl.y <= y) 
+                && (x < br.x) 
+                && (y < br.y);
         }
     };
 
+    // should be exactly 16 bits since this affects cluster buffer size
     typedef uint16_t cid_t;
-    const cid_t UNASSIGNED_CLUSTER = UINT16_MAX;
+    const cid_t NO_CID = UINT16_MAX;
 };
 
 #endif

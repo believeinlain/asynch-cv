@@ -5,39 +5,42 @@
 #include "types.h"
 
 #include <random>
+#include <map>
 
 namespace PMD {
 
     struct cluster {
         cluster(ts_t birth=0) : birth(birth), weight(0),
-            x_sum(0), y_sum(0), is_tracking(false) {}
+            x_sum(0), y_sum(0) {}
         ts_t birth;
         uint_t weight;
         uint_t x_sum;
         uint_t y_sum;
-        bool is_tracking;
     };
 
+    typedef std::map<uint_t, cid_t> sorted_clusters;
+
     class ClusterBuffer {
-        // allocate an array where up to but not including
-        // the UNASSIGNED value can be assigned to a cluster
-        cluster buffer[UNASSIGNED_CLUSTER];
+        // allocate an array up to but not including NO_CID
+        cluster _buffer[NO_CID];
         // rng to assign new cluster ids
-        std::mt19937 rand_gen;
-        std::uniform_int_distribution<cid_t> rand;
+        std::mt19937 _rand_gen;
+        std::uniform_int_distribution<cid_t> _rand;
 
     public:
-        ClusterBuffer() : rand_gen(0), rand(0, UNASSIGNED_CLUSTER-1) {}
+        ClusterBuffer() : _rand_gen(0), _rand(0, NO_CID-1) {}
         ~ClusterBuffer() {}
-
-        cluster get_cluster(cid_t cid) const {
-            if (cid == UNASSIGNED_CLUSTER) return cluster();
-            else return this->buffer[cid];
+        // access as an array
+        cluster operator[](cid_t cid) const {
+            if (cid == NO_CID) return cluster();
+            else return _buffer[cid];
         }
 
-        cid_t create_new_cluster(ts_t t);
-        void add_event_to_cluster(const event &e, cid_t cid);
-        void remove_event_from_cluster(xy_t x, xy_t y, cid_t cid);
+        cid_t createNewCluster(ts_t t);
+        void addEventToCluster(event e, cid_t cid);
+        void removeEventFromCluster(xy_t x, xy_t y, cid_t cid);
+
+        sorted_clusters sort_by_weight();
     };
 };
 

@@ -5,12 +5,12 @@ cimport numpy as np
 from PMD.PersistentMotionDetector cimport *
 
 cdef class PyPMD:
-    cdef PersistentMotionDetector *cpp_PMD
-    cdef xy_t width, height
+    cdef PersistentMotionDetector *_cpp_PMD
+    cdef xy_t _width, _height
 
     def __cinit__(self, xy_t width, xy_t height, param):
-        self.width = width
-        self.height = height
+        self._width = width
+        self._height = height
 
         cdef parameters c_param
         c_param.x_div = param.get('x_div', 8)
@@ -22,15 +22,15 @@ cdef class PyPMD:
         c_param.n = param.get('n', 5)
         c_param.buffer_flush_period = param.get('buffer_flush_period', 1_000)
 
-        self.cpp_PMD = new PersistentMotionDetector(width, height, c_param)
+        self._cpp_PMD = new PersistentMotionDetector(width, height, c_param)
     
     def __dealloc__(self):
-        del self.cpp_PMD
+        del self._cpp_PMD
 
     cpdef void process_events(self, byte_t[:, :, ::1] frame, event[:] events):
         cdef unsigned int num_events = len(events)
 
-        self.cpp_PMD.init_framebuffer(&frame[0,0,0])
-        self.cpp_PMD.process_events(&events[0], num_events)
+        self._cpp_PMD.initFramebuffer(&frame[0,0,0])
+        self._cpp_PMD.processEvents(&events[0], num_events)
 
         
