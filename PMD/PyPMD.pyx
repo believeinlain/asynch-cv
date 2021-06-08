@@ -6,9 +6,9 @@ from PMD.PersistentMotionDetector cimport *
 
 cdef class PyPMD:
     cdef PersistentMotionDetector *cpp_PMD
-    cdef unsigned short width, height
+    cdef xy_t width, height
 
-    def __cinit__(self, unsigned short width, unsigned short height, param):
+    def __cinit__(self, xy_t width, xy_t height, param):
         self.width = width
         self.height = height
 
@@ -20,7 +20,7 @@ cdef class PyPMD:
         c_param.tf = param.get('tf', 200_000)
         c_param.tc = param.get('tc', 200_000)
         c_param.n = param.get('n', 5)
-        c_param.n = param.get('buffer_flush_period', 1_000)
+        c_param.buffer_flush_period = param.get('buffer_flush_period', 1_000)
 
         self.cpp_PMD = new PersistentMotionDetector(width, height, c_param)
     

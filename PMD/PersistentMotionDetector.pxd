@@ -1,10 +1,13 @@
 
 cdef extern from 'types.h' namespace 'PMD':
+    ctypedef unsigned short xy_t
+    ctypedef unsigned long long ts_t
+
     cdef packed struct event:
-        unsigned short x
-        unsigned short y
+        xy_t x
+        xy_t y
         int p
-        unsigned long long t
+        ts_t t
         
     ctypedef unsigned char byte_t
 

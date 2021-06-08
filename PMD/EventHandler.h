@@ -12,7 +12,7 @@ namespace PMD {
 
     class EventHandler {
         // time cost of processing an event
-        ushort_t us_per_event;
+        uint_t us_per_event;
         // when the handler will be ready for another event
         ts_t next_idle_time;
         // how often the handler will flush the input buffer
@@ -33,7 +33,7 @@ namespace PMD {
         // thresholds
         ts_t tf, tc;
         // min correlated events to allow event through filter
-        ushort_t n;
+        uint_t n;
 
     public:
         EventHandler(PersistentMotionDetector *pmd, EventBuffer *event_buffer, 

@@ -28,18 +28,12 @@ namespace PMD {
     }
 
     uint_t EventBuffer::check_vicinity(const event &e, const ts_t &tf, const ts_t &tc, cluster_map &out_adjacent) {
-        // // clip vicinity to buffer bounds
-        // uint_t x_start = (e.x > 0) ? e.x - 1 : 0;
-        // uint_t y_start = (e.y > 0) ? e.y - 1 : 0;
-        // // end values are not inclusive
-        // uint_t x_end = ((e.x + 1) < this->width) ? e.x + 2 : this->width;
-        // uint_t y_end = ((e.y + 1) < this->height) ? e.y + 2 : this->height;
-
-         // clip vicinity to buffer bounds
-        uint_t x_start = (e.x <= 0) ? 0 : e.x - 1;
-        uint_t y_start = (e.y <= 0) ? 0 : e.y - 1;
-        uint_t x_end = (e.x >= this->width) ? this->width : e.x + 1;
-        uint_t y_end = (e.y >= this->height) ? this->height : e.y + 1;
+        // clip vicinity to buffer bounds
+        uint_t x_start = (e.x > 0U) ? e.x-1U : 0U;
+        uint_t y_start = (e.y > 0U) ? e.y-1U : 0U;
+        // end values are not inclusive
+        uint_t x_end = ((e.x+2U) > this->width) ? this->width : e.x+2U;
+        uint_t y_end = ((e.y+2U) > this->height) ? this->height : e.y+2U;
 
         uint_t buffer_xy, index; 
         ts_t ts;

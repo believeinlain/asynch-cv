@@ -79,7 +79,7 @@ play_file(
             'event_buffer_depth': 4,
             'tf': 200_000, # how far back in time to consider events for filtering
             'tc': 200_000, # how far back in time to consider events for clustering
-            'n': 2, # minimum number of correlated events required to allow a particular event through the filter
+            'n': 5, # minimum number of correlated events required to allow a particular event through the filter
             # 'buffer_flush_period': 1_000
 
             # 'num_cluster_analyzers': 16,

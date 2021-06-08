@@ -7,26 +7,23 @@
 
 namespace PMD {
     
-    // choose the fastest types for xy positions and timestamps
-    typedef uint_fast16_t xy_t;
-    typedef uint_fast64_t ts_t;
+    typedef unsigned short xy_t;
+    typedef int p_t;
+    typedef unsigned long long ts_t;
 
     // types carefully chosen to fit 4-byte alignment
     // this is important because of how it interfaces with python
     struct event {
-        uint16_t x; // 2 bytes
-        uint16_t y; // 2 bytes
-        int32_t p; // 4 bytes
-        uint64_t t; // 8 bytes
+        xy_t x; // 2 bytes
+        xy_t y; // 2 bytes
+        p_t p; // 4 bytes
+        ts_t t; // 8 bytes
     }; // total 16 bytes per event
 
     // this is used to access the framebuffer, so it's important to be a single byte
-    typedef uint8_t byte_t;
-    // choose fast types for different sized values
-    typedef int_fast8_t uchar_t;
-    typedef uint_fast16_t ushort_t;
-    typedef uint_fast32_t uint_t;
-    typedef uint_fast64_t ulong_t;
+    typedef unsigned char byte_t;
+    
+    typedef unsigned int uint_t;
 
     struct color {
         // rgb, int from 0 tp 255
@@ -49,7 +46,7 @@ namespace PMD {
         color() : r(0), g(0), b(0) {}
         byte_t r, g, b;
         // allow indexing as an array
-        inline byte_t &operator[](uchar_t index) {
+        inline byte_t &operator[](uint_t index) {
             if (index == 1) return g;
             else if (index == 2) return b;
             else return r;

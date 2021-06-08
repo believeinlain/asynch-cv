@@ -8,7 +8,7 @@
 
 namespace PMD {
 
-    typedef std::map<cid_t, uchar_t> cluster_map;
+    typedef std::map<cid_t, uint_t> cluster_map;
 
     class EventBuffer {
         uint_t width;

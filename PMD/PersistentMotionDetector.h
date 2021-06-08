@@ -13,11 +13,11 @@ namespace PMD {
     struct parameters {
         xy_t x_div = 8;
         xy_t y_div = 8;
-        ushort_t us_per_event = 0;
-        ushort_t event_buffer_depth = 4;
+        uint_t us_per_event = 0;
+        uint_t event_buffer_depth = 4;
         ts_t tf = 200000;
         ts_t tc = 200000;
-        ushort_t n = 5;
+        uint_t n = 5;
         uint_t buffer_flush_period = 1000;
     };
 /* 
@@ -31,7 +31,7 @@ namespace PMD {
     class PersistentMotionDetector {
         friend class EventHandler;
         
-        uint_t width, height;
+        xy_t width, height;
 
         parameters param;
         uint_t num_parts;
@@ -45,14 +45,14 @@ namespace PMD {
         color cluster_colors[UNASSIGNED_CLUSTER];
 
     public:
-        PersistentMotionDetector(uint_t width, uint_t height, parameters param);
+        PersistentMotionDetector(xy_t width, xy_t height, parameters param);
         ~PersistentMotionDetector();
 
         void init_framebuffer(byte_t *frame);
         void process_events(const event *events, uint_t num_events);
 
     protected:
-        void event_callback(const event &e, bool is_filtered, cid_t cid);
+        void event_callback(const event &e, cid_t cid);
     };
 };
 

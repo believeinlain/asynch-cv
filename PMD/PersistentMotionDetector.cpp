@@ -16,7 +16,7 @@ namespace PMD {
 
     const double PI = 3.1415927;
 
-    PersistentMotionDetector::PersistentMotionDetector(uint_t width, uint_t height, parameters param) : 
+    PersistentMotionDetector::PersistentMotionDetector(xy_t width, xy_t height, parameters param) : 
         width(width), height(height), param(param)
     {
         this->num_parts = param.x_div*param.y_div;
@@ -100,15 +100,14 @@ namespace PMD {
 #endif
     }
 
-    void PersistentMotionDetector::event_callback(const event &e, bool is_filtered, cid_t cid) {
+    void PersistentMotionDetector::event_callback(const event &e, cid_t cid) {
         if (this->framebuffer == nullptr) return;
 
         const uint_t xy_index = 3*(this->width*e.y + e.x);
         color event_color;
 
-        if (is_filtered) event_color = color(120);
-        // else event_color = this->cluster_colors[cid];
-        else event_color = color(e.p*255);
+        if (cid==UNASSIGNED_CLUSTER) event_color = color(120);
+        else event_color = this->cluster_colors[cid];
 
         for (uint_t z=0; z<3; z++) this->framebuffer[z + xy_index] = event_color[z];
     }
