@@ -7,17 +7,23 @@
 namespace PMD {
     class PersistentMotionDetector;
     class EventBuffer;
+    class ClusterBuffer;
     struct parameters;
 
     class EventHandler {
         // time cost of processing an event
-        uint_t us_per_event;
+        ushort_t us_per_event;
         // when the handler will be ready for another event
         ts_t next_idle_time;
+        // how often the handler will flush the input buffer
+        uint_t buffer_flush_period;
+        // when the buffer was last flushed
+        ts_t last_buffer_flush;
 
         // PMD reference pointers
         PersistentMotionDetector *pmd;
         EventBuffer *event_buffer;
+        ClusterBuffer *cluster_buffer;
 
         // partition index of this handler
         point place;
@@ -25,17 +31,18 @@ namespace PMD {
         rect domain;
 
         // thresholds
-        uint_t tf, tc;
+        ts_t tf, tc;
         // min correlated events to allow event through filter
-        uint_t n;
+        ushort_t n;
 
     public:
         EventHandler(PersistentMotionDetector *pmd, EventBuffer *event_buffer, 
-            point place, rect domain, const parameters &param);
+            ClusterBuffer *cluster_buffer, point place, rect domain, const parameters &param);
         ~EventHandler() {}
 
         void process_event_buffer(const event *events, uint_t num_events);
         void process_event(const event &e);
+        void flush_event_buffer(ts_t t);
     };
 };
 

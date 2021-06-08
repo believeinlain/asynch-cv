@@ -1,6 +1,9 @@
 
 #include "EventBuffer.h"
 
+#include <iostream>
+using namespace std;
+
 namespace PMD {
     EventBuffer::EventBuffer(uint_t width, uint_t height, uint_t depth)  :
         width(width), height(height), depth(depth), size(width*height*depth), slice_size(width*height)
@@ -24,15 +27,19 @@ namespace PMD {
         delete[] this->top;
     }
 
-    uint_t EventBuffer::check_vicinity(const event &e, const ts_t &tf, const ts_t &tc, cid_vector &out_adjacent) {
-        // clip vicinity to buffer bounds
+    uint_t EventBuffer::check_vicinity(const event &e, const ts_t &tf, const ts_t &tc, cluster_map &out_adjacent) {
+        // // clip vicinity to buffer bounds
+        // uint_t x_start = (e.x > 0) ? e.x - 1 : 0;
+        // uint_t y_start = (e.y > 0) ? e.y - 1 : 0;
+        // // end values are not inclusive
+        // uint_t x_end = ((e.x + 1) < this->width) ? e.x + 2 : this->width;
+        // uint_t y_end = ((e.y + 1) < this->height) ? e.y + 2 : this->height;
+
+         // clip vicinity to buffer bounds
         uint_t x_start = (e.x <= 0) ? 0 : e.x - 1;
         uint_t y_start = (e.y <= 0) ? 0 : e.y - 1;
         uint_t x_end = (e.x >= this->width) ? this->width : e.x + 1;
         uint_t y_end = (e.y >= this->height) ? this->height : e.y + 1;
-
-        // make output vector fit max adjacent clusters
-        out_adjacent.reserve((x_end-x_start)*(y_end-y_start)*this->depth*sizeof(cid_t));
 
         uint_t buffer_xy, index; 
         ts_t ts;
@@ -48,13 +55,10 @@ namespace PMD {
                     // add to count if within filter threshold
                     if (ts > e.t-tf) count++;
                     // add to adjacent clusters if within cluster threshold
-                    if ((cid != UNASSIGNED_CLUSTER) && (ts > e.t-tc)) out_adjacent.push_back(cid);
+                    if ((cid != UNASSIGNED_CLUSTER) && (ts > e.t-tc)) out_adjacent[cid]++;
                 }
             }
         }
-
-        // free unused space in output vector
-        out_adjacent.shrink_to_fit();
 
         // return the results
         return count;
@@ -70,14 +74,18 @@ namespace PMD {
         const uint_t index = this->depth*top_xy + this->top[top_xy];
 
         // determine return value based on displaced event
-        cid_t result = UNASSIGNED_CLUSTER;
-        if (this->cid_buffer[index] != UNASSIGNED_CLUSTER)
-            result = this->cid_buffer[index];
+        cid_t result = this->cid_buffer[index];
         
         // place the new event in the buffers
         this->ts_buffer[index] = e.t;
         this->cid_buffer[index] = cid;
 
         return result;
+    }
+    
+    cid_t EventBuffer::get_cid_at(xy_t x, xy_t y) {
+        const uint_t top_xy = x + this->width*y;
+        const uint_t buffer_xy = this->depth*(top_xy);
+        return this->cid_buffer[buffer_xy + this->top[top_xy]];
     }
 };
