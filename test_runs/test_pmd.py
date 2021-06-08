@@ -13,7 +13,7 @@ annot_root = './example_annotations/'
 # file_type = '.aedat4'
 
 group = 'april_29'
-test = 4
+test = 5
 file_type = '.raw'
 
 boat_tests = {
@@ -75,12 +75,12 @@ play_file(
         'parameters': {
             'x_div': 8,
             'y_div': 8,
-            'us_per_event': 100,
+            'us_per_event': 150,
             'event_buffer_depth': 4,
             'tf': 300_000, # how far back in time to consider events for filtering
-            'tc': 100_000, # how far back in time to consider events for clustering
+            'tc': 150_000, # how far back in time to consider events for clustering
             'n': 5, # minimum number of correlated events required to allow a particular event through the filter
-            'buffer_flush_period': 10_000,
+            'buffer_flush_period': 30_000,
 
             # 'num_cluster_analyzers': 16,
             # 'temporal_filter': 5_000,
