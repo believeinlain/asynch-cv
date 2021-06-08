@@ -16,6 +16,9 @@ namespace PMD {
         uint_t x_sum;
         uint_t y_sum;
         bool is_tracking;
+        point get_centroid() {
+            return point(x_sum/weight, y_sum/weight);
+        }
     };
 
     class ClusterBuffer {

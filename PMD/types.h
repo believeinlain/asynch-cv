@@ -46,7 +46,7 @@ namespace PMD {
         color() : r(0), g(0), b(0) {}
         byte_t r, g, b;
         // allow indexing as an array
-        inline byte_t &operator[](uint_t index) {
+        byte_t &operator[](uint_t index) {
             if (index == 1) return g;
             else if (index == 2) return b;
             else return r;
@@ -62,13 +62,13 @@ namespace PMD {
     struct rect {
         rect(xy_t tlx, xy_t tly, xy_t brx, xy_t bry) : 
             tl(tlx, tly), br(brx, bry) {}
-        rect() {}
+        rect() : tl(), br() {}
         point tl, br;
-        inline bool contains(const xy_t &x, const xy_t &y) {
-            return (this->tl.x <= x) 
-                && (this->tl.y <= y) 
-                && (x < this->br.x) 
-                && (y < this->br.y);
+        bool contains(const xy_t &x, const xy_t &y) {
+            return (tl.x <= x) 
+                && (tl.y <= y) 
+                && (x < br.x) 
+                && (y < br.y);
         }
     };
 
