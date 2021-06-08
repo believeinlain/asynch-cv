@@ -39,9 +39,9 @@ namespace PMD {
             cluster_colors[i] = color(fmod(double(i)*PI*10.0, 360.0), 1.0);
 
         #if USE_THREADS
-            cout<<"Starting PersistentMotionDetector WITH support for multi-threading"<<endl;
+            cout<<"Starting PersistentMotionDetector with support for thread support :)"<<endl;
         #else
-            cout<<"Starting PersistentMotionDetector WITHOUT support for multi-threading."<<endl;
+            cout<<"Starting PersistentMotionDetector without thread support."<<endl;
             cout<<"Use option \"-D USE_THREADS=1\" to compile with thread support."<<endl;
         #endif
     }
