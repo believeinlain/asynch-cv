@@ -21,7 +21,7 @@ setup(
     name = 'async-cv',
     ext_modules = cythonize(
         extensions, 
-        annotate = True,
+        annotate = False,
         compiler_directives = {
             'language_level': 3,
             'boundscheck': False,
