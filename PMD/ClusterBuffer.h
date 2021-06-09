@@ -10,15 +10,13 @@
 namespace PMD {
 
     struct cluster {
-        cluster(ts_t birth=0) : birth(birth), weight(0),
-            x_sum(0), y_sum(0) {}
-        ts_t birth;
-        uint_t weight;
-        uint_t x_sum;
-        uint_t y_sum;
-        bool is_tracking;
+        ts_t birth = 0;
+        uint_t weight = 0;
+        uint_t x_sum = 0;
+        uint_t y_sum = 0;
+        bool is_tracking = false;
         point centroid() {
-            return point(x_sum/weight, y_sum/weight);
+            return (weight>0) ? point(x_sum/weight, y_sum/weight) : point(0,0);
         }
     };
 
@@ -30,7 +28,7 @@ namespace PMD {
         std::uniform_int_distribution<cid_t> _rand;
 
     public:
-        ClusterBuffer() : _rand_gen(0), _rand(0, NO_CID-1) {}
+        ClusterBuffer() : _rand_gen(0), _rand(0, NO_CID-1), _buffer() {}
         ~ClusterBuffer() {}
         // access as an array
         cluster operator[](cid_t cid) const {

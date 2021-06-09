@@ -21,6 +21,7 @@ cdef class PyPMD:
         c_param.tc = param.get('tc', 200_000)
         c_param.n = param.get('n', 5)
         c_param.buffer_flush_period = param.get('buffer_flush_period', 1_000)
+        c_param.max_cluster_size = param.get('max_cluster_size', 50)
 
         self._cpp_PMD = new PersistentMotionDetector(width, height, c_param)
     

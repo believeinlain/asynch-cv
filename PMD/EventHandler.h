@@ -33,6 +33,8 @@ namespace PMD {
         ts_t _tf, _tc;
         // min correlated events to allow event through filter
         uint_t _n;
+        // maximum size to allow events to cluster
+        uint_t _max_cluster_size;
 
     public:
         EventHandler(

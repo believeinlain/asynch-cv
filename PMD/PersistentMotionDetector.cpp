@@ -43,6 +43,8 @@ namespace PMD {
 
         #if USE_THREADS
             cout<<"Starting PersistentMotionDetector with support for threads :)"<<endl;
+            int num_parallel = thread::hardware_concurrency();
+            cout<<"Hardware supports up to "<<num_parallel<<" concurrent threads."<<endl;
         #else
             cout<<"Starting PersistentMotionDetector without thread support."<<endl;
             cout<<"Use option \"-D USE_THREADS=1\" to compile with thread support."<<endl;

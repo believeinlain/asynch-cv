@@ -19,6 +19,7 @@ namespace PMD {
         ts_t tc = 200000;
         ushort_t n = 5;
         uint_t buffer_flush_period = 1000;
+        uint_t max_cluster_size = 50;
     };
 /* 
     struct detection {

@@ -73,14 +73,15 @@ play_file(
         # 'video_out': run_name+'.avi',
         'filetype': file_type,
         'parameters': {
-            'x_div': 4,
-            'y_div': 4,
-            'us_per_event': 100,
-            'event_buffer_depth': 4,
+            'x_div': 4, # number of horizontal divisions
+            'y_div': 4, # number of vertical divisions
+            'us_per_event': 50, # processing time alloted to each event handler to process events
+            'event_buffer_depth': 4, # number of events to remember for each (x, y) position
             'tf': 300_000, # how far back in time to consider events for filtering
             'tc': 150_000, # how far back in time to consider events for clustering
             'n': 5, # minimum number of correlated events required to allow a particular event through the filter
-            'buffer_flush_period': 30_000,
+            'buffer_flush_period': 30_000, # microseconds periodicity to flush expired (>tc) events from buffer
+            'max_cluster_size': 50, # maximum taxicab dist from center of cluster to each event
 
             # 'num_cluster_analyzers': 16,
             # 'temporal_filter': 5_000,

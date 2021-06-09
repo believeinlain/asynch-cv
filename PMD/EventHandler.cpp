@@ -20,7 +20,8 @@ namespace PMD {
         _us_per_event(param.us_per_event), 
         _tf(param.tf), _tc(param.tc), _n(param.n), 
         _buffer_flush_period(param.buffer_flush_period),
-        _next_idle_time(0), _last_buffer_flush(0)
+        _next_idle_time(0), _last_buffer_flush(0),
+        _max_cluster_size(param.max_cluster_size)
     {}
 
     void EventHandler::processEventBuffer(
@@ -32,6 +33,7 @@ namespace PMD {
                 processEvent(events[i]);
         
         // catch up processing to the last event time
+        // in case no events went to this event handler
         processUntil(events[num_events-1].t);
     }
 
@@ -45,38 +47,35 @@ namespace PMD {
             auto adj = _event_buffer.checkVicinity(e, _tf, _tc, count);
             
             cid_t assigned = NO_CID;
+            uint_t assigned_dist;
             // cluster only if passed the correlational filter
             if (count >= _n) {
-                // if no adjacent clusters, make a new one
-                if (adj.empty()) 
-                    assigned = _cluster_buffer.createNewCluster(e.t);
-                // just one adjacent cluster, assign to that
-                else if (adj.size() == 1) 
-                    assigned = adj.begin()->first;
-                // otherwise decide what to do
-                else {
-                    // maybe parameterize this?
-
-                    // find the cluster with the most adjacent events to this one
-                    // auto nearest = adjacent.begin();
-                    // for (auto i = next(nearest); i != adjacent.end(); i++)
-                    //     if (i->second > nearest->second) nearest = i;
-                    // assigned = nearest->first;
-                    
-                    // find the cluster with the most events total
-                    // assigned = adjacent.begin()->first;
-                    // for (auto i = next(adjacent.begin()); i != adjacent.end(); i++)
-                    //     if ( (this->cluster_buffer->get_cluster(i->first).weight 
-                    //         > this->cluster_buffer->get_cluster(assigned).weight) )
-                    //         assigned = i->first;
-
-                    // find the cluster with the earliest birth time
-                    assigned = adj.begin()->first;
-                    for (auto i = next(adj.begin()); i != adj.end(); ++i)
-                        if ( (_cluster_buffer[i->first].birth 
-                            < _cluster_buffer[assigned].birth) )
-                            assigned = i->first;
-                }
+                do {
+                    // if no adjacent clusters, make a new one
+                    if (adj.empty()) {
+                        assigned = _cluster_buffer.createNewCluster(e.t);
+                        // we just made this cluster, so we must be close enough
+                        assigned_dist = 0;
+                    } else {
+                        // just one adjacent cluster, assign to that
+                        if (adj.size() == 1)
+                            assigned = adj.begin()->first;
+                        // otherwise assign to the best one
+                        else {
+                            // find the cluster with the earliest birth time
+                            assigned = adj.begin()->first;
+                            for (auto i = next(adj.begin()); i != adj.end(); ++i)
+                                if ( (_cluster_buffer[i->first].birth 
+                                    < _cluster_buffer[assigned].birth) )
+                                    assigned = i->first;
+                        }
+                        // if the centroid of the assigned cluster is too far, don't join it
+                        point centroid = _cluster_buffer[assigned].centroid();
+                        assigned_dist = abs(e.x-centroid.x) + abs(e.y-centroid.y);
+                        adj.erase(assigned);
+                    }
+                    // keep looking if we can't find one close enough
+                } while (assigned_dist > _max_cluster_size);
                 
                 // add to cluster buffer
                 _cluster_buffer.addEventToCluster(e, assigned);

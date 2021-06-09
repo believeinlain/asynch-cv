@@ -10,7 +10,8 @@ namespace PMD {
         
         // set the new cluster's birth time to t
         // and reset all other struct data
-        _buffer[cid] = cluster(t);
+        _buffer[cid] = cluster();
+        _buffer[cid].birth = t;
 
         // return the new cid
         return cid;

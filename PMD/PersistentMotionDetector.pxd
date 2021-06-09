@@ -19,6 +19,7 @@ cdef extern from 'PersistentMotionDetector.h' namespace 'PMD':
         int event_buffer_depth
         int tf, tc, n
         int buffer_flush_period
+        int max_cluster_size
     
     cdef cppclass PersistentMotionDetector:
         PersistentMotionDetector(int, int, parameters) except +
