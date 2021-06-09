@@ -1,10 +1,11 @@
 
 #include "EventBuffer.h"
+#include "ClusterBuffer.h"
 
-using namespace std;
 namespace PMD {
-    EventBuffer::EventBuffer(xy_t width, xy_t height, ushort_t depth)  :
-        _width(width), _height(height), _depth(depth) 
+    EventBuffer::EventBuffer(xy_t width, xy_t height, ushort_t depth, ClusterBuffer &cluster_buffer) :
+        _width(width), _height(height), _depth(depth),
+        _cluster_buffer(cluster_buffer)
     {
         uint_t slice_size = width*height;
         uint_t size = slice_size*depth;
@@ -38,10 +39,10 @@ namespace PMD {
         return _buffer[buffer_xy + _top[top_xy]];
     }
 
-    cluster_count_map EventBuffer::checkVicinity(
+    std::map<cid_t, ushort_t> EventBuffer::checkVicinity(
         event e, ts_t tf, ts_t tc, ushort_t &num_adjacent) 
     {
-        auto adjacent = cluster_count_map();
+        auto adjacent = std::map<cid_t, ushort_t>();
 
         // clip vicinity to buffer bounds
         auto x_start = (e.x > 0) ? e.x-1U : 0;
@@ -72,9 +73,7 @@ namespace PMD {
         return adjacent;
     }
 
-    buffered_event_vector EventBuffer::flushDomain(ts_t th, rect domain) {
-        auto removed = buffered_event_vector();
-
+    void EventBuffer::flushDomain(ts_t th, rect domain) {
         for (auto i = domain.tl.x; i < domain.br.x; ++i) {
             for (auto j = domain.tl.y; j < domain.br.y; ++j) {
                 // get the xy position in our buffers
@@ -85,18 +84,26 @@ namespace PMD {
                     auto cid = _buffer[k].cid;
                     // if any assigned events are too old, unassign them
                     if ((cid != NO_CID) && (ts < th)) {
-                        removed.push_back(buffered_event(i, j, cid));
+
+                        // -- lock buffers for access
+                        buffer_access.lock();
+
+                        // remove expired events from cluster buffer
+                        _cluster_buffer.removeEventFromCluster(i, j, _buffer[k].cid);
+                        // and unassign them
                         _buffer[k].cid = NO_CID;
+
+                        // -- release buffer lock
+                        buffer_access.unlock();
                     }
                 }
             }
         }
-
-        return removed;
+        
     }
 
     // add event to buffer, return cid of displaced event
-    cid_t EventBuffer::addEvent(event e, cid_t cid) {
+    void EventBuffer::addEvent(event e, cid_t cid) {
         // compute the xy position in 2d top array
         auto top_xy = e.x + _width*e.y;
         _top[top_xy] = (_top[top_xy] + 1) % _depth;
@@ -104,13 +111,21 @@ namespace PMD {
         // get the new event position in the 3d buffers
         auto k = _depth*top_xy + _top[top_xy];
 
-        // determine return value based on displaced event
-        cid_t result = _buffer[k].cid;
+        // -- lock buffers for access
+        buffer_access.lock();
+
+        // remove displaced event from cluster buffer
+        if (_buffer[k].cid != NO_CID) 
+            _cluster_buffer.removeEventFromCluster(e.x, e.y, _buffer[k].cid);
         
         // place the new event in the buffers
         _buffer[k].t = e.t;
         _buffer[k].cid = cid;
 
-        return result;
+        // add new event to cluster buffer
+        _cluster_buffer.addEventToCluster(e, cid);
+        
+        // -- release buffer lock
+        buffer_access.unlock();
     }
 };

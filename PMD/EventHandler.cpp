@@ -76,20 +76,13 @@ namespace PMD {
                     }
                     // keep looking if we can't find one close enough
                 } while (assigned_dist > _max_cluster_size);
-                
-                // add to cluster buffer
-                _cluster_buffer.addEventToCluster(e, assigned);
             }
 
             // callback to draw the event on the frame buffer
             _pmd.eventCallback(e, assigned);
             
             // add the event to the event buffer
-            cid_t displaced = _event_buffer.addEvent(e, assigned);
-
-            // remove displaced event from cluster buffer if applicable
-            if (displaced != NO_CID)
-                _cluster_buffer.removeEventFromCluster(e.x, e.y, displaced);
+            _event_buffer.addEvent(e, assigned);
 
             // compute when we'll be ready for another event
             _next_idle_time = e.t + _us_per_event;
@@ -98,16 +91,10 @@ namespace PMD {
 
     void EventHandler::processUntil(ts_t t) {
         // check if it's time to flush the buffer
-        if (t > _last_buffer_flush+_buffer_flush_period)
-            flushEventBuffer(t);
-    }
-
-    void EventHandler::flushEventBuffer(ts_t t) {
-        _last_buffer_flush = t;
-
-        auto rem = _event_buffer.flushDomain(t-_tc, _domain);
-
-        for (auto i = rem.begin(); i != rem.end(); ++i)
-            _cluster_buffer.removeEventFromCluster(i->x, i->y, i->cid);
+        if (t > _last_buffer_flush+_buffer_flush_period) {
+            // flush the buffer if it's time
+            _last_buffer_flush = t;
+            _event_buffer.flushDomain(t-_tc, _domain);
+        }
     }
 };

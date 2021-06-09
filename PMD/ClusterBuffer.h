@@ -6,6 +6,7 @@
 
 #include <random>
 #include <array>
+#include <iostream>
 
 namespace PMD {
 
@@ -16,11 +17,18 @@ namespace PMD {
         uint_t y_sum = 0;
         bool is_tracking = false;
         point centroid() {
-            return (weight>0) ? point(x_sum/weight, y_sum/weight) : point(0,0);
+            // should not happen, but this will prevent a crash on divide by zero
+            if (weight==0) { 
+                std::cout<<"\nError: Cannot find centroid of empty cluster."<<std::endl;
+                return point(0,0);
+            }
+            else return point(x_sum/weight, y_sum/weight);
         }
     };
 
     class ClusterBuffer {
+        friend class EventBuffer;
+
         // allocate an array up to but not including NO_CID
         cluster _buffer[NO_CID];
         // rng to assign new cluster ids
@@ -37,10 +45,13 @@ namespace PMD {
         }
 
         cid_t createNewCluster(ts_t t);
+
+    protected:
+        // these are only meant to be accesed by the event buffer
         void addEventToCluster(event e, cid_t cid);
         void removeEventFromCluster(xy_t x, xy_t y, cid_t cid);
 
-        std::array<cid_t, NO_CID> sortByWeight();
+        // std::array<cid_t, NO_CID> sortByWeight();
     };
 };
 

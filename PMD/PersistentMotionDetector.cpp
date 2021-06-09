@@ -21,8 +21,8 @@ namespace PMD {
         _width(width), _height(height), _param(param),
         _num_parts(param.x_div*param.y_div),
         _partition(width, height, param.x_div, param.y_div),
-        _event_buffer(width, height, param.event_buffer_depth),
-        _cluster_buffer()
+        _cluster_buffer(),
+        _event_buffer(width, height, param.event_buffer_depth, _cluster_buffer)
     {
         // dynamically allocate event handlers since they depend
         // on other members

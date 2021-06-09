@@ -51,9 +51,6 @@ namespace PMD {
         void processEvent(event e);
         // catch up processing in case the handler receives no events for a while
         void processUntil(ts_t t);
-    
-    protected:
-        void flushEventBuffer(ts_t t);
     };
 };
 
