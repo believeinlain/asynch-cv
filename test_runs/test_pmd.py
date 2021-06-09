@@ -13,7 +13,7 @@ annot_root = './example_annotations/'
 # file_type = '.aedat4'
 
 group = 'april_29'
-test = 5
+test = 4
 file_type = '.raw'
 
 boat_tests = {
@@ -73,9 +73,9 @@ play_file(
         # 'video_out': run_name+'.avi',
         'filetype': file_type,
         'parameters': {
-            'x_div': 8,
-            'y_div': 8,
-            'us_per_event': 150,
+            'x_div': 4,
+            'y_div': 4,
+            'us_per_event': 100,
             'event_buffer_depth': 4,
             'tf': 300_000, # how far back in time to consider events for filtering
             'tc': 150_000, # how far back in time to consider events for clustering
