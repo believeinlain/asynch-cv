@@ -5,7 +5,7 @@
 #include "types.h"
 
 #include <random>
-#include <map>
+#include <array>
 
 namespace PMD {
 
@@ -17,12 +17,10 @@ namespace PMD {
         uint_t x_sum;
         uint_t y_sum;
         bool is_tracking;
-        point get_centroid() {
+        point centroid() {
             return point(x_sum/weight, y_sum/weight);
         }
     };
-
-    typedef std::map<uint_t, cid_t> sorted_clusters;
 
     class ClusterBuffer {
         // allocate an array up to but not including NO_CID
@@ -44,7 +42,7 @@ namespace PMD {
         void addEventToCluster(event e, cid_t cid);
         void removeEventFromCluster(xy_t x, xy_t y, cid_t cid);
 
-        sorted_clusters sort_by_weight();
+        std::array<cid_t, NO_CID> sortByWeight();
     };
 };
 
