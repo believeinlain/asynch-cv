@@ -16,12 +16,8 @@ namespace PMD {
         _pmd(pmd), 
         _event_buffer(event_buffer), 
         _cluster_buffer(cluster_buffer), 
-        _place(place), _domain(domain), 
-        _us_per_event(param.us_per_event), 
-        _tf(param.tf), _tc(param.tc), _n(param.n), 
-        _buffer_flush_period(param.buffer_flush_period),
-        _next_idle_time(0), _last_buffer_flush(0),
-        _max_cluster_size(param.max_cluster_size)
+        _place(place), _domain(domain),
+        _param(param)
     {}
 
     void EventHandler::processEventBuffer(
@@ -44,18 +40,17 @@ namespace PMD {
             processUntil(e.t);
             // process the event
             ushort_t count = 0;
-            auto adj = _event_buffer.checkVicinity(e, _tf, _tc, count);
+            auto adj = _event_buffer.checkVicinity(e, _param.tf, _param.tc, count);
             
             cid_t assigned = NO_CID;
-            uint_t assigned_dist;
             // cluster only if passed the correlational filter
-            if (count >= _n) {
+            if (count >= _param.n) {
+                bool in_range;
                 do {
                     // if no adjacent clusters, make a new one
                     if (adj.empty()) {
                         assigned = _cluster_buffer.createNewCluster(e.t);
-                        // we just made this cluster, so we must be close enough
-                        assigned_dist = 0;
+                        in_range = true;
                     } else {
                         // just one adjacent cluster, assign to that
                         if (adj.size() == 1)
@@ -69,13 +64,12 @@ namespace PMD {
                                     < _cluster_buffer[assigned].birth) )
                                     assigned = i->first;
                         }
+                        in_range = _cluster_buffer[assigned].isInRange(e.x, e.y, _param.max_cluster_size);
                         // if the centroid of the assigned cluster is too far, don't join it
-                        point centroid = _cluster_buffer[assigned].centroid();
-                        assigned_dist = abs(e.x-centroid.x) + abs(e.y-centroid.y);
-                        adj.erase(assigned);
+                        if (!in_range) adj.erase(assigned);
                     }
                     // keep looking if we can't find one close enough
-                } while (assigned_dist > _max_cluster_size);
+                } while (!in_range);
             }
 
             // callback to draw the event on the frame buffer
@@ -85,16 +79,16 @@ namespace PMD {
             _event_buffer.addEvent(e, assigned);
 
             // compute when we'll be ready for another event
-            _next_idle_time = e.t + _us_per_event;
+            _next_idle_time = e.t + _param.us_per_event;
         }
     }
 
     void EventHandler::processUntil(ts_t t) {
         // check if it's time to flush the buffer
-        if (t > _last_buffer_flush+_buffer_flush_period) {
+        if (t > _last_buffer_flush+_param.buffer_flush_period) {
             // flush the buffer if it's time
             _last_buffer_flush = t;
-            _event_buffer.flushDomain(t-_tc, _domain);
+            _event_buffer.flushDomain(t-_param.tc, _domain);
         }
     }
 };

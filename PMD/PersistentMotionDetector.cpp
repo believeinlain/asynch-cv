@@ -9,7 +9,6 @@
 #endif
 
 #include <iostream>
-
 using namespace std;
 
 namespace PMD {
@@ -38,7 +37,7 @@ namespace PMD {
         _framebuffer = nullptr;
 
         for (cid_t i=0; i<NO_CID; ++i)
-            _cluster_colors[i] = color(
+            _cluster_colors[i] = color( (float)
                 fmod(double(i)*PI*10.0, 360.0), 1.0);
 
         #if USE_THREADS
@@ -58,68 +57,94 @@ namespace PMD {
     }
 
     void PersistentMotionDetector::initFramebuffer(byte_t *frame) {
-        _framebuffer = frame;
-        for (uint_t x=0; x<_width; ++x) {
-            for (uint_t y=0; y<_height; ++y) {
-                uint_t xy_index = 3*(_width*y + x);
-                cid_t pixel_cid = _event_buffer[point(x, y)].cid;
-                if (pixel_cid == NO_CID) continue;
-                color event_color = _cluster_colors[pixel_cid];
-                for (uint_t z=0; z<3; ++z)
-                    _framebuffer[z + xy_index] = event_color[z] / 2;
+        try 
+        {   
+            _framebuffer = frame;
+            for (uint_t x=0; x<_width; ++x) {
+                for (uint_t y=0; y<_height; ++y) {
+                    uint_t xy_index = 3*(_width*y + x);
+                    cid_t pixel_cid = _event_buffer[point(x, y)].cid;
+                    if (pixel_cid == NO_CID) continue;
+                    color event_color = _cluster_colors[pixel_cid];
+                    for (uint_t z=0; z<3; ++z)
+                        _framebuffer[z + xy_index] = event_color[z] / 2;
+                }
             }
+        }
+        catch(const exception& err) 
+        {
+            cout << "Error initializing framebuffer:" << endl;
+            cerr << '\t' << err.what() << endl;
+            exit(1);
         }
     }
 
     void PersistentMotionDetector::processEvents(
-        const event *events, uint_t num_events, detection *results)
-    {
+        const event *events, uint_t num_events, detection *results) {
+        try 
+        {
 #if USE_THREADS
-        // create a vector to manage threads
-        vector<thread> event_handler_threads(_num_parts);
+            // create a vector to manage threads
+            vector<thread> event_handler_threads(_num_parts);
 
-        // branch off each event handler to a separate thread to handle events
-        for (uint_t i=0; i<_num_parts; ++i)
-            // each event handler will loop through events concurrently
-            event_handler_threads[i] = thread(
-                &EventHandler::processEventBuffer, _event_handlers[i], 
-                events, num_events);
-        
-        // rejoin all event handlers
-        for (uint_t i=0; i<_num_parts; ++i)
-            event_handler_threads[i].join();
+            // branch off each event handler to a separate thread to handle events
+            for (uint_t i=0; i<_num_parts; ++i)
+                // each event handler will loop through events concurrently
+                event_handler_threads[i] = thread(
+                    &EventHandler::processEventBuffer, _event_handlers[i], 
+                    events, num_events);
+            
+            // rejoin all event handlers
+            for (uint_t i=0; i<_num_parts; ++i)
+                event_handler_threads[i].join();
 #else
-        // iterate through the sequence of events
-        for (uint_t i=0; i<num_events; ++i) {
-            // first place the event
-            point place = _partition->placeEvent(events[i].x, events[i].y);
-            // then handle the event
-            auto k = place.x + place.y*_param.x_div;
-            _event_handlers[k]->processEvent(events[i]);
-        }
+            // iterate through the sequence of events
+            for (uint_t i=0; i<num_events; ++i) {
+                // first place the event
+                point place = _partition->placeEvent(events[i].x, events[i].y);
+                // then handle the event
+                auto k = place.x + place.y*_param.x_div;
+                _event_handlers[k]->processEvent(events[i]);
+            }
 #endif
-        detection test;
-        test.is_positive = true;
-        test.x = 320;
-        test.y = 240;
-        test.r = 255;
-        test.g = 255;
-        test.b = 0;
+            detection test;
+            test.is_positive = true;
+            test.x = 320;
+            test.y = 240;
+            test.r = 255;
+            test.g = 255;
+            test.b = 0;
 
-        results[0] = test;
+            results[0] = test;
+        }
+        catch(const exception& err) 
+        {
+            cout << "Error processing events:" << endl;
+            cerr << '\t' << err.what() << endl;
+            exit(1);
+        }
     }
 
     void PersistentMotionDetector::drawEvent(event e, cid_t cid) {
-        if (_framebuffer == nullptr) return;
+        try 
+        {
+            if (_framebuffer == nullptr) return;
 
-        uint_t xy_index = 3*(_width*e.y + e.x);
+            uint_t xy_index = 3*(_width*e.y + e.x);
 
-        // choose the appropriate color to draw
-        color event_color = (cid==NO_CID) ? 
-            color(120) : _cluster_colors[cid];
+            // choose the appropriate color to draw
+            color event_color = (cid==NO_CID) ? 
+                color(120) : _cluster_colors[cid];
 
-        // draw the event on the framebuffer
-        for (uint_t z=0; z<3; ++z) 
-            _framebuffer[z + xy_index] = event_color[z];
+            // draw the event on the framebuffer
+            for (uint_t z=0; z<3; ++z) 
+                _framebuffer[z + xy_index] = event_color[z];
+        } 
+        catch(const exception& err) 
+        {
+            cout << "Error drawing events:" << endl;
+            cerr << '\t' << err.what() << endl;
+            exit(1);
+        }
     }
 };

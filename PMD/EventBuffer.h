@@ -11,13 +11,6 @@ namespace PMD {
 
     class ClusterBuffer;
 
-    struct buffered_event {
-        buffered_event(xy_t x, xy_t y, cid_t cid) :
-            x(x), y(y), cid(cid) {}
-        xy_t x, y;
-        cid_t cid; 
-    };
-
     class EventBuffer {
         struct buffer_entry {
             cid_t cid = NO_CID;
@@ -40,7 +33,11 @@ namespace PMD {
         ~EventBuffer();
 
         // accessor can only read the top of the buffer
-        buffer_entry operator[](point p) const;
+        buffer_entry operator[](point p) const {
+            auto top_xy = p.x + _width*p.y;
+            auto buffer_xy = _depth*(top_xy);
+            return _buffer[buffer_xy + _top[top_xy]];
+        }
 
         // return number of adjacent events within tf
         // vector of adjacent cids within tc -> out_adjacent

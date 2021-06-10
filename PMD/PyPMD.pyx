@@ -35,7 +35,7 @@ cdef class PyPMD:
         del self._cpp_PMD
 
     cpdef detection[:] process_events(self, byte_t[:, :, ::1] frame, event[:] events):
-        cdef unsigned int num_events = len(events)
+        cdef unsigned int num_events = <unsigned int>len(events)
 
         # allocate results array
         cdef np.ndarray result_array = np.ndarray((self._num_detections,), dtype=[

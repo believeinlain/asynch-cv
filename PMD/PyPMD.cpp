@@ -3127,7 +3127,7 @@ static void __pyx_pf_3PMD_5PyPMD_5PyPMD_2__dealloc__(struct __pyx_obj_3PMD_5PyPM
  *         del self._cpp_PMD
  * 
  *     cpdef detection[:] process_events(self, byte_t[:, :, ::1] frame, event[:] events):             # <<<<<<<<<<<<<<
- *         cdef unsigned int num_events = len(events)
+ *         cdef unsigned int num_events = <unsigned int>len(events)
  * 
  */
 
@@ -3249,19 +3249,19 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   /* "PMD/PyPMD.pyx":38
  * 
  *     cpdef detection[:] process_events(self, byte_t[:, :, ::1] frame, event[:] events):
- *         cdef unsigned int num_events = len(events)             # <<<<<<<<<<<<<<
+ *         cdef unsigned int num_events = <unsigned int>len(events)             # <<<<<<<<<<<<<<
  * 
  *         # allocate results array
  */
   __pyx_t_10 = __Pyx_MemoryView_Len(__pyx_v_events); 
-  __pyx_v_num_events = __pyx_t_10;
+  __pyx_v_num_events = ((unsigned int)__pyx_t_10);
 
   /* "PMD/PyPMD.pyx":41
  * 
  *         # allocate results array
  *         cdef np.ndarray result_array = np.ndarray((self._num_detections,), dtype=[             # <<<<<<<<<<<<<<
  *             ('is_positive', int),
- *             ('x', int),
+ *             ('x', int), ('y', int),
  */
   __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_num_detections); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -3282,8 +3282,8 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
  *         # allocate results array
  *         cdef np.ndarray result_array = np.ndarray((self._num_detections,), dtype=[
  *             ('is_positive', int),             # <<<<<<<<<<<<<<
- *             ('x', int),
- *             ('y', int),
+ *             ('x', int), ('y', int),
+ *             ('r', int), ('g', int), ('b', int)
  */
   __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
@@ -3297,9 +3297,9 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   /* "PMD/PyPMD.pyx":43
  *         cdef np.ndarray result_array = np.ndarray((self._num_detections,), dtype=[
  *             ('is_positive', int),
- *             ('x', int),             # <<<<<<<<<<<<<<
- *             ('y', int),
- *             ('r', int),
+ *             ('x', int), ('y', int),             # <<<<<<<<<<<<<<
+ *             ('r', int), ('g', int), ('b', int)
+ *         ])
  */
   __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
@@ -3309,15 +3309,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __Pyx_INCREF(((PyObject *)(&PyInt_Type)));
   __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
   PyTuple_SET_ITEM(__pyx_t_8, 1, ((PyObject *)(&PyInt_Type)));
-
-  /* "PMD/PyPMD.pyx":44
- *             ('is_positive', int),
- *             ('x', int),
- *             ('y', int),             # <<<<<<<<<<<<<<
- *             ('r', int),
- *             ('g', int),
- */
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 44, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_INCREF(__pyx_n_u_y);
   __Pyx_GIVEREF(__pyx_n_u_y);
@@ -3326,14 +3318,14 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
   PyTuple_SET_ITEM(__pyx_t_4, 1, ((PyObject *)(&PyInt_Type)));
 
-  /* "PMD/PyPMD.pyx":45
- *             ('x', int),
- *             ('y', int),
- *             ('r', int),             # <<<<<<<<<<<<<<
- *             ('g', int),
- *             ('b', int)
+  /* "PMD/PyPMD.pyx":44
+ *             ('is_positive', int),
+ *             ('x', int), ('y', int),
+ *             ('r', int), ('g', int), ('b', int)             # <<<<<<<<<<<<<<
+ *         ])
+ * 
  */
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 45, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(__pyx_n_u_r);
   __Pyx_GIVEREF(__pyx_n_u_r);
@@ -3341,15 +3333,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __Pyx_INCREF(((PyObject *)(&PyInt_Type)));
   __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
   PyTuple_SET_ITEM(__pyx_t_3, 1, ((PyObject *)(&PyInt_Type)));
-
-  /* "PMD/PyPMD.pyx":46
- *             ('y', int),
- *             ('r', int),
- *             ('g', int),             # <<<<<<<<<<<<<<
- *             ('b', int)
- *         ])
- */
-  __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 46, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_INCREF(__pyx_n_u_g);
   __Pyx_GIVEREF(__pyx_n_u_g);
@@ -3357,15 +3341,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __Pyx_INCREF(((PyObject *)(&PyInt_Type)));
   __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
   PyTuple_SET_ITEM(__pyx_t_6, 1, ((PyObject *)(&PyInt_Type)));
-
-  /* "PMD/PyPMD.pyx":47
- *             ('r', int),
- *             ('g', int),
- *             ('b', int)             # <<<<<<<<<<<<<<
- *         ])
- * 
- */
-  __pyx_t_11 = PyTuple_New(2); if (unlikely(!__pyx_t_11)) __PYX_ERR(1, 47, __pyx_L1_error)
+  __pyx_t_11 = PyTuple_New(2); if (unlikely(!__pyx_t_11)) __PYX_ERR(1, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __Pyx_INCREF(__pyx_n_u_b);
   __Pyx_GIVEREF(__pyx_n_u_b);
@@ -3379,7 +3355,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
  *         # allocate results array
  *         cdef np.ndarray result_array = np.ndarray((self._num_detections,), dtype=[             # <<<<<<<<<<<<<<
  *             ('is_positive', int),
- *             ('x', int),
+ *             ('x', int), ('y', int),
  */
   __pyx_t_12 = PyList_New(6); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
@@ -3410,19 +3386,19 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __pyx_v_result_array = ((PyArrayObject *)__pyx_t_12);
   __pyx_t_12 = 0;
 
-  /* "PMD/PyPMD.pyx":50
+  /* "PMD/PyPMD.pyx":47
  *         ])
  * 
  *         cdef detection[:] results = result_array             # <<<<<<<<<<<<<<
  * 
  *         # make calls to C++
  */
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_struct__PMD_3a__3a_detection(((PyObject *)__pyx_v_result_array), PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 50, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_struct__PMD_3a__3a_detection(((PyObject *)__pyx_v_result_array), PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 47, __pyx_L1_error)
   __pyx_v_results = __pyx_t_9;
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
 
-  /* "PMD/PyPMD.pyx":53
+  /* "PMD/PyPMD.pyx":50
  * 
  *         # make calls to C++
  *         self._cpp_PMD.initFramebuffer(&frame[0,0,0])             # <<<<<<<<<<<<<<
@@ -3434,7 +3410,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __pyx_t_15 = 0;
   __pyx_v_self->_cpp_PMD->initFramebuffer((&(*((PMD::byte_t *) ( /* dim=2 */ ((char *) (((PMD::byte_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_frame.data + __pyx_t_13 * __pyx_v_frame.strides[0]) ) + __pyx_t_14 * __pyx_v_frame.strides[1]) )) + __pyx_t_15)) )))));
 
-  /* "PMD/PyPMD.pyx":54
+  /* "PMD/PyPMD.pyx":51
  *         # make calls to C++
  *         self._cpp_PMD.initFramebuffer(&frame[0,0,0])
  *         self._cpp_PMD.processEvents(&events[0], num_events, &results[0])             # <<<<<<<<<<<<<<
@@ -3445,7 +3421,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __pyx_t_14 = 0;
   __pyx_v_self->_cpp_PMD->processEvents((&(*((struct PMD::event *) ( /* dim=0 */ (__pyx_v_events.data + __pyx_t_15 * __pyx_v_events.strides[0]) )))), __pyx_v_num_events, (&(*((struct PMD::detection *) ( /* dim=0 */ (__pyx_v_results.data + __pyx_t_14 * __pyx_v_results.strides[0]) )))));
 
-  /* "PMD/PyPMD.pyx":57
+  /* "PMD/PyPMD.pyx":54
  * 
  *         # return the results
  *         return results             # <<<<<<<<<<<<<<
@@ -3460,7 +3436,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
  *         del self._cpp_PMD
  * 
  *     cpdef detection[:] process_events(self, byte_t[:, :, ::1] frame, event[:] events):             # <<<<<<<<<<<<<<
- *         cdef unsigned int num_events = len(events)
+ *         cdef unsigned int num_events = <unsigned int>len(events)
  * 
  */
 

@@ -33,12 +33,6 @@ namespace PMD {
         delete[] _buffer;
     }
 
-    EventBuffer::buffer_entry EventBuffer::operator[](point p) const {
-        auto top_xy = p.x + _width*p.y;
-        auto buffer_xy = _depth*(top_xy);
-        return _buffer[buffer_xy + _top[top_xy]];
-    }
-
     std::map<cid_t, ushort_t> EventBuffer::checkVicinity(
         event e, ts_t tf, ts_t tc, ushort_t &num_adjacent) 
     {
@@ -89,7 +83,7 @@ namespace PMD {
                         buffer_access.lock();
 
                         // remove expired events from cluster buffer
-                        _cluster_buffer.removeEventFromCluster(i, j, _buffer[k].cid);
+                        _cluster_buffer[_buffer[k].cid].remove(i, j);
                         // and unassign them
                         _buffer[k].cid = NO_CID;
 
@@ -115,14 +109,15 @@ namespace PMD {
 
         // remove displaced event from cluster buffer
         if (_buffer[k].cid != NO_CID) 
-            _cluster_buffer.removeEventFromCluster(e.x, e.y, _buffer[k].cid);
+            _cluster_buffer[_buffer[k].cid].remove(e.x, e.y);
         
         // place the new event in the buffers
         _buffer[k].t = e.t;
         _buffer[k].cid = cid;
 
         // add new event to cluster buffer
-        _cluster_buffer.addEventToCluster(e, cid);
+        if (_buffer[k].cid != NO_CID)
+            _cluster_buffer[cid].add(e.x, e.y);
         
         // -- release buffer lock
         buffer_access.unlock();

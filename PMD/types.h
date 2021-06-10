@@ -6,6 +6,15 @@
 #include <math.h>
 
 namespace PMD {
+
+    // integer types to make interfacing easier,
+    // since speed and compactness are not super important here
+    struct detection {
+        int is_positive = 0;
+        int x = 0, y = 0;
+        int r = 0, g = 0, b = 0;
+    };
+
     // types used to interface with python bindings
     typedef unsigned short xy_t;
     typedef int p_t;
@@ -26,6 +35,20 @@ namespace PMD {
     // general unsigned integert shorthands
     typedef unsigned int uint_t;
     typedef unsigned int ushort_t;
+
+    // execution parameters
+    struct parameters {
+        ushort_t x_div = 8;
+        ushort_t y_div = 8;
+        uint_t us_per_event = 0;
+        ushort_t event_buffer_depth = 4;
+        ts_t tf = 200000;
+        ts_t tc = 200000;
+        ushort_t n = 5;
+        uint_t buffer_flush_period = 1000;
+        uint_t max_cluster_size = 50;
+        uint_t num_cluster_analyzers = 8;
+    };
 
     struct color {
         // rgb, int from 0 tp 255

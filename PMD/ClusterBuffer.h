@@ -5,57 +5,62 @@
 #include "types.h"
 
 #include <random>
-#include <array>
 #include <iostream>
 
 namespace PMD {
 
-    struct cluster {
-        ts_t birth = 0;
-        uint_t weight = 0;
-        uint_t x_sum = 0;
-        uint_t y_sum = 0;
-        bool is_tracking = false;
-        point centroid() {
-            // should not happen, but this will prevent a crash on divide by zero
-            if (weight==0) { 
-                std::cout<<"\nError: Cannot find centroid of empty cluster."<<std::endl;
-                return point(0,0);
-            }
-            else return point(x_sum/weight, y_sum/weight);
-        }
+    class Cluster {
+        friend class EventBuffer;
+
+        ts_t _birth = 0;
+        uint_t _weight = 0;
+        uint_t _x_sum = 0;
+        uint_t _y_sum = 0;
+        bool _is_centroid_updated = false;
+        point _centroid{};
+        bool _is_tracking = false;
+
+    public:
+        // getter references
+        const ts_t &birth = _birth;
+        const uint_t &weight = _weight;
+        const bool &is_tracking = _is_tracking;
+
+        // reset all values and set new birth time
+        void createAt(ts_t birth);
+        // begin tracking this cluster
+        void track() { _is_tracking = true; }
+
+        bool isInRange(xy_t x, xy_t y, uint_t range);
+        point centroid();
+
+    protected:
+        // these are only meant to be accessed by the event buffer
+        // can otherwise lead to issues with threading
+        void add(xy_t x, xy_t y);
+        void remove(xy_t x, xy_t y);
     };
 
     class ClusterBuffer {
-        friend class EventBuffer;
-
         // allocate an array up to but not including NO_CID
-        cluster _buffer[NO_CID];
+        Cluster _buffer[NO_CID];
         // rng to assign new cluster ids
         std::mt19937 _rand_gen;
         std::uniform_int_distribution<cid_t> _rand;
 
     public:
         ClusterBuffer() : _rand_gen(0), _rand(0, NO_CID-1), _buffer() {}
-        ~ClusterBuffer() {}
-        // access as an array (read-only)
-        cluster operator[](cid_t cid) const {
-            if (cid == NO_CID) return cluster();
+
+        // access buffer as an array
+        Cluster &operator[](cid_t cid) {
+            // throw error for invalid index
+            if (cid == NO_CID) 
+                throw std::out_of_range("Attempted to index Cluster with invalid cid of NO_CID.");
             else return _buffer[cid];
         }
 
         // find an unused cid and initialize it in the buffer
         cid_t createNewCluster(ts_t t);
-        // mark a specified cluster as being tracked
-        void trackCluster(cid_t cid) {
-            _buffer[cid].is_tracking = true;
-        }
-
-    protected:
-        // these are only meant to be accessed by the event buffer
-        // can otherwise lead to issues with threading
-        void addEventToCluster(event e, cid_t cid);
-        void removeEventFromCluster(xy_t x, xy_t y, cid_t cid);
     };
 };
 

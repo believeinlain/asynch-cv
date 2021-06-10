@@ -19,7 +19,7 @@ namespace PMD {
         auto i = _priority.begin();
         while (i != _priority.end() && _cluster_buffer[*i].is_tracking) ++i;
         // mark the cluster as being tracked
-        _cluster_buffer.trackCluster(*i);
+        _cluster_buffer[*i].track();
         // return cid of the newly tracked cluster
         return *i;
     }
