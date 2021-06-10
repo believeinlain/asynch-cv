@@ -2,11 +2,14 @@
 import numpy as np
 cimport numpy as np
 
+from cython.view cimport array
+
 from PMD.PersistentMotionDetector cimport *
 
 cdef class PyPMD:
     cdef PersistentMotionDetector *_cpp_PMD
     cdef xy_t _width, _height
+    cdef int _num_detections
 
     def __cinit__(self, xy_t width, xy_t height, param):
         self._width = width
@@ -22,16 +25,34 @@ cdef class PyPMD:
         c_param.n = param.get('n', 5)
         c_param.buffer_flush_period = param.get('buffer_flush_period', 1_000)
         c_param.max_cluster_size = param.get('max_cluster_size', 50)
+        c_param.num_cluster_analyzers = param.get('num_cluster_analyzers', 8)
+
+        self._num_detections = c_param.num_cluster_analyzers
 
         self._cpp_PMD = new PersistentMotionDetector(width, height, c_param)
     
     def __dealloc__(self):
         del self._cpp_PMD
 
-    cpdef void process_events(self, byte_t[:, :, ::1] frame, event[:] events):
+    cpdef detection[:] process_events(self, byte_t[:, :, ::1] frame, event[:] events):
         cdef unsigned int num_events = len(events)
 
+        # allocate results array
+        cdef np.ndarray result_array = np.ndarray((self._num_detections,), dtype=[
+            ('is_positive', int), 
+            ('x', int), ('y', int), 
+            ('r', int), ('g', int), ('b', int)
+        ])
+
+        cdef detection[:] results = result_array
+
+        # make calls to C++
         self._cpp_PMD.initFramebuffer(&frame[0,0,0])
-        self._cpp_PMD.processEvents(&events[0], num_events)
+        self._cpp_PMD.processEvents(&events[0], num_events, &results[0])
+
+        # return the results
+        return results
+
+
 
         

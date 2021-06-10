@@ -79,7 +79,7 @@ namespace PMD {
             }
 
             // callback to draw the event on the frame buffer
-            _pmd.eventCallback(e, assigned);
+            _pmd.drawEvent(e, assigned);
             
             // add the event to the event buffer
             _event_buffer.addEvent(e, assigned);

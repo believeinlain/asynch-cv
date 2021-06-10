@@ -20,15 +20,17 @@ namespace PMD {
         ushort_t n = 5;
         uint_t buffer_flush_period = 1000;
         uint_t max_cluster_size = 50;
+        uint_t num_cluster_analyzers = 8;
     };
-/* 
+
+    // simple types to make interfacing easier,
+    // since speed and compactness are not super important here
     struct detection {
-        bool is_positive;
-        point position;
-        point velocity;
-        float confidence;
+        int is_positive;
+        int x, y;
+        int r, g, b;
     };
- */
+
     class PersistentMotionDetector {
         friend class EventHandler;
         
@@ -44,6 +46,7 @@ namespace PMD {
 
         byte_t *_framebuffer;
         color _cluster_colors[NO_CID];
+        std::vector<detection> _results;
 
     public:
         PersistentMotionDetector(
@@ -51,10 +54,10 @@ namespace PMD {
         ~PersistentMotionDetector();
 
         void initFramebuffer(byte_t *frame);
-        void processEvents(const event *events, uint_t num_events);
+        void processEvents(const event *events, uint_t num_events, detection *results);
 
     protected:
-        void eventCallback(event e, cid_t cid);
+        void drawEvent(event e, cid_t cid);
     };
 };
 

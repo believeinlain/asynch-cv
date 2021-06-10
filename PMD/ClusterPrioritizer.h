@@ -15,7 +15,7 @@ namespace PMD {
         ClusterBuffer &_cluster_buffer;
 
         // cids in order of priority
-        std::array<cid_t, NO_CID> _cluster_priority;
+        std::array<cid_t, NO_CID> _priority;
 
     public:
         ClusterPrioritizer(ClusterBuffer &cluster_buffer);

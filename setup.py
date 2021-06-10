@@ -10,7 +10,8 @@ extensions = [
             'PMD\\Partition.cpp',
             'PMD\\EventHandler.cpp',
             'PMD\\EventBuffer.cpp',
-            'PMD\\ClusterBuffer.cpp'
+            'PMD\\ClusterBuffer.cpp',
+            'PMD\\ClusterPrioritizer.cpp'
         ],
         include_dirs = [np.get_include()],
         language = 'c++',    

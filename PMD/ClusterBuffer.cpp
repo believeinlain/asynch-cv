@@ -25,5 +25,7 @@ namespace PMD {
         _buffer[cid].weight--;
         _buffer[cid].x_sum -= x;
         _buffer[cid].y_sum -= y;
+        // cannot track an empty cluster
+        if (_buffer[cid].weight==0) _buffer[cid].is_tracking = false;
     }
 };

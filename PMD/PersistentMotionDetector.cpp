@@ -4,8 +4,8 @@
 #include "options.h"
 
 #if USE_THREADS
-#include <thread>
 #include <vector>
+#include <thread>
 #endif
 
 #include <iostream>
@@ -72,7 +72,7 @@ namespace PMD {
     }
 
     void PersistentMotionDetector::processEvents(
-        const event *events, uint_t num_events) 
+        const event *events, uint_t num_events, detection *results)
     {
 #if USE_THREADS
         // create a vector to manage threads
@@ -98,9 +98,18 @@ namespace PMD {
             _event_handlers[k]->processEvent(events[i]);
         }
 #endif
+        detection test;
+        test.is_positive = true;
+        test.x = 320;
+        test.y = 240;
+        test.r = 255;
+        test.g = 255;
+        test.b = 0;
+
+        results[0] = test;
     }
 
-    void PersistentMotionDetector::eventCallback(event e, cid_t cid) {
+    void PersistentMotionDetector::drawEvent(event e, cid_t cid) {
         if (_framebuffer == nullptr) return;
 
         uint_t xy_index = 3*(_width*e.y + e.x);

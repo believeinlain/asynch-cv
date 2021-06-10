@@ -38,20 +38,24 @@ namespace PMD {
     public:
         ClusterBuffer() : _rand_gen(0), _rand(0, NO_CID-1), _buffer() {}
         ~ClusterBuffer() {}
-        // access as an array
+        // access as an array (read-only)
         cluster operator[](cid_t cid) const {
             if (cid == NO_CID) return cluster();
             else return _buffer[cid];
         }
 
+        // find an unused cid and initialize it in the buffer
         cid_t createNewCluster(ts_t t);
+        // mark a specified cluster as being tracked
+        void trackCluster(cid_t cid) {
+            _buffer[cid].is_tracking = true;
+        }
 
     protected:
-        // these are only meant to be accesed by the event buffer
+        // these are only meant to be accessed by the event buffer
+        // can otherwise lead to issues with threading
         void addEventToCluster(event e, cid_t cid);
         void removeEventFromCluster(xy_t x, xy_t y, cid_t cid);
-
-        // std::array<cid_t, NO_CID> sortByWeight();
     };
 };
 

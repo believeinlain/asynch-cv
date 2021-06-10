@@ -41,26 +41,30 @@ class pmd_consumer(basic_consumer):
         # we don't care about ts
         del ts
         # pass events to the pmd to draw
-        self._pmd.process_events(self.frame_to_draw, event_buffer)
+        detections = self._pmd.process_events(self.frame_to_draw, event_buffer)
 
-    # def init_frame(self, frame_buffer=None):
-    #     super().init_frame(frame_buffer)
+        for det in detections:
+            if det['is_positive']:
+                cv2.circle(self.frame_to_draw, (det['x'], det['y']), 30, 
+                    (det['b'], det['g'], det['r']), thickness=1)
 
-        # ids, assigned = self._pmd.get_cluster_map()
+    # def draw_detection(self, id, results):
+    #     centroid = tuple(results['centroid'])
+    #     color = tuple(self._cluster_color[id].tolist())
+
+    #     # find the bounding box
+    #     # image = np.transpose(self._pmd.get_single_cluster_map(id))
+    #     # x, y, w, h = cv2.boundingRect(image)
+    #     # cv2.rectangle(self.frame_to_draw, (x, y), (x+w, y+h), color, 1)
+    #     cv2.circle(self.frame_to_draw, centroid, 30, color, thickness=1)
+
+    #     # # draw confidence
+    #     # cv2.putText(self.frame_to_draw, f"{results['confidence']:0.2f}", centroid, cv2.FONT_HERSHEY_PLAIN,
+    #     #     1, tuple(color), 1, cv2.LINE_AA)
         
-        # self.frame_to_draw[assigned] = np.multiply(0.5, self._cluster_color[ids])
-
-        # add an empty list for this frame's detections
-        # self._detections.append([])
-
-    # def draw_frame(self):
-
-        # self._metrics.count_detections(self.frame_count, self._ground_truth, self._detections)
-
-        # this is where self.frame_count is incremented
-        # super().draw_frame()
+    #     # # draw arrow if endpoint given
+    #     # if results['endpoint'] is not None:
+    #     #     cv2.arrowedLine(self.frame_to_draw, centroid, tuple(results['endpoint']), color, thickness=1)
 
     def end(self):
         super().end()
-
-        # self._metrics.display_pr_curve(self.run_name)

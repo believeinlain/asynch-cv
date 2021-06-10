@@ -99,7 +99,6 @@ namespace PMD {
                 }
             }
         }
-        
     }
 
     // add event to buffer, return cid of displaced event
