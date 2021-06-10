@@ -6,7 +6,7 @@
 #include <algorithm>
 
 namespace PMD {
-    ClusterPrioritizer::ClusterPrioritizer(ClusterBuffer &cluster_buffer) :
+    ClusterPrioritizer::ClusterPrioritizer(ClusterBuffer &cluster_buffer, parameters param) :
         _cluster_buffer(cluster_buffer)
     {
         // initialize priority array

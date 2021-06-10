@@ -18,7 +18,7 @@ namespace PMD {
         std::array<cid_t, NO_CID> _priority;
 
     public:
-        ClusterPrioritizer(ClusterBuffer &cluster_buffer);
+        ClusterPrioritizer(ClusterBuffer &cluster_buffer, parameters param);
 
         cid_t trackNextCluster();
         void recalculatePriority();

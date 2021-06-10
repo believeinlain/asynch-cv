@@ -10,27 +10,30 @@ namespace PMD {
         PersistentMotionDetector &pmd, 
         EventBuffer &event_buffer, 
         ClusterBuffer &cluster_buffer,
-        point place, rect domain, 
         parameters param
     ) :
         _pmd(pmd), 
         _event_buffer(event_buffer), 
         _cluster_buffer(cluster_buffer), 
-        _place(place), _domain(domain),
         _param(param)
     {}
+    
+    void EventHandler::setPartitionInfo(point place, rect domain) {
+        _place = place;
+        _domain = domain;
+    }
 
     void EventHandler::processEventBuffer(
         const event *events, uint_t num_events) 
     {
+        // catch up processing to the last event time
+        // in case no events went to this event handler
+        processUntil(events[num_events-1].t);
+
         // iterate through the sequence of events
         for (uint_t i=0; i<num_events; ++i)
             if (_domain.contains(events[i].x, events[i].y))
                 processEvent(events[i]);
-        
-        // catch up processing to the last event time
-        // in case no events went to this event handler
-        processUntil(events[num_events-1].t);
     }
 
     void EventHandler::processEvent(event e) {
@@ -83,7 +86,7 @@ namespace PMD {
         }
     }
 
-    void EventHandler::processUntil(ts_t t) {
+    inline void EventHandler::processUntil(ts_t t) {
         // check if it's time to flush the buffer
         if (t > _last_buffer_flush+_param.buffer_flush_period) {
             // flush the buffer if it's time

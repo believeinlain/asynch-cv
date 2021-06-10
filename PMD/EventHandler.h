@@ -31,13 +31,11 @@ namespace PMD {
         ts_t _last_buffer_flush = 0;
 
     public:
-        EventHandler(
-            PersistentMotionDetector &pmd, 
-            EventBuffer &event_buffer, 
-            ClusterBuffer &cluster_buffer, 
-            point place, rect domain, 
-            parameters param);
+        EventHandler(PersistentMotionDetector &pmd, EventBuffer &event_buffer, 
+            ClusterBuffer &cluster_buffer, parameters param);
         ~EventHandler() {}
+
+        void setPartitionInfo(point place, rect domain);
 
         // process an entire buffer of events
         void processEventBuffer(const event *events, uint_t num_events);

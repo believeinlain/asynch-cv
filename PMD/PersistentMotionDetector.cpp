@@ -3,11 +3,6 @@
 
 #include "options.h"
 
-#if USE_THREADS
-#include <vector>
-#include <thread>
-#endif
-
 #include <iostream>
 using namespace std;
 
@@ -21,39 +16,57 @@ namespace PMD {
         _num_parts(param.x_div*param.y_div),
         _partition(width, height, param.x_div, param.y_div),
         _cluster_buffer(),
-        _event_buffer(width, height, param.event_buffer_depth, _cluster_buffer)
+        _event_buffer(width, height, param.event_buffer_depth, _cluster_buffer),
+        _prioritizer(_cluster_buffer, param),
+        _framebuffer(nullptr)
     {
-        // dynamically allocate event handlers since they depend
-        // on other members
-        _event_handlers = new EventHandler*[_num_parts];
-        for (ushort_t i=0; i<param.x_div; ++i) {
-            for (ushort_t j=0; j<param.y_div; ++j) {
-                _event_handlers[i + j*param.x_div] = new EventHandler(
-                    *this, _event_buffer, _cluster_buffer, point(i, j), 
-                    _partition.getDomain(i, j), param);
-            }
-        }
+        // allocate event handlers and cluster analyzers
+        _handlers.reserve(_num_parts);
+        for (uint_t i=0; i<_num_parts; ++i)
+            _handlers.push_back(EventHandler(
+                *this, _event_buffer, _cluster_buffer, param));
 
-        _framebuffer = nullptr;
+        _analyzers.reserve(param.num_analyzers);
+        for (uint_t i=0; i<param.num_analyzers; ++i)
+            _analyzers.push_back(ClusterAnalyzer(
+                _prioritizer, param));
+        
+        // tell each event handler where it is
+        for (ushort_t i=0; i<param.x_div; ++i)
+            for (ushort_t j=0; j<param.y_div; ++j)
+                _handlers[i + j*param.x_div].setPartitionInfo(
+                    point(i, j), _partition.getDomain(i, j));
 
+        // generate evenly spaced random colors for each cluster
         for (cid_t i=0; i<NO_CID; ++i)
-            _cluster_colors[i] = color( (float)
+            _colors[i] = color( (float)
                 fmod(double(i)*PI*10.0, 360.0), 1.0);
 
-        #if USE_THREADS
+#if USE_THREADS
             cout<<"Starting PersistentMotionDetector with support for threads :)"<<endl;
             int num_parallel = thread::hardware_concurrency();
             cout<<"Hardware supports up to "<<num_parallel<<" concurrent threads."<<endl;
-        #else
+            // create 2 threads for each usable core
+            // this allows for some cpu optimization for core sharing
+            // since every thread wont be active all the time
+            _threads = new ctpl::thread_pool(num_parallel*2);
+            // allocate space for job futures
+            _handler_jobs = new future<void>[_num_parts];
+#else
             cout<<"Starting PersistentMotionDetector without thread support."<<endl;
             cout<<"Use option \"-D USE_THREADS=1\" to compile with thread support."<<endl;
-        #endif
+#endif
+
     }
     PersistentMotionDetector::~PersistentMotionDetector() {
-        for (uint_t i=0; i<_num_parts; ++i) {
-            delete _event_handlers[i];
-        }
-        delete[] _event_handlers;
+
+#if USE_THREADS
+        // stop all threads
+        _threads->stop();
+        // deallocate thread memory
+        delete _threads;
+        delete[] _handler_jobs;
+#endif
     }
 
     void PersistentMotionDetector::initFramebuffer(byte_t *frame) {
@@ -65,7 +78,7 @@ namespace PMD {
                     uint_t xy_index = 3*(_width*y + x);
                     cid_t pixel_cid = _event_buffer[point(x, y)].cid;
                     if (pixel_cid == NO_CID) continue;
-                    color event_color = _cluster_colors[pixel_cid];
+                    color event_color = _colors[pixel_cid];
                     for (uint_t z=0; z<3; ++z)
                         _framebuffer[z + xy_index] = event_color[z] / 2;
                 }
@@ -83,39 +96,35 @@ namespace PMD {
         const event *events, uint_t num_events, detection *results) {
         try 
         {
-#if USE_THREADS
-            // create a vector to manage threads
-            vector<thread> event_handler_threads(_num_parts);
-
-            // branch off each event handler to a separate thread to handle events
-            for (uint_t i=0; i<_num_parts; ++i)
-                // each event handler will loop through events concurrently
-                event_handler_threads[i] = thread(
-                    &EventHandler::processEventBuffer, _event_handlers[i], 
-                    events, num_events);
             
-            // rejoin all event handlers
-            for (uint_t i=0; i<_num_parts; ++i)
-                event_handler_threads[i].join();
-#else
-            // iterate through the sequence of events
-            for (uint_t i=0; i<num_events; ++i) {
-                // first place the event
-                point place = _partition->placeEvent(events[i].x, events[i].y);
-                // then handle the event
-                auto k = place.x + place.y*_param.x_div;
-                _event_handlers[k]->processEvent(events[i]);
+#if USE_THREADS
+            // branch off each event handler to a separate thread to handle events
+            for (uint_t i=0; i<_num_parts; ++i) {
+                EventHandler &handler = _handlers[i];
+                // each event handler will loop through events concurrently
+                _handler_jobs[i] = _threads->push( [&handler, events, num_events](int id) {
+                    handler.processEventBuffer(events, num_events);
+                });
             }
+            // wait until all tasks finish
+            for (uint_t i=0; i<_num_parts; ++i)
+                _handler_jobs[i].wait();
+#else  
+            // handle event buffers sequentially
+            for (uint_t i=0; i<_num_parts; ++i)
+                _event_handlers[i]->processEventBuffer(events, num_events);
 #endif
-            detection test;
+
+            for (uint_t i=0; i<_param.num_analyzers; ++i)
+                results[i] = detection();
+
+            detection &test = results[0];
             test.is_positive = true;
             test.x = 320;
             test.y = 240;
             test.r = 255;
             test.g = 255;
             test.b = 0;
-
-            results[0] = test;
         }
         catch(const exception& err) 
         {
@@ -134,7 +143,7 @@ namespace PMD {
 
             // choose the appropriate color to draw
             color event_color = (cid==NO_CID) ? 
-                color(120) : _cluster_colors[cid];
+                color(120) : _colors[cid];
 
             // draw the event on the framebuffer
             for (uint_t z=0; z<3; ++z) 

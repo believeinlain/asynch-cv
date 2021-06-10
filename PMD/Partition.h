@@ -17,9 +17,8 @@ namespace PMD {
         ~Partition();
 
         rect getDomain(ushort_t place_x, ushort_t place_y);
-#if !USE_THREADS
-        point place_event(xy_t x, xy_t y);
-#endif
+
+        // point placeEvent(xy_t x, xy_t y);
     };
 };
 

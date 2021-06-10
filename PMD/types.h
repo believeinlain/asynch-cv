@@ -47,7 +47,7 @@ namespace PMD {
         ushort_t n = 5;
         uint_t buffer_flush_period = 1000;
         uint_t max_cluster_size = 50;
-        uint_t num_cluster_analyzers = 8;
+        uint_t num_analyzers = 8;
     };
 
     struct color {
@@ -89,7 +89,7 @@ namespace PMD {
             tl(tlx, tly), br(brx, bry) {}
         rect() : tl(), br() {}
         point tl, br;
-        bool contains(xy_t x, xy_t y) {
+        inline bool contains(xy_t x, xy_t y) {
             return (tl.x <= x) 
                 && (tl.y <= y) 
                 && (x < br.x) 

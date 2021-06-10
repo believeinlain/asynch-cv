@@ -80,9 +80,9 @@ play_file(
             'tf': 300_000, # how far back in time to consider events for filtering
             'tc': 150_000, # how far back in time to consider events for clustering
             'n': 5, # minimum number of correlated events required to allow a particular event through the filter
-            'buffer_flush_period': 30_000, # microseconds periodicity to flush expired (>tc) events from buffer
+            'buffer_flush_period': 10_000, # microseconds periodicity to flush expired (>tc) events from buffer
             'max_cluster_size': 50, # maximum taxicab dist from center of cluster to each event
-            'num_cluster_analyzers': 8,
+            'num_analyzers': 8,
 
             # 'temporal_filter': 5_000,
             # 'cluster_profile_length': 16,

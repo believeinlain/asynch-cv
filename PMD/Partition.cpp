@@ -29,19 +29,18 @@ namespace PMD {
             d_height*(place_y+1)
         );
     }
-#if !USE_THREADS
-    point Partition::place_event(xy_t x, xy_t y) {
-        point dest;
-        ushort_t i
-        for (i=0; i<(x_div-1); ++i)
-            if (_x_bounds[i] > x) break;
-        dest.x = i;
 
-        for (i=0; i<(y_div-1); ++i)
-            if (_y_bounds[i] > y) break;
-        dest.y = i;
+    // point Partition::placeEvent(xy_t x, xy_t y) {
+    //     point dest;
+    //     ushort_t i;
+    //     for (i=0; i<(_x_div-1); ++i)
+    //         if (_x_bounds[i] > x) break;
+    //     dest.x = i;
 
-        return dest;
-    }
-#endif
+    //     for (i=0; i<(_y_div-1); ++i)
+    //         if (_y_bounds[i] > y) break;
+    //     dest.y = i;
+
+    //     return dest;
+    // }
 };

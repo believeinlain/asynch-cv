@@ -14,7 +14,7 @@ extensions = [
             'PMD\\ClusterPrioritizer.cpp',
             'PMD\\ClusterAnalyzer.cpp'
         ],
-        include_dirs = [np.get_include()],
+        include_dirs = [np.get_include(), 'include\\CTPL'],
         language = 'c++',    
         define_macros = [('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION'), ('USE_THREADS', 1)]
     )
