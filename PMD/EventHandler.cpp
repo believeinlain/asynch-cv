@@ -24,14 +24,14 @@ namespace PMD {
     }
 
     void EventHandler::processEventBuffer(
-        const event *events, uint_t num_events) 
+        const event *events, size_t num_events) 
     {
         // catch up processing to the last event time
         // in case no events went to this event handler
         processUntil(events[num_events-1].t);
 
         // iterate through the sequence of events
-        for (uint_t i=0; i<num_events; ++i)
+        for (size_t i=0; i<num_events; ++i)
             if (_domain.contains(events[i].x, events[i].y))
                 processEvent(events[i]);
     }
@@ -43,7 +43,8 @@ namespace PMD {
             processUntil(e.t);
             // process the event
             ushort_t count = 0;
-            auto adj = _event_buffer.checkVicinity(e, _param.tf, _param.tc, count);
+            auto adj = _event_buffer.checkVicinity(_domain,
+                e, _param.tf, _param.tc, count);
             
             cid_t assigned = NO_CID;
             // cluster only if passed the correlational filter

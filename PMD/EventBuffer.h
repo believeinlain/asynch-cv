@@ -4,6 +4,8 @@
 
 #include "types.h"
 
+#include "options.h"
+
 #include <map>
 #if USE_THREADS
 #include <mutex>
@@ -58,7 +60,7 @@ namespace PMD {
         ClusterBuffer &_cluster_buffer;
 
 #if USE_THREADS
-        std::mutex buffer_access;
+        std::mutex _buffer_access;
 #endif
 
     public:
@@ -72,7 +74,7 @@ namespace PMD {
 
         // return number of adjacent events within tf
         // vector of adjacent cids within tc -> out_adjacent
-        std::map<cid_t, ushort_t> checkVicinity(
+        std::map<cid_t, ushort_t> checkVicinity(const rect &domain,
             event e, ts_t tf, ts_t tc, ushort_t &num_adjacent);
 
         // flush expired events and remove from cluster buffer

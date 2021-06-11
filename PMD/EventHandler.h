@@ -38,7 +38,7 @@ namespace PMD {
         void setPartitionInfo(point place, rect domain);
 
         // process an entire buffer of events
-        void processEventBuffer(const event *events, uint_t num_events);
+        void processEventBuffer(const event *events, size_t num_events);
         // process a single event
         void processEvent(event e);
         // catch up processing in case the handler receives no events for a while

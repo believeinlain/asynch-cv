@@ -11,8 +11,6 @@
 namespace PMD {
 
     class Cluster {
-        friend class EventBuffer;
-
         ts_t _birth = 0;
         int _weight = 0;
         int _x_sum = 0;
@@ -35,7 +33,6 @@ namespace PMD {
         bool isInRange(int x, int y, int range);
         const point &centroid();
 
-    protected:
         // these are only meant to be accessed by the event buffer
         // can otherwise lead to issues with threading
         void add(int x, int y);
@@ -56,7 +53,7 @@ namespace PMD {
         Cluster &operator[](cid_t cid) {
             // throw error for invalid index
             if (cid == NO_CID) 
-                throw std::out_of_range("Attempted to index Cluster with invalid cid of NO_CID.");
+                throw std::exception("Attempted to index Cluster with invalid cid of NO_CID.");
             else return _buffer[cid];
         }
 

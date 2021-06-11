@@ -1,6 +1,8 @@
 
 #include "ClusterBuffer.h"
 
+#include <iostream>
+
 namespace PMD {
 
     void Cluster::createAt(ts_t birth) {
@@ -28,11 +30,11 @@ namespace PMD {
         // centroid will need updating
         _is_centroid_updated = false;
         // cannot track an empty cluster
-        if (_weight == 0) _is_tracking = false;
+        if (_weight <= 0) _is_tracking = false;
         // should never happen
-        if (_weight < 0) throw std::exception("Cluster should not have negative weight.");
-        if (_x_sum < 0) throw std::exception("Cluster should not have negative x_sum.");
-        if (_y_sum < 0) throw std::exception("Cluster should not have negative y_sum.");
+        if (_weight < 0) std::cerr << "Cluster weight " << _weight << std::endl;
+        if (_x_sum < 0) std::cerr << "Cluster x_sum " << _x_sum << std::endl;
+        if (_y_sum < 0) std::cerr << "Cluster y_sum " << _y_sum << std::endl;
     }
 
     bool Cluster::isInRange(int x, int y, int range) {

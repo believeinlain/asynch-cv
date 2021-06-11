@@ -125,6 +125,10 @@ namespace PMD {
     void PersistentMotionDetector::drawEvent(event e, cid_t cid) {
         try 
         {
+// #if USE_THREADS
+//             // -- lock buffer for access
+//             _framebuffer_access.lock();
+// #endif
             if (_framebuffer == nullptr) return;
 
             uint_t xy_index = 3*(_width*e.y + e.x);
@@ -135,6 +139,10 @@ namespace PMD {
             // draw the event on the framebuffer
             for (uint_t z=0; z<3; ++z) 
                 _framebuffer[z + xy_index] = event_color[z];
+// #if USE_THREADS
+//             // -- release buffer lock
+//             _framebuffer_access.unlock();
+// #endif
         } 
         catch(const exception& err) 
         {

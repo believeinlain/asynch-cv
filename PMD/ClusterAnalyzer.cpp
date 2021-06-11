@@ -11,7 +11,7 @@ namespace PMD {
         parameters param
     ) : 
         _sorter(sorter), _cluster_buffer(cluster_buffer),
-        _param(param) {
+        _param(param), _status() {
     }
     ClusterAnalyzer::~ClusterAnalyzer() {
     }

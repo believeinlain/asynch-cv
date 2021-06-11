@@ -20,7 +20,7 @@ namespace PMD {
         // cluster that we're currently tracking
         cid_t _cid = NO_CID;
 
-        detection _status{};
+        detection _status;
 
     public:
         ClusterAnalyzer(

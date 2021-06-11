@@ -21,7 +21,7 @@ namespace PMD {
         delete _buffer;
     }
 
-    std::map<cid_t, ushort_t> EventBuffer::checkVicinity(
+    std::map<cid_t, ushort_t> EventBuffer::checkVicinity(const rect &domain,
         event e, ts_t tf, ts_t tc, ushort_t &num_adjacent) 
     {
         auto adjacent = std::map<cid_t, ushort_t>();
@@ -33,6 +33,10 @@ namespace PMD {
         size_t x_end = ((e.x+2U) > _width) ? _width : e.x+2U;
         size_t y_end = ((e.y+2U) > _height) ? _height : e.y+2U;
 
+#if USE_THREADS
+        // -- lock buffers for access
+        _buffer_access.lock();
+#endif
         // init count to 0
         num_adjacent = 0;
         for (size_t x = x_start; x < x_end; ++x) {
@@ -47,6 +51,10 @@ namespace PMD {
                 }
             }
         }
+#if USE_THREADS
+        // -- release buffer lock
+        _buffer_access.unlock();
+#endif
 
         // return the results
         return adjacent;
@@ -62,7 +70,7 @@ namespace PMD {
                     if ((cid != NO_CID) && (ts < th)) {
 #if USE_THREADS
                         // -- lock buffers for access
-                        buffer_access.lock();
+                        _buffer_access.lock();
 #endif
                         // remove expired events from cluster buffer
                         _cluster_buffer[cid].remove(x, y);
@@ -70,7 +78,7 @@ namespace PMD {
                         _buffer->at(x, y)[z].cid = NO_CID;
 #if USE_THREADS
                         // -- release buffer lock
-                        buffer_access.unlock();
+                        _buffer_access.unlock();
 #endif
                     }
                 }
@@ -82,7 +90,7 @@ namespace PMD {
     void EventBuffer::addEvent(event e, cid_t cid) {
 #if USE_THREADS
         // -- lock buffers for access
-        buffer_access.lock();
+        _buffer_access.lock();
 #endif
         // add new event to event buffer
         buffer_entry displaced = _buffer->at(e.x, e.y).push(cid, e.t);
@@ -97,7 +105,7 @@ namespace PMD {
         
 #if USE_THREADS
         // -- release buffer lock
-        buffer_access.unlock();
+        _buffer_access.unlock();
 #endif
     }
 };

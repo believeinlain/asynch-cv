@@ -14,25 +14,27 @@ class pmd_consumer(basic_consumer):
 
         # Process arguments
         self._filetype = self._consumer_args.get('filetype', '.raw')
-        parameters = self._consumer_args.get('parameters', {})
+
+        param = self._consumer_args.get('parameters', {})
+        self.max_cluster_size = param.get('max_cluster_size', 50)
         
         # explicitly set types to ensure consistency between modules
         types = {}
 
         # get needed types to set colors
-        self._cluster_color_t = types.get('cluster_color_t', 'u1')
-        self._cluster_id_t = types.get('cluster_id_t', 'u2')
-        self._unassigned = np.iinfo(np.dtype(self._cluster_id_t)).max
-        self._max_clusters = self._unassigned + 1
+        # self._cluster_color_t = types.get('cluster_color_t', 'u1')
+        # self._cluster_id_t = types.get('cluster_id_t', 'u2')
+        # self._unassigned = np.iinfo(np.dtype(self._cluster_id_t)).max
+        # self._max_clusters = self._unassigned + 1
         # pick a different color for each region
-        self._unassigned = np.iinfo(np.dtype(self._cluster_id_t)).max
-        self._max_clusters = self._unassigned + 1
-        self._cluster_color = np.zeros((self._max_clusters, 3), dtype=self._cluster_color_t)
-        for i in range(self._max_clusters):
-            self._cluster_color[i] = np.multiply(255.0, 
-                hsv_to_rgb((i*np.pi % 3.6)/3.6, 1.0, 1.0), casting='unsafe')
+        # self._unassigned = np.iinfo(np.dtype(self._cluster_id_t)).max
+        # self._max_clusters = self._unassigned + 1
+        # self._cluster_color = np.zeros((self._max_clusters, 3), dtype=self._cluster_color_t)
+        # for i in range(self._max_clusters):
+        #     self._cluster_color[i] = np.multiply(255.0, 
+        #         hsv_to_rgb((i*np.pi % 3.6)/3.6, 1.0, 1.0), casting='unsafe')
 
-        self._pmd = PyPMD.PyPMD(width, height, parameters)
+        self._pmd = PyPMD.PyPMD(width, height, param)
 
         # self._metrics = DetectionMetrics(['boat', 'RHIB'])
         # self._detections = []
@@ -45,8 +47,16 @@ class pmd_consumer(basic_consumer):
 
         for det in detections:
             if det['is_positive']:
-                cv2.circle(self.frame_to_draw, (det['x'], det['y']), 30, 
-                    (det['b'], det['g'], det['r']), thickness=1)
+                px = det['x']
+                py = det['y']
+                r = self.max_cluster_size
+                frame = self.frame_to_draw
+                color = (det['b'], det['g'], det['r'])
+                th = 1
+                cv2.line(frame, (px, py-r), (px+r, py), color, th)
+                cv2.line(frame, (px+r, py), (px, py+r), color, th)
+                cv2.line(frame, (px, py+r), (px-r, py), color, th)
+                cv2.line(frame, (px-r, py), (px, py-r), color, th)
 
     # def draw_detection(self, id, results):
     #     centroid = tuple(results['centroid'])

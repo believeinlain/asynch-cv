@@ -22,7 +22,7 @@ extensions = [
         language = 'c++',    
         define_macros = [
             ('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION'), 
-            ('USE_THREADS', 0)
+            ('USE_THREADS', 1)
             ]
     )
 ]

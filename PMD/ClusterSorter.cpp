@@ -22,16 +22,15 @@ namespace PMD {
 
     cid_t ClusterSorter::trackNextCluster() {
         // go through the sorted priority array and assign the first untracked cluster
-        // auto i = _priority.begin();
-        // while (i != _priority.end() && _cluster_buffer[*i].is_tracking) ++i;
-        // // mark the cluster as being tracked
-        // _cluster_buffer[*i].track();
-        // // return cid of the newly tracked cluster
-        // return *i;
         size_t i = 0;
-        while(i < NO_CID && _cluster_buffer[_priority[i]].is_tracking) ++i;
-        _cluster_buffer[_priority[i]].track();
-        return _priority[i];
+        cid_t target = NO_CID;
+        for (size_t i = 0; i < NO_CID; ++i) {
+            target = _priority[i];
+            if (!_cluster_buffer[target].is_tracking && _cluster_buffer[target].weight > 0) 
+                break;
+        }
+        _cluster_buffer[target].track();
+        return target;
     }
     void ClusterSorter::recalculatePriority() {
         ClusterBuffer &cb = _cluster_buffer;

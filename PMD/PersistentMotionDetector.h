@@ -14,6 +14,7 @@
 #include <ctpl_stl.h>
 #include <functional>
 #include <thread>
+#include <mutex>
 #endif
 
 #include <vector>
@@ -42,6 +43,7 @@ namespace PMD {
         #if USE_THREADS
         ctpl::thread_pool *_threads;
         std::future<void> *_handler_jobs;
+        std::mutex _framebuffer_access;
         #endif
 
     public:
