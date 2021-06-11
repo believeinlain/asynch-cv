@@ -7,7 +7,7 @@
 #include "EventHandler.h"
 #include "EventBuffer.h"
 #include "ClusterBuffer.h"
-#include "ClusterPrioritizer.h"
+#include "ClusterSorter.h"
 #include "ClusterAnalyzer.h"
 
 #if USE_THREADS
@@ -33,11 +33,10 @@ namespace PMD {
         std::vector<EventHandler> _handlers;
         EventBuffer _event_buffer;
         ClusterBuffer _cluster_buffer;
-        ClusterPrioritizer _prioritizer;
+        ClusterSorter _sorter;
         std::vector<ClusterAnalyzer> _analyzers;
 
         byte_t *_framebuffer;
-        color _colors[NO_CID];
         std::vector<detection> _results;
 
         #if USE_THREADS

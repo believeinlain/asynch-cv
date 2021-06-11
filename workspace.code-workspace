@@ -77,7 +77,14 @@
       "xlocmon": "cpp",
       "xloctime": "cpp",
       "random": "cpp",
-      "fstream": "cpp"
+      "fstream": "cpp",
+      "condition_variable": "cpp",
+      "deque": "cpp",
+      "resumable": "cpp",
+      "future": "cpp",
+      "queue": "cpp",
+      "xthread": "cpp",
+      "xmemory0": "cpp"
     }
   }
 }

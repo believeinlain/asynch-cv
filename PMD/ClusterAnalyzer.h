@@ -6,17 +6,31 @@
 
 namespace PMD {
 
-    class ClusterPrioritizer;
+    class ClusterSorter;
+    class ClusterBuffer;
 
     class ClusterAnalyzer {
+        // PMD refernences
+        ClusterSorter &_sorter;
+        ClusterBuffer &_cluster_buffer;
 
-        ClusterPrioritizer &_prioritizer;
+        // execution parameters
+        parameters _param;
 
-        cid_t _tracking = NO_CID;
+        // cluster that we're currently tracking
+        cid_t _cid = NO_CID;
+
+        detection _status{};
 
     public:
-        ClusterAnalyzer(ClusterPrioritizer &prioritizer, parameters param);
+        ClusterAnalyzer(
+            ClusterSorter &sorter, 
+            ClusterBuffer &cluster_buffer,
+            parameters param
+        );
         ~ClusterAnalyzer();
+
+        detection updateDetection();
     };
 };
 

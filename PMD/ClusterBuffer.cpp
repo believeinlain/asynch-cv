@@ -13,7 +13,7 @@ namespace PMD {
         _is_tracking = false;
     }
 
-    void Cluster::add(xy_t x, xy_t y) {
+    void Cluster::add(int x, int y) {
         ++_weight;
         _x_sum += x;
         _y_sum += y;
@@ -21,7 +21,7 @@ namespace PMD {
         _is_centroid_updated = false;
     }
 
-    void Cluster::remove(xy_t x, xy_t y) {
+    void Cluster::remove(int x, int y) {
         --_weight;
         _x_sum -= x;
         _y_sum -= y;
@@ -29,13 +29,17 @@ namespace PMD {
         _is_centroid_updated = false;
         // cannot track an empty cluster
         if (_weight == 0) _is_tracking = false;
+        // should never happen
+        if (_weight < 0) throw std::exception("Cluster should not have negative weight.");
+        if (_x_sum < 0) throw std::exception("Cluster should not have negative x_sum.");
+        if (_y_sum < 0) throw std::exception("Cluster should not have negative y_sum.");
     }
 
-    bool Cluster::isInRange(xy_t x, xy_t y, uint_t range) {
-        point c = centroid();
-        return (uint_t(abs(x-c.x) + abs(y-c.y)) < range);
+    bool Cluster::isInRange(int x, int y, int range) {
+        const point &c = centroid();
+        return ( ( abs(x-c.x) + abs(y-c.y) ) < range);
     }
-    point Cluster::centroid() {
+    const point &Cluster::centroid() {
         // if we need to, and *can* calculate the centroid, do so
         // otherwise just go with the last saved one
         if (!_is_centroid_updated && (_weight > 0)) {

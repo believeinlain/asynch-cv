@@ -8,8 +8,6 @@ using namespace std;
 
 namespace PMD {
 
-    const double PI = 3.14159265358979311600;
-
     PersistentMotionDetector::PersistentMotionDetector(
         xy_t width, xy_t height, parameters param) : 
         _width(width), _height(height), _param(param),
@@ -17,30 +15,25 @@ namespace PMD {
         _partition(width, height, param.x_div, param.y_div),
         _cluster_buffer(),
         _event_buffer(width, height, param.event_buffer_depth, _cluster_buffer),
-        _prioritizer(_cluster_buffer, param),
+        _sorter(_cluster_buffer, param),
         _framebuffer(nullptr)
     {
         // allocate event handlers and cluster analyzers
         _handlers.reserve(_num_parts);
         for (uint_t i=0; i<_num_parts; ++i)
-            _handlers.push_back(EventHandler(
-                *this, _event_buffer, _cluster_buffer, param));
+            _handlers.push_back(
+                EventHandler(*this, _event_buffer, _cluster_buffer, param));
 
         _analyzers.reserve(param.num_analyzers);
         for (uint_t i=0; i<param.num_analyzers; ++i)
-            _analyzers.push_back(ClusterAnalyzer(
-                _prioritizer, param));
+            _analyzers.push_back(
+                ClusterAnalyzer(_sorter, _cluster_buffer, param));
         
         // tell each event handler where it is
         for (ushort_t i=0; i<param.x_div; ++i)
             for (ushort_t j=0; j<param.y_div; ++j)
                 _handlers[i + j*param.x_div].setPartitionInfo(
                     point(i, j), _partition.getDomain(i, j));
-
-        // generate evenly spaced random colors for each cluster
-        for (cid_t i=0; i<NO_CID; ++i)
-            _colors[i] = color( (float)
-                fmod(double(i)*PI*10.0, 360.0), 1.0);
 
 #if USE_THREADS
             cout<<"Starting PersistentMotionDetector with support for threads :)"<<endl;
@@ -76,9 +69,9 @@ namespace PMD {
             for (uint_t x=0; x<_width; ++x) {
                 for (uint_t y=0; y<_height; ++y) {
                     uint_t xy_index = 3*(_width*y + x);
-                    cid_t pixel_cid = _event_buffer[point(x, y)].cid;
+                    cid_t pixel_cid = _event_buffer.at(x, y).top().cid;
                     if (pixel_cid == NO_CID) continue;
-                    color event_color = _colors[pixel_cid];
+                    color event_color = _sorter.getColor(pixel_cid);
                     for (uint_t z=0; z<3; ++z)
                         _framebuffer[z + xy_index] = event_color[z] / 2;
                 }
@@ -110,21 +103,16 @@ namespace PMD {
             for (uint_t i=0; i<_num_parts; ++i)
                 _handler_jobs[i].wait();
 #else  
-            // handle event buffers sequentially
+            // handle event buffers sequentially (could alternately sort events here)
             for (uint_t i=0; i<_num_parts; ++i)
-                _event_handlers[i]->processEventBuffer(events, num_events);
+                _handlers[i].processEventBuffer(events, num_events);
 #endif
+            // recalculater cluster priorities
+            _sorter.recalculatePriority();
 
+            // analyze the highest priority clusters
             for (uint_t i=0; i<_param.num_analyzers; ++i)
-                results[i] = detection();
-
-            detection &test = results[0];
-            test.is_positive = true;
-            test.x = 320;
-            test.y = 240;
-            test.r = 255;
-            test.g = 255;
-            test.b = 0;
+                results[i] = _analyzers[i].updateDetection();
         }
         catch(const exception& err) 
         {
@@ -142,8 +130,7 @@ namespace PMD {
             uint_t xy_index = 3*(_width*e.y + e.x);
 
             // choose the appropriate color to draw
-            color event_color = (cid==NO_CID) ? 
-                color(120) : _colors[cid];
+            color event_color = _sorter.getColor(cid);
 
             // draw the event on the framebuffer
             for (uint_t z=0; z<3; ++z) 

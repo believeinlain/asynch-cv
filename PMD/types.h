@@ -70,31 +70,48 @@ namespace PMD {
             r(v), g(v), b(v) {}
         color() : r(0), g(0), b(0) {}
         byte_t r, g, b;
-        // allow indexing as an array
+        // allow indexing as an array (bgr order)
         byte_t &operator[](uint_t index) {
             if (index == 1) return g;
-            else if (index == 2) return b;
-            else return r;
+            else if (index == 2) return r;
+            else return b;
         }
     };
 
     struct point {
-        point(xy_t x, xy_t y) : x(x), y(y) {}
+        point(int x, int y) : x(x), y(y) {}
         point() : x(0), y(0) {}
-        xy_t x, y;
+        int x, y;
     };
 
     struct rect {
-        rect(xy_t tlx, xy_t tly, xy_t brx, xy_t bry) : 
+        rect(int tlx, int tly, int brx, int bry) : 
             tl(tlx, tly), br(brx, bry) {}
         rect() : tl(), br() {}
         point tl, br;
-        inline bool contains(xy_t x, xy_t y) {
+        inline bool contains(int x, int y) {
             return (tl.x <= x) 
                 && (tl.y <= y) 
                 && (x < br.x) 
                 && (y < br.y);
         }
+    };
+
+    template<typename T>
+    struct array_2d {
+        const size_t w, h;
+        array_2d(size_t width, size_t height) :
+            w(width), h(height) {
+            _data = new T[width*height]{};
+        }
+        ~array_2d() {
+            delete[] _data;
+        }
+        T &at(size_t x, size_t y) {
+            return _data[x + y*w];
+        }
+    private:
+        T *_data;
     };
 
     // should be exactly 16 bits since this affects cluster buffer size

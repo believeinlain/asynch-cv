@@ -11,12 +11,19 @@ extensions = [
             'PMD\\EventHandler.cpp',
             'PMD\\EventBuffer.cpp',
             'PMD\\ClusterBuffer.cpp',
-            'PMD\\ClusterPrioritizer.cpp',
+            'PMD\\ClusterSorter.cpp',
             'PMD\\ClusterAnalyzer.cpp'
         ],
-        include_dirs = [np.get_include(), 'include\\CTPL'],
+        include_dirs = [
+            np.get_include(), 
+            'include\\CTPL',
+            'C:\\dev\\boost_1_76_0'
+            ],
         language = 'c++',    
-        define_macros = [('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION'), ('USE_THREADS', 1)]
+        define_macros = [
+            ('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION'), 
+            ('USE_THREADS', 0)
+            ]
     )
 ]
 setup(

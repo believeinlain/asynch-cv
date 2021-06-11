@@ -6,6 +6,7 @@
 
 #include <random>
 #include <iostream>
+#include <array>
 
 namespace PMD {
 
@@ -13,9 +14,9 @@ namespace PMD {
         friend class EventBuffer;
 
         ts_t _birth = 0;
-        uint_t _weight = 0;
-        uint_t _x_sum = 0;
-        uint_t _y_sum = 0;
+        int _weight = 0;
+        int _x_sum = 0;
+        int _y_sum = 0;
         bool _is_centroid_updated = false;
         point _centroid{};
         bool _is_tracking = false;
@@ -23,7 +24,7 @@ namespace PMD {
     public:
         // getter references
         const ts_t &birth = _birth;
-        const uint_t &weight = _weight;
+        const int &weight = _weight;
         const bool &is_tracking = _is_tracking;
 
         // reset all values and set new birth time
@@ -31,19 +32,19 @@ namespace PMD {
         // begin tracking this cluster
         void track() { _is_tracking = true; }
 
-        bool isInRange(xy_t x, xy_t y, uint_t range);
-        point centroid();
+        bool isInRange(int x, int y, int range);
+        const point &centroid();
 
     protected:
         // these are only meant to be accessed by the event buffer
         // can otherwise lead to issues with threading
-        void add(xy_t x, xy_t y);
-        void remove(xy_t x, xy_t y);
+        void add(int x, int y);
+        void remove(int x, int y);
     };
 
     class ClusterBuffer {
         // allocate an array up to but not including NO_CID
-        Cluster _buffer[NO_CID];
+        std::array<Cluster, NO_CID> _buffer;
         // rng to assign new cluster ids
         std::mt19937 _rand_gen;
         std::uniform_int_distribution<cid_t> _rand;
