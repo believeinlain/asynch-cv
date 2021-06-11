@@ -14,11 +14,12 @@ namespace PMD {
         // PMD references
         ClusterBuffer &_cluster_buffer;
 
-        // cids in order of priority
-        std::array<cid_t, NO_CID> _priority;
+        // cids in different orders
+        std::array<cid_t, NO_CID> _weight_order;
+        std::array<cid_t, NO_CID> _birth_order;
 
-        // keep track of cluster colors here
-        color _colors[NO_CID];
+        // keep track of cluster colors
+        std::array<color, NO_CID> _colors;
 
     public:
         ClusterSorter(ClusterBuffer &cluster_buffer, parameters param);

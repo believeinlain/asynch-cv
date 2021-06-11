@@ -34,21 +34,21 @@ cdef class PyPMD:
     def __dealloc__(self):
         del self._cpp_PMD
 
-    cpdef detection[:] process_events(self, byte_t[:, :, ::1] frame, event[:] events):
+    cpdef detection[:] process_events(self, byte_t[:, :, ::1] frame, event[:] events, cid_t[:, ::1] indices):
         cdef unsigned int num_events = <unsigned int>len(events)
 
         # allocate results array
         cdef np.ndarray result_array = np.ndarray((self._num_detections,), dtype=[
             ('is_positive', int), 
             ('x', int), ('y', int), 
-            ('r', int), ('g', int), ('b', int)
+            ('r', int), ('g', int), ('b', int),
+            ('cid', int)
         ])
-
         cdef detection[:] results = result_array
 
         # make calls to C++
         self._cpp_PMD.initFramebuffer(&frame[0,0,0])
-        self._cpp_PMD.processEvents(&events[0], num_events, &results[0])
+        self._cpp_PMD.processEvents(&events[0], num_events, &results[0], &indices[0,0])
 
         # return the results
         return results

@@ -3,6 +3,8 @@
 import cv2
 import numpy as np
 from colorsys import hsv_to_rgb
+
+from numpy.core.numeric import indices
 from event_processing import basic_consumer
 from PMD import PyPMD
 
@@ -42,21 +44,37 @@ class pmd_consumer(basic_consumer):
     def process_event_buffer(self, ts, event_buffer):
         # we don't care about ts
         del ts
+        # create a buffer to write cids on
+        indices = np.ascontiguousarray(np.full((self.height, self.width), -1, dtype='u2'))
         # pass events to the pmd to draw
-        detections = self._pmd.process_events(self.frame_to_draw, event_buffer)
+        detections = self._pmd.process_events(self.frame_to_draw, event_buffer, indices)
 
-        for det in detections:
-            if det['is_positive']:
-                px = det['x']
-                py = det['y']
-                r = self.max_cluster_size
-                frame = self.frame_to_draw
-                color = (det['b'], det['g'], det['r'])
-                th = 1
-                cv2.line(frame, (px, py-r), (px+r, py), color, th)
-                cv2.line(frame, (px+r, py), (px, py+r), color, th)
-                cv2.line(frame, (px, py+r), (px-r, py), color, th)
-                cv2.line(frame, (px-r, py), (px, py-r), color, th)
+        positive = [det for det in detections if det['is_positive']]
+
+        for det in positive:
+            det['image'] = np.equal(indices, det['cid'])
+
+        r = self.max_cluster_size
+        
+        for a in positive:
+            for b in positive:
+                if abs(a['x'] - b['x']) <= r and abs(a['y'] - b['y']) <= r:
+                    a['image'] = b['image'] = np.logical_or(a['image'], b['image'])
+
+        for det in positive:
+            px = det['x']
+            py = det['y']
+            frame = self.frame_to_draw
+            color = (det['b'], det['g'], det['r'])
+            th = 1
+            image = np.multiply(255, det['image'], dtype='u1')
+            x, y, w, h = cv2.boundingRect(image)
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (255,255,255), 1)
+            
+            cv2.line(frame, (px, py-r), (px+r, py), color, th)
+            cv2.line(frame, (px+r, py), (px, py+r), color, th)
+            cv2.line(frame, (px, py+r), (px-r, py), color, th)
+            cv2.line(frame, (px-r, py), (px, py-r), color, th)
 
     # def draw_detection(self, id, results):
     #     centroid = tuple(results['centroid'])

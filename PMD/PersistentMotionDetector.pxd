@@ -15,10 +15,12 @@ cdef extern from 'types.h' namespace 'PMD':
         int is_positive
         int x, y
         int r, g, b
+        int cid
 
     ctypedef unsigned short xy_t
     ctypedef int p_t
     ctypedef unsigned long long ts_t
+    ctypedef unsigned short cid_t
 
     cdef packed struct event:
         xy_t x, y
@@ -32,5 +34,5 @@ cdef extern from 'PersistentMotionDetector.h' namespace 'PMD':
         PersistentMotionDetector(int, int, parameters) except +
 
         void initFramebuffer(byte_t *frame)
-        void processEvents(const event *events, int num_events, detection *results)
+        void processEvents(const event *events, int num_events, detection *results, cid_t *indices)
 

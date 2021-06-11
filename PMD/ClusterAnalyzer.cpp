@@ -40,6 +40,8 @@ namespace PMD {
             _status.g = c.g;
             _status.b = c.b;
         }
+        // always update cid
+        _status.cid = _cid;
         return _status;
     }
 };

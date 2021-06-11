@@ -2,18 +2,10 @@
 #ifndef _TYPES_H
 #define _TYPES_H
 
-#include <cstdint>
+#include <limits>
 #include <math.h>
 
 namespace PMD {
-
-    // integer types to make interfacing easier,
-    // since speed and compactness are not super important here
-    struct detection {
-        int is_positive = 0;
-        int x = 0, y = 0;
-        int r = 0, g = 0, b = 0;
-    };
 
     // types used to interface with python bindings
     typedef unsigned short xy_t;
@@ -32,7 +24,7 @@ namespace PMD {
     // this is used to access the framebuffer, so it's important to be a single byte
     typedef unsigned char byte_t;
     
-    // general unsigned integert shorthands
+    // general unsigned integer shorthands
     typedef unsigned int uint_t;
     typedef unsigned int ushort_t;
 
@@ -55,7 +47,7 @@ namespace PMD {
         color(byte_t r, byte_t g, byte_t b) :
             r(r), g(g), b(b) {}
         // hue - float from 0.0 to 360.0, vibrance - float from 0 to 1
-        color(float h, float v) {
+        color(double h, double v) {
             byte_t c = byte_t( v*255.0 );
             byte_t x = byte_t( v*255.0*(1.0 - fabs(fmod(h/60.0, 2.0) - 1.0)) );
             if (h < 60.0) { r = c; g = x; b = 0; }
@@ -114,9 +106,20 @@ namespace PMD {
         T *_data;
     };
 
-    // should be exactly 16 bits since this affects cluster buffer size
-    typedef uint16_t cid_t;
-    const cid_t NO_CID = UINT16_MAX;
+    // max clusters derived from the type size, 
+    // so that the only possible invalid id is NO_CID
+    typedef unsigned short cid_t;
+    const cid_t NO_CID = USHRT_MAX;
+
+    // integer types to make interfacing easier,
+    // since speed and compactness are not super important here
+    struct detection {
+        int is_positive = 0;
+        int x = 0, y = 0;
+        int r = 0, g = 0, b = 0;
+        int cid = NO_CID;
+    };
+
 };
 
 #endif

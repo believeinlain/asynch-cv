@@ -84,10 +84,9 @@ namespace PMD {
     }
 
     void PersistentMotionDetector::processEvents(
-        const event *events, uint_t num_events, detection *results) {
+        const event *events, uint_t num_events, detection *results, cid_t *indices) {
         try 
         {
-            
 #if USE_THREADS
             // branch off each event handler to a separate thread to handle events
             for (uint_t i=0; i<_num_parts; ++i) {
@@ -111,6 +110,17 @@ namespace PMD {
             // analyze the highest priority clusters
             for (uint_t i=0; i<_param.num_analyzers; ++i)
                 results[i] = _analyzers[i].updateDetection();
+
+            // draw the index map
+            for (size_t x=0; x<_width; ++x)
+                for (size_t y=0; y<_height; ++y)
+                    indices[x + y*_width] = _event_buffer.at(x, y).top().cid;
+
+#if USE_THREADS
+            // wait until all tasks finish
+            for (uint_t i=0; i<_num_parts; ++i)
+                _handler_jobs[i].wait();
+#endif
         }
         catch(const exception& err) 
         {
