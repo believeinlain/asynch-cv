@@ -8,26 +8,26 @@ using namespace std;
 
 namespace PMD {
 
-    PersistentMotionDetector::PersistentMotionDetector(
-        xy_t width, xy_t height, parameters param) : 
-        _width(width), _height(height), _param(param),
-        _num_parts(param.x_div*param.y_div),
+    PersistentMotionDetector::PersistentMotionDetector(parameters p) : 
+        _p(p),
+        _bounds(0, 0, p.width, p.height),
+        _num_parts(p.x_div*p.y_div),
         _cluster_buffer(),
-        _event_buffer(width, height, param.event_buffer_depth, _cluster_buffer),
-        _sorter(_cluster_buffer, param),
+        _event_buffer(p.width, p.height, p.event_buffer_depth, _cluster_buffer),
+        _sorter(_cluster_buffer, p),
         _framebuffer(nullptr)
     {
         // allocate event handlers and cluster analyzers
         _handlers.reserve(_num_parts);
-        for (ushort_t i=0; i<param.x_div; ++i)
-            for (ushort_t j=0; j<param.y_div; ++j)
+        for (ushort_t i=0; i<p.x_div; ++i)
+            for (ushort_t j=0; j<p.y_div; ++j)
                 _handlers.push_back(
-                    EventHandler(*this, _event_buffer, _cluster_buffer, point(i, j), param));
+                    EventHandler(*this, _event_buffer, _cluster_buffer, point(i, j), p));
 
-        _analyzers.reserve(param.num_analyzers);
-        for (uint_t i=0; i<param.num_analyzers; ++i)
+        _analyzers.reserve(p.num_analyzers);
+        for (uint_t i=0; i<p.num_analyzers; ++i)
             _analyzers.push_back(
-                ClusterAnalyzer(_sorter, _cluster_buffer, param));
+                ClusterAnalyzer(_sorter, _cluster_buffer, p));
 
 #if USE_THREADS
             cout<<"Starting PersistentMotionDetector with support for threads :)"<<endl;
@@ -58,9 +58,9 @@ namespace PMD {
         try 
         {   
             _framebuffer = frame;
-            for (uint_t x=0; x<_width; ++x) {
-                for (uint_t y=0; y<_height; ++y) {
-                    uint_t xy_index = 3*(_width*y + x);
+            for (uint_t x=0; x<_bounds.width; ++x) {
+                for (uint_t y=0; y<_bounds.height; ++y) {
+                    uint_t xy_index = 3*(_bounds.width*y + x);
                     cid_t pixel_cid = _event_buffer.at(x, y).top().cid;
                     if (pixel_cid == NO_CID) continue;
                     color event_color = _sorter.getColor(pixel_cid);
@@ -102,13 +102,13 @@ namespace PMD {
             _sorter.recalculatePriority();
 
             // analyze the highest priority clusters
-            for (uint_t i=0; i<_param.num_analyzers; ++i)
+            for (uint_t i=0; i<_p.num_analyzers; ++i)
                 results[i] = _analyzers[i].updateDetection();
 
             // draw the index map
-            for (size_t x=0; x<_width; ++x)
-                for (size_t y=0; y<_height; ++y)
-                    indices[x + y*_width] = _event_buffer.at(x, y).top().cid;
+            for (size_t x=0; x<_bounds.width; ++x)
+                for (size_t y=0; y<_bounds.height; ++y)
+                    indices[x + y*_bounds.width] = _event_buffer.at(x, y).top().cid;
 
 #if USE_THREADS
             // wait until all tasks finish
@@ -129,7 +129,7 @@ namespace PMD {
         {
             if (_framebuffer == nullptr) return;
 
-            uint_t xy_index = 3*(_width*e.y + e.x);
+            uint_t xy_index = 3*(_bounds.width*e.y + e.x);
 
             // choose the appropriate color to draw
             color event_color = _sorter.getColor(cid);

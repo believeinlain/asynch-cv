@@ -56,8 +56,8 @@ namespace PMD {
     }
 
     void EventBuffer::flushDomain(ts_t th, rect domain) {
-        for (size_t x = domain.tl.x; x < domain.br.x; ++x) {
-            for (size_t y = domain.tl.y; y < domain.br.y; ++y) {
+        for (int x = domain.tl.x; x < domain.br.x; ++x) {
+            for (int y = domain.tl.y; y < domain.br.y; ++y) {
                 for (size_t z = 0; z < _depth; ++z) {
                     auto ts = _buffer->at(x, y)[z].t;
                     auto cid = _buffer->at(x, y)[z].cid;

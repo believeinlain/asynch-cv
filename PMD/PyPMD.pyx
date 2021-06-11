@@ -31,7 +31,7 @@ cdef class PyPMD:
 
         self._num_detections = c_param.num_analyzers
 
-        self._cpp_PMD = new PersistentMotionDetector(width, height, c_param)
+        self._cpp_PMD = new PersistentMotionDetector(c_param)
     
     def __dealloc__(self):
         del self._cpp_PMD

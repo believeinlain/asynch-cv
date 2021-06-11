@@ -23,11 +23,10 @@ namespace PMD {
     class PersistentMotionDetector {
         // friend so event handler can draw events
         friend class EventHandler;
-        
-        xy_t _width, _height;
 
-        parameters _param;
-        uint_t _num_parts;
+        const parameters _p;
+        const uint_t _num_parts;
+        const rect _bounds;
 
         std::vector<EventHandler> _handlers;
         EventBuffer _event_buffer;
@@ -45,7 +44,7 @@ namespace PMD {
         #endif
 
     public:
-        PersistentMotionDetector(xy_t width, xy_t height, parameters param);
+        PersistentMotionDetector(parameters param);
         ~PersistentMotionDetector();
 
         void initFramebuffer(byte_t *frame);

@@ -85,9 +85,9 @@ namespace PMD {
     struct rect {
         rect(int tlx, int tly, int brx, int bry) : 
             tl(tlx, tly), br(brx, bry), 
-            width(tl.x - br.x), height(tl.y - br.y) {}
+            width(brx - tlx), height(bry - tly) {}
         const point tl, br;
-        const int width, height;
+        const unsigned int width, height;
         inline bool contains(int x, int y) const {
             return (tl.x <= x) 
                 && (tl.y <= y) 

@@ -32,7 +32,7 @@ cdef extern from 'types.h' namespace 'PMD':
 
 cdef extern from 'PersistentMotionDetector.h' namespace 'PMD':
     cdef cppclass PersistentMotionDetector:
-        PersistentMotionDetector(int, int, parameters) except +
+        PersistentMotionDetector(parameters) except +
 
         void initFramebuffer(byte_t *frame)
         void processEvents(const event *events, int num_events, detection *results, cid_t *indices)

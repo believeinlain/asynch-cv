@@ -33,7 +33,6 @@
         "sources": [
             "PMD\\PyPMD.pyx",
             "PMD\\PersistentMotionDetector.cpp",
-            "PMD\\Partition.cpp",
             "PMD\\EventHandler.cpp",
             "PMD\\EventBuffer.cpp",
             "PMD\\ClusterBuffer.cpp",
@@ -3082,7 +3081,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
  * 
  *         self._num_detections = c_param.num_analyzers             # <<<<<<<<<<<<<<
  * 
- *         self._cpp_PMD = new PersistentMotionDetector(width, height, c_param)
+ *         self._cpp_PMD = new PersistentMotionDetector(c_param)
  */
   __pyx_t_3 = __pyx_v_c_param.num_analyzers;
   __pyx_v_self->_num_detections = __pyx_t_3;
@@ -3090,12 +3089,12 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   /* "PMD/PyPMD.pyx":34
  *         self._num_detections = c_param.num_analyzers
  * 
- *         self._cpp_PMD = new PersistentMotionDetector(width, height, c_param)             # <<<<<<<<<<<<<<
+ *         self._cpp_PMD = new PersistentMotionDetector(c_param)             # <<<<<<<<<<<<<<
  * 
  *     def __dealloc__(self):
  */
   try {
-    __pyx_t_4 = new PMD::PersistentMotionDetector(__pyx_v_width, __pyx_v_height, __pyx_v_c_param);
+    __pyx_t_4 = new PMD::PersistentMotionDetector(__pyx_v_c_param);
   } catch(...) {
     __Pyx_CppExn2PyErr();
     __PYX_ERR(1, 34, __pyx_L1_error)
@@ -3124,7 +3123,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
 }
 
 /* "PMD/PyPMD.pyx":36
- *         self._cpp_PMD = new PersistentMotionDetector(width, height, c_param)
+ *         self._cpp_PMD = new PersistentMotionDetector(c_param)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
  *         del self._cpp_PMD
@@ -3156,7 +3155,7 @@ static void __pyx_pf_3PMD_5PyPMD_5PyPMD_2__dealloc__(struct __pyx_obj_3PMD_5PyPM
   delete __pyx_v_self->_cpp_PMD;
 
   /* "PMD/PyPMD.pyx":36
- *         self._cpp_PMD = new PersistentMotionDetector(width, height, c_param)
+ *         self._cpp_PMD = new PersistentMotionDetector(c_param)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
  *         del self._cpp_PMD
