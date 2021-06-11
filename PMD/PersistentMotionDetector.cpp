@@ -39,10 +39,8 @@ namespace PMD {
             cout<<"Starting PersistentMotionDetector with support for threads :)"<<endl;
             int num_parallel = thread::hardware_concurrency();
             cout<<"Hardware supports up to "<<num_parallel<<" concurrent threads."<<endl;
-            // create 2 threads for each usable core
-            // this allows for some cpu optimization for core sharing
-            // since every thread wont be active all the time
-            _threads = new ctpl::thread_pool(num_parallel*2);
+            // create a thread for each usable core
+            _threads = new ctpl::thread_pool(num_parallel);
             // allocate space for job futures
             _handler_jobs = new future<void>[_num_parts];
 #else
@@ -125,10 +123,6 @@ namespace PMD {
     void PersistentMotionDetector::drawEvent(event e, cid_t cid) {
         try 
         {
-// #if USE_THREADS
-//             // -- lock buffer for access
-//             _framebuffer_access.lock();
-// #endif
             if (_framebuffer == nullptr) return;
 
             uint_t xy_index = 3*(_width*e.y + e.x);
@@ -139,10 +133,6 @@ namespace PMD {
             // draw the event on the framebuffer
             for (uint_t z=0; z<3; ++z) 
                 _framebuffer[z + xy_index] = event_color[z];
-// #if USE_THREADS
-//             // -- release buffer lock
-//             _framebuffer_access.unlock();
-// #endif
         } 
         catch(const exception& err) 
         {

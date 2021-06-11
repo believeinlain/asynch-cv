@@ -89,7 +89,7 @@ namespace PMD {
             tl(tlx, tly), br(brx, bry) {}
         rect() : tl(), br() {}
         point tl, br;
-        inline bool contains(int x, int y) {
+        inline bool contains(int x, int y) const {
             return (tl.x <= x) 
                 && (tl.y <= y) 
                 && (x < br.x) 

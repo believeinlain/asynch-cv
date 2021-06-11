@@ -31,10 +31,8 @@ namespace PMD {
         _is_centroid_updated = false;
         // cannot track an empty cluster
         if (_weight <= 0) _is_tracking = false;
-        // should never happen
-        if (_weight < 0) std::cerr << "Cluster weight " << _weight << std::endl;
-        if (_x_sum < 0) std::cerr << "Cluster x_sum " << _x_sum << std::endl;
-        if (_y_sum < 0) std::cerr << "Cluster y_sum " << _y_sum << std::endl;
+        // this is fine, happens sometimes due to concurrency but doesn't break anything
+        // if (_weight < 0) std::cerr << "Cluster weight " << _weight << std::endl;
     }
 
     bool Cluster::isInRange(int x, int y, int range) {

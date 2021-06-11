@@ -74,7 +74,7 @@ namespace PMD {
 
         // return number of adjacent events within tf
         // vector of adjacent cids within tc -> out_adjacent
-        std::map<cid_t, ushort_t> checkVicinity(const rect &domain,
+        std::map<cid_t, ushort_t> checkVicinity(const rect &d,
             event e, ts_t tf, ts_t tc, ushort_t &num_adjacent);
 
         // flush expired events and remove from cluster buffer

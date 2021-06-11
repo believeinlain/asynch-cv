@@ -17,7 +17,7 @@ extensions = [
         include_dirs = [
             np.get_include(), 
             'include\\CTPL',
-            'C:\\dev\\boost_1_76_0'
+            'C:\\dev\\CTPL'
             ],
         language = 'c++',    
         define_macros = [

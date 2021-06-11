@@ -9,11 +9,11 @@ data_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 annot_root = './example_annotations/'
 
 # group = 'june_12'
-# test = 3
+# test = 9
 # file_type = '.aedat4'
 
 group = 'april_29'
-test = 4
+test = 6
 file_type = '.raw'
 
 boat_tests = {

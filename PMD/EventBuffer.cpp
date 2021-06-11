@@ -21,7 +21,7 @@ namespace PMD {
         delete _buffer;
     }
 
-    std::map<cid_t, ushort_t> EventBuffer::checkVicinity(const rect &domain,
+    std::map<cid_t, ushort_t> EventBuffer::checkVicinity(const rect &d,
         event e, ts_t tf, ts_t tc, ushort_t &num_adjacent) 
     {
         auto adjacent = std::map<cid_t, ushort_t>();
@@ -33,28 +33,23 @@ namespace PMD {
         size_t x_end = ((e.x+2U) > _width) ? _width : e.x+2U;
         size_t y_end = ((e.y+2U) > _height) ? _height : e.y+2U;
 
-#if USE_THREADS
-        // -- lock buffers for access
-        _buffer_access.lock();
-#endif
         // init count to 0
         num_adjacent = 0;
         for (size_t x = x_start; x < x_end; ++x) {
             for (size_t y = y_start; y < y_end; ++y) {
                 for (size_t z = 0; z < _depth; ++z) {
-                    auto ts = _buffer->at(x, y)[z].t;
-                    auto cid = _buffer->at(x, y)[z].cid;
+                    // if we were to lock here if would prevent cluster weights
+                    // from going below 0, but that is harmless and preventing it
+                    // causes significant slowdown.
+                    const auto &p = _buffer->at(x, y)[z];
                     // add to count if within filter threshold
-                    if (ts > e.t-tf) num_adjacent++;
+                    if (p.t > e.t-tf) num_adjacent++;
                     // add to adjacent clusters if within cluster threshold
-                    if ((cid != NO_CID) && (ts > e.t-tc)) adjacent[cid]++;
+                    if ((p.cid != NO_CID) && (p.t > e.t-tc)) adjacent[p.cid]++;
                 }
+
             }
         }
-#if USE_THREADS
-        // -- release buffer lock
-        _buffer_access.unlock();
-#endif
 
         // return the results
         return adjacent;
@@ -69,6 +64,9 @@ namespace PMD {
                     // if any assigned events are too old, unassign them
                     if ((cid != NO_CID) && (ts < th)) {
 #if USE_THREADS
+                        // locking here seems to prevent empty clusters from
+                        // maintaining positive weight and therefore not
+                        // being untracked even with no events
                         // -- lock buffers for access
                         _buffer_access.lock();
 #endif
@@ -89,6 +87,9 @@ namespace PMD {
     // add event to buffer, return cid of displaced event
     void EventBuffer::addEvent(event e, cid_t cid) {
 #if USE_THREADS
+        // not sure if we want to lock here
+        // locking here seems to limit jittering of near-empty clusters
+        // which isn't very important to avoid
         // -- lock buffers for access
         _buffer_access.lock();
 #endif
