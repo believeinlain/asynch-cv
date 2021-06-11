@@ -7,7 +7,6 @@ extensions = [
         [
             'PMD\\PyPMD.pyx',
             'PMD\\PersistentMotionDetector.cpp',
-            'PMD\\Partition.cpp',
             'PMD\\EventHandler.cpp',
             'PMD\\EventBuffer.cpp',
             'PMD\\ClusterBuffer.cpp',

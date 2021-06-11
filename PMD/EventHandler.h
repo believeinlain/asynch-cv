@@ -18,7 +18,7 @@ namespace PMD {
         ClusterBuffer &_cluster_buffer;
 
         // execution parameters
-        parameters _param;
+        parameters _p;
 
         // partition index of this handler
         point _place;
@@ -32,10 +32,8 @@ namespace PMD {
 
     public:
         EventHandler(PersistentMotionDetector &pmd, EventBuffer &event_buffer, 
-            ClusterBuffer &cluster_buffer, parameters param);
+            ClusterBuffer &cluster_buffer, point place, parameters p);
         ~EventHandler() {}
-
-        void setPartitionInfo(point place, rect domain);
 
         // process an entire buffer of events
         void processEventBuffer(const event *events, size_t num_events);

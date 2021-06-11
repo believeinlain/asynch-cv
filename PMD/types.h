@@ -4,6 +4,10 @@
 
 #include <limits>
 #include <math.h>
+#include <algorithm>
+
+using std::min;
+using std::max;
 
 namespace PMD {
 
@@ -30,6 +34,8 @@ namespace PMD {
 
     // execution parameters
     struct parameters {
+        uint_t width;
+        uint_t height;
         ushort_t x_div = 8;
         ushort_t y_div = 8;
         uint_t us_per_event = 0;
@@ -78,14 +84,19 @@ namespace PMD {
 
     struct rect {
         rect(int tlx, int tly, int brx, int bry) : 
-            tl(tlx, tly), br(brx, bry) {}
-        rect() : tl(), br() {}
-        point tl, br;
+            tl(tlx, tly), br(brx, bry), 
+            width(tl.x - br.x), height(tl.y - br.y) {}
+        const point tl, br;
+        const int width, height;
         inline bool contains(int x, int y) const {
             return (tl.x <= x) 
                 && (tl.y <= y) 
                 && (x < br.x) 
                 && (y < br.y);
+        }
+        inline rect intersection(const rect other) const {
+            return rect(max(tl.x, other.tl.x), max(tl.y, other.tl.y),
+                min(br.x, other.br.x), min(br.y, other.br.y));
         }
     };
 

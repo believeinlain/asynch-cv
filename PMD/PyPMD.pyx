@@ -16,6 +16,8 @@ cdef class PyPMD:
         self._height = height
 
         cdef parameters c_param
+        c_param.width = width
+        c_param.height = height
         c_param.x_div = param.get('x_div', 8)
         c_param.y_div = param.get('y_div', 8)
         c_param.us_per_event = param.get('us_per_event', 0)

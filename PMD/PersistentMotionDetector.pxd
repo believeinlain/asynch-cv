@@ -3,6 +3,7 @@ from libcpp cimport bool
 
 cdef extern from 'types.h' namespace 'PMD':
     cdef packed struct parameters:
+        int width, height
         int x_div, y_div
         int us_per_event
         int event_buffer_depth

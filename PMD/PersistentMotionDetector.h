@@ -3,7 +3,6 @@
 #define _PERSISTENT_MOTION_DETECTOR_H
 
 #include "types.h"
-#include "Partition.h"
 #include "EventHandler.h"
 #include "EventBuffer.h"
 #include "ClusterBuffer.h"
@@ -30,7 +29,6 @@ namespace PMD {
         parameters _param;
         uint_t _num_parts;
 
-        Partition _partition;
         std::vector<EventHandler> _handlers;
         EventBuffer _event_buffer;
         ClusterBuffer _cluster_buffer;

@@ -10,18 +10,21 @@ namespace PMD {
         PersistentMotionDetector &pmd, 
         EventBuffer &event_buffer, 
         ClusterBuffer &cluster_buffer,
-        parameters param
+        point place,
+        parameters p
     ) :
         _pmd(pmd), 
         _event_buffer(event_buffer), 
         _cluster_buffer(cluster_buffer), 
-        _param(param)
+        _place(place),
+        _p(p),
+        _domain(
+            (p.width/p.x_div)*(place.x),
+            (p.height/p.y_div)*(place.y),
+            (p.width/p.x_div)*(place.x+1),
+            (p.height/p.y_div)*(place.y+1)
+        )
     {}
-    
-    void EventHandler::setPartitionInfo(point place, rect domain) {
-        _place = place;
-        _domain = domain;
-    }
 
     void EventHandler::processEventBuffer(
         const event *events, size_t num_events) 
@@ -44,11 +47,11 @@ namespace PMD {
             // process the event
             ushort_t count = 0;
             auto adj = _event_buffer.checkVicinity(_domain,
-                e, _param.tf, _param.tc, count);
+                e, _p.tf, _p.tc, count);
             
             cid_t assigned = NO_CID;
             // cluster only if passed the correlational filter
-            if (count >= _param.n) {
+            if (count >= _p.n) {
                 bool in_range;
                 do {
                     // if no adjacent clusters, make a new one
@@ -68,7 +71,7 @@ namespace PMD {
                                     < _cluster_buffer[assigned].birth) )
                                     assigned = i->first;
                         }
-                        in_range = _cluster_buffer[assigned].isInRange(e.x, e.y, _param.max_cluster_size);
+                        in_range = _cluster_buffer[assigned].isInRange(e.x, e.y, _p.max_cluster_size);
                         // if the centroid of the assigned cluster is too far, don't join it
                         if (!in_range) adj.erase(assigned);
                     }
@@ -83,16 +86,16 @@ namespace PMD {
             _event_buffer.addEvent(e, assigned);
 
             // compute when we'll be ready for another event
-            _next_idle_time = e.t + _param.us_per_event;
+            _next_idle_time = e.t + _p.us_per_event;
         }
     }
 
     inline void EventHandler::processUntil(ts_t t) {
         // check if it's time to flush the buffer
-        if (t > _last_buffer_flush+_param.buffer_flush_period) {
+        if (t > _last_buffer_flush+_p.buffer_flush_period) {
             // flush the buffer if it's time
             _last_buffer_flush = t;
-            _event_buffer.flushDomain(t-_param.tc, _domain);
+            _event_buffer.flushDomain(t-_p.tc, _domain);
         }
     }
 };

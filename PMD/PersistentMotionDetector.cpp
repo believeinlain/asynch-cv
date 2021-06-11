@@ -12,7 +12,6 @@ namespace PMD {
         xy_t width, xy_t height, parameters param) : 
         _width(width), _height(height), _param(param),
         _num_parts(param.x_div*param.y_div),
-        _partition(width, height, param.x_div, param.y_div),
         _cluster_buffer(),
         _event_buffer(width, height, param.event_buffer_depth, _cluster_buffer),
         _sorter(_cluster_buffer, param),
@@ -20,20 +19,15 @@ namespace PMD {
     {
         // allocate event handlers and cluster analyzers
         _handlers.reserve(_num_parts);
-        for (uint_t i=0; i<_num_parts; ++i)
-            _handlers.push_back(
-                EventHandler(*this, _event_buffer, _cluster_buffer, param));
+        for (ushort_t i=0; i<param.x_div; ++i)
+            for (ushort_t j=0; j<param.y_div; ++j)
+                _handlers.push_back(
+                    EventHandler(*this, _event_buffer, _cluster_buffer, point(i, j), param));
 
         _analyzers.reserve(param.num_analyzers);
         for (uint_t i=0; i<param.num_analyzers; ++i)
             _analyzers.push_back(
                 ClusterAnalyzer(_sorter, _cluster_buffer, param));
-        
-        // tell each event handler where it is
-        for (ushort_t i=0; i<param.x_div; ++i)
-            for (ushort_t j=0; j<param.y_div; ++j)
-                _handlers[i + j*param.x_div].setPartitionInfo(
-                    point(i, j), _partition.getDomain(i, j));
 
 #if USE_THREADS
             cout<<"Starting PersistentMotionDetector with support for threads :)"<<endl;
