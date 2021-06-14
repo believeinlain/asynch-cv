@@ -40,6 +40,8 @@ namespace PMD {
         uint_t buffer_flush_period = 1000;
         uint_t max_cluster_size = 50;
         uint_t num_analyzers = 8;
+        uint_t sample_period = 10000;
+        ts_t sample_duration = 320000;
     };
 
     struct color {
