@@ -44,7 +44,7 @@ namespace PMD {
         #endif
 
     public:
-        PersistentMotionDetector(parameters param);
+        PersistentMotionDetector(parameters p);
         ~PersistentMotionDetector();
 
         void initFramebuffer(byte_t *frame);

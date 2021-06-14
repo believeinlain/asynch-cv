@@ -9,13 +9,10 @@ using namespace std;
 namespace PMD {
 
     PersistentMotionDetector::PersistentMotionDetector(parameters p) : 
-        _p(p),
-        _bounds(0, 0, p.width, p.height),
-        _num_parts(p.x_div*p.y_div),
+        _p(p), _bounds(0, 0, p.width, p.height), _num_parts(p.x_div*p.y_div), 
         _cluster_buffer(),
         _event_buffer(p.width, p.height, p.event_buffer_depth, _cluster_buffer),
-        _sorter(_cluster_buffer, p),
-        _framebuffer(nullptr)
+        _sorter(_cluster_buffer, p), _framebuffer(nullptr)
     {
         // allocate event handlers and cluster analyzers
         _handlers.reserve(_num_parts);
