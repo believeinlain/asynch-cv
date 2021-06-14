@@ -84,6 +84,9 @@ play_file(
             'max_cluster_size': 50, # maximum taxicab dist from center of cluster to each event
             'num_analyzers': 8,
 
+            'sample_period': 10_000, # microseconds between each centroid position sample
+            'sample_length': 320_000, # microsecond duration to record samples for each cluster
+
             # 'temporal_filter': 5_000,
             # 'cluster_profile_length': 16,
             # 'stability_threshold': 1.5,
