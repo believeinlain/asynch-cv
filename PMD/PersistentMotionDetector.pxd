@@ -11,6 +11,8 @@ cdef extern from 'types.h' namespace 'PMD':
         int buffer_flush_period
         int max_cluster_size
         int num_analyzers
+        int sample_period
+        int sample_duration
 
     cdef packed struct detection:
         int is_positive
