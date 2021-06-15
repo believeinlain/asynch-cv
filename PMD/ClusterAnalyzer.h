@@ -3,7 +3,7 @@
 #define _CLUSTER_ANALYZER_H
 
 #include "types.h"
-#include <list>
+#include <map>
 
 namespace PMD {
 
@@ -25,7 +25,7 @@ namespace PMD {
         detection _status;
 
         // collection of samples
-        std::list<std::pair<ts_t, point_f>> _samples;
+        std::map<ts_t, point_f> _samples;
 
     public:
         ClusterAnalyzer(

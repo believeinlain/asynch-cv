@@ -29,7 +29,8 @@ cdef class PyPMD:
         c_param.max_cluster_size = param.get('max_cluster_size', 50)
         c_param.num_analyzers = param.get('num_analyzers', 8)
         c_param.sample_period = param.get('sample_period', 10_000)
-        c_param.sample_collection_duration = param.get('sample_collection_duration', 320_000)
+        c_param.long_duration = param.get('long_duration', 1_000_000)
+        c_param.short_duration = param.get('short_duration', 100_000)
         c_param.velocity_threshold = param.get('velocity_threshold', 10)
 
         self._num_detections = c_param.num_analyzers
@@ -48,7 +49,8 @@ cdef class PyPMD:
             ('x', int), ('y', int), 
             ('r', int), ('g', int), ('b', int),
             ('cid', int),
-            ('v_x', np.float32), ('v_y', np.float32),
+            ('long_v_x', np.float32), ('long_v_y', np.float32),
+            ('short_v_x', np.float32), ('short_v_y', np.float32),
             ('path_length', int),
             ('stability', int),
             ('consistency', np.float32)

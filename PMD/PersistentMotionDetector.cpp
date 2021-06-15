@@ -80,11 +80,11 @@ namespace PMD {
         {
             // cout << "Entered simulate function: num_events " << num_events << endl;
             // recalculate cluster priorities
-            _sorter.recalculatePriority();
+            // _sorter.recalculatePriority();
 
             // reassign clusters if necessary
-            for (uint_t i=0; i<_p.num_analyzers; ++i)
-                _analyzers[i].reassignCluster();
+            // for (uint_t i=0; i<_p.num_analyzers; ++i)
+            //     _analyzers[i].reassignCluster();
 
             // identify events from the start of this buffer to last sample time + sample period
             uint_t start_event = 0;
@@ -108,18 +108,22 @@ namespace PMD {
                 // process the events in the current sample
                 processEvents(events + start_event, end_event - start_event);
 
-                // task the cluster analyzers with updating their cluster analysis
-                for (uint_t i=0; i<_p.num_analyzers; ++i)
-                    _analyzers[i].sampleCluster(_last_sample_time);
+                _sorter.recalculatePriority();
 
+                // task the cluster analyzers with updating their cluster analysis
+                for (uint_t i=0; i<_p.num_analyzers; ++i) {
+                    _analyzers[i].reassignCluster();
+                    _analyzers[i].sampleCluster(_last_sample_time);
+                    results[i] = _analyzers[i].updateDetection();
+                }
                 // advance the start event to the next sample
                 start_event = end_event;
 
             } while (start_event < num_events);
 
             // update analysis results
-            for (uint_t i=0; i<_p.num_analyzers; ++i)
-                results[i] = _analyzers[i].updateDetection();
+            // for (uint_t i=0; i<_p.num_analyzers; ++i)
+            //     results[i] = _analyzers[i].updateDetection();
 
             // draw the index map
             for (size_t x=0; x<_bounds.width; ++x)

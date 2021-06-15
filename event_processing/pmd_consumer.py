@@ -60,31 +60,51 @@ class pmd_consumer(basic_consumer):
                     a['image'] = b['image'] = np.logical_or(a['image'], b['image'])
 
         for det in positive:
-            px = det['x']
-            py = det['y']
+            (px, py) = (det['x'], det['y'])
+            
             frame = self.frame_to_draw
             color = (det['b'], det['g'], det['r'])
             th = 1
             image = np.multiply(255, det['image'], dtype='u1')
             x, y, w, h = cv2.boundingRect(image)
 
-            scale = 10
-            path = det['path_length']
-            radius = sqrt(det['v_x']**2 + det['v_y']**2)
-            cv2.arrowedLine(frame, (px, py), (int(px+det['v_x']*scale), int(py+det['v_y']*scale)), color, th)
-            cv2.circle(frame, (px, py), int(radius*scale), color, th)
-            cv2.putText(frame, f"{det['stability']}", (px, py), cv2.FONT_HERSHEY_PLAIN, 1, color, th, cv2.LINE_AA)
+            diff_x = det['long_v_x'] - det['short_v_x']
+            diff_y = det['long_v_y'] - det['short_v_y']
 
-            conf = 1-exp(-0.005*det['stability']) if det['stability'] > 0 else 0
+            diff_radius = sqrt(diff_x**2 + diff_y**2)
+            long_radius = sqrt(det['long_v_x']**2 + det['long_v_y']**2)
+
+            scale = 5
+            # cv2.arrowedLine(frame, (px, py), (int(px+diff_x*scale), int(py+diff_y*scale)), color, th)
+            
+            cv2.arrowedLine(frame, (px, py), (int(px+det['long_v_x']*scale), int(py+det['long_v_y']*scale)), color, th)
+            cv2.arrowedLine(frame, (px, py), (int(px+det['short_v_x']*scale), int(py+det['short_v_y']*scale)), color, th)
+            # if long_radius > 0:
+            #     cv2.circle(frame, (px, py), int(diff_radius/long_radius*scale), color, th)
+
+            ratio = diff_radius/long_radius if long_radius > 0 else 0
+            times_over = long_radius/ratio if ratio > 0 else 0
+            
+            cv2.putText(frame, f"{det['stability']:0.2f}", (px, py), cv2.FONT_HERSHEY_PLAIN, 1, color, th, cv2.LINE_AA)
+            cv2.line(frame, (px, py-r), (px+r, py), color, th)
+            cv2.line(frame, (px+r, py), (px, py+r), color, th)
+            cv2.line(frame, (px, py+r), (px-r, py), color, th)
+            cv2.line(frame, (px-r, py), (px, py-r), color, th)
+
+            conf = 1-exp(-0.0005*det['stability'])
 
             if conf > 0.5:
                 cv2.putText(frame, f"{conf:0.2f}", (x, y), cv2.FONT_HERSHEY_PLAIN, 1, (255,255,255), th, cv2.LINE_AA)
                 cv2.rectangle(frame, (x, y), (x+w, y+h), (255,255,255), 1)
+
+            # cv2.putText(frame, f"{det['stability']}", (px, py), cv2.FONT_HERSHEY_PLAIN, 1, color, th, cv2.LINE_AA)
+
+            # conf = 1-exp(-0.005*det['stability']) if det['stability'] > 0 else 0
+
+            # if conf > 0.5:
+            #     cv2.rectangle(frame, (x, y), (x+w, y+h), (255,255,255), 1)
                 
-                cv2.line(frame, (px, py-r), (px+r, py), color, th)
-                cv2.line(frame, (px+r, py), (px, py+r), color, th)
-                cv2.line(frame, (px, py+r), (px-r, py), color, th)
-                cv2.line(frame, (px-r, py), (px, py-r), color, th)
+            
 
     # def draw_detection(self, id, results):
     #     centroid = tuple(results['centroid'])

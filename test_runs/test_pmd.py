@@ -13,7 +13,7 @@ test = 3
 file_type = '.aedat4'
 
 # group = 'april_29'
-# test = 6
+# test = 3
 # file_type = '.raw'
 
 boat_tests = {
@@ -55,46 +55,47 @@ boat_tests = {
     }
 }
 
-# for test in boat_tests[group].keys():
+for test in boat_tests[group].keys():
 
-filename = os.path.join(group, boat_tests[group][test])
-run_name = f'{group}_run_{test:02d}'
+    filename = os.path.join(group, boat_tests[group][test])
+    run_name = f'{group}_run_{test:02d}'
 
-data_path = os.path.join(os.path.expanduser('~\\'), data_root, filename)+file_type
-annot_path = os.path.join(annot_root, filename)+'.xml'
+    data_path = os.path.join(os.path.expanduser('~\\'), data_root, filename)+file_type
+    annot_path = os.path.join(annot_root, filename)+'.xml'
 
-play_file(
-    filename=data_path,
-    dt=33,
-    event_consumer=pmd_consumer,
-    consumer_args={
-        'run_name': run_name,
-        'annot_file': annot_path,
-        # 'video_out': run_name+'.avi',
-        'filetype': file_type,
-        'parameters': {
-            'x_div': 4, # number of horizontal divisions
-            'y_div': 4, # number of vertical divisions
-            'us_per_event': 50, # processing time alloted to each event handler to process events
-            'event_buffer_depth': 4, # number of events to remember for each (x, y) position
-            'tf': 300_000, # how far back in time to consider events for filtering
-            'tc': 150_000, # how far back in time to consider events for clustering
-            'n': 5, # minimum number of correlated events required to allow a particular event through the filter
-            'max_cluster_size': 30, # maximum taxicab dist from center of cluster to each event
-            'buffer_flush_period': 10_000, # microseconds periodicity to flush expired (>tc) events from buffer
-            'num_analyzers': 8,
+    play_file(
+        filename=data_path,
+        dt=33,
+        event_consumer=pmd_consumer,
+        consumer_args={
+            'run_name': run_name,
+            'annot_file': annot_path,
+            # 'video_out': run_name+'.avi',
+            'filetype': file_type,
+            'parameters': {
+                'x_div': 4, # number of horizontal divisions
+                'y_div': 4, # number of vertical divisions
+                'us_per_event': 100, # processing time alloted to each event handler to process events
+                'event_buffer_depth': 4, # number of events to remember for each (x, y) position
+                'tf': 300_000, # how far back in time to consider events for filtering
+                'tc': 200_000, # how far back in time to consider events for clustering
+                'n': 5, # minimum number of correlated events required to allow a particular event through the filter
+                'max_cluster_size': 20, # maximum taxicab dist from center of cluster to each event
+                'buffer_flush_period': 10_000, # microseconds periodicity to flush expired (>tc) events from buffer
+                'num_analyzers': 8,
 
-            'sample_period': 10_000, # microseconds between each centroid position sample
-            'sample_collection_duration': 10_000_000, # microsecond duration to record samples for each cluster
+                'sample_period': 10_000, # microseconds between each centroid position sample
+                'long_duration': 2_000_000, # microsecond duration to record samples for each cluster
+                'short_duration': 1_000_000,
 
-            'velocity_threshold': 1,
+                'velocity_threshold': 1,
 
-            # 'temporal_filter': 5_000,
-            # 'cluster_profile_length': 16,
-            # 'stability_threshold': 1.5,
-            # 'stability_loss_rate': 0.1,
-            # 'confidence_rate': 0.05,
-            # 'confidence_threshold': 0.5,
-            # 'merge_clusters': False
-        }
-    })
+                # 'temporal_filter': 5_000,
+                # 'cluster_profile_length': 16,
+                # 'stability_threshold': 1.5,
+                # 'stability_loss_rate': 0.1,
+                # 'confidence_rate': 0.05,
+                # 'confidence_threshold': 0.5,
+                # 'merge_clusters': False
+            }
+        })

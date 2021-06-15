@@ -31,7 +31,8 @@ namespace PMD {
         void track() { _is_tracking = true; }
 
         bool isInRange(int x, int y, int range);
-        const point &centroid();
+        point centroid();
+        // const point &centroid();
         point_f centroid_f();
 
         bool isEmpty() { return _weight <= 0; }

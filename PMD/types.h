@@ -47,7 +47,8 @@ namespace PMD {
         uint_t max_cluster_size = 50;
         uint_t num_analyzers = 8;
         uint_t sample_period = 10000;
-        ts_t sample_collection_duration = 320000;
+        ts_t long_duration = 1000000;
+        ts_t short_duration = 100000;
         uint_t velocity_threshold = 10;
     };
 
@@ -138,7 +139,8 @@ namespace PMD {
         int x = 0, y = 0;
         int r = 0, g = 0, b = 0;
         int cid = NO_CID;
-        float v_x = 0, v_y = 0;
+        float long_v_x = 0, long_v_y = 0;
+        float short_v_x = 0, short_v_y = 0;
         int path_length = 0;
         int stability = 0;
         float consistency = 0;
