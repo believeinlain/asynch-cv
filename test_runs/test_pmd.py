@@ -8,13 +8,13 @@ from event_processing import pmd_consumer
 data_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 annot_root = './example_annotations/'
 
-# group = 'june_12'
-# test = 9
-# file_type = '.aedat4'
+group = 'june_12'
+test = 3
+file_type = '.aedat4'
 
-group = 'april_29'
-test = 6
-file_type = '.raw'
+# group = 'april_29'
+# test = 6
+# file_type = '.raw'
 
 boat_tests = {
     'june_12':{
@@ -81,11 +81,13 @@ play_file(
             'tc': 150_000, # how far back in time to consider events for clustering
             'n': 5, # minimum number of correlated events required to allow a particular event through the filter
             'buffer_flush_period': 10_000, # microseconds periodicity to flush expired (>tc) events from buffer
-            'max_cluster_size': 50, # maximum taxicab dist from center of cluster to each event
+            'max_cluster_size': 30, # maximum taxicab dist from center of cluster to each event
             'num_analyzers': 8,
 
             'sample_period': 10_000, # microseconds between each centroid position sample
-            'sample_length': 320_000, # microsecond duration to record samples for each cluster
+            'sample_collection_duration': 10_000_000, # microsecond duration to record samples for each cluster
+
+            'velocity_threshold': 1,
 
             # 'temporal_filter': 5_000,
             # 'cluster_profile_length': 16,

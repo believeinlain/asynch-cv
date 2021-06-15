@@ -32,6 +32,9 @@ namespace PMD {
 
         bool isInRange(int x, int y, int range);
         const point &centroid();
+        point_f centroid_f();
+
+        bool isEmpty() { return _weight <= 0; }
 
         // these are only meant to be accessed by the event buffer
         // can otherwise lead to issues with threading

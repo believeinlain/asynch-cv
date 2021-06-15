@@ -49,6 +49,12 @@ namespace PMD {
         return _centroid;
     }
 
+    point_f Cluster::centroid_f() {
+        if (_weight > 0)
+            return point_f(double(_x_sum)/double(_weight), double(_y_sum)/double(_weight));
+        return point_f();
+    }
+
     cid_t ClusterBuffer::createNewCluster(ts_t t) {
         cid_t cid;
         do { // pick a random unoccupied cid

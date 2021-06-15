@@ -79,7 +79,7 @@ class basic_consumer:
         Function to pass as a callback to use as an event consumer with Metavision Designer.
 
         Parameters:
-            ts: This is the timestamp of the end of the buffer.
+            ts: This is the timestamp of the end of the buffer.`
                 All events included in this callback will have a timestamp strictly lower than ts
             src_events: Dictionary containing a list for each component associated with the PythonConsumer.
                 The label of each item in the dictionary is the name passed when adding a new source to the PythonConsumer.
@@ -139,7 +139,7 @@ class basic_consumer:
         for i in range(len(self.annotations)):
             box_frames = list(self.annotations[i]['box'])
             label = self.annotations[i]['@label']
-            color = (255, 255, 255) # tuple(int(label['color'][i:i+2], 16) for i in (1, 3, 5))
+            color = (200, 200, 200) # tuple(int(label['color'][i:i+2], 16) for i in (1, 3, 5))
             if (self.frame_count < len(box_frames)):
                 # read box info
                 box = box_frames[self.frame_count]

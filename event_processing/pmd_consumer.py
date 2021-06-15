@@ -2,13 +2,11 @@
 
 import cv2
 import numpy as np
-from colorsys import hsv_to_rgb
+from math import sqrt, exp
 
-from numpy.core.numeric import indices
 from event_processing import basic_consumer
 from PMD import PyPMD
 
-from time import time_ns
 
 class pmd_consumer(basic_consumer):
     def __init__(self, width, height, consumer_args=None):
@@ -69,12 +67,24 @@ class pmd_consumer(basic_consumer):
             th = 1
             image = np.multiply(255, det['image'], dtype='u1')
             x, y, w, h = cv2.boundingRect(image)
-            cv2.rectangle(frame, (x, y), (x+w, y+h), (255,255,255), 1)
-            
-            cv2.line(frame, (px, py-r), (px+r, py), color, th)
-            cv2.line(frame, (px+r, py), (px, py+r), color, th)
-            cv2.line(frame, (px, py+r), (px-r, py), color, th)
-            cv2.line(frame, (px-r, py), (px, py-r), color, th)
+
+            scale = 10
+            path = det['path_length']
+            radius = sqrt(det['v_x']**2 + det['v_y']**2)
+            cv2.arrowedLine(frame, (px, py), (int(px+det['v_x']*scale), int(py+det['v_y']*scale)), color, th)
+            cv2.circle(frame, (px, py), int(radius*scale), color, th)
+            cv2.putText(frame, f"{det['stability']}", (px, py), cv2.FONT_HERSHEY_PLAIN, 1, color, th, cv2.LINE_AA)
+
+            conf = 1-exp(-0.005*det['stability']) if det['stability'] > 0 else 0
+
+            if conf > 0.5:
+                cv2.putText(frame, f"{conf:0.2f}", (x, y), cv2.FONT_HERSHEY_PLAIN, 1, (255,255,255), th, cv2.LINE_AA)
+                cv2.rectangle(frame, (x, y), (x+w, y+h), (255,255,255), 1)
+                
+                cv2.line(frame, (px, py-r), (px+r, py), color, th)
+                cv2.line(frame, (px+r, py), (px, py+r), color, th)
+                cv2.line(frame, (px, py+r), (px-r, py), color, th)
+                cv2.line(frame, (px-r, py), (px, py-r), color, th)
 
     # def draw_detection(self, id, results):
     #     centroid = tuple(results['centroid'])

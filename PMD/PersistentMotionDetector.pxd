@@ -12,13 +12,18 @@ cdef extern from 'types.h' namespace 'PMD':
         int max_cluster_size
         int num_analyzers
         int sample_period
-        int sample_duration
+        int sample_collection_duration
+        int velocity_threshold
 
     cdef packed struct detection:
         int is_positive
         int x, y
         int r, g, b
         int cid
+        float v_x, v_y
+        int path_length
+        int stability
+        float consistency
 
     ctypedef unsigned short xy_t
     ctypedef int p_t
@@ -37,5 +42,5 @@ cdef extern from 'PersistentMotionDetector.h' namespace 'PMD':
         PersistentMotionDetector(parameters) except +
 
         void initFramebuffer(byte_t *frame)
-        void processEvents(const event *events, int num_events, detection *results, cid_t *indices)
+        void simulate(const event *events, int num_events, detection *results, cid_t *indices)
 

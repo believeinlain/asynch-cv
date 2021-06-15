@@ -47,7 +47,8 @@ namespace PMD {
         uint_t max_cluster_size = 50;
         uint_t num_analyzers = 8;
         uint_t sample_period = 10000;
-        ts_t sample_duration = 320000;
+        ts_t sample_collection_duration = 320000;
+        uint_t velocity_threshold = 10;
     };
 
     struct color {
@@ -78,11 +79,17 @@ namespace PMD {
         }
     };
 
-    struct point {
-        point(int x, int y) : x(x), y(y) {}
-        point() : x(0), y(0) {}
-        int x, y;
+    template<typename T>
+    struct point_t {
+        point_t(T x, T y) : x(x), y(y) {}
+        point_t() : x(0), y(0) {}
+        point_t<T> operator-(const point_t<T> &b) { return point_t<T>(x - b.x, y - b.y); }
+        point_t<T> operator+(const point_t<T> &b) { return point_t<T>(x + b.x, y + b.y); }
+        T x, y;
     };
+
+    typedef point_t<int> point;
+    typedef point_t<double> point_f;
 
     struct rect {
         rect(int tlx, int tly, int brx, int bry) : 
@@ -131,6 +138,10 @@ namespace PMD {
         int x = 0, y = 0;
         int r = 0, g = 0, b = 0;
         int cid = NO_CID;
+        float v_x = 0, v_y = 0;
+        int path_length = 0;
+        int stability = 0;
+        float consistency = 0;
     };
 
 };

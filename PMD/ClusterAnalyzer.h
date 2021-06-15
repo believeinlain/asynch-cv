@@ -3,6 +3,7 @@
 #define _CLUSTER_ANALYZER_H
 
 #include "types.h"
+#include <list>
 
 namespace PMD {
 
@@ -10,26 +11,32 @@ namespace PMD {
     class ClusterBuffer;
 
     class ClusterAnalyzer {
-        // PMD refernences
+        // PMD references
         ClusterSorter &_sorter;
         ClusterBuffer &_cluster_buffer;
 
         // execution parameters
-        parameters _param;
+        parameters _p;
 
         // cluster that we're currently tracking
         cid_t _cid = NO_CID;
 
+        // final detection results
         detection _status;
+
+        // collection of samples
+        std::list<std::pair<ts_t, point_f>> _samples;
 
     public:
         ClusterAnalyzer(
             ClusterSorter &sorter, 
             ClusterBuffer &cluster_buffer,
-            parameters param
+            parameters p
         );
         ~ClusterAnalyzer();
 
+        void reassignCluster();
+        void sampleCluster(ts_t t);
         detection updateDetection();
     };
 };

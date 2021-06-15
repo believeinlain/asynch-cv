@@ -34,7 +34,8 @@ namespace PMD {
         ClusterSorter _sorter;
         std::vector<ClusterAnalyzer> _analyzers;
 
-        byte_t *_framebuffer;
+        byte_t *_framebuffer = nullptr;
+        ts_t _last_sample_time = 0;
         std::vector<detection> _results;
 
         #if USE_THREADS
@@ -48,7 +49,8 @@ namespace PMD {
         ~PersistentMotionDetector();
 
         void initFramebuffer(byte_t *frame);
-        void processEvents(const event *events, uint_t num_events, detection *results, cid_t *indices);
+        void simulate(const event *events, uint_t num_events, detection *results, cid_t *indices);
+        void processEvents(const event *events, uint_t num_events);
 
     protected:
         void drawEvent(event e, cid_t cid);

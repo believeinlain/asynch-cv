@@ -12,7 +12,7 @@ namespace PMD {
         _p(p), _bounds(0, 0, p.width, p.height), _num_parts(p.x_div*p.y_div), 
         _cluster_buffer(),
         _event_buffer(p.width, p.height, p.event_buffer_depth, _cluster_buffer),
-        _sorter(_cluster_buffer, p), _framebuffer(nullptr)
+        _sorter(_cluster_buffer, p)
     {
         // allocate event handlers and cluster analyzers
         _handlers.reserve(_num_parts);
@@ -74,31 +74,50 @@ namespace PMD {
         }
     }
 
-    void PersistentMotionDetector::processEvents(
+    void PersistentMotionDetector::simulate(
         const event *events, uint_t num_events, detection *results, cid_t *indices) {
         try 
         {
-#if USE_THREADS
-            // branch off each event handler to a separate thread to handle events
-            for (uint_t i=0; i<_num_parts; ++i) {
-                EventHandler &handler = _handlers[i];
-                // each event handler will loop through events concurrently
-                _handler_jobs[i] = _threads->push( [&handler, events, num_events](int id) {
-                    handler.processEventBuffer(events, num_events);
-                });
-            }
-            // wait until all tasks finish
-            for (uint_t i=0; i<_num_parts; ++i)
-                _handler_jobs[i].wait();
-#else  
-            // handle event buffers sequentially (could alternately sort events here)
-            for (uint_t i=0; i<_num_parts; ++i)
-                _handlers[i].processEventBuffer(events, num_events);
-#endif
-            // recalculater cluster priorities
+            // cout << "Entered simulate function: num_events " << num_events << endl;
+            // recalculate cluster priorities
             _sorter.recalculatePriority();
 
-            // analyze the highest priority clusters
+            // reassign clusters if necessary
+            for (uint_t i=0; i<_p.num_analyzers; ++i)
+                _analyzers[i].reassignCluster();
+
+            // identify events from the start of this buffer to last sample time + sample period
+            uint_t start_event = 0;
+            uint_t end_event = 0;
+
+            // loop through events, one sample period at a time
+            do {
+                // cout << "Entered sample loop: start_event " << start_event << endl;
+                while (end_event < num_events && events[end_event].t < _last_sample_time + _p.sample_period) {
+                    // update sample time
+                    _last_sample_time = events[end_event].t;
+                    ++end_event;
+                }
+                // if no events captured, reset sample time and continue
+                if (end_event == start_event) {
+                    _last_sample_time = events[start_event].t;
+                    continue;
+                }
+                // sample_end_event now represents the index of the first event in the next sample period
+
+                // process the events in the current sample
+                processEvents(events + start_event, end_event - start_event);
+
+                // task the cluster analyzers with updating their cluster analysis
+                for (uint_t i=0; i<_p.num_analyzers; ++i)
+                    _analyzers[i].sampleCluster(_last_sample_time);
+
+                // advance the start event to the next sample
+                start_event = end_event;
+
+            } while (start_event < num_events);
+
+            // update analysis results
             for (uint_t i=0; i<_p.num_analyzers; ++i)
                 results[i] = _analyzers[i].updateDetection();
 
@@ -106,12 +125,6 @@ namespace PMD {
             for (size_t x=0; x<_bounds.width; ++x)
                 for (size_t y=0; y<_bounds.height; ++y)
                     indices[x + y*_bounds.width] = _event_buffer.at(x, y).top().cid;
-
-#if USE_THREADS
-            // wait until all tasks finish
-            for (uint_t i=0; i<_num_parts; ++i)
-                _handler_jobs[i].wait();
-#endif
         }
         catch(const exception& err) 
         {
@@ -119,6 +132,26 @@ namespace PMD {
             cerr << '\t' << err.what() << endl;
             exit(1);
         }
+    }
+
+    void PersistentMotionDetector::processEvents(const event *events, uint_t num_events) {
+#if USE_THREADS
+        // branch off each event handler to a separate thread to handle events
+        for (uint_t i=0; i<_num_parts; ++i) {
+            EventHandler &handler = _handlers[i];
+            // each event handler will loop through events concurrently
+            _handler_jobs[i] = _threads->push( [&handler, events, num_events](int id) {
+                handler.processEventBuffer(events, num_events);
+            });
+        }
+        // wait until all event processing tasks finish
+        for (uint_t i=0; i<_num_parts; ++i)
+            _handler_jobs[i].wait();
+#else  
+        // handle event buffers sequentially (could alternately sort events here)
+        for (uint_t i=0; i<_num_parts; ++i)
+            _handlers[i].processEventBuffer(sample_events, num_sample_events);
+#endif
     }
 
     void PersistentMotionDetector::drawEvent(event e, cid_t cid) {
