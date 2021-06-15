@@ -70,9 +70,12 @@ namespace PMD {
 
             // get the time of the most recent sample
             ts_t t = _samples.rbegin()->first;
+            ts_t threshold;
 
             // find the sample at the beginning of the long sample interval
-            auto long_start = _samples.lower_bound(t-_p.long_duration);
+            threshold = t-_p.long_duration;
+            if (threshold > t) threshold = 0; // overflow check
+            auto long_start = _samples.lower_bound(threshold);
             // erase samples that are too old
             _samples.erase(_samples.begin(), long_start);
 
@@ -81,19 +84,23 @@ namespace PMD {
 
             // subtract the oldest sample from the most recent
             point_f long_disp = _samples.rbegin()->second - _samples.begin()->second;
+            // double long_dt = double(_samples.rbegin()->first - _samples.begin()->first);
             double long_dt = double(_p.long_duration);
 
             _status.long_v_x = float(long_disp.x*1000000.0/long_dt);
             _status.long_v_y = float(long_disp.y*1000000.0/long_dt);
 
             // find the sample at the beginning of the short sample interval
-            auto short_start = _samples.lower_bound(t-_p.short_duration);
+            threshold = t-_p.short_duration;
+            if (threshold > t) threshold = 0; // overflow check
+            auto short_start = _samples.lower_bound(threshold);
 
             // if we don't and samples in the short interval, quit
             if (short_start == _samples.end()) return _status;
 
             // calculate the short interval time and displacement
             point_f short_disp = _samples.rbegin()->second - short_start->second;
+            // double short_dt = double(_samples.rbegin()->first - short_start->first);
             double short_dt = double(_p.short_duration);
 
             _status.short_v_x = float(short_disp.x*1000000.0/short_dt);

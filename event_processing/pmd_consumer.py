@@ -15,8 +15,8 @@ class pmd_consumer(basic_consumer):
         # Process arguments
         self._filetype = self._consumer_args.get('filetype', '.raw')
 
-        param = self._consumer_args.get('parameters', {})
-        self.max_cluster_size = param.get('max_cluster_size', 50)
+        self.p = self._consumer_args.get('parameters', {})
+        self.max_cluster_size = self.p.get('max_cluster_size', 50)
         
         # explicitly set types to ensure consistency between modules
         types = {}
@@ -34,7 +34,7 @@ class pmd_consumer(basic_consumer):
         #     self._cluster_color[i] = np.multiply(255.0, 
         #         hsv_to_rgb((i*np.pi % 3.6)/3.6, 1.0, 1.0), casting='unsafe')
 
-        self._pmd = PyPMD.PyPMD(width, height, param)
+        self._pmd = PyPMD.PyPMD(width, height, self.p)
 
         # self._metrics = DetectionMetrics(['boat', 'RHIB'])
         # self._detections = []
@@ -73,6 +73,7 @@ class pmd_consumer(basic_consumer):
 
             diff_radius = sqrt(diff_x**2 + diff_y**2)
             long_radius = sqrt(det['long_v_x']**2 + det['long_v_y']**2)
+            short_radius = sqrt(det['short_v_x']**2 + det['short_v_y']**2)
 
             scale = 5
             # cv2.arrowedLine(frame, (px, py), (int(px+diff_x*scale), int(py+diff_y*scale)), color, th)
@@ -83,19 +84,27 @@ class pmd_consumer(basic_consumer):
             #     cv2.circle(frame, (px, py), int(diff_radius/long_radius*scale), color, th)
 
             ratio = diff_radius/long_radius if long_radius > 0 else 0
-            times_over = long_radius/ratio if ratio > 0 else 0
-            
-            cv2.putText(frame, f"{det['stability']:0.2f}", (px, py), cv2.FONT_HERSHEY_PLAIN, 1, color, th, cv2.LINE_AA)
-            cv2.line(frame, (px, py-r), (px+r, py), color, th)
-            cv2.line(frame, (px+r, py), (px, py+r), color, th)
-            cv2.line(frame, (px, py+r), (px-r, py), color, th)
-            cv2.line(frame, (px-r, py), (px, py-r), color, th)
+            times_over = short_radius/ratio if ratio > 0 else 0
 
-            conf = 1-exp(-0.0005*det['stability'])
-
-            if conf > 0.5:
-                cv2.putText(frame, f"{conf:0.2f}", (x, y), cv2.FONT_HERSHEY_PLAIN, 1, (255,255,255), th, cv2.LINE_AA)
+            if times_over > 100:
+            # cv2.putText(frame, f"{det['stability']:0.2f}", (px, py), cv2.FONT_HERSHEY_PLAIN, 1, color, th, cv2.LINE_AA)
+                cv2.line(frame, (px, py-r), (px+r, py), color, th)
+                cv2.line(frame, (px+r, py), (px, py+r), color, th)
+                cv2.line(frame, (px, py+r), (px-r, py), color, th)
+                cv2.line(frame, (px-r, py), (px, py-r), color, th)
                 cv2.rectangle(frame, (x, y), (x+w, y+h), (255,255,255), 1)
+
+            cv2.circle(frame, (px, py), int(min(times_over*0.1,10)*scale), color, th)
+
+
+            # if (times_over > _p.velocity_threshold)
+            # _status.stability += times_over - _p.velocity_threshold;
+
+            # conf = 1-exp(-0.0005*det['stability'])
+
+            # if conf > 0.5:
+            #     cv2.putText(frame, f"{conf:0.2f}", (x, y), cv2.FONT_HERSHEY_PLAIN, 1, (255,255,255), th, cv2.LINE_AA)
+            #     cv2.rectangle(frame, (x, y), (x+w, y+h), (255,255,255), 1)
 
             # cv2.putText(frame, f"{det['stability']}", (px, py), cv2.FONT_HERSHEY_PLAIN, 1, color, th, cv2.LINE_AA)
 

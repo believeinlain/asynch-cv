@@ -10,8 +10,12 @@ To run, simply execute one of the `test_*.py` scripts to see a demonstration.
 # Persistent Motion Detector
 C++ application for event-based clustering and tracking. Takes streaming event data from an event camera in the form (x, y, p, t) and outputs a map of each cluster in the camera's field of view, as well as information and analysis results pertaining to a limited selection of clusters.
 
+![](images/PersistentMotionDetector.png)
+
 ### Partitioning and Pre-Filter
 Divides the field of view into **x_div** horizontal divisions, and **y_div** vertical partitions, resulting in a 2d partition grid. Each partition is assigned to an **EventHandler** instance, which can process events at a rate governed by **us_per_event**, or the number of microseconds allotted to each **EventHandler** instance to process each event. If events fall into a partition with greater frequency, subsequent events will be ignored. This "pre-filter" serves to limit rate of incoming events in each locality, so that especially event-dense partitions will not demand excessive processing.  
+
+![](images/Partitioning.png)
 
 ### Correlational Filter
 Each **EventHandler** instance stores every event it receives in a shared **EventBuffer**, which records the most recent **event_buffer_depth** events at each (x, y) location in the field of view. For each incoming event **(x, y, p, t)**, adjacent events in the buffer at locations from (**x**-1, **y**-1) to (**x**+1, **y**+1) are counted if their timestamps are within **tf**, or the filtering threshold, of **t**. If the count is at least **n**, then the incoming event will be assigned to a cluster. Otherwise, it will remain unassigned and be stored in the **EventBuffer** to be counted by future events.  
