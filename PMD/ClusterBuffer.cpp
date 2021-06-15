@@ -64,7 +64,7 @@ namespace PMD {
         do { // pick a random unoccupied cid
             cid = _rand(_rand_gen);
             // keep trying until we get an unused one
-        } while (_buffer[cid].weight > 0);
+        } while (_buffer[cid]._weight > 0);
         
         // set the new cluster's birth time to t
         // and reset all other struct data

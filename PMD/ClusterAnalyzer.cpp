@@ -19,10 +19,17 @@ namespace PMD {
     }
 
     void ClusterAnalyzer::reassignCluster() {
-        // stop tracking clusters that were cleared by the buffer
-        if (_cid != NO_CID && !_cluster_buffer[_cid].is_tracking)
-            _cid = NO_CID;
+        // if we currently have a cluster
+        if (_cid != NO_CID) {
+            // check is cluster is empty and untrack if so
+            if (_cluster_buffer[_cid].isEmpty())
+                _cluster_buffer[_cid]._is_tracking = false;
 
+            // stop tracking if cluster is no longer marked as tracked
+            if (!_cluster_buffer[_cid]._is_tracking)
+                _cid = NO_CID;
+        }
+        
         // get next cluster
         if (_cid == NO_CID) {
             _cid = _sorter.trackNextCluster();

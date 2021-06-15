@@ -67,8 +67,8 @@ namespace PMD {
                             // find the cluster with the earliest birth time
                             assigned = adj.begin()->first;
                             for (auto i = next(adj.begin()); i != adj.end(); ++i)
-                                if ( (_cluster_buffer[i->first].birth 
-                                    < _cluster_buffer[assigned].birth) )
+                                if ( (_cluster_buffer[i->first]._birth 
+                                    < _cluster_buffer[assigned]._birth) )
                                     assigned = i->first;
                         }
                         in_range = _cluster_buffer[assigned].isInRange(e.x, e.y, _p.max_cluster_size);

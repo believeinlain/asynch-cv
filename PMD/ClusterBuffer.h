@@ -11,19 +11,15 @@
 namespace PMD {
 
     class Cluster {
-        ts_t _birth = 0;
-        int _weight = 0;
         int _x_sum = 0;
         int _y_sum = 0;
         bool _is_centroid_updated = false;
         point _centroid{};
-        bool _is_tracking = false;
 
     public:
-        // getter references
-        const ts_t &birth = _birth;
-        const int &weight = _weight;
-        const bool &is_tracking = _is_tracking;
+        ts_t _birth = 0;
+        int _weight = 0;
+        bool _is_tracking = false;
 
         // reset all values and set new birth time
         void createAt(ts_t birth);
