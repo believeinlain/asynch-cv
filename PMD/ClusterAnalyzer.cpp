@@ -54,7 +54,7 @@ namespace PMD {
         // if we have a valid cluster
         if (_cid != NO_CID) {
             // update detection results
-            _status.is_positive = true;
+            _status.is_active = true;
             // set the centroid
             point p = _cluster_buffer[_cid].centroid();
             _status.x = p.x;
@@ -110,13 +110,14 @@ namespace PMD {
             double diff_y = _status.long_v_y - _status.short_v_y;
 
             double diff_radius = sqrt(pow(diff_x, 2) + pow(diff_y, 2));
-            double long_radius = sqrt(pow(_status.long_v_x, 2) + pow(_status.long_v_y, 2));
+            double long_radius_sq = pow(_status.long_v_x, 2) + pow(_status.long_v_y, 2);
 
-            double ratio = (long_radius > 0) ? diff_radius/long_radius : 0;
-            double times_over = (ratio > 0) ? long_radius/ratio : 0;
+            _status.ratio = (diff_radius > 0) ? long_radius_sq/diff_radius : 0;
 
-            // if (times_over > _p.velocity_threshold)
-            _status.stability += times_over - _p.velocity_threshold;
+            if (_status.ratio > _p.ratio_threshold) {
+                _status.is_positive = true;
+                _status.stability += int(_status.ratio);
+            }
 
             // calculate the velocity (in pixels per second)
             // point_f disp = _samples.back().second - _samples.front().second;

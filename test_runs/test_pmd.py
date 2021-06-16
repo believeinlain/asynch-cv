@@ -12,9 +12,13 @@ annot_root = './example_annotations/'
 # test = 5
 # file_type = '.aedat4'
 
-group = 'april_29'
-test = 3
-file_type = '.raw'
+# group = 'april_29'
+# test = 3
+# file_type = '.raw'
+
+group = 'june_26'
+test = 2
+file_type = '.aedat4'
 
 boat_tests = {
     'june_12':{
@@ -28,7 +32,7 @@ boat_tests = {
         # 13: 'Davis346red-2020-06-12T13-04-12-0700-0_Test_13'
     },
     'june_26':{
-        1: 'Davis346red-2020-06-26T12-25-58-0700-00000195-0_Test_1',
+        # 1: 'Davis346red-2020-06-26T12-25-58-0700-00000195-0_Test_1',
         2: 'Davis346red-2020-06-26T12-26-42-0700-00000195-0_Test_2',
         3: 'Davis346red-2020-06-26T12-27-39-0700-00000195-0_Test_3',
         4: 'Davis346red-2020-06-26T12-28-38-0700-00000195-0_Test_4',
@@ -88,7 +92,7 @@ for test in boat_tests[group].keys():
                 'long_duration': 5_000_000, # microsecond duration to record samples for each cluster
                 'short_duration': 3_000_000,
 
-                'velocity_threshold': 5,
+                'ratio_threshold': 100,
 
                 # 'temporal_filter': 5_000,
                 # 'cluster_profile_length': 16,

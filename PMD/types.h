@@ -47,9 +47,9 @@ namespace PMD {
         uint_t max_cluster_size = 50;
         uint_t num_analyzers = 8;
         uint_t sample_period = 10000;
-        ts_t long_duration = 1000000;
-        ts_t short_duration = 100000;
-        uint_t velocity_threshold = 10;
+        ts_t long_duration = 2000000;
+        ts_t short_duration = 1000000;
+        uint_t ratio_threshold = 100;
     };
 
     struct color {
@@ -135,15 +135,16 @@ namespace PMD {
     // integer types to make interfacing easier,
     // since speed and compactness are not super important here
     struct detection {
+        int is_active = 0;
         int is_positive = 0;
         int x = 0, y = 0;
         int r = 0, g = 0, b = 0;
         int cid = NO_CID;
         float long_v_x = 0, long_v_y = 0;
         float short_v_x = 0, short_v_y = 0;
-        int path_length = 0;
         int stability = 0;
-        float consistency = 0;
+        float ratio = 0;
+        float confidence = 0;
     };
 
 };

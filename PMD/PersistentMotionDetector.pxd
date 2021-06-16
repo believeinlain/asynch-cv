@@ -14,18 +14,19 @@ cdef extern from 'types.h' namespace 'PMD':
         int sample_period
         int long_duration
         int short_duration
-        int velocity_threshold
+        int ratio_threshold
 
     cdef packed struct detection:
+        int is_active
         int is_positive
         int x, y
         int r, g, b
         int cid
-        float long_v_x , long_v_y
+        float long_v_x, long_v_y
         float short_v_x, short_v_y
-        int path_length
         int stability
-        float consistency
+        float ratio
+        float confidence
 
     ctypedef unsigned short xy_t
     ctypedef int p_t
