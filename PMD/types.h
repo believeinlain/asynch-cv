@@ -136,7 +136,6 @@ namespace PMD {
     // since speed and compactness are not super important here
     struct detection {
         int is_active = 0;
-        int is_positive = 0;
         int x = 0, y = 0;
         int r = 0, g = 0, b = 0;
         int cid = NO_CID;
@@ -144,7 +143,6 @@ namespace PMD {
         float short_v_x = 0, short_v_y = 0;
         int stability = 0;
         float ratio = 0;
-        float confidence = 0;
     };
 
 };

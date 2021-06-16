@@ -114,36 +114,8 @@ namespace PMD {
 
             _status.ratio = (diff_radius > 0) ? long_radius_sq/diff_radius : 0;
 
-            if (_status.ratio > _p.ratio_threshold) {
-                _status.is_positive = true;
+            if (_status.ratio > _p.ratio_threshold)
                 _status.stability += int(_status.ratio);
-            }
-
-            // calculate the velocity (in pixels per second)
-            // point_f disp = _samples.back().second - _samples.front().second;
-            // double dt = double(_samples.back().first - _samples.front().first);
-            // dt = double(_p.sample_collection_duration);
-            // // estimate the path length integral using samples
-            // double path = 0;
-            // auto a = _samples.begin();
-            // auto b = a;
-            // ++b;
-            // while (b != _samples.end()) {
-            //     path += sqrt(pow(b->second.x - a->second.x, 2) + pow(b->second.y - a->second.y, 2));
-            //     ++a; ++b;
-            // }
-            // // scale results by time elapsed
-            // if (dt > 0) {
-            //     double v_x = (disp.x*1000000) / dt;
-            //     double v_y = (disp.y*1000000) / dt;
-            //     double speed = sqrt(pow(v_x, 2) + pow(v_y, 2));
-            //     _status.stability += int(speed) - _p.velocity_threshold;
-            //     _status.v_x = (float)v_x;
-            //     _status.v_y = (float)v_y;
-            // }
-            // if (path > 0) {
-            //     _status.consistency = sqrt(pow(disp.x, 2) + pow(disp.y, 2))/path;
-            // }
         }
         return _status;
     }

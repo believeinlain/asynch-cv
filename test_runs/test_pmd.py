@@ -8,17 +8,17 @@ from event_processing import pmd_consumer
 data_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 annot_root = './example_annotations/'
 
-# group = 'june_12'
-# test = 5
-# file_type = '.aedat4'
+group = 'june_12'
+test = 5
+file_type = '.aedat4'
 
 # group = 'april_29'
-# test = 3
+# test = 4
 # file_type = '.raw'
 
-group = 'june_26'
-test = 2
-file_type = '.aedat4'
+# group = 'june_26'
+# test = 2
+# file_type = '.aedat4'
 
 boat_tests = {
     'june_12':{
@@ -59,7 +59,10 @@ boat_tests = {
     }
 }
 
-for test in boat_tests[group].keys():
+all_runs = boat_tests[group].keys()
+# all_runs = [test]
+
+for test in all_runs:
 
     filename = os.path.join(group, boat_tests[group][test])
     run_name = f'{group}_run_{test:02d}'

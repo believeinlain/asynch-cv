@@ -2384,7 +2384,6 @@ static __Pyx_TypeInfo __Pyx_TypeInfo_int = { "int", NULL, sizeof(int), { 0 }, 0,
 static __Pyx_TypeInfo __Pyx_TypeInfo_float = { "float", NULL, sizeof(float), { 0 }, 0, 'R', 0, 0 };
 static __Pyx_StructField __Pyx_StructFields_nn_struct__PMD_3a__3a_detection[] = {
   {&__Pyx_TypeInfo_int, "is_active", offsetof(struct PMD::detection, is_active)},
-  {&__Pyx_TypeInfo_int, "is_positive", offsetof(struct PMD::detection, is_positive)},
   {&__Pyx_TypeInfo_int, "x", offsetof(struct PMD::detection, x)},
   {&__Pyx_TypeInfo_int, "y", offsetof(struct PMD::detection, y)},
   {&__Pyx_TypeInfo_int, "r", offsetof(struct PMD::detection, r)},
@@ -2397,7 +2396,6 @@ static __Pyx_StructField __Pyx_StructFields_nn_struct__PMD_3a__3a_detection[] = 
   {&__Pyx_TypeInfo_float, "short_v_y", offsetof(struct PMD::detection, short_v_y)},
   {&__Pyx_TypeInfo_int, "stability", offsetof(struct PMD::detection, stability)},
   {&__Pyx_TypeInfo_float, "ratio", offsetof(struct PMD::detection, ratio)},
-  {&__Pyx_TypeInfo_float, "confidence", offsetof(struct PMD::detection, confidence)},
   {NULL, NULL, 0}
 };
 static __Pyx_TypeInfo __Pyx_TypeInfo_nn_struct__PMD_3a__3a_detection = { "detection", __Pyx_StructFields_nn_struct__PMD_3a__3a_detection, sizeof(struct PMD::detection), { 0 }, 0, 'S', 0, __PYX_BUF_FLAGS_PACKED_STRUCT };
@@ -2494,13 +2492,11 @@ static const char __pyx_k_short_v_y[] = "short_v_y";
 static const char __pyx_k_stability[] = "stability";
 static const char __pyx_k_IndexError[] = "IndexError";
 static const char __pyx_k_ValueError[] = "ValueError";
-static const char __pyx_k_confidence[] = "confidence";
 static const char __pyx_k_pyx_result[] = "__pyx_result";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_ImportError[] = "ImportError";
 static const char __pyx_k_MemoryError[] = "MemoryError";
 static const char __pyx_k_PickleError[] = "PickleError";
-static const char __pyx_k_is_positive[] = "is_positive";
 static const char __pyx_k_pyx_checksum[] = "__pyx_checksum";
 static const char __pyx_k_stringsource[] = "stringsource";
 static const char __pyx_k_us_per_event[] = "us_per_event";
@@ -2553,18 +2549,16 @@ static const char __pyx_k_No_value_specified_for_struct_at_2[] = "No value speci
 static const char __pyx_k_No_value_specified_for_struct_at_3[] = "No value specified for struct attribute 'p'";
 static const char __pyx_k_No_value_specified_for_struct_at_4[] = "No value specified for struct attribute 't'";
 static const char __pyx_k_No_value_specified_for_struct_at_5[] = "No value specified for struct attribute 'is_active'";
-static const char __pyx_k_No_value_specified_for_struct_at_6[] = "No value specified for struct attribute 'is_positive'";
-static const char __pyx_k_No_value_specified_for_struct_at_7[] = "No value specified for struct attribute 'r'";
-static const char __pyx_k_No_value_specified_for_struct_at_8[] = "No value specified for struct attribute 'g'";
-static const char __pyx_k_No_value_specified_for_struct_at_9[] = "No value specified for struct attribute 'b'";
-static const char __pyx_k_No_value_specified_for_struct_at_10[] = "No value specified for struct attribute 'cid'";
-static const char __pyx_k_No_value_specified_for_struct_at_11[] = "No value specified for struct attribute 'long_v_x'";
-static const char __pyx_k_No_value_specified_for_struct_at_12[] = "No value specified for struct attribute 'long_v_y'";
-static const char __pyx_k_No_value_specified_for_struct_at_13[] = "No value specified for struct attribute 'short_v_x'";
-static const char __pyx_k_No_value_specified_for_struct_at_14[] = "No value specified for struct attribute 'short_v_y'";
-static const char __pyx_k_No_value_specified_for_struct_at_15[] = "No value specified for struct attribute 'stability'";
-static const char __pyx_k_No_value_specified_for_struct_at_16[] = "No value specified for struct attribute 'ratio'";
-static const char __pyx_k_No_value_specified_for_struct_at_17[] = "No value specified for struct attribute 'confidence'";
+static const char __pyx_k_No_value_specified_for_struct_at_6[] = "No value specified for struct attribute 'r'";
+static const char __pyx_k_No_value_specified_for_struct_at_7[] = "No value specified for struct attribute 'g'";
+static const char __pyx_k_No_value_specified_for_struct_at_8[] = "No value specified for struct attribute 'b'";
+static const char __pyx_k_No_value_specified_for_struct_at_9[] = "No value specified for struct attribute 'cid'";
+static const char __pyx_k_No_value_specified_for_struct_at_10[] = "No value specified for struct attribute 'long_v_x'";
+static const char __pyx_k_No_value_specified_for_struct_at_11[] = "No value specified for struct attribute 'long_v_y'";
+static const char __pyx_k_No_value_specified_for_struct_at_12[] = "No value specified for struct attribute 'short_v_x'";
+static const char __pyx_k_No_value_specified_for_struct_at_13[] = "No value specified for struct attribute 'short_v_y'";
+static const char __pyx_k_No_value_specified_for_struct_at_14[] = "No value specified for struct attribute 'stability'";
+static const char __pyx_k_No_value_specified_for_struct_at_15[] = "No value specified for struct attribute 'ratio'";
 static PyObject *__pyx_n_s_ASCII;
 static PyObject *__pyx_kp_s_Buffer_view_does_not_expose_stri;
 static PyObject *__pyx_kp_s_Can_only_create_a_buffer_that_is;
@@ -2590,8 +2584,6 @@ static PyObject *__pyx_kp_s_No_value_specified_for_struct_at_12;
 static PyObject *__pyx_kp_s_No_value_specified_for_struct_at_13;
 static PyObject *__pyx_kp_s_No_value_specified_for_struct_at_14;
 static PyObject *__pyx_kp_s_No_value_specified_for_struct_at_15;
-static PyObject *__pyx_kp_s_No_value_specified_for_struct_at_16;
-static PyObject *__pyx_kp_s_No_value_specified_for_struct_at_17;
 static PyObject *__pyx_kp_s_No_value_specified_for_struct_at_2;
 static PyObject *__pyx_kp_s_No_value_specified_for_struct_at_3;
 static PyObject *__pyx_kp_s_No_value_specified_for_struct_at_4;
@@ -2619,8 +2611,6 @@ static PyObject *__pyx_n_s_cid;
 static PyObject *__pyx_n_u_cid;
 static PyObject *__pyx_n_s_class;
 static PyObject *__pyx_n_s_cline_in_traceback;
-static PyObject *__pyx_n_s_confidence;
-static PyObject *__pyx_n_u_confidence;
 static PyObject *__pyx_kp_s_contiguous_and_direct;
 static PyObject *__pyx_kp_s_contiguous_and_indirect;
 static PyObject *__pyx_n_s_dict;
@@ -2648,8 +2638,6 @@ static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_indices;
 static PyObject *__pyx_n_s_is_active;
 static PyObject *__pyx_n_u_is_active;
-static PyObject *__pyx_n_s_is_positive;
-static PyObject *__pyx_n_u_is_positive;
 static PyObject *__pyx_n_s_itemsize;
 static PyObject *__pyx_kp_s_itemsize_0_for_cython_array;
 static PyObject *__pyx_n_u_long_duration;
@@ -2806,7 +2794,7 @@ static PyObject *__pyx_tuple__6;
 static PyObject *__pyx_tuple__7;
 static PyObject *__pyx_tuple__8;
 static PyObject *__pyx_tuple__9;
-static PyObject *__pyx_slice__50;
+static PyObject *__pyx_slice__48;
 static PyObject *__pyx_tuple__10;
 static PyObject *__pyx_tuple__11;
 static PyObject *__pyx_tuple__12;
@@ -2845,8 +2833,8 @@ static PyObject *__pyx_tuple__44;
 static PyObject *__pyx_tuple__45;
 static PyObject *__pyx_tuple__46;
 static PyObject *__pyx_tuple__47;
-static PyObject *__pyx_tuple__48;
 static PyObject *__pyx_tuple__49;
+static PyObject *__pyx_tuple__50;
 static PyObject *__pyx_tuple__51;
 static PyObject *__pyx_tuple__52;
 static PyObject *__pyx_tuple__53;
@@ -2854,9 +2842,7 @@ static PyObject *__pyx_tuple__54;
 static PyObject *__pyx_tuple__55;
 static PyObject *__pyx_tuple__56;
 static PyObject *__pyx_tuple__57;
-static PyObject *__pyx_tuple__58;
-static PyObject *__pyx_tuple__59;
-static PyObject *__pyx_codeobj__60;
+static PyObject *__pyx_codeobj__58;
 /* Late includes */
 
 /* "PMD/PyPMD.pyx":14
@@ -3339,12 +3325,10 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   PyObject *__pyx_t_17 = NULL;
   PyObject *__pyx_t_18 = NULL;
   PyObject *__pyx_t_19 = NULL;
-  PyObject *__pyx_t_20 = NULL;
-  PyObject *__pyx_t_21 = NULL;
+  Py_ssize_t __pyx_t_20;
+  Py_ssize_t __pyx_t_21;
   Py_ssize_t __pyx_t_22;
   Py_ssize_t __pyx_t_23;
-  Py_ssize_t __pyx_t_24;
-  Py_ssize_t __pyx_t_25;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -3461,7 +3445,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
  *         # allocate results array
  *         cdef np.ndarray result_array = np.ndarray((self._num_detections,), dtype=[             # <<<<<<<<<<<<<<
  *             ('is_active', int),
- *             ('is_positive', int),
+ *             ('x', int), ('y', int),
  */
   __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_num_detections); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -3482,8 +3466,8 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
  *         # allocate results array
  *         cdef np.ndarray result_array = np.ndarray((self._num_detections,), dtype=[
  *             ('is_active', int),             # <<<<<<<<<<<<<<
- *             ('is_positive', int),
  *             ('x', int), ('y', int),
+ *             ('r', int), ('g', int), ('b', int),
  */
   __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
@@ -3497,111 +3481,116 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   /* "PMD/PyPMD.pyx":49
  *         cdef np.ndarray result_array = np.ndarray((self._num_detections,), dtype=[
  *             ('is_active', int),
- *             ('is_positive', int),             # <<<<<<<<<<<<<<
- *             ('x', int), ('y', int),
- *             ('r', int), ('g', int), ('b', int),
- */
-  __pyx_t_9 = PyTuple_New(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 49, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_9);
-  __Pyx_INCREF(__pyx_n_u_is_positive);
-  __Pyx_GIVEREF(__pyx_n_u_is_positive);
-  PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_n_u_is_positive);
-  __Pyx_INCREF(((PyObject *)(&PyInt_Type)));
-  __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
-  PyTuple_SET_ITEM(__pyx_t_9, 1, ((PyObject *)(&PyInt_Type)));
-
-  /* "PMD/PyPMD.pyx":50
- *             ('is_active', int),
- *             ('is_positive', int),
  *             ('x', int), ('y', int),             # <<<<<<<<<<<<<<
  *             ('r', int), ('g', int), ('b', int),
  *             ('cid', int),
  */
-  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 50, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_9 = PyTuple_New(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 49, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_9);
   __Pyx_INCREF(__pyx_n_u_x);
   __Pyx_GIVEREF(__pyx_n_u_x);
-  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_n_u_x);
+  PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_n_u_x);
+  __Pyx_INCREF(((PyObject *)(&PyInt_Type)));
+  __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
+  PyTuple_SET_ITEM(__pyx_t_9, 1, ((PyObject *)(&PyInt_Type)));
+  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 49, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_INCREF(__pyx_n_u_y);
+  __Pyx_GIVEREF(__pyx_n_u_y);
+  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_n_u_y);
   __Pyx_INCREF(((PyObject *)(&PyInt_Type)));
   __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
   PyTuple_SET_ITEM(__pyx_t_5, 1, ((PyObject *)(&PyInt_Type)));
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 50, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_INCREF(__pyx_n_u_y);
-  __Pyx_GIVEREF(__pyx_n_u_y);
-  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_n_u_y);
-  __Pyx_INCREF(((PyObject *)(&PyInt_Type)));
-  __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
-  PyTuple_SET_ITEM(__pyx_t_4, 1, ((PyObject *)(&PyInt_Type)));
 
-  /* "PMD/PyPMD.pyx":51
- *             ('is_positive', int),
+  /* "PMD/PyPMD.pyx":50
+ *             ('is_active', int),
  *             ('x', int), ('y', int),
  *             ('r', int), ('g', int), ('b', int),             # <<<<<<<<<<<<<<
  *             ('cid', int),
  *             ('long_v_x', np.float32), ('long_v_y', np.float32),
  */
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 51, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 50, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_INCREF(__pyx_n_u_r);
   __Pyx_GIVEREF(__pyx_n_u_r);
-  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_n_u_r);
+  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_n_u_r);
+  __Pyx_INCREF(((PyObject *)(&PyInt_Type)));
+  __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
+  PyTuple_SET_ITEM(__pyx_t_4, 1, ((PyObject *)(&PyInt_Type)));
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 50, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_INCREF(__pyx_n_u_g);
+  __Pyx_GIVEREF(__pyx_n_u_g);
+  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_n_u_g);
   __Pyx_INCREF(((PyObject *)(&PyInt_Type)));
   __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
   PyTuple_SET_ITEM(__pyx_t_3, 1, ((PyObject *)(&PyInt_Type)));
-  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 51, __pyx_L1_error)
+  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_INCREF(__pyx_n_u_g);
-  __Pyx_GIVEREF(__pyx_n_u_g);
-  PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_n_u_g);
+  __Pyx_INCREF(__pyx_n_u_b);
+  __Pyx_GIVEREF(__pyx_n_u_b);
+  PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_n_u_b);
   __Pyx_INCREF(((PyObject *)(&PyInt_Type)));
   __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
   PyTuple_SET_ITEM(__pyx_t_7, 1, ((PyObject *)(&PyInt_Type)));
-  __pyx_t_12 = PyTuple_New(2); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 51, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_12);
-  __Pyx_INCREF(__pyx_n_u_b);
-  __Pyx_GIVEREF(__pyx_n_u_b);
-  PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_n_u_b);
-  __Pyx_INCREF(((PyObject *)(&PyInt_Type)));
-  __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
-  PyTuple_SET_ITEM(__pyx_t_12, 1, ((PyObject *)(&PyInt_Type)));
 
-  /* "PMD/PyPMD.pyx":52
+  /* "PMD/PyPMD.pyx":51
  *             ('x', int), ('y', int),
  *             ('r', int), ('g', int), ('b', int),
  *             ('cid', int),             # <<<<<<<<<<<<<<
  *             ('long_v_x', np.float32), ('long_v_y', np.float32),
  *             ('short_v_x', np.float32), ('short_v_y', np.float32),
  */
-  __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(1, 52, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_13);
+  __pyx_t_12 = PyTuple_New(2); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 51, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_12);
   __Pyx_INCREF(__pyx_n_u_cid);
   __Pyx_GIVEREF(__pyx_n_u_cid);
-  PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_n_u_cid);
+  PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_n_u_cid);
   __Pyx_INCREF(((PyObject *)(&PyInt_Type)));
   __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
-  PyTuple_SET_ITEM(__pyx_t_13, 1, ((PyObject *)(&PyInt_Type)));
+  PyTuple_SET_ITEM(__pyx_t_12, 1, ((PyObject *)(&PyInt_Type)));
 
-  /* "PMD/PyPMD.pyx":53
+  /* "PMD/PyPMD.pyx":52
  *             ('r', int), ('g', int), ('b', int),
  *             ('cid', int),
  *             ('long_v_x', np.float32), ('long_v_y', np.float32),             # <<<<<<<<<<<<<<
  *             ('short_v_x', np.float32), ('short_v_y', np.float32),
  *             ('stability', int),
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_14, __pyx_n_s_np); if (unlikely(!__pyx_t_14)) __PYX_ERR(1, 53, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_13, __pyx_n_s_np); if (unlikely(!__pyx_t_13)) __PYX_ERR(1, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_13);
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_t_13, __pyx_n_s_float32); if (unlikely(!__pyx_t_14)) __PYX_ERR(1, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
-  __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_t_14, __pyx_n_s_float32); if (unlikely(!__pyx_t_15)) __PYX_ERR(1, 53, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_15);
-  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-  __pyx_t_14 = PyTuple_New(2); if (unlikely(!__pyx_t_14)) __PYX_ERR(1, 53, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_14);
+  __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+  __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(1, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_13);
   __Pyx_INCREF(__pyx_n_u_long_v_x);
   __Pyx_GIVEREF(__pyx_n_u_long_v_x);
-  PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_n_u_long_v_x);
+  PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_n_u_long_v_x);
+  __Pyx_GIVEREF(__pyx_t_14);
+  PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_t_14);
+  __pyx_t_14 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_14, __pyx_n_s_np); if (unlikely(!__pyx_t_14)) __PYX_ERR(1, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_t_14, __pyx_n_s_float32); if (unlikely(!__pyx_t_15)) __PYX_ERR(1, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_15);
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __pyx_t_14 = PyTuple_New(2); if (unlikely(!__pyx_t_14)) __PYX_ERR(1, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __Pyx_INCREF(__pyx_n_u_long_v_y);
+  __Pyx_GIVEREF(__pyx_n_u_long_v_y);
+  PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_n_u_long_v_y);
   __Pyx_GIVEREF(__pyx_t_15);
   PyTuple_SET_ITEM(__pyx_t_14, 1, __pyx_t_15);
   __pyx_t_15 = 0;
+
+  /* "PMD/PyPMD.pyx":53
+ *             ('cid', int),
+ *             ('long_v_x', np.float32), ('long_v_y', np.float32),
+ *             ('short_v_x', np.float32), ('short_v_y', np.float32),             # <<<<<<<<<<<<<<
+ *             ('stability', int),
+ *             ('ratio', np.float32)
+ */
   __Pyx_GetModuleGlobalName(__pyx_t_15, __pyx_n_s_np); if (unlikely(!__pyx_t_15)) __PYX_ERR(1, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_15);
   __pyx_t_16 = __Pyx_PyObject_GetAttrStr(__pyx_t_15, __pyx_n_s_float32); if (unlikely(!__pyx_t_16)) __PYX_ERR(1, 53, __pyx_L1_error)
@@ -3609,144 +3598,98 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
   __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(1, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_15);
-  __Pyx_INCREF(__pyx_n_u_long_v_y);
-  __Pyx_GIVEREF(__pyx_n_u_long_v_y);
-  PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_n_u_long_v_y);
+  __Pyx_INCREF(__pyx_n_u_short_v_x);
+  __Pyx_GIVEREF(__pyx_n_u_short_v_x);
+  PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_n_u_short_v_x);
   __Pyx_GIVEREF(__pyx_t_16);
   PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_t_16);
   __pyx_t_16 = 0;
-
-  /* "PMD/PyPMD.pyx":54
- *             ('cid', int),
- *             ('long_v_x', np.float32), ('long_v_y', np.float32),
- *             ('short_v_x', np.float32), ('short_v_y', np.float32),             # <<<<<<<<<<<<<<
- *             ('stability', int),
- *             ('ratio', np.float32),
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_16, __pyx_n_s_np); if (unlikely(!__pyx_t_16)) __PYX_ERR(1, 54, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_16, __pyx_n_s_np); if (unlikely(!__pyx_t_16)) __PYX_ERR(1, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_16);
-  __pyx_t_17 = __Pyx_PyObject_GetAttrStr(__pyx_t_16, __pyx_n_s_float32); if (unlikely(!__pyx_t_17)) __PYX_ERR(1, 54, __pyx_L1_error)
+  __pyx_t_17 = __Pyx_PyObject_GetAttrStr(__pyx_t_16, __pyx_n_s_float32); if (unlikely(!__pyx_t_17)) __PYX_ERR(1, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_17);
   __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
-  __pyx_t_16 = PyTuple_New(2); if (unlikely(!__pyx_t_16)) __PYX_ERR(1, 54, __pyx_L1_error)
+  __pyx_t_16 = PyTuple_New(2); if (unlikely(!__pyx_t_16)) __PYX_ERR(1, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_16);
-  __Pyx_INCREF(__pyx_n_u_short_v_x);
-  __Pyx_GIVEREF(__pyx_n_u_short_v_x);
-  PyTuple_SET_ITEM(__pyx_t_16, 0, __pyx_n_u_short_v_x);
+  __Pyx_INCREF(__pyx_n_u_short_v_y);
+  __Pyx_GIVEREF(__pyx_n_u_short_v_y);
+  PyTuple_SET_ITEM(__pyx_t_16, 0, __pyx_n_u_short_v_y);
   __Pyx_GIVEREF(__pyx_t_17);
   PyTuple_SET_ITEM(__pyx_t_16, 1, __pyx_t_17);
   __pyx_t_17 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_17, __pyx_n_s_np); if (unlikely(!__pyx_t_17)) __PYX_ERR(1, 54, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_17);
-  __pyx_t_18 = __Pyx_PyObject_GetAttrStr(__pyx_t_17, __pyx_n_s_float32); if (unlikely(!__pyx_t_18)) __PYX_ERR(1, 54, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_18);
-  __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
-  __pyx_t_17 = PyTuple_New(2); if (unlikely(!__pyx_t_17)) __PYX_ERR(1, 54, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_17);
-  __Pyx_INCREF(__pyx_n_u_short_v_y);
-  __Pyx_GIVEREF(__pyx_n_u_short_v_y);
-  PyTuple_SET_ITEM(__pyx_t_17, 0, __pyx_n_u_short_v_y);
-  __Pyx_GIVEREF(__pyx_t_18);
-  PyTuple_SET_ITEM(__pyx_t_17, 1, __pyx_t_18);
-  __pyx_t_18 = 0;
 
-  /* "PMD/PyPMD.pyx":55
+  /* "PMD/PyPMD.pyx":54
  *             ('long_v_x', np.float32), ('long_v_y', np.float32),
  *             ('short_v_x', np.float32), ('short_v_y', np.float32),
  *             ('stability', int),             # <<<<<<<<<<<<<<
- *             ('ratio', np.float32),
- *             ('confidence', np.float32)
- */
-  __pyx_t_18 = PyTuple_New(2); if (unlikely(!__pyx_t_18)) __PYX_ERR(1, 55, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_18);
-  __Pyx_INCREF(__pyx_n_u_stability);
-  __Pyx_GIVEREF(__pyx_n_u_stability);
-  PyTuple_SET_ITEM(__pyx_t_18, 0, __pyx_n_u_stability);
-  __Pyx_INCREF(((PyObject *)(&PyInt_Type)));
-  __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
-  PyTuple_SET_ITEM(__pyx_t_18, 1, ((PyObject *)(&PyInt_Type)));
-
-  /* "PMD/PyPMD.pyx":56
- *             ('short_v_x', np.float32), ('short_v_y', np.float32),
- *             ('stability', int),
- *             ('ratio', np.float32),             # <<<<<<<<<<<<<<
- *             ('confidence', np.float32)
+ *             ('ratio', np.float32)
  *         ])
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_19, __pyx_n_s_np); if (unlikely(!__pyx_t_19)) __PYX_ERR(1, 56, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_19);
-  __pyx_t_20 = __Pyx_PyObject_GetAttrStr(__pyx_t_19, __pyx_n_s_float32); if (unlikely(!__pyx_t_20)) __PYX_ERR(1, 56, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_20);
-  __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
-  __pyx_t_19 = PyTuple_New(2); if (unlikely(!__pyx_t_19)) __PYX_ERR(1, 56, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_19);
-  __Pyx_INCREF(__pyx_n_u_ratio);
-  __Pyx_GIVEREF(__pyx_n_u_ratio);
-  PyTuple_SET_ITEM(__pyx_t_19, 0, __pyx_n_u_ratio);
-  __Pyx_GIVEREF(__pyx_t_20);
-  PyTuple_SET_ITEM(__pyx_t_19, 1, __pyx_t_20);
-  __pyx_t_20 = 0;
+  __pyx_t_17 = PyTuple_New(2); if (unlikely(!__pyx_t_17)) __PYX_ERR(1, 54, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_17);
+  __Pyx_INCREF(__pyx_n_u_stability);
+  __Pyx_GIVEREF(__pyx_n_u_stability);
+  PyTuple_SET_ITEM(__pyx_t_17, 0, __pyx_n_u_stability);
+  __Pyx_INCREF(((PyObject *)(&PyInt_Type)));
+  __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
+  PyTuple_SET_ITEM(__pyx_t_17, 1, ((PyObject *)(&PyInt_Type)));
 
-  /* "PMD/PyPMD.pyx":57
+  /* "PMD/PyPMD.pyx":55
+ *             ('short_v_x', np.float32), ('short_v_y', np.float32),
  *             ('stability', int),
- *             ('ratio', np.float32),
- *             ('confidence', np.float32)             # <<<<<<<<<<<<<<
+ *             ('ratio', np.float32)             # <<<<<<<<<<<<<<
  *         ])
  *         cdef detection[:] results = result_array
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_20, __pyx_n_s_np); if (unlikely(!__pyx_t_20)) __PYX_ERR(1, 57, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_20);
-  __pyx_t_21 = __Pyx_PyObject_GetAttrStr(__pyx_t_20, __pyx_n_s_float32); if (unlikely(!__pyx_t_21)) __PYX_ERR(1, 57, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_21);
-  __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
-  __pyx_t_20 = PyTuple_New(2); if (unlikely(!__pyx_t_20)) __PYX_ERR(1, 57, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_20);
-  __Pyx_INCREF(__pyx_n_u_confidence);
-  __Pyx_GIVEREF(__pyx_n_u_confidence);
-  PyTuple_SET_ITEM(__pyx_t_20, 0, __pyx_n_u_confidence);
-  __Pyx_GIVEREF(__pyx_t_21);
-  PyTuple_SET_ITEM(__pyx_t_20, 1, __pyx_t_21);
-  __pyx_t_21 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_18, __pyx_n_s_np); if (unlikely(!__pyx_t_18)) __PYX_ERR(1, 55, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_18);
+  __pyx_t_19 = __Pyx_PyObject_GetAttrStr(__pyx_t_18, __pyx_n_s_float32); if (unlikely(!__pyx_t_19)) __PYX_ERR(1, 55, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_19);
+  __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
+  __pyx_t_18 = PyTuple_New(2); if (unlikely(!__pyx_t_18)) __PYX_ERR(1, 55, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_18);
+  __Pyx_INCREF(__pyx_n_u_ratio);
+  __Pyx_GIVEREF(__pyx_n_u_ratio);
+  PyTuple_SET_ITEM(__pyx_t_18, 0, __pyx_n_u_ratio);
+  __Pyx_GIVEREF(__pyx_t_19);
+  PyTuple_SET_ITEM(__pyx_t_18, 1, __pyx_t_19);
+  __pyx_t_19 = 0;
 
   /* "PMD/PyPMD.pyx":47
  * 
  *         # allocate results array
  *         cdef np.ndarray result_array = np.ndarray((self._num_detections,), dtype=[             # <<<<<<<<<<<<<<
  *             ('is_active', int),
- *             ('is_positive', int),
+ *             ('x', int), ('y', int),
  */
-  __pyx_t_21 = PyList_New(15); if (unlikely(!__pyx_t_21)) __PYX_ERR(1, 47, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_21);
+  __pyx_t_19 = PyList_New(13); if (unlikely(!__pyx_t_19)) __PYX_ERR(1, 47, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_19);
   __Pyx_GIVEREF(__pyx_t_6);
-  PyList_SET_ITEM(__pyx_t_21, 0, __pyx_t_6);
+  PyList_SET_ITEM(__pyx_t_19, 0, __pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_9);
-  PyList_SET_ITEM(__pyx_t_21, 1, __pyx_t_9);
+  PyList_SET_ITEM(__pyx_t_19, 1, __pyx_t_9);
   __Pyx_GIVEREF(__pyx_t_5);
-  PyList_SET_ITEM(__pyx_t_21, 2, __pyx_t_5);
+  PyList_SET_ITEM(__pyx_t_19, 2, __pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_4);
-  PyList_SET_ITEM(__pyx_t_21, 3, __pyx_t_4);
+  PyList_SET_ITEM(__pyx_t_19, 3, __pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_3);
-  PyList_SET_ITEM(__pyx_t_21, 4, __pyx_t_3);
+  PyList_SET_ITEM(__pyx_t_19, 4, __pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_7);
-  PyList_SET_ITEM(__pyx_t_21, 5, __pyx_t_7);
+  PyList_SET_ITEM(__pyx_t_19, 5, __pyx_t_7);
   __Pyx_GIVEREF(__pyx_t_12);
-  PyList_SET_ITEM(__pyx_t_21, 6, __pyx_t_12);
+  PyList_SET_ITEM(__pyx_t_19, 6, __pyx_t_12);
   __Pyx_GIVEREF(__pyx_t_13);
-  PyList_SET_ITEM(__pyx_t_21, 7, __pyx_t_13);
+  PyList_SET_ITEM(__pyx_t_19, 7, __pyx_t_13);
   __Pyx_GIVEREF(__pyx_t_14);
-  PyList_SET_ITEM(__pyx_t_21, 8, __pyx_t_14);
+  PyList_SET_ITEM(__pyx_t_19, 8, __pyx_t_14);
   __Pyx_GIVEREF(__pyx_t_15);
-  PyList_SET_ITEM(__pyx_t_21, 9, __pyx_t_15);
+  PyList_SET_ITEM(__pyx_t_19, 9, __pyx_t_15);
   __Pyx_GIVEREF(__pyx_t_16);
-  PyList_SET_ITEM(__pyx_t_21, 10, __pyx_t_16);
+  PyList_SET_ITEM(__pyx_t_19, 10, __pyx_t_16);
   __Pyx_GIVEREF(__pyx_t_17);
-  PyList_SET_ITEM(__pyx_t_21, 11, __pyx_t_17);
+  PyList_SET_ITEM(__pyx_t_19, 11, __pyx_t_17);
   __Pyx_GIVEREF(__pyx_t_18);
-  PyList_SET_ITEM(__pyx_t_21, 12, __pyx_t_18);
-  __Pyx_GIVEREF(__pyx_t_19);
-  PyList_SET_ITEM(__pyx_t_21, 13, __pyx_t_19);
-  __Pyx_GIVEREF(__pyx_t_20);
-  PyList_SET_ITEM(__pyx_t_21, 14, __pyx_t_20);
+  PyList_SET_ITEM(__pyx_t_19, 12, __pyx_t_18);
   __pyx_t_6 = 0;
   __pyx_t_9 = 0;
   __pyx_t_5 = 0;
@@ -3760,55 +3703,53 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __pyx_t_16 = 0;
   __pyx_t_17 = 0;
   __pyx_t_18 = 0;
-  __pyx_t_19 = 0;
-  __pyx_t_20 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_21) < 0) __PYX_ERR(1, 47, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
-  __pyx_t_21 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5numpy_ndarray), __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_21)) __PYX_ERR(1, 47, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_21);
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_19) < 0) __PYX_ERR(1, 47, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
+  __pyx_t_19 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5numpy_ndarray), __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_19)) __PYX_ERR(1, 47, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_19);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_result_array = ((PyArrayObject *)__pyx_t_21);
-  __pyx_t_21 = 0;
+  __pyx_v_result_array = ((PyArrayObject *)__pyx_t_19);
+  __pyx_t_19 = 0;
 
-  /* "PMD/PyPMD.pyx":59
- *             ('confidence', np.float32)
+  /* "PMD/PyPMD.pyx":57
+ *             ('ratio', np.float32)
  *         ])
  *         cdef detection[:] results = result_array             # <<<<<<<<<<<<<<
  * 
  *         # make calls to C++
  */
-  __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_struct__PMD_3a__3a_detection(((PyObject *)__pyx_v_result_array), PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(1, 59, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_struct__PMD_3a__3a_detection(((PyObject *)__pyx_v_result_array), PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(1, 57, __pyx_L1_error)
   __pyx_v_results = __pyx_t_10;
   __pyx_t_10.memview = NULL;
   __pyx_t_10.data = NULL;
 
-  /* "PMD/PyPMD.pyx":62
+  /* "PMD/PyPMD.pyx":60
  * 
  *         # make calls to C++
  *         self._cpp_PMD.initFramebuffer(&frame[0,0,0])             # <<<<<<<<<<<<<<
  *         self._cpp_PMD.simulate(&events[0], num_events, &results[0], &indices[0,0])
  * 
  */
+  __pyx_t_20 = 0;
+  __pyx_t_21 = 0;
   __pyx_t_22 = 0;
-  __pyx_t_23 = 0;
-  __pyx_t_24 = 0;
-  __pyx_v_self->_cpp_PMD->initFramebuffer((&(*((PMD::byte_t *) ( /* dim=2 */ ((char *) (((PMD::byte_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_frame.data + __pyx_t_22 * __pyx_v_frame.strides[0]) ) + __pyx_t_23 * __pyx_v_frame.strides[1]) )) + __pyx_t_24)) )))));
+  __pyx_v_self->_cpp_PMD->initFramebuffer((&(*((PMD::byte_t *) ( /* dim=2 */ ((char *) (((PMD::byte_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_frame.data + __pyx_t_20 * __pyx_v_frame.strides[0]) ) + __pyx_t_21 * __pyx_v_frame.strides[1]) )) + __pyx_t_22)) )))));
 
-  /* "PMD/PyPMD.pyx":63
+  /* "PMD/PyPMD.pyx":61
  *         # make calls to C++
  *         self._cpp_PMD.initFramebuffer(&frame[0,0,0])
  *         self._cpp_PMD.simulate(&events[0], num_events, &results[0], &indices[0,0])             # <<<<<<<<<<<<<<
  * 
  *         # return the results
  */
-  __pyx_t_24 = 0;
-  __pyx_t_23 = 0;
   __pyx_t_22 = 0;
-  __pyx_t_25 = 0;
-  __pyx_v_self->_cpp_PMD->simulate((&(*((struct PMD::event *) ( /* dim=0 */ (__pyx_v_events.data + __pyx_t_24 * __pyx_v_events.strides[0]) )))), __pyx_v_num_events, (&(*((struct PMD::detection *) ( /* dim=0 */ (__pyx_v_results.data + __pyx_t_23 * __pyx_v_results.strides[0]) )))), (&(*((PMD::cid_t *) ( /* dim=1 */ ((char *) (((PMD::cid_t *) ( /* dim=0 */ (__pyx_v_indices.data + __pyx_t_22 * __pyx_v_indices.strides[0]) )) + __pyx_t_25)) )))));
+  __pyx_t_21 = 0;
+  __pyx_t_20 = 0;
+  __pyx_t_23 = 0;
+  __pyx_v_self->_cpp_PMD->simulate((&(*((struct PMD::event *) ( /* dim=0 */ (__pyx_v_events.data + __pyx_t_22 * __pyx_v_events.strides[0]) )))), __pyx_v_num_events, (&(*((struct PMD::detection *) ( /* dim=0 */ (__pyx_v_results.data + __pyx_t_21 * __pyx_v_results.strides[0]) )))), (&(*((PMD::cid_t *) ( /* dim=1 */ ((char *) (((PMD::cid_t *) ( /* dim=0 */ (__pyx_v_indices.data + __pyx_t_20 * __pyx_v_indices.strides[0]) )) + __pyx_t_23)) )))));
 
-  /* "PMD/PyPMD.pyx":66
+  /* "PMD/PyPMD.pyx":64
  * 
  *         # return the results
  *         return results             # <<<<<<<<<<<<<<
@@ -3846,8 +3787,6 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __Pyx_XDECREF(__pyx_t_17);
   __Pyx_XDECREF(__pyx_t_18);
   __Pyx_XDECREF(__pyx_t_19);
-  __Pyx_XDECREF(__pyx_t_20);
-  __Pyx_XDECREF(__pyx_t_21);
   __pyx_r.data = NULL;
   __pyx_r.memview = NULL;
   __Pyx_AddTraceback("PMD.PyPMD.PyPMD.process_events", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -5747,7 +5686,7 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
  *         raise ValueError("No value specified for struct attribute 'is_active'")
  *     result.is_active = value             # <<<<<<<<<<<<<<
  *     try:
- *         value = obj['is_positive']
+ *         value = obj['x']
  */
   __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 20, __pyx_L1_error)
   __pyx_v_result.is_active = __pyx_t_6;
@@ -5756,7 +5695,7 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
  *         raise ValueError("No value specified for struct attribute 'is_active'")
  *     result.is_active = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['is_positive']
+ *         value = obj['x']
  *     except KeyError:
  */
   {
@@ -5771,11 +5710,11 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
       /* "FromPyStructUtility":22
  *     result.is_active = value
  *     try:
- *         value = obj['is_positive']             # <<<<<<<<<<<<<<
+ *         value = obj['x']             # <<<<<<<<<<<<<<
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'is_positive'")
+ *         raise ValueError("No value specified for struct attribute 'x'")
  */
-      __pyx_t_8 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_is_positive); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 22, __pyx_L12_error)
+      __pyx_t_8 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_x); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 22, __pyx_L12_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_8);
       __pyx_t_8 = 0;
@@ -5784,7 +5723,7 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
  *         raise ValueError("No value specified for struct attribute 'is_active'")
  *     result.is_active = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['is_positive']
+ *         value = obj['x']
  *     except KeyError:
  */
     }
@@ -5800,10 +5739,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
     /* "FromPyStructUtility":23
  *     try:
- *         value = obj['is_positive']
+ *         value = obj['x']
  *     except KeyError:             # <<<<<<<<<<<<<<
- *         raise ValueError("No value specified for struct attribute 'is_positive'")
- *     result.is_positive = value
+ *         raise ValueError("No value specified for struct attribute 'x'")
+ *     result.x = value
  */
     __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
     if (__pyx_t_6) {
@@ -5814,13 +5753,13 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
       __Pyx_GOTREF(__pyx_t_2);
 
       /* "FromPyStructUtility":24
- *         value = obj['is_positive']
+ *         value = obj['x']
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'is_positive'")             # <<<<<<<<<<<<<<
- *     result.is_positive = value
+ *         raise ValueError("No value specified for struct attribute 'x'")             # <<<<<<<<<<<<<<
+ *     result.x = value
  *     try:
  */
-      __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__24, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 24, __pyx_L14_except_error)
+      __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 24, __pyx_L14_except_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_Raise(__pyx_t_9, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -5833,7 +5772,7 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
  *         raise ValueError("No value specified for struct attribute 'is_active'")
  *     result.is_active = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['is_positive']
+ *         value = obj['x']
  *     except KeyError:
  */
     __Pyx_XGIVEREF(__pyx_t_5);
@@ -5846,19 +5785,19 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
   /* "FromPyStructUtility":25
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'is_positive'")
- *     result.is_positive = value             # <<<<<<<<<<<<<<
+ *         raise ValueError("No value specified for struct attribute 'x'")
+ *     result.x = value             # <<<<<<<<<<<<<<
  *     try:
- *         value = obj['x']
+ *         value = obj['y']
  */
   __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 25, __pyx_L1_error)
-  __pyx_v_result.is_positive = __pyx_t_6;
+  __pyx_v_result.x = __pyx_t_6;
 
   /* "FromPyStructUtility":26
- *         raise ValueError("No value specified for struct attribute 'is_positive'")
- *     result.is_positive = value
+ *         raise ValueError("No value specified for struct attribute 'x'")
+ *     result.x = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['x']
+ *         value = obj['y']
  *     except KeyError:
  */
   {
@@ -5871,22 +5810,22 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     /*try:*/ {
 
       /* "FromPyStructUtility":27
- *     result.is_positive = value
+ *     result.x = value
  *     try:
- *         value = obj['x']             # <<<<<<<<<<<<<<
+ *         value = obj['y']             # <<<<<<<<<<<<<<
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'x'")
+ *         raise ValueError("No value specified for struct attribute 'y'")
  */
-      __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_x); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L20_error)
+      __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_y); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L20_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_2);
       __pyx_t_2 = 0;
 
       /* "FromPyStructUtility":26
- *         raise ValueError("No value specified for struct attribute 'is_positive'")
- *     result.is_positive = value
+ *         raise ValueError("No value specified for struct attribute 'x'")
+ *     result.x = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['x']
+ *         value = obj['y']
  *     except KeyError:
  */
     }
@@ -5902,10 +5841,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
     /* "FromPyStructUtility":28
  *     try:
- *         value = obj['x']
+ *         value = obj['y']
  *     except KeyError:             # <<<<<<<<<<<<<<
- *         raise ValueError("No value specified for struct attribute 'x'")
- *     result.x = value
+ *         raise ValueError("No value specified for struct attribute 'y'")
+ *     result.y = value
  */
     __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
     if (__pyx_t_6) {
@@ -5916,13 +5855,13 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
       __Pyx_GOTREF(__pyx_t_8);
 
       /* "FromPyStructUtility":29
- *         value = obj['x']
+ *         value = obj['y']
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'x'")             # <<<<<<<<<<<<<<
- *     result.x = value
+ *         raise ValueError("No value specified for struct attribute 'y'")             # <<<<<<<<<<<<<<
+ *     result.y = value
  *     try:
  */
-      __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 29, __pyx_L22_except_error)
+      __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 29, __pyx_L22_except_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_Raise(__pyx_t_9, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -5932,10 +5871,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     __pyx_L22_except_error:;
 
     /* "FromPyStructUtility":26
- *         raise ValueError("No value specified for struct attribute 'is_positive'")
- *     result.is_positive = value
+ *         raise ValueError("No value specified for struct attribute 'x'")
+ *     result.x = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['x']
+ *         value = obj['y']
  *     except KeyError:
  */
     __Pyx_XGIVEREF(__pyx_t_3);
@@ -5948,19 +5887,19 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
   /* "FromPyStructUtility":30
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'x'")
- *     result.x = value             # <<<<<<<<<<<<<<
+ *         raise ValueError("No value specified for struct attribute 'y'")
+ *     result.y = value             # <<<<<<<<<<<<<<
  *     try:
- *         value = obj['y']
+ *         value = obj['r']
  */
   __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 30, __pyx_L1_error)
-  __pyx_v_result.x = __pyx_t_6;
+  __pyx_v_result.y = __pyx_t_6;
 
   /* "FromPyStructUtility":31
- *         raise ValueError("No value specified for struct attribute 'x'")
- *     result.x = value
+ *         raise ValueError("No value specified for struct attribute 'y'")
+ *     result.y = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['y']
+ *         value = obj['r']
  *     except KeyError:
  */
   {
@@ -5973,22 +5912,22 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     /*try:*/ {
 
       /* "FromPyStructUtility":32
- *     result.x = value
+ *     result.y = value
  *     try:
- *         value = obj['y']             # <<<<<<<<<<<<<<
+ *         value = obj['r']             # <<<<<<<<<<<<<<
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'y'")
+ *         raise ValueError("No value specified for struct attribute 'r'")
  */
-      __pyx_t_8 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_y); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 32, __pyx_L28_error)
+      __pyx_t_8 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_r); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 32, __pyx_L28_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_8);
       __pyx_t_8 = 0;
 
       /* "FromPyStructUtility":31
- *         raise ValueError("No value specified for struct attribute 'x'")
- *     result.x = value
+ *         raise ValueError("No value specified for struct attribute 'y'")
+ *     result.y = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['y']
+ *         value = obj['r']
  *     except KeyError:
  */
     }
@@ -6004,10 +5943,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
     /* "FromPyStructUtility":33
  *     try:
- *         value = obj['y']
+ *         value = obj['r']
  *     except KeyError:             # <<<<<<<<<<<<<<
- *         raise ValueError("No value specified for struct attribute 'y'")
- *     result.y = value
+ *         raise ValueError("No value specified for struct attribute 'r'")
+ *     result.r = value
  */
     __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
     if (__pyx_t_6) {
@@ -6018,13 +5957,13 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
       __Pyx_GOTREF(__pyx_t_2);
 
       /* "FromPyStructUtility":34
- *         value = obj['y']
+ *         value = obj['r']
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'y'")             # <<<<<<<<<<<<<<
- *     result.y = value
+ *         raise ValueError("No value specified for struct attribute 'r'")             # <<<<<<<<<<<<<<
+ *     result.r = value
  *     try:
  */
-      __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 34, __pyx_L30_except_error)
+      __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__24, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 34, __pyx_L30_except_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_Raise(__pyx_t_9, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -6034,10 +5973,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     __pyx_L30_except_error:;
 
     /* "FromPyStructUtility":31
- *         raise ValueError("No value specified for struct attribute 'x'")
- *     result.x = value
+ *         raise ValueError("No value specified for struct attribute 'y'")
+ *     result.y = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['y']
+ *         value = obj['r']
  *     except KeyError:
  */
     __Pyx_XGIVEREF(__pyx_t_5);
@@ -6050,19 +5989,19 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
   /* "FromPyStructUtility":35
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'y'")
- *     result.y = value             # <<<<<<<<<<<<<<
+ *         raise ValueError("No value specified for struct attribute 'r'")
+ *     result.r = value             # <<<<<<<<<<<<<<
  *     try:
- *         value = obj['r']
+ *         value = obj['g']
  */
   __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 35, __pyx_L1_error)
-  __pyx_v_result.y = __pyx_t_6;
+  __pyx_v_result.r = __pyx_t_6;
 
   /* "FromPyStructUtility":36
- *         raise ValueError("No value specified for struct attribute 'y'")
- *     result.y = value
+ *         raise ValueError("No value specified for struct attribute 'r'")
+ *     result.r = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['r']
+ *         value = obj['g']
  *     except KeyError:
  */
   {
@@ -6075,22 +6014,22 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     /*try:*/ {
 
       /* "FromPyStructUtility":37
- *     result.y = value
+ *     result.r = value
  *     try:
- *         value = obj['r']             # <<<<<<<<<<<<<<
+ *         value = obj['g']             # <<<<<<<<<<<<<<
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'r'")
+ *         raise ValueError("No value specified for struct attribute 'g'")
  */
-      __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_r); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L36_error)
+      __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_g); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L36_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_2);
       __pyx_t_2 = 0;
 
       /* "FromPyStructUtility":36
- *         raise ValueError("No value specified for struct attribute 'y'")
- *     result.y = value
+ *         raise ValueError("No value specified for struct attribute 'r'")
+ *     result.r = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['r']
+ *         value = obj['g']
  *     except KeyError:
  */
     }
@@ -6106,10 +6045,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
     /* "FromPyStructUtility":38
  *     try:
- *         value = obj['r']
+ *         value = obj['g']
  *     except KeyError:             # <<<<<<<<<<<<<<
- *         raise ValueError("No value specified for struct attribute 'r'")
- *     result.r = value
+ *         raise ValueError("No value specified for struct attribute 'g'")
+ *     result.g = value
  */
     __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
     if (__pyx_t_6) {
@@ -6120,10 +6059,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
       __Pyx_GOTREF(__pyx_t_8);
 
       /* "FromPyStructUtility":39
- *         value = obj['r']
+ *         value = obj['g']
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'r'")             # <<<<<<<<<<<<<<
- *     result.r = value
+ *         raise ValueError("No value specified for struct attribute 'g'")             # <<<<<<<<<<<<<<
+ *     result.g = value
  *     try:
  */
       __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__25, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 39, __pyx_L38_except_error)
@@ -6136,10 +6075,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     __pyx_L38_except_error:;
 
     /* "FromPyStructUtility":36
- *         raise ValueError("No value specified for struct attribute 'y'")
- *     result.y = value
+ *         raise ValueError("No value specified for struct attribute 'r'")
+ *     result.r = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['r']
+ *         value = obj['g']
  *     except KeyError:
  */
     __Pyx_XGIVEREF(__pyx_t_3);
@@ -6152,19 +6091,19 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
   /* "FromPyStructUtility":40
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'r'")
- *     result.r = value             # <<<<<<<<<<<<<<
+ *         raise ValueError("No value specified for struct attribute 'g'")
+ *     result.g = value             # <<<<<<<<<<<<<<
  *     try:
- *         value = obj['g']
+ *         value = obj['b']
  */
   __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 40, __pyx_L1_error)
-  __pyx_v_result.r = __pyx_t_6;
+  __pyx_v_result.g = __pyx_t_6;
 
   /* "FromPyStructUtility":41
- *         raise ValueError("No value specified for struct attribute 'r'")
- *     result.r = value
+ *         raise ValueError("No value specified for struct attribute 'g'")
+ *     result.g = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['g']
+ *         value = obj['b']
  *     except KeyError:
  */
   {
@@ -6177,22 +6116,22 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     /*try:*/ {
 
       /* "FromPyStructUtility":42
- *     result.r = value
+ *     result.g = value
  *     try:
- *         value = obj['g']             # <<<<<<<<<<<<<<
+ *         value = obj['b']             # <<<<<<<<<<<<<<
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'g'")
+ *         raise ValueError("No value specified for struct attribute 'b'")
  */
-      __pyx_t_8 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_g); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 42, __pyx_L44_error)
+      __pyx_t_8 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_b); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 42, __pyx_L44_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_8);
       __pyx_t_8 = 0;
 
       /* "FromPyStructUtility":41
- *         raise ValueError("No value specified for struct attribute 'r'")
- *     result.r = value
+ *         raise ValueError("No value specified for struct attribute 'g'")
+ *     result.g = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['g']
+ *         value = obj['b']
  *     except KeyError:
  */
     }
@@ -6208,10 +6147,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
     /* "FromPyStructUtility":43
  *     try:
- *         value = obj['g']
+ *         value = obj['b']
  *     except KeyError:             # <<<<<<<<<<<<<<
- *         raise ValueError("No value specified for struct attribute 'g'")
- *     result.g = value
+ *         raise ValueError("No value specified for struct attribute 'b'")
+ *     result.b = value
  */
     __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
     if (__pyx_t_6) {
@@ -6222,10 +6161,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
       __Pyx_GOTREF(__pyx_t_2);
 
       /* "FromPyStructUtility":44
- *         value = obj['g']
+ *         value = obj['b']
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'g'")             # <<<<<<<<<<<<<<
- *     result.g = value
+ *         raise ValueError("No value specified for struct attribute 'b'")             # <<<<<<<<<<<<<<
+ *     result.b = value
  *     try:
  */
       __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__26, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 44, __pyx_L46_except_error)
@@ -6238,10 +6177,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     __pyx_L46_except_error:;
 
     /* "FromPyStructUtility":41
- *         raise ValueError("No value specified for struct attribute 'r'")
- *     result.r = value
+ *         raise ValueError("No value specified for struct attribute 'g'")
+ *     result.g = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['g']
+ *         value = obj['b']
  *     except KeyError:
  */
     __Pyx_XGIVEREF(__pyx_t_5);
@@ -6254,19 +6193,19 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
   /* "FromPyStructUtility":45
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'g'")
- *     result.g = value             # <<<<<<<<<<<<<<
+ *         raise ValueError("No value specified for struct attribute 'b'")
+ *     result.b = value             # <<<<<<<<<<<<<<
  *     try:
- *         value = obj['b']
+ *         value = obj['cid']
  */
   __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 45, __pyx_L1_error)
-  __pyx_v_result.g = __pyx_t_6;
+  __pyx_v_result.b = __pyx_t_6;
 
   /* "FromPyStructUtility":46
- *         raise ValueError("No value specified for struct attribute 'g'")
- *     result.g = value
+ *         raise ValueError("No value specified for struct attribute 'b'")
+ *     result.b = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['b']
+ *         value = obj['cid']
  *     except KeyError:
  */
   {
@@ -6279,22 +6218,22 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     /*try:*/ {
 
       /* "FromPyStructUtility":47
- *     result.g = value
+ *     result.b = value
  *     try:
- *         value = obj['b']             # <<<<<<<<<<<<<<
+ *         value = obj['cid']             # <<<<<<<<<<<<<<
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'b'")
+ *         raise ValueError("No value specified for struct attribute 'cid'")
  */
-      __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_b); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L52_error)
+      __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_cid); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L52_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_2);
       __pyx_t_2 = 0;
 
       /* "FromPyStructUtility":46
- *         raise ValueError("No value specified for struct attribute 'g'")
- *     result.g = value
+ *         raise ValueError("No value specified for struct attribute 'b'")
+ *     result.b = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['b']
+ *         value = obj['cid']
  *     except KeyError:
  */
     }
@@ -6310,10 +6249,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
     /* "FromPyStructUtility":48
  *     try:
- *         value = obj['b']
+ *         value = obj['cid']
  *     except KeyError:             # <<<<<<<<<<<<<<
- *         raise ValueError("No value specified for struct attribute 'b'")
- *     result.b = value
+ *         raise ValueError("No value specified for struct attribute 'cid'")
+ *     result.cid = value
  */
     __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
     if (__pyx_t_6) {
@@ -6324,10 +6263,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
       __Pyx_GOTREF(__pyx_t_8);
 
       /* "FromPyStructUtility":49
- *         value = obj['b']
+ *         value = obj['cid']
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'b'")             # <<<<<<<<<<<<<<
- *     result.b = value
+ *         raise ValueError("No value specified for struct attribute 'cid'")             # <<<<<<<<<<<<<<
+ *     result.cid = value
  *     try:
  */
       __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__27, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 49, __pyx_L54_except_error)
@@ -6340,10 +6279,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     __pyx_L54_except_error:;
 
     /* "FromPyStructUtility":46
- *         raise ValueError("No value specified for struct attribute 'g'")
- *     result.g = value
+ *         raise ValueError("No value specified for struct attribute 'b'")
+ *     result.b = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['b']
+ *         value = obj['cid']
  *     except KeyError:
  */
     __Pyx_XGIVEREF(__pyx_t_3);
@@ -6356,19 +6295,19 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
   /* "FromPyStructUtility":50
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'b'")
- *     result.b = value             # <<<<<<<<<<<<<<
+ *         raise ValueError("No value specified for struct attribute 'cid'")
+ *     result.cid = value             # <<<<<<<<<<<<<<
  *     try:
- *         value = obj['cid']
+ *         value = obj['long_v_x']
  */
   __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 50, __pyx_L1_error)
-  __pyx_v_result.b = __pyx_t_6;
+  __pyx_v_result.cid = __pyx_t_6;
 
   /* "FromPyStructUtility":51
- *         raise ValueError("No value specified for struct attribute 'b'")
- *     result.b = value
+ *         raise ValueError("No value specified for struct attribute 'cid'")
+ *     result.cid = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['cid']
+ *         value = obj['long_v_x']
  *     except KeyError:
  */
   {
@@ -6381,22 +6320,22 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     /*try:*/ {
 
       /* "FromPyStructUtility":52
- *     result.b = value
+ *     result.cid = value
  *     try:
- *         value = obj['cid']             # <<<<<<<<<<<<<<
+ *         value = obj['long_v_x']             # <<<<<<<<<<<<<<
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'cid'")
+ *         raise ValueError("No value specified for struct attribute 'long_v_x'")
  */
-      __pyx_t_8 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_cid); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 52, __pyx_L60_error)
+      __pyx_t_8 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_long_v_x); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 52, __pyx_L60_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_8);
       __pyx_t_8 = 0;
 
       /* "FromPyStructUtility":51
- *         raise ValueError("No value specified for struct attribute 'b'")
- *     result.b = value
+ *         raise ValueError("No value specified for struct attribute 'cid'")
+ *     result.cid = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['cid']
+ *         value = obj['long_v_x']
  *     except KeyError:
  */
     }
@@ -6412,10 +6351,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
     /* "FromPyStructUtility":53
  *     try:
- *         value = obj['cid']
+ *         value = obj['long_v_x']
  *     except KeyError:             # <<<<<<<<<<<<<<
- *         raise ValueError("No value specified for struct attribute 'cid'")
- *     result.cid = value
+ *         raise ValueError("No value specified for struct attribute 'long_v_x'")
+ *     result.long_v_x = value
  */
     __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
     if (__pyx_t_6) {
@@ -6426,10 +6365,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
       __Pyx_GOTREF(__pyx_t_2);
 
       /* "FromPyStructUtility":54
- *         value = obj['cid']
+ *         value = obj['long_v_x']
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'cid'")             # <<<<<<<<<<<<<<
- *     result.cid = value
+ *         raise ValueError("No value specified for struct attribute 'long_v_x'")             # <<<<<<<<<<<<<<
+ *     result.long_v_x = value
  *     try:
  */
       __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 54, __pyx_L62_except_error)
@@ -6442,10 +6381,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     __pyx_L62_except_error:;
 
     /* "FromPyStructUtility":51
- *         raise ValueError("No value specified for struct attribute 'b'")
- *     result.b = value
+ *         raise ValueError("No value specified for struct attribute 'cid'")
+ *     result.cid = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['cid']
+ *         value = obj['long_v_x']
  *     except KeyError:
  */
     __Pyx_XGIVEREF(__pyx_t_5);
@@ -6458,19 +6397,19 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
   /* "FromPyStructUtility":55
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'cid'")
- *     result.cid = value             # <<<<<<<<<<<<<<
+ *         raise ValueError("No value specified for struct attribute 'long_v_x'")
+ *     result.long_v_x = value             # <<<<<<<<<<<<<<
  *     try:
- *         value = obj['long_v_x']
+ *         value = obj['long_v_y']
  */
-  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 55, __pyx_L1_error)
-  __pyx_v_result.cid = __pyx_t_6;
+  __pyx_t_10 = __pyx_PyFloat_AsFloat(__pyx_v_value); if (unlikely((__pyx_t_10 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_v_result.long_v_x = __pyx_t_10;
 
   /* "FromPyStructUtility":56
- *         raise ValueError("No value specified for struct attribute 'cid'")
- *     result.cid = value
+ *         raise ValueError("No value specified for struct attribute 'long_v_x'")
+ *     result.long_v_x = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['long_v_x']
+ *         value = obj['long_v_y']
  *     except KeyError:
  */
   {
@@ -6483,22 +6422,22 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     /*try:*/ {
 
       /* "FromPyStructUtility":57
- *     result.cid = value
+ *     result.long_v_x = value
  *     try:
- *         value = obj['long_v_x']             # <<<<<<<<<<<<<<
+ *         value = obj['long_v_y']             # <<<<<<<<<<<<<<
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'long_v_x'")
+ *         raise ValueError("No value specified for struct attribute 'long_v_y'")
  */
-      __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_long_v_x); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L68_error)
+      __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_long_v_y); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L68_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_2);
       __pyx_t_2 = 0;
 
       /* "FromPyStructUtility":56
- *         raise ValueError("No value specified for struct attribute 'cid'")
- *     result.cid = value
+ *         raise ValueError("No value specified for struct attribute 'long_v_x'")
+ *     result.long_v_x = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['long_v_x']
+ *         value = obj['long_v_y']
  *     except KeyError:
  */
     }
@@ -6514,10 +6453,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
     /* "FromPyStructUtility":58
  *     try:
- *         value = obj['long_v_x']
+ *         value = obj['long_v_y']
  *     except KeyError:             # <<<<<<<<<<<<<<
- *         raise ValueError("No value specified for struct attribute 'long_v_x'")
- *     result.long_v_x = value
+ *         raise ValueError("No value specified for struct attribute 'long_v_y'")
+ *     result.long_v_y = value
  */
     __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
     if (__pyx_t_6) {
@@ -6528,10 +6467,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
       __Pyx_GOTREF(__pyx_t_8);
 
       /* "FromPyStructUtility":59
- *         value = obj['long_v_x']
+ *         value = obj['long_v_y']
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'long_v_x'")             # <<<<<<<<<<<<<<
- *     result.long_v_x = value
+ *         raise ValueError("No value specified for struct attribute 'long_v_y'")             # <<<<<<<<<<<<<<
+ *     result.long_v_y = value
  *     try:
  */
       __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__29, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 59, __pyx_L70_except_error)
@@ -6544,10 +6483,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     __pyx_L70_except_error:;
 
     /* "FromPyStructUtility":56
- *         raise ValueError("No value specified for struct attribute 'cid'")
- *     result.cid = value
+ *         raise ValueError("No value specified for struct attribute 'long_v_x'")
+ *     result.long_v_x = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['long_v_x']
+ *         value = obj['long_v_y']
  *     except KeyError:
  */
     __Pyx_XGIVEREF(__pyx_t_3);
@@ -6560,19 +6499,19 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
   /* "FromPyStructUtility":60
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'long_v_x'")
- *     result.long_v_x = value             # <<<<<<<<<<<<<<
+ *         raise ValueError("No value specified for struct attribute 'long_v_y'")
+ *     result.long_v_y = value             # <<<<<<<<<<<<<<
  *     try:
- *         value = obj['long_v_y']
+ *         value = obj['short_v_x']
  */
   __pyx_t_10 = __pyx_PyFloat_AsFloat(__pyx_v_value); if (unlikely((__pyx_t_10 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 60, __pyx_L1_error)
-  __pyx_v_result.long_v_x = __pyx_t_10;
+  __pyx_v_result.long_v_y = __pyx_t_10;
 
   /* "FromPyStructUtility":61
- *         raise ValueError("No value specified for struct attribute 'long_v_x'")
- *     result.long_v_x = value
+ *         raise ValueError("No value specified for struct attribute 'long_v_y'")
+ *     result.long_v_y = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['long_v_y']
+ *         value = obj['short_v_x']
  *     except KeyError:
  */
   {
@@ -6585,22 +6524,22 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     /*try:*/ {
 
       /* "FromPyStructUtility":62
- *     result.long_v_x = value
+ *     result.long_v_y = value
  *     try:
- *         value = obj['long_v_y']             # <<<<<<<<<<<<<<
+ *         value = obj['short_v_x']             # <<<<<<<<<<<<<<
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'long_v_y'")
+ *         raise ValueError("No value specified for struct attribute 'short_v_x'")
  */
-      __pyx_t_8 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_long_v_y); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 62, __pyx_L76_error)
+      __pyx_t_8 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_short_v_x); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 62, __pyx_L76_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_8);
       __pyx_t_8 = 0;
 
       /* "FromPyStructUtility":61
- *         raise ValueError("No value specified for struct attribute 'long_v_x'")
- *     result.long_v_x = value
+ *         raise ValueError("No value specified for struct attribute 'long_v_y'")
+ *     result.long_v_y = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['long_v_y']
+ *         value = obj['short_v_x']
  *     except KeyError:
  */
     }
@@ -6616,10 +6555,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
     /* "FromPyStructUtility":63
  *     try:
- *         value = obj['long_v_y']
+ *         value = obj['short_v_x']
  *     except KeyError:             # <<<<<<<<<<<<<<
- *         raise ValueError("No value specified for struct attribute 'long_v_y'")
- *     result.long_v_y = value
+ *         raise ValueError("No value specified for struct attribute 'short_v_x'")
+ *     result.short_v_x = value
  */
     __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
     if (__pyx_t_6) {
@@ -6630,10 +6569,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
       __Pyx_GOTREF(__pyx_t_2);
 
       /* "FromPyStructUtility":64
- *         value = obj['long_v_y']
+ *         value = obj['short_v_x']
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'long_v_y'")             # <<<<<<<<<<<<<<
- *     result.long_v_y = value
+ *         raise ValueError("No value specified for struct attribute 'short_v_x'")             # <<<<<<<<<<<<<<
+ *     result.short_v_x = value
  *     try:
  */
       __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 64, __pyx_L78_except_error)
@@ -6646,10 +6585,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     __pyx_L78_except_error:;
 
     /* "FromPyStructUtility":61
- *         raise ValueError("No value specified for struct attribute 'long_v_x'")
- *     result.long_v_x = value
+ *         raise ValueError("No value specified for struct attribute 'long_v_y'")
+ *     result.long_v_y = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['long_v_y']
+ *         value = obj['short_v_x']
  *     except KeyError:
  */
     __Pyx_XGIVEREF(__pyx_t_5);
@@ -6662,19 +6601,19 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
   /* "FromPyStructUtility":65
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'long_v_y'")
- *     result.long_v_y = value             # <<<<<<<<<<<<<<
+ *         raise ValueError("No value specified for struct attribute 'short_v_x'")
+ *     result.short_v_x = value             # <<<<<<<<<<<<<<
  *     try:
- *         value = obj['short_v_x']
+ *         value = obj['short_v_y']
  */
   __pyx_t_10 = __pyx_PyFloat_AsFloat(__pyx_v_value); if (unlikely((__pyx_t_10 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 65, __pyx_L1_error)
-  __pyx_v_result.long_v_y = __pyx_t_10;
+  __pyx_v_result.short_v_x = __pyx_t_10;
 
   /* "FromPyStructUtility":66
- *         raise ValueError("No value specified for struct attribute 'long_v_y'")
- *     result.long_v_y = value
+ *         raise ValueError("No value specified for struct attribute 'short_v_x'")
+ *     result.short_v_x = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['short_v_x']
+ *         value = obj['short_v_y']
  *     except KeyError:
  */
   {
@@ -6687,22 +6626,22 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     /*try:*/ {
 
       /* "FromPyStructUtility":67
- *     result.long_v_y = value
+ *     result.short_v_x = value
  *     try:
- *         value = obj['short_v_x']             # <<<<<<<<<<<<<<
+ *         value = obj['short_v_y']             # <<<<<<<<<<<<<<
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'short_v_x'")
+ *         raise ValueError("No value specified for struct attribute 'short_v_y'")
  */
-      __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_short_v_x); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L84_error)
+      __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_short_v_y); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L84_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_2);
       __pyx_t_2 = 0;
 
       /* "FromPyStructUtility":66
- *         raise ValueError("No value specified for struct attribute 'long_v_y'")
- *     result.long_v_y = value
+ *         raise ValueError("No value specified for struct attribute 'short_v_x'")
+ *     result.short_v_x = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['short_v_x']
+ *         value = obj['short_v_y']
  *     except KeyError:
  */
     }
@@ -6718,10 +6657,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
     /* "FromPyStructUtility":68
  *     try:
- *         value = obj['short_v_x']
+ *         value = obj['short_v_y']
  *     except KeyError:             # <<<<<<<<<<<<<<
- *         raise ValueError("No value specified for struct attribute 'short_v_x'")
- *     result.short_v_x = value
+ *         raise ValueError("No value specified for struct attribute 'short_v_y'")
+ *     result.short_v_y = value
  */
     __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
     if (__pyx_t_6) {
@@ -6732,10 +6671,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
       __Pyx_GOTREF(__pyx_t_8);
 
       /* "FromPyStructUtility":69
- *         value = obj['short_v_x']
+ *         value = obj['short_v_y']
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'short_v_x'")             # <<<<<<<<<<<<<<
- *     result.short_v_x = value
+ *         raise ValueError("No value specified for struct attribute 'short_v_y'")             # <<<<<<<<<<<<<<
+ *     result.short_v_y = value
  *     try:
  */
       __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__31, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 69, __pyx_L86_except_error)
@@ -6748,10 +6687,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     __pyx_L86_except_error:;
 
     /* "FromPyStructUtility":66
- *         raise ValueError("No value specified for struct attribute 'long_v_y'")
- *     result.long_v_y = value
+ *         raise ValueError("No value specified for struct attribute 'short_v_x'")
+ *     result.short_v_x = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['short_v_x']
+ *         value = obj['short_v_y']
  *     except KeyError:
  */
     __Pyx_XGIVEREF(__pyx_t_3);
@@ -6764,19 +6703,19 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
   /* "FromPyStructUtility":70
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'short_v_x'")
- *     result.short_v_x = value             # <<<<<<<<<<<<<<
+ *         raise ValueError("No value specified for struct attribute 'short_v_y'")
+ *     result.short_v_y = value             # <<<<<<<<<<<<<<
  *     try:
- *         value = obj['short_v_y']
+ *         value = obj['stability']
  */
   __pyx_t_10 = __pyx_PyFloat_AsFloat(__pyx_v_value); if (unlikely((__pyx_t_10 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 70, __pyx_L1_error)
-  __pyx_v_result.short_v_x = __pyx_t_10;
+  __pyx_v_result.short_v_y = __pyx_t_10;
 
   /* "FromPyStructUtility":71
- *         raise ValueError("No value specified for struct attribute 'short_v_x'")
- *     result.short_v_x = value
+ *         raise ValueError("No value specified for struct attribute 'short_v_y'")
+ *     result.short_v_y = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['short_v_y']
+ *         value = obj['stability']
  *     except KeyError:
  */
   {
@@ -6789,22 +6728,22 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     /*try:*/ {
 
       /* "FromPyStructUtility":72
- *     result.short_v_x = value
+ *     result.short_v_y = value
  *     try:
- *         value = obj['short_v_y']             # <<<<<<<<<<<<<<
+ *         value = obj['stability']             # <<<<<<<<<<<<<<
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'short_v_y'")
+ *         raise ValueError("No value specified for struct attribute 'stability'")
  */
-      __pyx_t_8 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_short_v_y); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 72, __pyx_L92_error)
+      __pyx_t_8 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_stability); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 72, __pyx_L92_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_8);
       __pyx_t_8 = 0;
 
       /* "FromPyStructUtility":71
- *         raise ValueError("No value specified for struct attribute 'short_v_x'")
- *     result.short_v_x = value
+ *         raise ValueError("No value specified for struct attribute 'short_v_y'")
+ *     result.short_v_y = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['short_v_y']
+ *         value = obj['stability']
  *     except KeyError:
  */
     }
@@ -6820,10 +6759,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
     /* "FromPyStructUtility":73
  *     try:
- *         value = obj['short_v_y']
+ *         value = obj['stability']
  *     except KeyError:             # <<<<<<<<<<<<<<
- *         raise ValueError("No value specified for struct attribute 'short_v_y'")
- *     result.short_v_y = value
+ *         raise ValueError("No value specified for struct attribute 'stability'")
+ *     result.stability = value
  */
     __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
     if (__pyx_t_6) {
@@ -6834,10 +6773,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
       __Pyx_GOTREF(__pyx_t_2);
 
       /* "FromPyStructUtility":74
- *         value = obj['short_v_y']
+ *         value = obj['stability']
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'short_v_y'")             # <<<<<<<<<<<<<<
- *     result.short_v_y = value
+ *         raise ValueError("No value specified for struct attribute 'stability'")             # <<<<<<<<<<<<<<
+ *     result.stability = value
  *     try:
  */
       __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__32, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 74, __pyx_L94_except_error)
@@ -6850,10 +6789,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     __pyx_L94_except_error:;
 
     /* "FromPyStructUtility":71
- *         raise ValueError("No value specified for struct attribute 'short_v_x'")
- *     result.short_v_x = value
+ *         raise ValueError("No value specified for struct attribute 'short_v_y'")
+ *     result.short_v_y = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['short_v_y']
+ *         value = obj['stability']
  *     except KeyError:
  */
     __Pyx_XGIVEREF(__pyx_t_5);
@@ -6866,19 +6805,19 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
   /* "FromPyStructUtility":75
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'short_v_y'")
- *     result.short_v_y = value             # <<<<<<<<<<<<<<
+ *         raise ValueError("No value specified for struct attribute 'stability'")
+ *     result.stability = value             # <<<<<<<<<<<<<<
  *     try:
- *         value = obj['stability']
+ *         value = obj['ratio']
  */
-  __pyx_t_10 = __pyx_PyFloat_AsFloat(__pyx_v_value); if (unlikely((__pyx_t_10 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 75, __pyx_L1_error)
-  __pyx_v_result.short_v_y = __pyx_t_10;
+  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_v_result.stability = __pyx_t_6;
 
   /* "FromPyStructUtility":76
- *         raise ValueError("No value specified for struct attribute 'short_v_y'")
- *     result.short_v_y = value
+ *         raise ValueError("No value specified for struct attribute 'stability'")
+ *     result.stability = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['stability']
+ *         value = obj['ratio']
  *     except KeyError:
  */
   {
@@ -6891,22 +6830,22 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     /*try:*/ {
 
       /* "FromPyStructUtility":77
- *     result.short_v_y = value
+ *     result.stability = value
  *     try:
- *         value = obj['stability']             # <<<<<<<<<<<<<<
+ *         value = obj['ratio']             # <<<<<<<<<<<<<<
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'stability'")
+ *         raise ValueError("No value specified for struct attribute 'ratio'")
  */
-      __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_stability); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L100_error)
+      __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_ratio); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L100_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_2);
       __pyx_t_2 = 0;
 
       /* "FromPyStructUtility":76
- *         raise ValueError("No value specified for struct attribute 'short_v_y'")
- *     result.short_v_y = value
+ *         raise ValueError("No value specified for struct attribute 'stability'")
+ *     result.stability = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['stability']
+ *         value = obj['ratio']
  *     except KeyError:
  */
     }
@@ -6922,10 +6861,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
     /* "FromPyStructUtility":78
  *     try:
- *         value = obj['stability']
+ *         value = obj['ratio']
  *     except KeyError:             # <<<<<<<<<<<<<<
- *         raise ValueError("No value specified for struct attribute 'stability'")
- *     result.stability = value
+ *         raise ValueError("No value specified for struct attribute 'ratio'")
+ *     result.ratio = value
  */
     __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
     if (__pyx_t_6) {
@@ -6936,11 +6875,11 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
       __Pyx_GOTREF(__pyx_t_8);
 
       /* "FromPyStructUtility":79
- *         value = obj['stability']
+ *         value = obj['ratio']
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'stability'")             # <<<<<<<<<<<<<<
- *     result.stability = value
- *     try:
+ *         raise ValueError("No value specified for struct attribute 'ratio'")             # <<<<<<<<<<<<<<
+ *     result.ratio = value
+ *     return result
  */
       __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__33, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 79, __pyx_L102_except_error)
       __Pyx_GOTREF(__pyx_t_9);
@@ -6952,10 +6891,10 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
     __pyx_L102_except_error:;
 
     /* "FromPyStructUtility":76
- *         raise ValueError("No value specified for struct attribute 'short_v_y'")
- *     result.short_v_y = value
+ *         raise ValueError("No value specified for struct attribute 'stability'")
+ *     result.stability = value
  *     try:             # <<<<<<<<<<<<<<
- *         value = obj['stability']
+ *         value = obj['ratio']
  *     except KeyError:
  */
     __Pyx_XGIVEREF(__pyx_t_3);
@@ -6968,221 +6907,17 @@ static struct PMD::detection __pyx_convert__from_py_struct__PMD_3a__3a_detection
 
   /* "FromPyStructUtility":80
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'stability'")
- *     result.stability = value             # <<<<<<<<<<<<<<
- *     try:
- *         value = obj['ratio']
- */
-  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 80, __pyx_L1_error)
-  __pyx_v_result.stability = __pyx_t_6;
-
-  /* "FromPyStructUtility":81
- *         raise ValueError("No value specified for struct attribute 'stability'")
- *     result.stability = value
- *     try:             # <<<<<<<<<<<<<<
- *         value = obj['ratio']
- *     except KeyError:
- */
-  {
-    __Pyx_PyThreadState_declare
-    __Pyx_PyThreadState_assign
-    __Pyx_ExceptionSave(&__pyx_t_5, &__pyx_t_4, &__pyx_t_3);
-    __Pyx_XGOTREF(__pyx_t_5);
-    __Pyx_XGOTREF(__pyx_t_4);
-    __Pyx_XGOTREF(__pyx_t_3);
-    /*try:*/ {
-
-      /* "FromPyStructUtility":82
- *     result.stability = value
- *     try:
- *         value = obj['ratio']             # <<<<<<<<<<<<<<
- *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'ratio'")
- */
-      __pyx_t_8 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_ratio); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 82, __pyx_L108_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_8);
-      __pyx_t_8 = 0;
-
-      /* "FromPyStructUtility":81
- *         raise ValueError("No value specified for struct attribute 'stability'")
- *     result.stability = value
- *     try:             # <<<<<<<<<<<<<<
- *         value = obj['ratio']
- *     except KeyError:
- */
-    }
-    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    goto __pyx_L113_try_end;
-    __pyx_L108_error:;
-    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-
-    /* "FromPyStructUtility":83
- *     try:
- *         value = obj['ratio']
- *     except KeyError:             # <<<<<<<<<<<<<<
- *         raise ValueError("No value specified for struct attribute 'ratio'")
- *     result.ratio = value
- */
-    __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
-    if (__pyx_t_6) {
-      __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct__PMD_3a__3a_detection", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_8, &__pyx_t_7, &__pyx_t_2) < 0) __PYX_ERR(0, 83, __pyx_L110_except_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_GOTREF(__pyx_t_2);
-
-      /* "FromPyStructUtility":84
- *         value = obj['ratio']
- *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'ratio'")             # <<<<<<<<<<<<<<
- *     result.ratio = value
- *     try:
- */
-      __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__34, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 84, __pyx_L110_except_error)
-      __Pyx_GOTREF(__pyx_t_9);
-      __Pyx_Raise(__pyx_t_9, 0, 0, 0);
-      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __PYX_ERR(0, 84, __pyx_L110_except_error)
-    }
-    goto __pyx_L110_except_error;
-    __pyx_L110_except_error:;
-
-    /* "FromPyStructUtility":81
- *         raise ValueError("No value specified for struct attribute 'stability'")
- *     result.stability = value
- *     try:             # <<<<<<<<<<<<<<
- *         value = obj['ratio']
- *     except KeyError:
- */
-    __Pyx_XGIVEREF(__pyx_t_5);
-    __Pyx_XGIVEREF(__pyx_t_4);
-    __Pyx_XGIVEREF(__pyx_t_3);
-    __Pyx_ExceptionReset(__pyx_t_5, __pyx_t_4, __pyx_t_3);
-    goto __pyx_L1_error;
-    __pyx_L113_try_end:;
-  }
-
-  /* "FromPyStructUtility":85
- *     except KeyError:
  *         raise ValueError("No value specified for struct attribute 'ratio'")
  *     result.ratio = value             # <<<<<<<<<<<<<<
- *     try:
- *         value = obj['confidence']
- */
-  __pyx_t_10 = __pyx_PyFloat_AsFloat(__pyx_v_value); if (unlikely((__pyx_t_10 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 85, __pyx_L1_error)
-  __pyx_v_result.ratio = __pyx_t_10;
-
-  /* "FromPyStructUtility":86
- *         raise ValueError("No value specified for struct attribute 'ratio'")
- *     result.ratio = value
- *     try:             # <<<<<<<<<<<<<<
- *         value = obj['confidence']
- *     except KeyError:
- */
-  {
-    __Pyx_PyThreadState_declare
-    __Pyx_PyThreadState_assign
-    __Pyx_ExceptionSave(&__pyx_t_3, &__pyx_t_4, &__pyx_t_5);
-    __Pyx_XGOTREF(__pyx_t_3);
-    __Pyx_XGOTREF(__pyx_t_4);
-    __Pyx_XGOTREF(__pyx_t_5);
-    /*try:*/ {
-
-      /* "FromPyStructUtility":87
- *     result.ratio = value
- *     try:
- *         value = obj['confidence']             # <<<<<<<<<<<<<<
- *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'confidence'")
- */
-      __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_obj, __pyx_n_s_confidence); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 87, __pyx_L116_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_2);
-      __pyx_t_2 = 0;
-
-      /* "FromPyStructUtility":86
- *         raise ValueError("No value specified for struct attribute 'ratio'")
- *     result.ratio = value
- *     try:             # <<<<<<<<<<<<<<
- *         value = obj['confidence']
- *     except KeyError:
- */
-    }
-    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    goto __pyx_L121_try_end;
-    __pyx_L116_error:;
-    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-
-    /* "FromPyStructUtility":88
- *     try:
- *         value = obj['confidence']
- *     except KeyError:             # <<<<<<<<<<<<<<
- *         raise ValueError("No value specified for struct attribute 'confidence'")
- *     result.confidence = value
- */
-    __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
-    if (__pyx_t_6) {
-      __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct__PMD_3a__3a_detection", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_7, &__pyx_t_8) < 0) __PYX_ERR(0, 88, __pyx_L118_except_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_GOTREF(__pyx_t_8);
-
-      /* "FromPyStructUtility":89
- *         value = obj['confidence']
- *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'confidence'")             # <<<<<<<<<<<<<<
- *     result.confidence = value
- *     return result
- */
-      __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__35, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 89, __pyx_L118_except_error)
-      __Pyx_GOTREF(__pyx_t_9);
-      __Pyx_Raise(__pyx_t_9, 0, 0, 0);
-      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __PYX_ERR(0, 89, __pyx_L118_except_error)
-    }
-    goto __pyx_L118_except_error;
-    __pyx_L118_except_error:;
-
-    /* "FromPyStructUtility":86
- *         raise ValueError("No value specified for struct attribute 'ratio'")
- *     result.ratio = value
- *     try:             # <<<<<<<<<<<<<<
- *         value = obj['confidence']
- *     except KeyError:
- */
-    __Pyx_XGIVEREF(__pyx_t_3);
-    __Pyx_XGIVEREF(__pyx_t_4);
-    __Pyx_XGIVEREF(__pyx_t_5);
-    __Pyx_ExceptionReset(__pyx_t_3, __pyx_t_4, __pyx_t_5);
-    goto __pyx_L1_error;
-    __pyx_L121_try_end:;
-  }
-
-  /* "FromPyStructUtility":90
- *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'confidence'")
- *     result.confidence = value             # <<<<<<<<<<<<<<
  *     return result
  * 
  */
-  __pyx_t_10 = __pyx_PyFloat_AsFloat(__pyx_v_value); if (unlikely((__pyx_t_10 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 90, __pyx_L1_error)
-  __pyx_v_result.confidence = __pyx_t_10;
+  __pyx_t_10 = __pyx_PyFloat_AsFloat(__pyx_v_value); if (unlikely((__pyx_t_10 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_v_result.ratio = __pyx_t_10;
 
-  /* "FromPyStructUtility":91
- *         raise ValueError("No value specified for struct attribute 'confidence'")
- *     result.confidence = value
+  /* "FromPyStructUtility":81
+ *         raise ValueError("No value specified for struct attribute 'ratio'")
+ *     result.ratio = value
  *     return result             # <<<<<<<<<<<<<<
  * 
  * 
@@ -7415,7 +7150,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *         if itemsize <= 0:
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__36, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 133, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__34, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -7447,7 +7182,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *         if not isinstance(format, bytes):
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__37, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 136, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__35, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 136, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -7574,7 +7309,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  * 
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__38, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 148, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__36, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -7848,7 +7583,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *             if self.dtype_is_object:
  */
-      __pyx_t_10 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__39, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 176, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__37, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 176, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_Raise(__pyx_t_10, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -8092,7 +7827,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(stru
  *         info.buf = self.data
  *         info.len = self.len
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__40, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 192, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__38, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 192, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -8826,7 +8561,7 @@ static PyObject *__pyx_pf___pyx_array___reduce_cython__(CYTHON_UNUSED struct __p
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__41, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__39, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -8882,7 +8617,7 @@ static PyObject *__pyx_pf___pyx_array_2__setstate_cython__(CYTHON_UNUSED struct 
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__42, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__40, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -10592,7 +10327,7 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_6__setit
  * 
  *         have_slices, index = _unellipsify(index, self.view.ndim)
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__43, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 418, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__41, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 418, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -11640,7 +11375,7 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
  *         else:
  *             if len(self.view.format) == 1:
  */
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__44, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 495, __pyx_L5_except_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__42, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 495, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_Raise(__pyx_t_6, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -12002,7 +11737,7 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_8__getbu
  * 
  *         if flags & PyBUF_ND:
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__45, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 520, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__43, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 520, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -12551,7 +12286,7 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_7strides___get__(st
  * 
  *         return tuple([stride for stride in self.view.strides[:self.view.ndim]])
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__46, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 570, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__44, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 570, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -12668,7 +12403,7 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_10suboffsets___get_
     __Pyx_XDECREF(__pyx_r);
     __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->view.ndim); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 577, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PyNumber_Multiply(__pyx_tuple__47, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 577, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Multiply(__pyx_tuple__45, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 577, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_r = __pyx_t_3;
@@ -13706,7 +13441,7 @@ static PyObject *__pyx_pf___pyx_memoryview___reduce_cython__(CYTHON_UNUSED struc
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__48, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__46, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -13762,7 +13497,7 @@ static PyObject *__pyx_pf___pyx_memoryview_2__setstate_cython__(CYTHON_UNUSED st
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__49, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__47, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -14119,9 +13854,9 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
         __Pyx_GOTREF(__pyx_t_7);
         { Py_ssize_t __pyx_temp;
           for (__pyx_temp=0; __pyx_temp < ((__pyx_v_ndim - __pyx_t_8) + 1); __pyx_temp++) {
-            __Pyx_INCREF(__pyx_slice__50);
-            __Pyx_GIVEREF(__pyx_slice__50);
-            PyList_SET_ITEM(__pyx_t_7, __pyx_temp, __pyx_slice__50);
+            __Pyx_INCREF(__pyx_slice__48);
+            __Pyx_GIVEREF(__pyx_slice__48);
+            PyList_SET_ITEM(__pyx_t_7, __pyx_temp, __pyx_slice__48);
           }
         }
         __pyx_t_9 = __Pyx_PyList_Extend(__pyx_v_result, __pyx_t_7); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 682, __pyx_L1_error)
@@ -14154,7 +13889,7 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
  *         else:
  */
       /*else*/ {
-        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_result, __pyx_slice__50); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 685, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_result, __pyx_slice__48); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 685, __pyx_L1_error)
       }
       __pyx_L7:;
 
@@ -14294,9 +14029,9 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
     __Pyx_GOTREF(__pyx_t_3);
     { Py_ssize_t __pyx_temp;
       for (__pyx_temp=0; __pyx_temp < __pyx_v_nslices; __pyx_temp++) {
-        __Pyx_INCREF(__pyx_slice__50);
-        __Pyx_GIVEREF(__pyx_slice__50);
-        PyList_SET_ITEM(__pyx_t_3, __pyx_temp, __pyx_slice__50);
+        __Pyx_INCREF(__pyx_slice__48);
+        __Pyx_GIVEREF(__pyx_slice__48);
+        PyList_SET_ITEM(__pyx_t_3, __pyx_temp, __pyx_slice__48);
       }
     }
     __pyx_t_9 = __Pyx_PyList_Extend(__pyx_v_result, __pyx_t_3); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 696, __pyx_L1_error)
@@ -14423,7 +14158,7 @@ static PyObject *assert_direct_dimensions(Py_ssize_t *__pyx_v_suboffsets, int __
  * 
  * 
  */
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__51, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 703, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__49, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 703, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_Raise(__pyx_t_5, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -16607,7 +16342,7 @@ static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED 
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__52, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__50, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -16663,7 +16398,7 @@ static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUS
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__53, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__51, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -21128,8 +20863,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_No_value_specified_for_struct_at_13, __pyx_k_No_value_specified_for_struct_at_13, sizeof(__pyx_k_No_value_specified_for_struct_at_13), 0, 0, 1, 0},
   {&__pyx_kp_s_No_value_specified_for_struct_at_14, __pyx_k_No_value_specified_for_struct_at_14, sizeof(__pyx_k_No_value_specified_for_struct_at_14), 0, 0, 1, 0},
   {&__pyx_kp_s_No_value_specified_for_struct_at_15, __pyx_k_No_value_specified_for_struct_at_15, sizeof(__pyx_k_No_value_specified_for_struct_at_15), 0, 0, 1, 0},
-  {&__pyx_kp_s_No_value_specified_for_struct_at_16, __pyx_k_No_value_specified_for_struct_at_16, sizeof(__pyx_k_No_value_specified_for_struct_at_16), 0, 0, 1, 0},
-  {&__pyx_kp_s_No_value_specified_for_struct_at_17, __pyx_k_No_value_specified_for_struct_at_17, sizeof(__pyx_k_No_value_specified_for_struct_at_17), 0, 0, 1, 0},
   {&__pyx_kp_s_No_value_specified_for_struct_at_2, __pyx_k_No_value_specified_for_struct_at_2, sizeof(__pyx_k_No_value_specified_for_struct_at_2), 0, 0, 1, 0},
   {&__pyx_kp_s_No_value_specified_for_struct_at_3, __pyx_k_No_value_specified_for_struct_at_3, sizeof(__pyx_k_No_value_specified_for_struct_at_3), 0, 0, 1, 0},
   {&__pyx_kp_s_No_value_specified_for_struct_at_4, __pyx_k_No_value_specified_for_struct_at_4, sizeof(__pyx_k_No_value_specified_for_struct_at_4), 0, 0, 1, 0},
@@ -21157,8 +20890,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_u_cid, __pyx_k_cid, sizeof(__pyx_k_cid), 0, 1, 0, 1},
   {&__pyx_n_s_class, __pyx_k_class, sizeof(__pyx_k_class), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
-  {&__pyx_n_s_confidence, __pyx_k_confidence, sizeof(__pyx_k_confidence), 0, 0, 1, 1},
-  {&__pyx_n_u_confidence, __pyx_k_confidence, sizeof(__pyx_k_confidence), 0, 1, 0, 1},
   {&__pyx_kp_s_contiguous_and_direct, __pyx_k_contiguous_and_direct, sizeof(__pyx_k_contiguous_and_direct), 0, 0, 1, 0},
   {&__pyx_kp_s_contiguous_and_indirect, __pyx_k_contiguous_and_indirect, sizeof(__pyx_k_contiguous_and_indirect), 0, 0, 1, 0},
   {&__pyx_n_s_dict, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
@@ -21186,8 +20917,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_indices, __pyx_k_indices, sizeof(__pyx_k_indices), 0, 0, 1, 1},
   {&__pyx_n_s_is_active, __pyx_k_is_active, sizeof(__pyx_k_is_active), 0, 0, 1, 1},
   {&__pyx_n_u_is_active, __pyx_k_is_active, sizeof(__pyx_k_is_active), 0, 1, 0, 1},
-  {&__pyx_n_s_is_positive, __pyx_k_is_positive, sizeof(__pyx_k_is_positive), 0, 0, 1, 1},
-  {&__pyx_n_u_is_positive, __pyx_k_is_positive, sizeof(__pyx_k_is_positive), 0, 1, 0, 1},
   {&__pyx_n_s_itemsize, __pyx_k_itemsize, sizeof(__pyx_k_itemsize), 0, 0, 1, 1},
   {&__pyx_kp_s_itemsize_0_for_cython_array, __pyx_k_itemsize_0_for_cython_array, sizeof(__pyx_k_itemsize_0_for_cython_array), 0, 0, 1, 0},
   {&__pyx_n_u_long_duration, __pyx_k_long_duration, sizeof(__pyx_k_long_duration), 0, 1, 0, 1},
@@ -21541,22 +21270,22 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__23);
   __Pyx_GIVEREF(__pyx_tuple__23);
 
-  /* "FromPyStructUtility":24
- *         value = obj['is_positive']
- *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'is_positive'")             # <<<<<<<<<<<<<<
- *     result.is_positive = value
- *     try:
- */
-  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_s_No_value_specified_for_struct_at_6); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 24, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__24);
-  __Pyx_GIVEREF(__pyx_tuple__24);
-
-  /* "FromPyStructUtility":39
+  /* "FromPyStructUtility":34
  *         value = obj['r']
  *     except KeyError:
  *         raise ValueError("No value specified for struct attribute 'r'")             # <<<<<<<<<<<<<<
  *     result.r = value
+ *     try:
+ */
+  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_s_No_value_specified_for_struct_at_6); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__24);
+  __Pyx_GIVEREF(__pyx_tuple__24);
+
+  /* "FromPyStructUtility":39
+ *         value = obj['g']
+ *     except KeyError:
+ *         raise ValueError("No value specified for struct attribute 'g'")             # <<<<<<<<<<<<<<
+ *     result.g = value
  *     try:
  */
   __pyx_tuple__25 = PyTuple_Pack(1, __pyx_kp_s_No_value_specified_for_struct_at_7); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 39, __pyx_L1_error)
@@ -21564,10 +21293,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__25);
 
   /* "FromPyStructUtility":44
- *         value = obj['g']
+ *         value = obj['b']
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'g'")             # <<<<<<<<<<<<<<
- *     result.g = value
+ *         raise ValueError("No value specified for struct attribute 'b'")             # <<<<<<<<<<<<<<
+ *     result.b = value
  *     try:
  */
   __pyx_tuple__26 = PyTuple_Pack(1, __pyx_kp_s_No_value_specified_for_struct_at_8); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 44, __pyx_L1_error)
@@ -21575,10 +21304,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__26);
 
   /* "FromPyStructUtility":49
- *         value = obj['b']
+ *         value = obj['cid']
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'b'")             # <<<<<<<<<<<<<<
- *     result.b = value
+ *         raise ValueError("No value specified for struct attribute 'cid'")             # <<<<<<<<<<<<<<
+ *     result.cid = value
  *     try:
  */
   __pyx_tuple__27 = PyTuple_Pack(1, __pyx_kp_s_No_value_specified_for_struct_at_9); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 49, __pyx_L1_error)
@@ -21586,10 +21315,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__27);
 
   /* "FromPyStructUtility":54
- *         value = obj['cid']
+ *         value = obj['long_v_x']
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'cid'")             # <<<<<<<<<<<<<<
- *     result.cid = value
+ *         raise ValueError("No value specified for struct attribute 'long_v_x'")             # <<<<<<<<<<<<<<
+ *     result.long_v_x = value
  *     try:
  */
   __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_s_No_value_specified_for_struct_at_10); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 54, __pyx_L1_error)
@@ -21597,10 +21326,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__28);
 
   /* "FromPyStructUtility":59
- *         value = obj['long_v_x']
+ *         value = obj['long_v_y']
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'long_v_x'")             # <<<<<<<<<<<<<<
- *     result.long_v_x = value
+ *         raise ValueError("No value specified for struct attribute 'long_v_y'")             # <<<<<<<<<<<<<<
+ *     result.long_v_y = value
  *     try:
  */
   __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_s_No_value_specified_for_struct_at_11); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 59, __pyx_L1_error)
@@ -21608,10 +21337,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__29);
 
   /* "FromPyStructUtility":64
- *         value = obj['long_v_y']
+ *         value = obj['short_v_x']
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'long_v_y'")             # <<<<<<<<<<<<<<
- *     result.long_v_y = value
+ *         raise ValueError("No value specified for struct attribute 'short_v_x'")             # <<<<<<<<<<<<<<
+ *     result.short_v_x = value
  *     try:
  */
   __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_s_No_value_specified_for_struct_at_12); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 64, __pyx_L1_error)
@@ -21619,10 +21348,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__30);
 
   /* "FromPyStructUtility":69
- *         value = obj['short_v_x']
+ *         value = obj['short_v_y']
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'short_v_x'")             # <<<<<<<<<<<<<<
- *     result.short_v_x = value
+ *         raise ValueError("No value specified for struct attribute 'short_v_y'")             # <<<<<<<<<<<<<<
+ *     result.short_v_y = value
  *     try:
  */
   __pyx_tuple__31 = PyTuple_Pack(1, __pyx_kp_s_No_value_specified_for_struct_at_13); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 69, __pyx_L1_error)
@@ -21630,10 +21359,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__31);
 
   /* "FromPyStructUtility":74
- *         value = obj['short_v_y']
+ *         value = obj['stability']
  *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'short_v_y'")             # <<<<<<<<<<<<<<
- *     result.short_v_y = value
+ *         raise ValueError("No value specified for struct attribute 'stability'")             # <<<<<<<<<<<<<<
+ *     result.stability = value
  *     try:
  */
   __pyx_tuple__32 = PyTuple_Pack(1, __pyx_kp_s_No_value_specified_for_struct_at_14); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(0, 74, __pyx_L1_error)
@@ -21641,37 +21370,15 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__32);
 
   /* "FromPyStructUtility":79
- *         value = obj['stability']
- *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'stability'")             # <<<<<<<<<<<<<<
- *     result.stability = value
- *     try:
- */
-  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_kp_s_No_value_specified_for_struct_at_15); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 79, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__33);
-  __Pyx_GIVEREF(__pyx_tuple__33);
-
-  /* "FromPyStructUtility":84
  *         value = obj['ratio']
  *     except KeyError:
  *         raise ValueError("No value specified for struct attribute 'ratio'")             # <<<<<<<<<<<<<<
  *     result.ratio = value
- *     try:
- */
-  __pyx_tuple__34 = PyTuple_Pack(1, __pyx_kp_s_No_value_specified_for_struct_at_16); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(0, 84, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__34);
-  __Pyx_GIVEREF(__pyx_tuple__34);
-
-  /* "FromPyStructUtility":89
- *         value = obj['confidence']
- *     except KeyError:
- *         raise ValueError("No value specified for struct attribute 'confidence'")             # <<<<<<<<<<<<<<
- *     result.confidence = value
  *     return result
  */
-  __pyx_tuple__35 = PyTuple_Pack(1, __pyx_kp_s_No_value_specified_for_struct_at_17); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 89, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__35);
-  __Pyx_GIVEREF(__pyx_tuple__35);
+  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_kp_s_No_value_specified_for_struct_at_15); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__33);
+  __Pyx_GIVEREF(__pyx_tuple__33);
 
   /* "View.MemoryView":133
  * 
@@ -21680,9 +21387,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         if itemsize <= 0:
  */
-  __pyx_tuple__36 = PyTuple_Pack(1, __pyx_kp_s_Empty_shape_tuple_for_cython_arr); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(0, 133, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__36);
-  __Pyx_GIVEREF(__pyx_tuple__36);
+  __pyx_tuple__34 = PyTuple_Pack(1, __pyx_kp_s_Empty_shape_tuple_for_cython_arr); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__34);
+  __Pyx_GIVEREF(__pyx_tuple__34);
 
   /* "View.MemoryView":136
  * 
@@ -21691,9 +21398,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         if not isinstance(format, bytes):
  */
-  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_kp_s_itemsize_0_for_cython_array); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 136, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__37);
-  __Pyx_GIVEREF(__pyx_tuple__37);
+  __pyx_tuple__35 = PyTuple_Pack(1, __pyx_kp_s_itemsize_0_for_cython_array); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__35);
+  __Pyx_GIVEREF(__pyx_tuple__35);
 
   /* "View.MemoryView":148
  * 
@@ -21702,9 +21409,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__38 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_shape_and_str); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(0, 148, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__38);
-  __Pyx_GIVEREF(__pyx_tuple__38);
+  __pyx_tuple__36 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_shape_and_str); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(0, 148, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__36);
+  __Pyx_GIVEREF(__pyx_tuple__36);
 
   /* "View.MemoryView":176
  *             self.data = <char *>malloc(self.len)
@@ -21713,9 +21420,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *             if self.dtype_is_object:
  */
-  __pyx_tuple__39 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_array_data); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 176, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__39);
-  __Pyx_GIVEREF(__pyx_tuple__39);
+  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_array_data); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 176, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__37);
+  __Pyx_GIVEREF(__pyx_tuple__37);
 
   /* "View.MemoryView":192
  *             bufmode = PyBUF_F_CONTIGUOUS | PyBUF_ANY_CONTIGUOUS
@@ -21724,9 +21431,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         info.buf = self.data
  *         info.len = self.len
  */
-  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_kp_s_Can_only_create_a_buffer_that_is); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(0, 192, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__40);
-  __Pyx_GIVEREF(__pyx_tuple__40);
+  __pyx_tuple__38 = PyTuple_Pack(1, __pyx_kp_s_Can_only_create_a_buffer_that_is); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(0, 192, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__38);
+  __Pyx_GIVEREF(__pyx_tuple__38);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -21734,18 +21441,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__41);
-  __Pyx_GIVEREF(__pyx_tuple__41);
+  __pyx_tuple__39 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__39);
+  __Pyx_GIVEREF(__pyx_tuple__39);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__42 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(0, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__42);
-  __Pyx_GIVEREF(__pyx_tuple__42);
+  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__40);
+  __Pyx_GIVEREF(__pyx_tuple__40);
 
   /* "View.MemoryView":418
  *     def __setitem__(memoryview self, object index, object value):
@@ -21754,9 +21461,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         have_slices, index = _unellipsify(index, self.view.ndim)
  */
-  __pyx_tuple__43 = PyTuple_Pack(1, __pyx_kp_s_Cannot_assign_to_read_only_memor); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 418, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__43);
-  __Pyx_GIVEREF(__pyx_tuple__43);
+  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_kp_s_Cannot_assign_to_read_only_memor); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 418, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__41);
+  __Pyx_GIVEREF(__pyx_tuple__41);
 
   /* "View.MemoryView":495
  *             result = struct.unpack(self.view.format, bytesitem)
@@ -21765,9 +21472,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         else:
  *             if len(self.view.format) == 1:
  */
-  __pyx_tuple__44 = PyTuple_Pack(1, __pyx_kp_s_Unable_to_convert_item_to_object); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(0, 495, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__44);
-  __Pyx_GIVEREF(__pyx_tuple__44);
+  __pyx_tuple__42 = PyTuple_Pack(1, __pyx_kp_s_Unable_to_convert_item_to_object); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(0, 495, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__42);
+  __Pyx_GIVEREF(__pyx_tuple__42);
 
   /* "View.MemoryView":520
  *     def __getbuffer__(self, Py_buffer *info, int flags):
@@ -21776,9 +21483,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         if flags & PyBUF_ND:
  */
-  __pyx_tuple__45 = PyTuple_Pack(1, __pyx_kp_s_Cannot_create_writable_memory_vi); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 520, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__45);
-  __Pyx_GIVEREF(__pyx_tuple__45);
+  __pyx_tuple__43 = PyTuple_Pack(1, __pyx_kp_s_Cannot_create_writable_memory_vi); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 520, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__43);
+  __Pyx_GIVEREF(__pyx_tuple__43);
 
   /* "View.MemoryView":570
  *         if self.view.strides == NULL:
@@ -21787,9 +21494,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         return tuple([stride for stride in self.view.strides[:self.view.ndim]])
  */
-  __pyx_tuple__46 = PyTuple_Pack(1, __pyx_kp_s_Buffer_view_does_not_expose_stri); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(0, 570, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__46);
-  __Pyx_GIVEREF(__pyx_tuple__46);
+  __pyx_tuple__44 = PyTuple_Pack(1, __pyx_kp_s_Buffer_view_does_not_expose_stri); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(0, 570, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__44);
+  __Pyx_GIVEREF(__pyx_tuple__44);
 
   /* "View.MemoryView":577
  *     def suboffsets(self):
@@ -21798,12 +21505,12 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         return tuple([suboffset for suboffset in self.view.suboffsets[:self.view.ndim]])
  */
-  __pyx_tuple__47 = PyTuple_New(1); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 577, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__47);
+  __pyx_tuple__45 = PyTuple_New(1); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 577, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__45);
   __Pyx_INCREF(__pyx_int_neg_1);
   __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyTuple_SET_ITEM(__pyx_tuple__47, 0, __pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_tuple__47);
+  PyTuple_SET_ITEM(__pyx_tuple__45, 0, __pyx_int_neg_1);
+  __Pyx_GIVEREF(__pyx_tuple__45);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -21811,18 +21518,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__48 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(0, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__48);
-  __Pyx_GIVEREF(__pyx_tuple__48);
+  __pyx_tuple__46 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__46);
+  __Pyx_GIVEREF(__pyx_tuple__46);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__49 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__49)) __PYX_ERR(0, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__49);
-  __Pyx_GIVEREF(__pyx_tuple__49);
+  __pyx_tuple__47 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__47);
+  __Pyx_GIVEREF(__pyx_tuple__47);
 
   /* "View.MemoryView":682
  *         if item is Ellipsis:
@@ -21831,9 +21538,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *                 seen_ellipsis = True
  *             else:
  */
-  __pyx_slice__50 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__50)) __PYX_ERR(0, 682, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_slice__50);
-  __Pyx_GIVEREF(__pyx_slice__50);
+  __pyx_slice__48 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__48)) __PYX_ERR(0, 682, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_slice__48);
+  __Pyx_GIVEREF(__pyx_slice__48);
 
   /* "View.MemoryView":703
  *     for suboffset in suboffsets[:ndim]:
@@ -21842,9 +21549,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__51 = PyTuple_Pack(1, __pyx_kp_s_Indirect_dimensions_not_supporte); if (unlikely(!__pyx_tuple__51)) __PYX_ERR(0, 703, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__51);
-  __Pyx_GIVEREF(__pyx_tuple__51);
+  __pyx_tuple__49 = PyTuple_Pack(1, __pyx_kp_s_Indirect_dimensions_not_supporte); if (unlikely(!__pyx_tuple__49)) __PYX_ERR(0, 703, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__49);
+  __Pyx_GIVEREF(__pyx_tuple__49);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -21852,18 +21559,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__52 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(0, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__52);
-  __Pyx_GIVEREF(__pyx_tuple__52);
+  __pyx_tuple__50 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__50)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__50);
+  __Pyx_GIVEREF(__pyx_tuple__50);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__53 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__53)) __PYX_ERR(0, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__53);
-  __Pyx_GIVEREF(__pyx_tuple__53);
+  __pyx_tuple__51 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__51)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__51);
+  __Pyx_GIVEREF(__pyx_tuple__51);
 
   /* "View.MemoryView":286
  *         return self.name
@@ -21872,9 +21579,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_tuple__54 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(0, 286, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__54);
-  __Pyx_GIVEREF(__pyx_tuple__54);
+  __pyx_tuple__52 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(0, 286, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__52);
+  __Pyx_GIVEREF(__pyx_tuple__52);
 
   /* "View.MemoryView":287
  * 
@@ -21883,9 +21590,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_tuple__55 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__55)) __PYX_ERR(0, 287, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__55);
-  __Pyx_GIVEREF(__pyx_tuple__55);
+  __pyx_tuple__53 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__53)) __PYX_ERR(0, 287, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__53);
+  __Pyx_GIVEREF(__pyx_tuple__53);
 
   /* "View.MemoryView":288
  * cdef generic = Enum("<strided and direct or indirect>")
@@ -21894,9 +21601,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__56 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(0, 288, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__56);
-  __Pyx_GIVEREF(__pyx_tuple__56);
+  __pyx_tuple__54 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(0, 288, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__54);
+  __Pyx_GIVEREF(__pyx_tuple__54);
 
   /* "View.MemoryView":291
  * 
@@ -21905,9 +21612,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_tuple__57 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__57)) __PYX_ERR(0, 291, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__57);
-  __Pyx_GIVEREF(__pyx_tuple__57);
+  __pyx_tuple__55 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__55)) __PYX_ERR(0, 291, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__55);
+  __Pyx_GIVEREF(__pyx_tuple__55);
 
   /* "View.MemoryView":292
  * 
@@ -21916,19 +21623,19 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__58 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(0, 292, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__58);
-  __Pyx_GIVEREF(__pyx_tuple__58);
+  __pyx_tuple__56 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(0, 292, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__56);
+  __Pyx_GIVEREF(__pyx_tuple__56);
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_Enum(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_tuple__59 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__59)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__59);
-  __Pyx_GIVEREF(__pyx_tuple__59);
-  __pyx_codeobj__60 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__59, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__60)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_tuple__57 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__57)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__57);
+  __Pyx_GIVEREF(__pyx_tuple__57);
+  __pyx_codeobj__58 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__57, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__58)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -22393,7 +22100,7 @@ if (!__Pyx_RefNanny) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__54, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 286, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__52, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 286, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(generic);
   __Pyx_DECREF_SET(generic, __pyx_t_1);
@@ -22407,7 +22114,7 @@ if (!__Pyx_RefNanny) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__55, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 287, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__53, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 287, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(strided);
   __Pyx_DECREF_SET(strided, __pyx_t_1);
@@ -22421,7 +22128,7 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__56, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 288, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__54, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 288, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(indirect);
   __Pyx_DECREF_SET(indirect, __pyx_t_1);
@@ -22435,7 +22142,7 @@ if (!__Pyx_RefNanny) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__57, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 291, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__55, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(contiguous);
   __Pyx_DECREF_SET(contiguous, __pyx_t_1);
@@ -22449,7 +22156,7 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__58, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 292, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__56, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 292, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(indirect_contiguous);
   __Pyx_DECREF_SET(indirect_contiguous, __pyx_t_1);
@@ -25705,12 +25412,9 @@ static CYTHON_INLINE int __pyx_memview_set_nn_PMD_3a__3a_cid_t(const char *itemp
 static PyObject* __pyx_convert__to_py_struct__PMD_3a__3a_detection(struct PMD::detection s) {
     PyObject* res;
     PyObject* member;
-    res = __Pyx_PyDict_NewPresized(15); if (unlikely(!res)) return NULL;
+    res = __Pyx_PyDict_NewPresized(13); if (unlikely(!res)) return NULL;
     member = __Pyx_PyInt_From_int(s.is_active); if (unlikely(!member)) goto bad;
     if (unlikely(PyDict_SetItem(res, __pyx_n_s_is_active, member) < 0)) goto bad;
-    Py_DECREF(member);
-    member = __Pyx_PyInt_From_int(s.is_positive); if (unlikely(!member)) goto bad;
-    if (unlikely(PyDict_SetItem(res, __pyx_n_s_is_positive, member) < 0)) goto bad;
     Py_DECREF(member);
     member = __Pyx_PyInt_From_int(s.x); if (unlikely(!member)) goto bad;
     if (unlikely(PyDict_SetItem(res, __pyx_n_s_x, member) < 0)) goto bad;
@@ -25747,9 +25451,6 @@ static PyObject* __pyx_convert__to_py_struct__PMD_3a__3a_detection(struct PMD::d
     Py_DECREF(member);
     member = PyFloat_FromDouble(s.ratio); if (unlikely(!member)) goto bad;
     if (unlikely(PyDict_SetItem(res, __pyx_n_s_ratio, member) < 0)) goto bad;
-    Py_DECREF(member);
-    member = PyFloat_FromDouble(s.confidence); if (unlikely(!member)) goto bad;
-    if (unlikely(PyDict_SetItem(res, __pyx_n_s_confidence, member) < 0)) goto bad;
     Py_DECREF(member);
     return res;
     bad:

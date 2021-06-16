@@ -18,7 +18,6 @@ cdef extern from 'types.h' namespace 'PMD':
 
     cdef packed struct detection:
         int is_active
-        int is_positive
         int x, y
         int r, g, b
         int cid
@@ -26,7 +25,6 @@ cdef extern from 'types.h' namespace 'PMD':
         float short_v_x, short_v_y
         int stability
         float ratio
-        float confidence
 
     ctypedef unsigned short xy_t
     ctypedef int p_t

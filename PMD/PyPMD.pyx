@@ -46,15 +46,13 @@ cdef class PyPMD:
         # allocate results array
         cdef np.ndarray result_array = np.ndarray((self._num_detections,), dtype=[
             ('is_active', int), 
-            ('is_positive', int), 
             ('x', int), ('y', int), 
             ('r', int), ('g', int), ('b', int),
             ('cid', int),
             ('long_v_x', np.float32), ('long_v_y', np.float32),
             ('short_v_x', np.float32), ('short_v_y', np.float32),
             ('stability', int),
-            ('ratio', np.float32),
-            ('confidence', np.float32)
+            ('ratio', np.float32)
         ])
         cdef detection[:] results = result_array
 
