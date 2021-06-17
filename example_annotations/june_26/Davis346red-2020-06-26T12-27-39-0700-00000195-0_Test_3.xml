@@ -109,7 +109,7 @@
     <dumped>2020-12-23 22:02:01.524043+00:00</dumped>
     <source>Davis346red-2020-06-26T12-27-39-0700-00000195-0_Test_3.avi</source>
   </meta>
-  <track id="0" label="motor boat" source="manual">
+  <track id="0" label="motor boat (difficult)" source="manual">
     <box frame="196" outside="0" occluded="0" keyframe="1" xtl="0.00" ytl="132.20" xbr="16.92" ybr="144.44" z_order="0">
     </box>
     <box frame="197" outside="0" occluded="0" keyframe="0" xtl="0.28" ytl="131.82" xbr="17.64" ybr="144.07" z_order="0">
@@ -1293,7 +1293,7 @@
     <box frame="330" outside="1" occluded="0" keyframe="1" xtl="337.58" ytl="129.69" xbr="346.00" ybr="144.45" z_order="0">
     </box>
   </track>
-  <track id="2" label="motor boat" source="manual">
+  <track id="2" label="motor boat (difficult)" source="manual">
     <box frame="0" outside="0" occluded="0" keyframe="1" xtl="231.39" ytl="129.06" xbr="252.12" ybr="139.42" z_order="0">
     </box>
     <box frame="1" outside="0" occluded="0" keyframe="0" xtl="229.60" ytl="129.69" xbr="250.33" ybr="140.05" z_order="0">

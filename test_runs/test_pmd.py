@@ -8,8 +8,8 @@ from event_processing import pmd_consumer
 data_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 annot_root = './example_annotations/'
 
-group = 'june_12'
-test = 5
+group = 'june_26'
+test = 23
 file_type = '.aedat4'
 
 # group = 'april_29'
@@ -36,16 +36,16 @@ boat_tests = {
         2: 'Davis346red-2020-06-26T12-26-42-0700-00000195-0_Test_2',
         3: 'Davis346red-2020-06-26T12-27-39-0700-00000195-0_Test_3',
         4: 'Davis346red-2020-06-26T12-28-38-0700-00000195-0_Test_4',
-        5: 'Davis346red-2020-06-26T12-29-49-0700-00000195-0_Test_5',
+        # 5: 'Davis346red-2020-06-26T12-29-49-0700-00000195-0_Test_5',
         6: 'Davis346red-2020-06-26T12-30-20-0700-00000195-0_Test_6',
-        7: 'Davis346red-2020-06-26T12-30-41-0700-00000195-0_Test_7',
-        8: 'Davis346red-2020-06-26T12-30-58-0700-00000195-0_Test_8',
+        # 7: 'Davis346red-2020-06-26T12-30-41-0700-00000195-0_Test_7',
+        # 8: 'Davis346red-2020-06-26T12-30-58-0700-00000195-0_Test_8',
         9: 'Davis346red-2020-06-26T12-32-12-0700-00000195-0_Test_9',
-        16: 'Davis346red-2020-06-26T13-01-17-0700-00000195-0_Test_16',
-        17: 'Davis346red-2020-06-26T13-03-06-0700-00000195-0_Test_17',
-        19: 'Davis346red-2020-06-26T13-09-47-0700-00000195-0_Test_19',
+        # 16: 'Davis346red-2020-06-26T13-01-17-0700-00000195-0_Test_16',
+        # 17: 'Davis346red-2020-06-26T13-03-06-0700-00000195-0_Test_17',
+        # 19: 'Davis346red-2020-06-26T13-09-47-0700-00000195-0_Test_19',
         21: 'Davis346red-2020-06-26T13-22-40-0700-00000195-0_Test_21',
-        23: 'Davis346red-2020-06-26T13-31-43-0700-00000195-0_Test_23'
+        # 23: 'Davis346red-2020-06-26T13-31-43-0700-00000195-0_Test_23'
     },
     'april_29':{
         1: 'out_2021-04-29_17-56-14',
@@ -59,50 +59,52 @@ boat_tests = {
     }
 }
 
-all_runs = boat_tests[group].keys()
-# all_runs = [test]
+for group in ['june_12', 'june_26']:
 
-for test in all_runs:
+    all_runs = boat_tests[group].keys()
+    # all_runs = [test]
 
-    filename = os.path.join(group, boat_tests[group][test])
-    run_name = f'{group}_run_{test:02d}'
+    for test in all_runs:
 
-    data_path = os.path.join(os.path.expanduser('~\\'), data_root, filename)+file_type
-    annot_path = os.path.join(annot_root, filename)+'.xml'
+        filename = os.path.join(group, boat_tests[group][test])
+        run_name = f'{group}_run_{test:02d}'
 
-    play_file(
-        filename=data_path,
-        dt=33,
-        event_consumer=pmd_consumer,
-        consumer_args={
-            'run_name': run_name,
-            'annot_file': annot_path,
-            # 'video_out': run_name+'.avi',
-            'filetype': file_type,
-            'parameters': {
-                'x_div': 4, # number of horizontal divisions
-                'y_div': 4, # number of vertical divisions
-                'us_per_event': 100, # processing time alloted to each event handler to process events
-                'event_buffer_depth': 4, # number of events to remember for each (x, y) position
-                'tf': 200_000, # how far back in time to consider events for filtering
-                'tc': 150_000, # how far back in time to consider events for clustering
-                'n': 4, # minimum number of correlated events required to allow a particular event through the filter
-                'max_cluster_size': 30, # maximum taxicab dist from center of cluster to each event
-                'buffer_flush_period': 10_000, # microseconds periodicity to flush expired (>tc) events from buffer
-                'num_analyzers': 12,
+        data_path = os.path.join(os.path.expanduser('~\\'), data_root, filename)+file_type
+        annot_path = os.path.join(annot_root, filename)+'.xml'
 
-                'sample_period': 100_000, # microseconds between each centroid position sample
-                'long_duration': 5_000_000, # microsecond duration to record samples for each cluster
-                'short_duration': 3_000_000,
+        play_file(
+            filename=data_path,
+            dt=33,
+            event_consumer=pmd_consumer,
+            consumer_args={
+                'run_name': run_name,
+                'annot_file': annot_path,
+                # 'video_out': run_name+'.avi',
+                'filetype': file_type,
+                'parameters': {
+                    'x_div': 4, # number of horizontal divisions
+                    'y_div': 4, # number of vertical divisions
+                    'us_per_event': 100, # processing time alloted to each event handler to process events
+                    'event_buffer_depth': 4, # number of events to remember for each (x, y) position
+                    'tf': 250_000, # how far back in time to consider events for filtering
+                    'tc': 150_000, # how far back in time to consider events for clustering
+                    'n': 4, # minimum number of correlated events required to allow a particular event through the filter
+                    'max_cluster_size': 30, # maximum taxicab dist from center of cluster to each event
+                    'buffer_flush_period': 10_000, # microseconds periodicity to flush expired (>tc) events from buffer
+                    'num_analyzers': 12,
 
-                'ratio_threshold': 100,
+                    'sample_period': 100_000, # microseconds between each centroid position sample
+                    'long_duration': 5_000_000, # microsecond duration to record samples for each cluster
+                    'short_duration': 3_000_000,
 
-                # 'temporal_filter': 5_000,
-                # 'cluster_profile_length': 16,
-                # 'stability_threshold': 1.5,
-                # 'stability_loss_rate': 0.1,
-                # 'confidence_rate': 0.05,
-                # 'confidence_threshold': 0.5,
-                # 'merge_clusters': False
-            }
-        })
+                    'ratio_threshold': 100,
+
+                    # 'temporal_filter': 5_000,
+                    # 'cluster_profile_length': 16,
+                    # 'stability_threshold': 1.5,
+                    # 'stability_loss_rate': 0.1,
+                    # 'confidence_rate': 0.05,
+                    # 'confidence_threshold': 0.5,
+                    # 'merge_clusters': False
+                }
+            })

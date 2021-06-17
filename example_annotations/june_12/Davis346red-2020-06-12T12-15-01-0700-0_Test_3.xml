@@ -1645,7 +1645,7 @@
     <box frame="384" outside="0" occluded="0" keyframe="0" xtl="136.25" ytl="135.34" xbr="159.13" ybr="151.70" z_order="0">
     </box>
   </track>
-  <track id="2" label="motor boat" source="manual">
+  <track id="2" label="motor boat (difficult)" source="manual">
     <box frame="0" outside="0" occluded="0" keyframe="1" xtl="87.58" ytl="133.77" xbr="107.36" ybr="145.39" z_order="0">
     </box>
     <box frame="1" outside="0" occluded="0" keyframe="0" xtl="87.36" ytl="133.64" xbr="107.14" ybr="145.26" z_order="0">
@@ -2417,7 +2417,7 @@
     <box frame="384" outside="0" occluded="0" keyframe="1" xtl="8.45" ytl="128.74" xbr="30.74" ybr="141.62" z_order="0">
     </box>
   </track>
-  <track id="3" label="motor boat" source="manual">
+  <track id="3" label="motor boat (dificult)" source="manual">
     <box frame="0" outside="0" occluded="0" keyframe="1" xtl="135.62" ytl="136.59" xbr="150.38" ybr="151.04" z_order="0">
     </box>
     <box frame="1" outside="0" occluded="0" keyframe="0" xtl="135.62" ytl="136.59" xbr="150.38" ybr="151.03" z_order="0">

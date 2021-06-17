@@ -109,7 +109,7 @@
     <dumped>2020-12-23 18:45:32.186018+00:00</dumped>
     <source>Davis346red-2020-06-12T12-09-55-0700-0_Test_1.avi</source>
   </meta>
-  <track id="0" label="motor boat" source="manual">
+  <track id="0" label="motor boat (difficult)" source="manual">
     <box frame="0" outside="0" occluded="0" keyframe="1" xtl="133.42" ytl="133.14" xbr="151.32" ybr="152.61" z_order="0">
     </box>
     <box frame="1" outside="0" occluded="0" keyframe="0" xtl="133.42" ytl="133.01" xbr="151.32" ybr="152.48" z_order="0">

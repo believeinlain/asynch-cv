@@ -3307,7 +3307,7 @@
     <box frame="531" outside="0" occluded="0" keyframe="0" xtl="133.42" ytl="135.65" xbr="151.32" ybr="152.92" z_order="0">
     </box>
   </track>
-  <track id="3" label="sail boat" source="manual">
+  <track id="3" label="sail boat (difficult)" source="manual">
     <box frame="0" outside="0" occluded="0" keyframe="1" xtl="98.57" ytl="120.27" xbr="124.32" ybr="147.27" z_order="0">
     </box>
     <box frame="1" outside="0" occluded="0" keyframe="0" xtl="98.30" ytl="120.19" xbr="124.05" ybr="147.19" z_order="0">
