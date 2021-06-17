@@ -90,52 +90,12 @@ class pmd_consumer(basic_consumer):
         # merge based on proximity
         for a in positive:
             for b in positive[positive.index(a)+1:]:
-                if abs(a['x'] - b['x']) <= r*2 and abs(a['y'] - b['y']) <= r*2:
+                if abs(a['x'] - b['x']) <= r and abs(a['y'] - b['y']) <= r:
                     a['image'] = np.logical_or(a['image'], b['image'])
                     a['stability'] += b['stability']
                     b['is_dup'] = True
-            
-            # combined = {
-            #     'image': a['image'],
-            #     'stability': a['stability']
-            # }
-            # for b in overlaps:
-            #     combined['image'] = np.logical_or(combined['image'], b['image'])
-            #     combined['stability'] += b['stability']
-
-            # image = np.multiply(255, combined['image'], dtype='u1')
-            # combined['bb'] = cv2.boundingRect(image)
-            # detections.append(combined)
-
-        def intersect(bb1, bb2):
-            x1, y1, w1, h1 = bb1
-            x2, y2, w2, h2 = bb2
-            return x1 < x2+w2 and x1+w1 > x2 and \
-                y1 < y2+h2 and y1+h1 > y2
         
-        detections = [d for d in positive if not d['is_dup']]
-
-        detection_bb = set()
-
-        # merge based on bb overlaps
-        # for a in detections:
-        #     overlaps = []
-        #     for b in detections:
-        #         if intersect(a['bb'], b['bb']):
-        #             overlaps.append(b)
-            
-        #     combined = {
-        #         'image': a['image'],
-        #         'stability': a['stability']
-        #     }
-        #     for b in overlaps:
-        #         combined['image'] = np.logical_or(combined['image'], b['image'])
-        #         combined['stability'] += b['stability']
-
-        #     image = np.multiply(255, combined['image'], dtype='u1')
-        #     bb = cv2.boundingRect(image)
-            
-        #     detection_bb[bb] = combined
+        detections = [p for p in positive if not p['is_dup']]
 
         for d in detections:
             image = np.multiply(255, d['image'], dtype='u1')

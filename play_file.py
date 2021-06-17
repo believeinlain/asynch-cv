@@ -104,7 +104,7 @@ def play_file(filename, dt, event_consumer, consumer_args=None):
         return -1
 
     # finish displaying events
-    cv2.destroyAllWindows()
+    # cv2.destroyAllWindows()
     return 0
 
 def play_metavision_file(filename, dt, event_consumer, consumer_args):

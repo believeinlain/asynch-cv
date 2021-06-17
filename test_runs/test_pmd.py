@@ -79,7 +79,7 @@ for group in ['june_12', 'june_26']:
             consumer_args={
                 'run_name': run_name,
                 'annot_file': annot_path,
-                # 'video_out': run_name+'.avi',
+                'video_out': run_name+'.avi',
                 'filetype': file_type,
                 'parameters': {
                     'x_div': 4, # number of horizontal divisions
@@ -97,14 +97,6 @@ for group in ['june_12', 'june_26']:
                     'long_duration': 5_000_000, # microsecond duration to record samples for each cluster
                     'short_duration': 3_000_000,
 
-                    'ratio_threshold': 100,
-
-                    # 'temporal_filter': 5_000,
-                    # 'cluster_profile_length': 16,
-                    # 'stability_threshold': 1.5,
-                    # 'stability_loss_rate': 0.1,
-                    # 'confidence_rate': 0.05,
-                    # 'confidence_threshold': 0.5,
-                    # 'merge_clusters': False
+                    'ratio_threshold': 100
                 }
             })
