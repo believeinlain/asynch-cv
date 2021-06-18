@@ -18,6 +18,11 @@ def play_file(filename, dt, event_consumer, consumer_args=None):
     # convert dt into microseconds for event streaming
     dt_us = dt*1_000
 
+    # play live if no filename provided
+    if filename is '':
+        play_metavision_live(dt, event_consumer, consumer_args)
+        return 0
+
     # Check validity of input arguments
     if not(path.exists(filename) and path.isfile(filename)):
         print(f'Error: provided input path "{filename}" does not exist or is not a file.')
@@ -106,6 +111,79 @@ def play_file(filename, dt, event_consumer, consumer_args=None):
     # finish displaying events
     # cv2.destroyAllWindows()
     return 0
+
+def play_metavision_live(dt, event_consumer, consumer_args):
+    '''
+    Begin playback of a live feed
+    '''
+    import metavision_designer_engine as mvd_engine
+    import metavision_designer_core as mvd_core
+    import metavision_hal as mv_hal
+
+    controller = mvd_engine.Controller()
+
+    device = mv_hal.DeviceDiscovery.open('')
+    if not device:
+        print("Could not open camera. Make sure you have an event-based device plugged in.")
+        sys.exit(1)
+
+    # Add the device interface to the pipeline
+    interface = mvd_core.HalDeviceInterface(device)
+    controller.add_device_interface(interface)
+
+    cd_producer = mvd_core.CdProducer(interface)
+
+    # get dimensions from interface
+    i_geom = device.get_i_geometry()
+    width = i_geom.get_width()
+    height = i_geom.get_height()
+
+    # set biases
+    biases = device.get_i_ll_biases()
+    print(biases.get_all_biases())
+    biases.set('bias_diff_off', 0)
+    biases.set('bias_diff_on', 600)
+    print(biases.get_all_biases())
+
+    # Start the streaming of events
+    i_events_stream = device.get_i_events_stream()
+    i_events_stream.start()
+
+    # Add cd_producer to the pipeline
+    controller.add_component(cd_producer, "CD Producer")
+
+    # We use PythonConsumer to "grab" the output of two components: cd_producer and frame_gen
+    # pyconsumer will callback the application each time it receives data, using the event_callback function
+    ev_proc = event_consumer(width, height, consumer_args)
+    pyconsumer = mvd_core.PythonConsumer(ev_proc.metavision_event_callback)
+    pyconsumer.add_source(cd_producer, ev_proc.mv_cd_prod_name)
+    controller.add_component(pyconsumer, "PythonConsumer")
+
+    controller.set_slice_duration(dt*1000)
+    controller.set_batch_duration(dt*1000)
+    # controller.set_sync_mode(mvd_engine.Controller.SyncMode(1))
+    do_sync = True
+
+    # Start the camera
+    camera_device = device.get_i_device_control()
+    camera_device.start()
+
+    # Run pipeline & print execution statistics
+    running = True
+    while running and not controller.is_done():
+        start_time = begin_loop()
+
+        # process events
+        controller.run(do_sync)
+        
+        # Render frame
+        ev_proc.draw_frame()
+
+        running = end_loop(start_time, dt)
+
+    controller.print_stats(False)
+    
+    ev_proc.end()
 
 def play_metavision_file(filename, dt, event_consumer, consumer_args):
     '''
