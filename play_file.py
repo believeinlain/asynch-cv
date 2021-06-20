@@ -1,6 +1,4 @@
 
-# pylint: disable=import-outside-toplevel
-# pylint: disable=invalid-name
 from os import path
 import sys
 from time import time_ns

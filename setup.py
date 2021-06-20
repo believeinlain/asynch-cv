@@ -3,20 +3,19 @@ from Cython.Build import cythonize
 import numpy as np
 
 extensions = [
-    Extension('PMD\\*', 
+    Extension('PMD/*', 
         [
-            'PMD\\PyPMD.pyx',
-            'PMD\\PersistentMotionDetector.cpp',
-            'PMD\\EventHandler.cpp',
-            'PMD\\EventBuffer.cpp',
-            'PMD\\ClusterBuffer.cpp',
-            'PMD\\ClusterSorter.cpp',
-            'PMD\\ClusterAnalyzer.cpp'
+            'PMD/PyPMD.pyx',
+            'PMD/PersistentMotionDetector.cpp',
+            'PMD/EventHandler.cpp',
+            'PMD/EventBuffer.cpp',
+            'PMD/ClusterBuffer.cpp',
+            'PMD/ClusterSorter.cpp',
+            'PMD/ClusterAnalyzer.cpp'
         ],
         include_dirs = [
             np.get_include(), 
-            'include\\CTPL',
-            'C:\\dev\\CTPL'
+            '../CTPL'
             ],
         language = 'c++',    
         define_macros = [

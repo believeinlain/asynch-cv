@@ -108,7 +108,8 @@
       "unordered_set": "cpp",
       "valarray": "cpp",
       "variant": "cpp",
-      "*.ipp": "cpp"
+      "*.ipp": "cpp",
+      "*.tcc": "cpp"
     }
   }
 }

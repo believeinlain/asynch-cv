@@ -6,9 +6,6 @@
 #include <math.h>
 #include <algorithm>
 
-using std::min;
-using std::max;
-
 namespace PMD {
 
     // types used to interface with python bindings
@@ -105,8 +102,8 @@ namespace PMD {
                 && (y < br.y);
         }
         inline rect intersection(const rect other) const {
-            return rect(max(tl.x, other.tl.x), max(tl.y, other.tl.y),
-                min(br.x, other.br.x), min(br.y, other.br.y));
+            return rect(std::max(tl.x, other.tl.x), std::max(tl.y, other.tl.y),
+                std::min(br.x, other.br.x), std::min(br.y, other.br.y));
         }
     };
 
@@ -130,7 +127,7 @@ namespace PMD {
     // max clusters derived from the type size, 
     // so that the only possible invalid id is NO_CID
     typedef unsigned short cid_t;
-    const cid_t NO_CID = USHRT_MAX;
+    const cid_t NO_CID = std::numeric_limits<cid_t>::max();
 
     // integer types to make interfacing easier,
     // since speed and compactness are not super important here

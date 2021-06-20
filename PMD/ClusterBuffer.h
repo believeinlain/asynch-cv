@@ -52,8 +52,8 @@ namespace PMD {
         // access buffer as an array
         Cluster &operator[](cid_t cid) {
             // throw error for invalid index
-            if (cid == NO_CID) 
-                throw std::exception("Attempted to index Cluster with invalid cid of NO_CID.");
+            if (cid == NO_CID)
+                throw std::domain_error("Attempted to index Cluster with invalid cid of NO_CID.");
             else return _buffer[cid];
         }
 
