@@ -1,17 +1,18 @@
 from setuptools import Extension, setup
 from Cython.Build import cythonize
 import numpy as np
+from distutils.dir_util import copy_tree
 
 extensions = [
     Extension('PMD/*', 
         [
-            'PMD/PyPMD.pyx',
-            'PMD/PersistentMotionDetector.cpp',
-            'PMD/EventHandler.cpp',
-            'PMD/EventBuffer.cpp',
-            'PMD/ClusterBuffer.cpp',
-            'PMD/ClusterSorter.cpp',
-            'PMD/ClusterAnalyzer.cpp'
+            'src/PMD/PyPMD.pyx',
+            'src/PMD/PersistentMotionDetector.cpp',
+            'src/PMD/EventHandler.cpp',
+            'src/PMD/EventBuffer.cpp',
+            'src/PMD/ClusterBuffer.cpp',
+            'src/PMD/ClusterSorter.cpp',
+            'src/PMD/ClusterAnalyzer.cpp'
         ],
         include_dirs = [
             np.get_include(), 
@@ -37,3 +38,6 @@ setup(
         }
     )
 )
+
+# cython places modules in the wrong directory, so move them to src
+copy_tree('PMD', 'src/PMD')
