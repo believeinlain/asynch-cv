@@ -69,14 +69,15 @@ args = {
     # 'video_out': run_name+'.avi',
     'filetype': data_format,
     'targets': ['vessel', 'boat', 'RHIB'],
+    'show_metrics': True,
     'parameters': {
         'x_div': 4, # number of horizontal divisions
         'y_div': 4, # number of vertical divisions
         'us_per_event': 100, # processing time alloted to each event handler to process events
-        'temporal_filter': 100_000,
+        'temporal_filter': 50_000,
         'event_buffer_depth': 16, # number of events to remember for each (x, y) position
         'tf': 200_000, # how far back in time to consider events for filtering
-        'tc': 150_000, # how far back in time to consider events for clustering
+        'tc': 250_000, # how far back in time to consider events for clustering
         'n': 4, # minimum number of correlated events required to allow a particular event through the filter
         'max_cluster_size': 30, # maximum taxicab dist from center of cluster to each event
         'buffer_flush_period': 10_000, # microseconds periodicity to flush expired (>tc) events from buffer
@@ -86,7 +87,7 @@ args = {
         'long_duration': 4_000_000, # microsecond duration to record samples for each cluster
         'short_duration': 2_000_000,
 
-        'ratio_threshold': 100
+        'ratio_threshold': 50
     }
 }
 
@@ -106,5 +107,5 @@ def run_one(group, test):
 
     play_file(data_path, 33, pmd_consumer, args)
 
-run_one('june_26', 2)
+run_one('june_12', 2)
 # run_all()

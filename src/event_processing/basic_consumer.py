@@ -33,6 +33,8 @@ class basic_consumer:
         if consumer_args is None:
             consumer_args = {}
 
+        self.show_metrics = consumer_args.get('show_metrics', False)
+
         # what kind of objects will we check against?
         self._targets = consumer_args.get('targets', ['vessel'])
 
@@ -220,13 +222,13 @@ class basic_consumer:
         metrics = get_pascalvoc_metrics(self._ground_truth, self._detections, 0.05)
         path = f'metrics\\{self.run_name}'
         plot_precision_recall_curves(metrics['per_class'], savePath=path,
-            showAP=True, showInterpolatedPrecision=True, showGraphic=False)
+            showAP=True, showInterpolatedPrecision=True, showGraphic=self.show_metrics)
 
         print('Average precision for target:', f'{metrics["mAP"]*100:0.2f}%')
         print('Precision x Recall curve saved in', path)
 
         # finish displaying events
-        cv2.destroyAllWindows()
+        # cv2.destroyAllWindows()
 
     def save_detection(self, conf, bb):
         # bb should be in x y w h format

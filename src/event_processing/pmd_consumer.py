@@ -110,7 +110,7 @@ class pmd_consumer(basic_consumer):
             image = np.multiply(255, d['image'], dtype='u1')
             x, y, w, h = cv2.boundingRect(image)
             conf = 1-exp(tau*d['stability'])
-            if conf > 0.5:
+            if True:#conf > 0.5:
                 cv2.rectangle(frame, (x, y), (x+w, y+h), (255,255,255), 1)
                 cv2.putText(frame, f"{conf:0.2f}", (x, y), cv2.FONT_HERSHEY_PLAIN, 1, (255,255,255), 1, cv2.LINE_AA)
 

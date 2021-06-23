@@ -98,10 +98,8 @@ def play_metavision_live(dt, event_consumer, consumer_args):
 
     # set biases
     biases = device.get_i_ll_biases()
-    print(biases.get_all_biases())
     biases.set('bias_diff_off', 0)
-    biases.set('bias_diff_on', 600)
-    print(biases.get_all_biases())
+    biases.set('bias_diff_on', 400)
 
     # Start the streaming of events
     i_events_stream = device.get_i_events_stream()
