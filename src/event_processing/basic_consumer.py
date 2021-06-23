@@ -218,8 +218,12 @@ class basic_consumer:
 
         # evaluate metrics
         metrics = get_pascalvoc_metrics(self._ground_truth, self._detections, 0.05)
-        plot_precision_recall_curves(metrics['per_class'], savePath=f'metrics\\{self.run_name}',
+        path = f'metrics\\{self.run_name}'
+        plot_precision_recall_curves(metrics['per_class'], savePath=path,
             showAP=True, showInterpolatedPrecision=True, showGraphic=False)
+
+        print('Average precision for target:', f'{metrics["mAP"]*100:0.2f}%')
+        print('Precision x Recall curve saved in', path)
 
         # finish displaying events
         cv2.destroyAllWindows()

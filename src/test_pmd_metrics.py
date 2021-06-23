@@ -74,9 +74,9 @@ args = {
         'y_div': 4, # number of vertical divisions
         'us_per_event': 100, # processing time alloted to each event handler to process events
         'temporal_filter': 100_000,
-        'event_buffer_depth': 8, # number of events to remember for each (x, y) position
-        'tf': 250_000, # how far back in time to consider events for filtering
-        'tc': 200_000, # how far back in time to consider events for clustering
+        'event_buffer_depth': 16, # number of events to remember for each (x, y) position
+        'tf': 200_000, # how far back in time to consider events for filtering
+        'tc': 150_000, # how far back in time to consider events for clustering
         'n': 4, # minimum number of correlated events required to allow a particular event through the filter
         'max_cluster_size': 30, # maximum taxicab dist from center of cluster to each event
         'buffer_flush_period': 10_000, # microseconds periodicity to flush expired (>tc) events from buffer
@@ -106,5 +106,5 @@ def run_one(group, test):
 
     play_file(data_path, 33, pmd_consumer, args)
 
-# run_one('june_26', 2)
-run_all()
+run_one('june_26', 2)
+# run_all()
