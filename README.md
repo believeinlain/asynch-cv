@@ -9,7 +9,8 @@ To build, first execute `python setup.py build_ext --i` to compile the cython ex
 
 Simply run one of the `test_*.py` scripts to see a demonstration.  
 
-This software includes object detection metrics from https://github.com/rafaelpadilla/review_object_detection_metrics
+This software includes object detection metrics from:  
+https://github.com/rafaelpadilla/review_object_detection_metrics  
 Padilla R, Passos WL, Dias TLB, Netto SL, da Silva EAB. A Comparative Analysis of Object Detection Metrics with a Companion Open-Source Toolkit. Electronics. 2021; 10(3):279. https://doi.org/10.3390/electronics10030279
 
 # Persistent Motion Detector
