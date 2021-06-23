@@ -68,8 +68,6 @@ def play_file(filename, dt, event_consumer, consumer_args=None):
         print("Error: provided input path '{}' does not have a known extension. ".format(filename))
         return -1
 
-    # finish displaying events
-    # cv2.destroyAllWindows()
     return 0
 
 def play_metavision_live(dt, event_consumer, consumer_args):

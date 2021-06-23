@@ -6,10 +6,10 @@ from play_file import play_file
 from event_processing import pmd_consumer
 
 data_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
-annot_root = './example_annotations/'
+annot_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 
 group = 'june_26'
-test = 23
+test = 2
 file_type = '.aedat4'
 
 # group = 'april_29'
@@ -59,44 +59,39 @@ boat_tests = {
     }
 }
 
-for group in ['june_12', 'june_26']:
+filename = os.path.join(group, boat_tests[group][test])
+run_name = f'{group}_run_{test:02d}'
 
-    all_runs = boat_tests[group].keys()
-    # all_runs = [test]
+data_path = os.path.join(os.path.expanduser('~\\'), data_root, filename)+file_type
+annot_path = os.path.join(os.path.expanduser('~\\'), annot_root, filename)+'.xml'
 
-    for test in all_runs:
+play_file(
+    filename=data_path,
+    dt=33,
+    event_consumer=pmd_consumer,
+    consumer_args={
+        'run_name': run_name,
+        'annot_file': annot_path,
+        'video_out': run_name+'.avi',
+        'filetype': file_type,
+        'targets': ['vessel', 'boat', 'RHIB'],
+        'parameters': {
+            'x_div': 4, # number of horizontal divisions
+            'y_div': 4, # number of vertical divisions
+            'us_per_event': 100, # processing time alloted to each event handler to process events
+            'temporal_filter': 100_000,
+            'event_buffer_depth': 4, # number of events to remember for each (x, y) position
+            'tf': 250_000, # how far back in time to consider events for filtering
+            'tc': 150_000, # how far back in time to consider events for clustering
+            'n': 4, # minimum number of correlated events required to allow a particular event through the filter
+            'max_cluster_size': 30, # maximum taxicab dist from center of cluster to each event
+            'buffer_flush_period': 10_000, # microseconds periodicity to flush expired (>tc) events from buffer
+            'num_analyzers': 12,
 
-        filename = os.path.join(group, boat_tests[group][test])
-        run_name = f'{group}_run_{test:02d}'
+            'sample_period': 100_000, # microseconds between each centroid position sample
+            'long_duration': 5_000_000, # microsecond duration to record samples for each cluster
+            'short_duration': 3_000_000,
 
-        data_path = os.path.join(os.path.expanduser('~\\'), data_root, filename)+file_type
-        annot_path = os.path.join(annot_root, filename)+'.xml'
-
-        play_file(
-            filename=data_path,
-            dt=33,
-            event_consumer=pmd_consumer,
-            consumer_args={
-                'run_name': run_name,
-                'annot_file': annot_path,
-                'video_out': run_name+'.avi',
-                'filetype': file_type,
-                'parameters': {
-                    'x_div': 4, # number of horizontal divisions
-                    'y_div': 4, # number of vertical divisions
-                    'us_per_event': 100, # processing time alloted to each event handler to process events
-                    'event_buffer_depth': 4, # number of events to remember for each (x, y) position
-                    'tf': 250_000, # how far back in time to consider events for filtering
-                    'tc': 150_000, # how far back in time to consider events for clustering
-                    'n': 4, # minimum number of correlated events required to allow a particular event through the filter
-                    'max_cluster_size': 30, # maximum taxicab dist from center of cluster to each event
-                    'buffer_flush_period': 10_000, # microseconds periodicity to flush expired (>tc) events from buffer
-                    'num_analyzers': 12,
-
-                    'sample_period': 100_000, # microseconds between each centroid position sample
-                    'long_duration': 5_000_000, # microsecond duration to record samples for each cluster
-                    'short_duration': 3_000_000,
-
-                    'ratio_threshold': 100
-                }
-            })
+            'ratio_threshold': 100
+        }
+    })

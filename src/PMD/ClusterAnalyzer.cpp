@@ -116,6 +116,8 @@ namespace PMD {
 
             if (_status.ratio > _p.ratio_threshold)
                 _status.stability += int(_status.ratio);
+            else
+                _status.stability += _status.ratio - _p.ratio_threshold;
         }
         return _status;
     }

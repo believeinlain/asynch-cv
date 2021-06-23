@@ -196,8 +196,7 @@ class basic_consumer:
         Called from main thread to display frame
         '''
         # display the frame on screen
-        # cv2.imshow(self.run_name, self.frame_to_draw)
-        cv2.imshow('run', self.frame_to_draw)
+        cv2.imshow(self.run_name, self.frame_to_draw)
         
         # write the frame to the output avi
         if self.video_out is not None:
@@ -221,6 +220,9 @@ class basic_consumer:
         metrics = get_pascalvoc_metrics(self._ground_truth, self._detections, 0.05)
         plot_precision_recall_curves(metrics['per_class'], savePath=f'metrics\\{self.run_name}',
             showAP=True, showInterpolatedPrecision=True, showGraphic=False)
+
+        # finish displaying events
+        cv2.destroyAllWindows()
 
     def save_detection(self, conf, bb):
         # bb should be in x y w h format
