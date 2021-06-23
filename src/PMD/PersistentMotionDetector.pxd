@@ -6,6 +6,7 @@ cdef extern from 'types.h' namespace 'PMD':
         int width, height
         int x_div, y_div
         int us_per_event
+        int temporal_filter
         int event_buffer_depth
         int tf, tc, n
         int buffer_flush_period

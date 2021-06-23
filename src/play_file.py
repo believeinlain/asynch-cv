@@ -30,44 +30,6 @@ def play_file(filename, dt, event_consumer, consumer_args=None):
 
     if filename.endswith('.raw') or filename.endswith('.dat'):
         play_metavision_file(filename, dt, event_consumer, consumer_args)
-
-    elif filename.endswith('.aedat'):
-        from PyAedatTools import ImportAedat
-
-        # Create a dict with which to pass in the input parameters.
-        aedat = {}
-        aedat['importParams'] = {}
-
-        # Put the filename, including full path, in the 'filePath' field.
-        aedat['importParams']['filePath'] = filename
-
-        # Invoke the import function
-        aedat = ImportAedat.ImportAedat(aedat)
-
-        # legacy support is incomplete, for now just assume we have the Davis346Red
-        # here are the field sizes for reference:
-        # devices = {
-        #     'Dvs128':		    [128, 128],
-        #     'Davis240':		[240, 180],
-        #     'Davis128':		[128, 128],
-        #     'Davis208':		[208, 192],
-        #     'Davis346':		[346, 260],
-        #     'Davis640':		[640, 480]
-        # }
-        width = 346
-        height = 260
-
-        # create data structure to process into frames
-        event_data = np.array([ 
-            np.subtract(width-1, aedat['data']['polarity']['x']), # flip x
-            np.subtract(height-1, aedat['data']['polarity']['y']), # flip y
-            aedat['data']['polarity']['polarity'],
-            aedat['data']['polarity']['timeStamp']
-        ]).transpose()
-        
-        consumer = event_consumer(width, height, consumer_args)
-
-        play_numpy_array_dt(event_data, consumer, dt, dt_us)
     
     elif filename.endswith('.aedat4'):
         from dv import AedatFile

@@ -44,6 +44,10 @@ namespace PMD {
         if (e.t > _next_idle_time) {
             // catch up processing
             processUntil(e.t);
+
+            // temporal filter
+            if (e.t < _event_buffer.at(e.x, e.y).top().t+_p.temporal_filter) return;
+
             // process the event
             ushort_t count = 0;
             auto adj = _event_buffer.checkVicinity(_domain,

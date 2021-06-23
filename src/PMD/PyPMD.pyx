@@ -21,6 +21,7 @@ cdef class PyPMD:
         c_param.x_div = param.get('x_div', 8)
         c_param.y_div = param.get('y_div', 8)
         c_param.us_per_event = param.get('us_per_event', 0)
+        c_param.temporal_filter = param.get('temporal_filter', 5000)
         c_param.event_buffer_depth = param.get('event_buffer_depth', 4)
         c_param.tf = param.get('tf', 200_000)
         c_param.tc = param.get('tc', 200_000)

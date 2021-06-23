@@ -1,11 +1,16 @@
 # asynch-cv
 Python3 library for asynchronous event-based computer vision applications.  
 
-To install requirements, run `pip install -r ./requirements.txt`. Note that in order to read Metavision .RAW or .DAT files or connect to a Prophesee camera, you must install Metavision Designer separately.
+Note that in order to read Metavision .RAW or .DAT files or connect to a Prophesee camera, you must install Metavision Designer separately.
 
-To build, first run `python setup.py build_ext --inplace` to compile the cython extensions.
+If using conda, an appropriate environment can be created with `conda env create --file async-cv.yml`.
 
-To run, simply execute one of the `test_*.py` scripts to see a demonstration.  
+To build, first execute `python setup.py build_ext --i` to compile the cython extensions.
+
+Simply run one of the `test_*.py` scripts to see a demonstration.  
+
+This software includes object detection metrics from https://github.com/rafaelpadilla/review_object_detection_metrics
+Padilla R, Passos WL, Dias TLB, Netto SL, da Silva EAB. A Comparative Analysis of Object Detection Metrics with a Companion Open-Source Toolkit. Electronics. 2021; 10(3):279. https://doi.org/10.3390/electronics10030279
 
 # Persistent Motion Detector
 C++ application for event-based clustering and tracking. Takes streaming event data from an event camera in the form (x, y, p, t) and outputs a map of each cluster in the camera's field of view, as well as information and analysis results pertaining to a limited selection of clusters.

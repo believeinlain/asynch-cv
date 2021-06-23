@@ -36,6 +36,7 @@ namespace PMD {
         ushort_t x_div = 8;
         ushort_t y_div = 8;
         uint_t us_per_event = 0;
+        uint_t temporal_filter = 5000;
         ushort_t event_buffer_depth = 4;
         ts_t tf = 200000;
         ts_t tc = 200000;

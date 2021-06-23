@@ -4,8 +4,10 @@ import cv2
 import numpy as np
 import xmltodict
 import os
+import matplotlib.pyplot as plt
 
-import event_processing
+from bounding_box import BoundingBox, BBFormat, BBType
+from evaluators.pascal_voc_evaluator import plot_precision_recall_curves, get_pascalvoc_metrics
 
 class basic_consumer:
     '''
@@ -28,50 +30,63 @@ class basic_consumer:
         self.frame_count = 0
         self.events_this_frame = 0
 
+        if consumer_args is None:
+            consumer_args = {}
+
+        # what kind of objects will we check against?
+        self._targets = consumer_args.get('targets', ['vessel'])
+
         # ground truth gathered from annotations
         self._ground_truth = []
+        # detections to collect if objects are detected
+        self._detections = []
 
         # process consumer args
         self.annotations = []
         self.annotations_version = {}
         self.annotations_meta = {}
         self.video_out = None
-        self.run_name = 'test'
-        if consumer_args is not None:
-            self._consumer_args = consumer_args
-            if 'run_name' in consumer_args:
-                self.run_name = consumer_args['run_name']
-                print(f'Starting run "{self.run_name}"')
+        self.run_name = consumer_args.get('run_name', 'test')
+        print(f'Starting run "{self.run_name}"')
 
-            if 'video_out' in consumer_args:
-                # create directories if necessary
-                cwd = os.path.abspath(os.getcwd())
-                try:
-                    os.mkdir(f'{cwd}\\output\\')
-                except FileExistsError:
-                    pass
+        if 'video_out' in consumer_args:
+            # create directories if necessary
+            cwd = os.path.abspath(os.getcwd())
+            try:
+                os.mkdir(f'{cwd}\\output\\')
+            except FileExistsError:
+                pass
 
-                video_out_filename = consumer_args['video_out']
-        
-                # Define the codec and create VideoWriter object
-                fourcc = cv2.VideoWriter_fourcc(*'XVID')
-                self.video_out = cv2.VideoWriter(f'output/{video_out_filename}', fourcc, 20, (width, height))
+            video_out_filename = consumer_args['video_out']
+    
+            # Define the codec and create VideoWriter object
+            fourcc = cv2.VideoWriter_fourcc(*'XVID')
+            self.video_out = cv2.VideoWriter(f'output/{video_out_filename}', fourcc, 20, (width, height))
             
-            if 'annot_file' in consumer_args:
-                try:
-                    with open(consumer_args['annot_file']) as fd:
-                        doc = xmltodict.parse(fd.read())
-                        annot = doc['annotations']
-                        self.annotations_version = annot['version']
-                        self.annotations_meta = annot['meta']
-                        if type(annot['track']) is list:
-                            self.annotations = annot['track']
-                        else:
-                            self.annotations = [annot['track']]
-                except FileNotFoundError:
-                    print(f'Annotation file "{consumer_args["annot_file"]}" not found.')
-        else:
-            self._consumer_args = {}
+        if 'annot_file' in consumer_args:
+            try:
+                with open(consumer_args['annot_file']) as fd:
+                    doc = xmltodict.parse(fd.read())
+                    annot = doc['annotations']
+                    self.annotations_version = annot['version']
+                    self.annotations_meta = annot['meta']
+                    if type(annot['track']) is list:
+                        self.annotations = annot['track']
+                    else:
+                        self.annotations = [annot['track']]
+            except FileNotFoundError:
+                print(f'Annotation file "{consumer_args["annot_file"]}" not found.')
+
+         # create directories if necessary
+        cwd = os.path.abspath(os.getcwd())
+        try:
+            os.mkdir(f'{cwd}\\metrics\\')
+        except FileExistsError:
+            pass
+        try:
+            os.mkdir(f'{cwd}\\metrics\\{self.run_name}\\')
+        except FileExistsError:
+            pass
 
     def metavision_event_callback(self, ts, src_events, src_2d_arrays):
         del src_2d_arrays # we don't want to use a frame producer
@@ -79,7 +94,7 @@ class basic_consumer:
         Function to pass as a callback to use as an event consumer with Metavision Designer.
 
         Parameters:
-            ts: This is the timestamp of the end of the buffer.`
+            ts: This is the timestamp of the end of the buffer.
                 All events included in this callback will have a timestamp strictly lower than ts
             src_events: Dictionary containing a list for each component associated with the PythonConsumer.
                 The label of each item in the dictionary is the name passed when adding a new source to the PythonConsumer.
@@ -132,31 +147,36 @@ class basic_consumer:
         # otherwise fill frame with grey
         else:
             self.frame_to_draw = np.full((self.height, self.width, 3), 80, dtype=np.uint8)
-        
-        self._ground_truth.append([])
 
         # read annotations
         for i in range(len(self.annotations)):
             box_frames = list(self.annotations[i]['box'])
             label = self.annotations[i]['@label']
-            color = (200, 200, 200) # tuple(int(label['color'][i:i+2], 16) for i in (1, 3, 5))
-            if (self.frame_count < len(box_frames)):
-                # read box info
-                box = box_frames[self.frame_count]
-                xtl = int(float(box['@xtl']))
-                ytl = int(float(box['@ytl']))
-                xbr = int(float(box['@xbr']))
-                ybr = int(float(box['@ybr']))
-                # draw box on frame
-                cv2.rectangle(self.frame_to_draw, (xtl, ytl), (xbr, ybr), color)
-                cv2.putText(self.frame_to_draw, label, (xtl, ytl), cv2.FONT_HERSHEY_PLAIN,
-                    0.5, color, 1, cv2.LINE_AA)
-                
-                # store in easy-to-read format
-                self._ground_truth[self.frame_count].append({
-                    'label': label,
-                    'bb': (xtl, ytl, xbr, ybr)
-                })
+            color = (200, 200, 200)
+
+            # sync properly by frame number
+            is_in_frame = False
+            for box in box_frames:
+                if int(box['@frame']) == self.frame_count:
+                    is_in_frame = True
+                    break
+            if not is_in_frame:
+                continue
+
+            # read box info
+            xtl = int(float(box['@xtl']))
+            ytl = int(float(box['@ytl']))
+            xbr = int(float(box['@xbr']))
+            ybr = int(float(box['@ybr']))
+            # draw box on frame
+            cv2.rectangle(self.frame_to_draw, (xtl, ytl), (xbr, ybr), color)
+            cv2.putText(self.frame_to_draw, label, (xtl, ytl), cv2.FONT_HERSHEY_PLAIN,
+                0.5, color, 1, cv2.LINE_AA)
+            
+            # store in easy-to-read format
+            if any(target in label for target in self._targets) and 'difficult' not in label:
+                self._ground_truth.append(BoundingBox(f'frame_{self.frame_count:03d}',
+                    class_id='target', coordinates=(xtl, ytl, xbr, ybr), format=BBFormat.XYX2Y2))
 
         # ensure the frame is contiguous for C processing
         self.frame_to_draw = np.ascontiguousarray(self.frame_to_draw, dtype=np.uint8)
@@ -192,6 +212,18 @@ class basic_consumer:
         This function will be called when execution has finished (i.e. no more events to process)
         '''
         print('\nEnded playback')
+
         # wrap up the output video
         if self.video_out is not None:
             self.video_out.release()
+
+        # evaluate metrics
+        metrics = get_pascalvoc_metrics(self._ground_truth, self._detections, 0.05)
+        plot_precision_recall_curves(metrics['per_class'], savePath=f'metrics\\{self.run_name}',
+            showAP=True, showInterpolatedPrecision=True, showGraphic=False)
+
+    def save_detection(self, conf, bb):
+        # bb should be in x y w h format
+        self._detections.append(BoundingBox(f'frame_{self.frame_count:03d}',
+            class_id='target', coordinates=bb, format=BBFormat.XYWH,
+            bb_type=BBType.DETECTED, confidence=conf))
