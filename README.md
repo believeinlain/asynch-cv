@@ -23,7 +23,8 @@ Divides the field of view into **x_div** horizontal divisions, and **y_div** ver
 
 ![](images/Partitioning.png)
 
-
+### Temporal Filter
+The temporal filter limits the frequency of events that can be received at each location. For an incoming event **(x, y, p, t)**, if the most recent past event at **(x, y)** in the **EventBuffer**
 
 ### Correlational Filter
 Each **EventHandler** instance stores every event it receives in a shared **EventBuffer**, which records the most recent **event_buffer_depth** events at each (x, y) location in the field of view. For each incoming event **(x, y, p, t)**, adjacent events in the buffer at locations from (**x**-1, **y**-1) to (**x**+1, **y**+1) are counted if their timestamps are within **tf**, or the filtering threshold, of **t**. If the count is at least **n**, then the incoming event will be assigned to a cluster. Otherwise, it will remain unassigned and be stored in the **EventBuffer** to be counted by future events.  
