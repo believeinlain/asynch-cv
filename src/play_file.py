@@ -2,8 +2,8 @@
 from os import path
 import sys
 from time import time_ns
-import cv2
 import numpy as np
+import cv2
 
 def play_file(filename, dt, event_consumer, consumer_args=None):
     '''

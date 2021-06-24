@@ -1,7 +1,14 @@
 from setuptools import Extension, setup
 from Cython.Build import cythonize
 import numpy as np
+import os
 from distutils.dir_util import copy_tree
+
+cwd = os.path.abspath(os.getcwd())
+try:
+    os.mkdir(f'{cwd}\\PMD\\')
+except FileExistsError:
+    pass
 
 extensions = [
     Extension('PMD/*', 

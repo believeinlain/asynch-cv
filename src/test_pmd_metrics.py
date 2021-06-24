@@ -107,5 +107,5 @@ def run_one(group, test):
 
     play_file(data_path, 33, pmd_consumer, args)
 
-run_one('june_12', 2)
-# run_all()
+# run_one('june_12', 2)
+run_all()

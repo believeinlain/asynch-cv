@@ -8,13 +8,13 @@ from event_processing import pmd_consumer
 data_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 annot_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 
-group = 'june_26'
-test = 2
-file_type = '.aedat4'
+# group = 'june_26'
+# test = 2
+# file_type = '.aedat4'
 
-# group = 'april_29'
-# test = 4
-# file_type = '.raw'
+group = 'april_29'
+test = 4
+file_type = '.raw'
 
 # group = 'june_26'
 # test = 2
@@ -72,7 +72,7 @@ play_file(
     consumer_args={
         'run_name': run_name,
         'annot_file': annot_path,
-        'video_out': run_name+'.avi',
+        # 'video_out': run_name+'.avi',
         'filetype': file_type,
         'targets': ['vessel', 'boat', 'RHIB'],
         'parameters': {
