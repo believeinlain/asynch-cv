@@ -5,9 +5,9 @@ from collections import Counter
 import matplotlib.pyplot as plt
 import numpy as np
 # import pandas as pd
-from bounding_box import BoundingBox
-from utils.enumerators import (BBFormat, CoordinatesType,
-                               MethodAveragePrecision)
+from async_cv.bounding_box import BoundingBox
+from async_cv.utils.enumerators import (BBFormat, CoordinatesType,
+                                        MethodAveragePrecision)
 
 
 def calculate_ap_every_point(rec, prec):
@@ -123,11 +123,13 @@ def get_pascalvoc_metrics(gt_boxes,
             continue
         npos = len(v['gt'])
         # sort detections by decreasing confidence
-        dects = [a for a in sorted(v['det'], key=lambda bb: bb.get_confidence(), reverse=True)]
+        dects = [a for a in sorted(
+            v['det'], key=lambda bb: bb.get_confidence(), reverse=True)]
         TP = np.zeros(len(dects))
         FP = np.zeros(len(dects))
         # create dictionary with amount of expected detections for each image
-        detected_gt_per_image = Counter([bb.get_image_name() for bb in gt_boxes])
+        detected_gt_per_image = Counter(
+            [bb.get_image_name() for bb in gt_boxes])
         for key, val in detected_gt_per_image.items():
             detected_gt_per_image[key] = np.zeros(val)
         # print(f'Evaluating class: {c}')
@@ -147,10 +149,12 @@ def get_pascalvoc_metrics(gt_boxes,
 
             if generate_table:
                 dict_table['image'].append(img_det)
-                dict_table['confidence'].append(f'{100*det.get_confidence():.2f}%')
+                dict_table['confidence'].append(
+                    f'{100*det.get_confidence():.2f}%')
 
             # Find ground truth image
-            gt = [gt for gt in classes_bbs[c]['gt'] if gt.get_image_name() == img_det]
+            gt = [gt for gt in classes_bbs[c]['gt']
+                  if gt.get_image_name() == img_det]
             # Get the maximum iou among all detectins in the image
             iouMax = sys.float_info.min
             # Given the detection det, find ground-truth with the highest iou
@@ -221,7 +225,8 @@ def get_pascalvoc_metrics(gt_boxes,
             'table': table
         }
     # For mAP, only the classes in the gt set should be considered
-    mAP = sum([v['AP'] for k, v in ret.items() if k in gt_classes_only]) / len(gt_classes_only)
+    mAP = sum([v['AP'] for k, v in ret.items()
+              if k in gt_classes_only]) / len(gt_classes_only)
     return {'per_class': ret, 'mAP': mAP}
 
 
@@ -245,7 +250,8 @@ def plot_precision_recall_curve(results,
         method = result['method']
         if showInterpolatedPrecision:
             if method == MethodAveragePrecision.EVERY_POINT_INTERPOLATION:
-                plt.plot(mrec, mpre, '--r', label='Interpolated precision (every point)')
+                plt.plot(mrec, mpre, '--r',
+                         label='Interpolated precision (every point)')
             elif method == MethodAveragePrecision.ELEVEN_POINT_INTERPOLATION:
                 # Remove duplicates, getting only the highest precision of each recall value
                 nrec = []
@@ -256,7 +262,8 @@ def plot_precision_recall_curve(results,
                         idxEq = np.argwhere(mrec == r)
                         nrec.append(r)
                         nprec.append(max([mpre[int(id)] for id in idxEq]))
-                plt.plot(nrec, nprec, 'or', label='11-point interpolated precision')
+                plt.plot(nrec, nprec, 'or',
+                         label='11-point interpolated precision')
         plt.plot(recall, precision, label=f'{classId}')
     plt.xlabel('recall')
     plt.ylabel('precision')
@@ -298,7 +305,8 @@ def plot_precision_recall_curves(results,
         plt.close()
         if showInterpolatedPrecision:
             if method == MethodAveragePrecision.EVERY_POINT_INTERPOLATION:
-                plt.plot(mrec, mpre, '--r', label='Interpolated precision (every point)')
+                plt.plot(mrec, mpre, '--r',
+                         label='Interpolated precision (every point)')
             elif method == MethodAveragePrecision.ELEVEN_POINT_INTERPOLATION:
                 # Remove duplicates, getting only the highest precision of each recall value
                 nrec = []
@@ -309,14 +317,16 @@ def plot_precision_recall_curves(results,
                         idxEq = np.argwhere(mrec == r)
                         nrec.append(r)
                         nprec.append(max([mpre[int(id)] for id in idxEq]))
-                plt.plot(nrec, nprec, 'or', label='11-point interpolated precision')
+                plt.plot(nrec, nprec, 'or',
+                         label='11-point interpolated precision')
         plt.plot(recall, precision, label='Precision')
         plt.xlabel('recall')
         plt.ylabel('precision')
         if showAP:
             ap_str = "{0:.2f}%".format(average_precision * 100)
             # ap_str = "{0:.4f}%".format(average_precision * 100)
-            plt.title('Precision x Recall curve \nClass: %s, AP: %s' % (str(classId), ap_str))
+            plt.title('Precision x Recall curve \nClass: %s, AP: %s' %
+                      (str(classId), ap_str))
         else:
             plt.title('Precision x Recall curve \nClass: %s' % str(classId))
         plt.legend(shadow=True)

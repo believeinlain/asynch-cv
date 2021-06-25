@@ -3,12 +3,12 @@
 
 from os import path
 import sys
-from time import time_ns, sleep
+from time import time_ns
 import cv2
 import numpy as np
 from pynput.keyboard import Listener, KeyCode
 
-from event_processing.basic_consumer import basic_consumer
+from async_cv.event_processing.basic_consumer import basic_consumer
 
 
 def play_file(filename: str, dt: int, event_consumer: basic_consumer,

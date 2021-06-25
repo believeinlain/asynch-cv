@@ -1,25 +1,12 @@
 
-import os
 from setuptools import Extension, setup
 from Cython.Build import cythonize
 import numpy as np
-from distutils.dir_util import copy_tree, remove_tree
-
-if not os.path.isdir('PMD'):
-    os.mkdir('PMD')
-if not os.path.isdir('event_processing'):
-    os.mkdir('event_processing')
-
-cwd = os.path.abspath(os.getcwd())
-try:
-    os.mkdir(f'{cwd}\\PMD\\')
-except FileExistsError:
-    pass
 
 extensions = [
-    Extension('event_processing.basic_consumer',
+    Extension('async_cv.event_processing.basic_consumer',
         [
-            'src/event_processing/basic_consumer.pyx'
+            'async_cv/event_processing/basic_consumer.pyx'
         ],
         include_dirs = [
             np.get_include()
@@ -28,15 +15,15 @@ extensions = [
             ('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')
         ]
     ),
-    Extension('PMD/*', 
+    Extension('async_cv.PMD.PyPMD', 
         [
-            'src/PMD/PyPMD.pyx',
-            'src/PMD/PersistentMotionDetector.cpp',
-            'src/PMD/EventHandler.cpp',
-            'src/PMD/EventBuffer.cpp',
-            'src/PMD/ClusterBuffer.cpp',
-            'src/PMD/ClusterSorter.cpp',
-            'src/PMD/ClusterAnalyzer.cpp'
+            'async_cv/PMD/PyPMD.pyx',
+            'async_cv/PMD/PersistentMotionDetector.cpp',
+            'async_cv/PMD/EventHandler.cpp',
+            'async_cv/PMD/EventBuffer.cpp',
+            'async_cv/PMD/ClusterBuffer.cpp',
+            'async_cv/PMD/ClusterSorter.cpp',
+            'async_cv/PMD/ClusterAnalyzer.cpp'
         ],
         include_dirs = [
             np.get_include(), 
@@ -62,9 +49,3 @@ setup(
         }
     )
 )
-
-# cython places modules in the wrong directory, so move them to src
-copy_tree('PMD', 'src/PMD')
-remove_tree('PMD')
-copy_tree('event_processing', 'src/event_processing')
-remove_tree('event_processing')

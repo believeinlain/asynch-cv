@@ -2,7 +2,7 @@
 import numpy as np
 cimport numpy as np
 
-from PMD.PersistentMotionDetector cimport *
+from async_cv.PMD.PersistentMotionDetector cimport *
 
 cdef class PyPMD:
     cdef PersistentMotionDetector *_cpp_PMD

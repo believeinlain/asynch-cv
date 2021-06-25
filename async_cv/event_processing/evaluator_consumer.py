@@ -1,9 +1,9 @@
 
 import os
-from bounding_box import BoundingBox, BBFormat, BBType
-from evaluators.pascal_voc_evaluator import plot_precision_recall_curves, get_pascalvoc_metrics
+from async_cv.bounding_box import BoundingBox, BBFormat, BBType
+from async_cv.evaluators.pascal_voc_evaluator import plot_precision_recall_curves, get_pascalvoc_metrics
 
-from event_processing.basic_consumer import basic_consumer
+from async_cv.event_processing.basic_consumer import basic_consumer
 
 class evaluator_consumer(basic_consumer):
     def __init__(self, width, height, consumer_args=None):

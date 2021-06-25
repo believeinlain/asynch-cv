@@ -18,25 +18,28 @@
             "C:\\Users\\steph\\miniconda3\\envs\\async-cv\\lib\\site-packages\\numpy\\core\\include\\numpy\\arrayscalars.h",
             "C:\\Users\\steph\\miniconda3\\envs\\async-cv\\lib\\site-packages\\numpy\\core\\include\\numpy\\ndarrayobject.h",
             "C:\\Users\\steph\\miniconda3\\envs\\async-cv\\lib\\site-packages\\numpy\\core\\include\\numpy\\ndarraytypes.h",
-            "C:\\Users\\steph\\miniconda3\\envs\\async-cv\\lib\\site-packages\\numpy\\core\\include\\numpy\\ufuncobject.h"
+            "C:\\Users\\steph\\miniconda3\\envs\\async-cv\\lib\\site-packages\\numpy\\core\\include\\numpy\\ufuncobject.h",
+            "async_cv\\PMD\\PersistentMotionDetector.h",
+            "async_cv\\PMD\\types.h"
         ],
         "include_dirs": [
+            ".\\async_cv\\PMD",
             "C:\\Users\\steph\\miniconda3\\envs\\async-cv\\lib\\site-packages\\numpy\\core\\include",
             "../CTPL"
         ],
         "language": "c++",
-        "name": "PMD.PyPMD",
+        "name": "async_cv.PMD.PyPMD",
         "sources": [
-            "src/PMD/PyPMD.pyx",
-            "src/PMD/PersistentMotionDetector.cpp",
-            "src/PMD/EventHandler.cpp",
-            "src/PMD/EventBuffer.cpp",
-            "src/PMD/ClusterBuffer.cpp",
-            "src/PMD/ClusterSorter.cpp",
-            "src/PMD/ClusterAnalyzer.cpp"
+            "async_cv/PMD/PyPMD.pyx",
+            "async_cv/PMD/PersistentMotionDetector.cpp",
+            "async_cv/PMD/EventHandler.cpp",
+            "async_cv/PMD/EventBuffer.cpp",
+            "async_cv/PMD/ClusterBuffer.cpp",
+            "async_cv/PMD/ClusterSorter.cpp",
+            "async_cv/PMD/ClusterAnalyzer.cpp"
         ]
     },
-    "module_name": "PMD.PyPMD"
+    "module_name": "async_cv.PMD.PyPMD"
 }
 END: Cython Metadata */
 
@@ -658,8 +661,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__PMD__PyPMD
-#define __PYX_HAVE_API__PMD__PyPMD
+#define __PYX_HAVE__async_cv__PMD__PyPMD
+#define __PYX_HAVE_API__async_cv__PMD__PyPMD
 /* Early includes */
 #include <string.h>
 #include <stdio.h>
@@ -911,7 +914,7 @@ static const char *__pyx_filename;
 
 static const char *__pyx_f[] = {
   "stringsource",
-  "src\\PMD\\PyPMD.pyx",
+  "async_cv\\PMD\\PyPMD.pyx",
   "__init__.pxd",
   "type.pxd",
 };
@@ -1238,7 +1241,7 @@ static CYTHON_INLINE __pyx_t_double_complex __pyx_t_double_complex_from_parts(do
 
 
 /*--- Type declarations ---*/
-struct __pyx_obj_3PMD_5PyPMD_PyPMD;
+struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD;
 struct __pyx_array_obj;
 struct __pyx_MemviewEnum_obj;
 struct __pyx_memoryview_obj;
@@ -1280,16 +1283,16 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 
-/* "PMD/PyPMD.pyx":7
- * from PMD.PersistentMotionDetector cimport *
+/* "async_cv/PMD/PyPMD.pyx":7
+ * from async_cv.PMD.PersistentMotionDetector cimport *
  * 
  * cdef class PyPMD:             # <<<<<<<<<<<<<<
  *     cdef PersistentMotionDetector *_cpp_PMD
  *     cdef xy_t _width, _height
  */
-struct __pyx_obj_3PMD_5PyPMD_PyPMD {
+struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD {
   PyObject_HEAD
-  struct __pyx_vtabstruct_3PMD_5PyPMD_PyPMD *__pyx_vtab;
+  struct __pyx_vtabstruct_8async_cv_3PMD_5PyPMD_PyPMD *__pyx_vtab;
   PMD::PersistentMotionDetector *_cpp_PMD;
   PMD::xy_t _width;
   PMD::xy_t _height;
@@ -1375,18 +1378,18 @@ struct __pyx_memoryviewslice_obj {
 
 
 
-/* "PMD/PyPMD.pyx":7
- * from PMD.PersistentMotionDetector cimport *
+/* "async_cv/PMD/PyPMD.pyx":7
+ * from async_cv.PMD.PersistentMotionDetector cimport *
  * 
  * cdef class PyPMD:             # <<<<<<<<<<<<<<
  *     cdef PersistentMotionDetector *_cpp_PMD
  *     cdef xy_t _width, _height
  */
 
-struct __pyx_vtabstruct_3PMD_5PyPMD_PyPMD {
-  __Pyx_memviewslice (*process_events)(struct __pyx_obj_3PMD_5PyPMD_PyPMD *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice, int __pyx_skip_dispatch);
+struct __pyx_vtabstruct_8async_cv_3PMD_5PyPMD_PyPMD {
+  __Pyx_memviewslice (*process_events)(struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice, int __pyx_skip_dispatch);
 };
-static struct __pyx_vtabstruct_3PMD_5PyPMD_PyPMD *__pyx_vtabptr_3PMD_5PyPMD_PyPMD;
+static struct __pyx_vtabstruct_8async_cv_3PMD_5PyPMD_PyPMD *__pyx_vtabptr_8async_cv_3PMD_5PyPMD_PyPMD;
 
 
 /* "View.MemoryView":105
@@ -2259,7 +2262,7 @@ static int __Pyx_check_binary_version(void);
 /* InitStrings.proto */
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
-static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx_obj_3PMD_5PyPMD_PyPMD *__pyx_v_self, __Pyx_memviewslice __pyx_v_frame, __Pyx_memviewslice __pyx_v_events, __Pyx_memviewslice __pyx_v_indices, int __pyx_skip_dispatch); /* proto*/
+static __Pyx_memviewslice __pyx_f_8async_cv_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *__pyx_v_self, __Pyx_memviewslice __pyx_v_frame, __Pyx_memviewslice __pyx_v_events, __Pyx_memviewslice __pyx_v_indices, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *__pyx_v_self); /* proto*/
 static char *__pyx_memoryview_get_item_pointer(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_index); /* proto*/
 static PyObject *__pyx_memoryview_is_slice(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_obj); /* proto*/
@@ -2311,10 +2314,10 @@ static PyTypeObject *__pyx_ptype_5numpy_ufunc = 0;
 
 /* Module declarations from 'libcpp' */
 
-/* Module declarations from 'PMD.PersistentMotionDetector' */
+/* Module declarations from 'async_cv.PMD.PersistentMotionDetector' */
 
-/* Module declarations from 'PMD.PyPMD' */
-static PyTypeObject *__pyx_ptype_3PMD_5PyPMD_PyPMD = 0;
+/* Module declarations from 'async_cv.PMD.PyPMD' */
+static PyTypeObject *__pyx_ptype_8async_cv_3PMD_5PyPMD_PyPMD = 0;
 static PyTypeObject *__pyx_array_type = 0;
 static PyTypeObject *__pyx_MemviewEnum_type = 0;
 static PyTypeObject *__pyx_memoryview_type = 0;
@@ -2393,11 +2396,11 @@ static __Pyx_StructField __Pyx_StructFields_nn_struct__PMD_3a__3a_detection[] = 
   {NULL, NULL, 0}
 };
 static __Pyx_TypeInfo __Pyx_TypeInfo_nn_struct__PMD_3a__3a_detection = { "detection", __Pyx_StructFields_nn_struct__PMD_3a__3a_detection, sizeof(struct PMD::detection), { 0 }, 0, 'S', 0, __PYX_BUF_FLAGS_PACKED_STRUCT };
-#define __Pyx_MODULE_NAME "PMD.PyPMD"
-extern int __pyx_module_is_main_PMD__PyPMD;
-int __pyx_module_is_main_PMD__PyPMD = 0;
+#define __Pyx_MODULE_NAME "async_cv.PMD.PyPMD"
+extern int __pyx_module_is_main_async_cv__PMD__PyPMD;
+int __pyx_module_is_main_async_cv__PMD__PyPMD = 0;
 
-/* Implementation of 'PMD.PyPMD' */
+/* Implementation of 'async_cv.PMD.PyPMD' */
 static PyObject *__pyx_builtin_TypeError;
 static PyObject *__pyx_builtin_ImportError;
 static PyObject *__pyx_builtin_KeyError;
@@ -2715,11 +2718,11 @@ static PyObject *__pyx_n_u_x_div;
 static PyObject *__pyx_n_s_y;
 static PyObject *__pyx_n_u_y;
 static PyObject *__pyx_n_u_y_div;
-static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_PyPMD *__pyx_v_self, PMD::xy_t __pyx_v_width, PMD::xy_t __pyx_v_height, PyObject *__pyx_v_param); /* proto */
-static void __pyx_pf_3PMD_5PyPMD_5PyPMD_2__dealloc__(struct __pyx_obj_3PMD_5PyPMD_PyPMD *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_3PMD_5PyPMD_5PyPMD_4process_events(struct __pyx_obj_3PMD_5PyPMD_PyPMD *__pyx_v_self, __Pyx_memviewslice __pyx_v_frame, __Pyx_memviewslice __pyx_v_events, __Pyx_memviewslice __pyx_v_indices); /* proto */
-static PyObject *__pyx_pf_3PMD_5PyPMD_5PyPMD_6__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_3PMD_5PyPMD_PyPMD *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_3PMD_5PyPMD_5PyPMD_8__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_3PMD_5PyPMD_PyPMD *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
+static int __pyx_pf_8async_cv_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *__pyx_v_self, PMD::xy_t __pyx_v_width, PMD::xy_t __pyx_v_height, PyObject *__pyx_v_param); /* proto */
+static void __pyx_pf_8async_cv_3PMD_5PyPMD_5PyPMD_2__dealloc__(struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8async_cv_3PMD_5PyPMD_5PyPMD_4process_events(struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *__pyx_v_self, __Pyx_memviewslice __pyx_v_frame, __Pyx_memviewslice __pyx_v_events, __Pyx_memviewslice __pyx_v_indices); /* proto */
+static PyObject *__pyx_pf_8async_cv_3PMD_5PyPMD_5PyPMD_6__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8async_cv_3PMD_5PyPMD_5PyPMD_8__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(struct __pyx_array_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_array___pyx_pf_15View_dot_MemoryView_5array_4__dealloc__(struct __pyx_array_obj *__pyx_v_self); /* proto */
@@ -2762,7 +2765,7 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_16_memoryviewslice_4base___get__
 static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_tp_new_3PMD_5PyPMD_PyPMD(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_8async_cv_3PMD_5PyPMD_PyPMD(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_array(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_Enum(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_memoryview(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -2843,7 +2846,7 @@ static PyObject *__pyx_tuple__58;
 static PyObject *__pyx_codeobj__59;
 /* Late includes */
 
-/* "PMD/PyPMD.pyx":12
+/* "async_cv/PMD/PyPMD.pyx":12
  *     cdef int _num_detections
  * 
  *     def __cinit__(self, xy_t width, xy_t height, param):             # <<<<<<<<<<<<<<
@@ -2852,8 +2855,8 @@ static PyObject *__pyx_codeobj__59;
  */
 
 /* Python wrapper */
-static int __pyx_pw_3PMD_5PyPMD_5PyPMD_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_pw_3PMD_5PyPMD_5PyPMD_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static int __pyx_pw_8async_cv_3PMD_5PyPMD_5PyPMD_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_8async_cv_3PMD_5PyPMD_5PyPMD_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PMD::xy_t __pyx_v_width;
   PMD::xy_t __pyx_v_height;
   PyObject *__pyx_v_param = 0;
@@ -2915,18 +2918,18 @@ static int __pyx_pw_3PMD_5PyPMD_5PyPMD_1__cinit__(PyObject *__pyx_v_self, PyObje
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 12, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("PMD.PyPMD.PyPMD.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("async_cv.PMD.PyPMD.PyPMD.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(((struct __pyx_obj_3PMD_5PyPMD_PyPMD *)__pyx_v_self), __pyx_v_width, __pyx_v_height, __pyx_v_param);
+  __pyx_r = __pyx_pf_8async_cv_3PMD_5PyPMD_5PyPMD___cinit__(((struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *)__pyx_v_self), __pyx_v_width, __pyx_v_height, __pyx_v_param);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_PyPMD *__pyx_v_self, PMD::xy_t __pyx_v_width, PMD::xy_t __pyx_v_height, PyObject *__pyx_v_param) {
+static int __pyx_pf_8async_cv_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *__pyx_v_self, PMD::xy_t __pyx_v_width, PMD::xy_t __pyx_v_height, PyObject *__pyx_v_param) {
   struct PMD::parameters __pyx_v_c_param;
   int __pyx_r;
   __Pyx_RefNannyDeclarations
@@ -2939,7 +2942,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "PMD/PyPMD.pyx":13
+  /* "async_cv/PMD/PyPMD.pyx":13
  * 
  *     def __cinit__(self, xy_t width, xy_t height, param):
  *         self._width = width             # <<<<<<<<<<<<<<
@@ -2948,7 +2951,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
  */
   __pyx_v_self->_width = __pyx_v_width;
 
-  /* "PMD/PyPMD.pyx":14
+  /* "async_cv/PMD/PyPMD.pyx":14
  *     def __cinit__(self, xy_t width, xy_t height, param):
  *         self._width = width
  *         self._height = height             # <<<<<<<<<<<<<<
@@ -2957,7 +2960,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
  */
   __pyx_v_self->_height = __pyx_v_height;
 
-  /* "PMD/PyPMD.pyx":17
+  /* "async_cv/PMD/PyPMD.pyx":17
  * 
  *         cdef parameters c_param
  *         c_param.width = width             # <<<<<<<<<<<<<<
@@ -2966,7 +2969,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
  */
   __pyx_v_c_param.width = __pyx_v_width;
 
-  /* "PMD/PyPMD.pyx":18
+  /* "async_cv/PMD/PyPMD.pyx":18
  *         cdef parameters c_param
  *         c_param.width = width
  *         c_param.height = height             # <<<<<<<<<<<<<<
@@ -2975,7 +2978,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
  */
   __pyx_v_c_param.height = __pyx_v_height;
 
-  /* "PMD/PyPMD.pyx":19
+  /* "async_cv/PMD/PyPMD.pyx":19
  *         c_param.width = width
  *         c_param.height = height
  *         c_param.x_div = param.get('x_div', 8)             # <<<<<<<<<<<<<<
@@ -2991,7 +2994,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_c_param.x_div = __pyx_t_3;
 
-  /* "PMD/PyPMD.pyx":20
+  /* "async_cv/PMD/PyPMD.pyx":20
  *         c_param.height = height
  *         c_param.x_div = param.get('x_div', 8)
  *         c_param.y_div = param.get('y_div', 8)             # <<<<<<<<<<<<<<
@@ -3007,7 +3010,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_c_param.y_div = __pyx_t_3;
 
-  /* "PMD/PyPMD.pyx":21
+  /* "async_cv/PMD/PyPMD.pyx":21
  *         c_param.x_div = param.get('x_div', 8)
  *         c_param.y_div = param.get('y_div', 8)
  *         c_param.us_per_event = param.get('us_per_event', 0)             # <<<<<<<<<<<<<<
@@ -3023,7 +3026,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_c_param.us_per_event = __pyx_t_3;
 
-  /* "PMD/PyPMD.pyx":22
+  /* "async_cv/PMD/PyPMD.pyx":22
  *         c_param.y_div = param.get('y_div', 8)
  *         c_param.us_per_event = param.get('us_per_event', 0)
  *         c_param.temporal_filter = param.get('temporal_filter', 5000)             # <<<<<<<<<<<<<<
@@ -3039,7 +3042,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_c_param.temporal_filter = __pyx_t_3;
 
-  /* "PMD/PyPMD.pyx":23
+  /* "async_cv/PMD/PyPMD.pyx":23
  *         c_param.us_per_event = param.get('us_per_event', 0)
  *         c_param.temporal_filter = param.get('temporal_filter', 5000)
  *         c_param.event_buffer_depth = param.get('event_buffer_depth', 4)             # <<<<<<<<<<<<<<
@@ -3055,7 +3058,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_c_param.event_buffer_depth = __pyx_t_3;
 
-  /* "PMD/PyPMD.pyx":24
+  /* "async_cv/PMD/PyPMD.pyx":24
  *         c_param.temporal_filter = param.get('temporal_filter', 5000)
  *         c_param.event_buffer_depth = param.get('event_buffer_depth', 4)
  *         c_param.tf = param.get('tf', 200_000)             # <<<<<<<<<<<<<<
@@ -3071,7 +3074,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_c_param.tf = __pyx_t_3;
 
-  /* "PMD/PyPMD.pyx":25
+  /* "async_cv/PMD/PyPMD.pyx":25
  *         c_param.event_buffer_depth = param.get('event_buffer_depth', 4)
  *         c_param.tf = param.get('tf', 200_000)
  *         c_param.tc = param.get('tc', 200_000)             # <<<<<<<<<<<<<<
@@ -3087,7 +3090,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_c_param.tc = __pyx_t_3;
 
-  /* "PMD/PyPMD.pyx":26
+  /* "async_cv/PMD/PyPMD.pyx":26
  *         c_param.tf = param.get('tf', 200_000)
  *         c_param.tc = param.get('tc', 200_000)
  *         c_param.n = param.get('n', 5)             # <<<<<<<<<<<<<<
@@ -3103,7 +3106,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_c_param.n = __pyx_t_3;
 
-  /* "PMD/PyPMD.pyx":27
+  /* "async_cv/PMD/PyPMD.pyx":27
  *         c_param.tc = param.get('tc', 200_000)
  *         c_param.n = param.get('n', 5)
  *         c_param.buffer_flush_period = param.get('buffer_flush_period', 1_000)             # <<<<<<<<<<<<<<
@@ -3119,7 +3122,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_c_param.buffer_flush_period = __pyx_t_3;
 
-  /* "PMD/PyPMD.pyx":28
+  /* "async_cv/PMD/PyPMD.pyx":28
  *         c_param.n = param.get('n', 5)
  *         c_param.buffer_flush_period = param.get('buffer_flush_period', 1_000)
  *         c_param.max_cluster_size = param.get('max_cluster_size', 50)             # <<<<<<<<<<<<<<
@@ -3135,7 +3138,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_c_param.max_cluster_size = __pyx_t_3;
 
-  /* "PMD/PyPMD.pyx":29
+  /* "async_cv/PMD/PyPMD.pyx":29
  *         c_param.buffer_flush_period = param.get('buffer_flush_period', 1_000)
  *         c_param.max_cluster_size = param.get('max_cluster_size', 50)
  *         c_param.num_analyzers = param.get('num_analyzers', 8)             # <<<<<<<<<<<<<<
@@ -3151,7 +3154,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_c_param.num_analyzers = __pyx_t_3;
 
-  /* "PMD/PyPMD.pyx":30
+  /* "async_cv/PMD/PyPMD.pyx":30
  *         c_param.max_cluster_size = param.get('max_cluster_size', 50)
  *         c_param.num_analyzers = param.get('num_analyzers', 8)
  *         c_param.sample_period = param.get('sample_period', 10_000)             # <<<<<<<<<<<<<<
@@ -3167,7 +3170,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_c_param.sample_period = __pyx_t_3;
 
-  /* "PMD/PyPMD.pyx":31
+  /* "async_cv/PMD/PyPMD.pyx":31
  *         c_param.num_analyzers = param.get('num_analyzers', 8)
  *         c_param.sample_period = param.get('sample_period', 10_000)
  *         c_param.long_duration = param.get('long_duration', 2_000_000)             # <<<<<<<<<<<<<<
@@ -3183,7 +3186,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_c_param.long_duration = __pyx_t_3;
 
-  /* "PMD/PyPMD.pyx":32
+  /* "async_cv/PMD/PyPMD.pyx":32
  *         c_param.sample_period = param.get('sample_period', 10_000)
  *         c_param.long_duration = param.get('long_duration', 2_000_000)
  *         c_param.short_duration = param.get('short_duration', 1_000_000)             # <<<<<<<<<<<<<<
@@ -3199,7 +3202,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_c_param.short_duration = __pyx_t_3;
 
-  /* "PMD/PyPMD.pyx":33
+  /* "async_cv/PMD/PyPMD.pyx":33
  *         c_param.long_duration = param.get('long_duration', 2_000_000)
  *         c_param.short_duration = param.get('short_duration', 1_000_000)
  *         c_param.ratio_threshold = param.get('ratio_threshold', 100)             # <<<<<<<<<<<<<<
@@ -3215,7 +3218,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_c_param.ratio_threshold = __pyx_t_3;
 
-  /* "PMD/PyPMD.pyx":35
+  /* "async_cv/PMD/PyPMD.pyx":35
  *         c_param.ratio_threshold = param.get('ratio_threshold', 100)
  * 
  *         self._num_detections = c_param.num_analyzers             # <<<<<<<<<<<<<<
@@ -3225,7 +3228,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   __pyx_t_3 = __pyx_v_c_param.num_analyzers;
   __pyx_v_self->_num_detections = __pyx_t_3;
 
-  /* "PMD/PyPMD.pyx":37
+  /* "async_cv/PMD/PyPMD.pyx":37
  *         self._num_detections = c_param.num_analyzers
  * 
  *         self._cpp_PMD = new PersistentMotionDetector(c_param)             # <<<<<<<<<<<<<<
@@ -3240,7 +3243,7 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   }
   __pyx_v_self->_cpp_PMD = __pyx_t_4;
 
-  /* "PMD/PyPMD.pyx":12
+  /* "async_cv/PMD/PyPMD.pyx":12
  *     cdef int _num_detections
  * 
  *     def __cinit__(self, xy_t width, xy_t height, param):             # <<<<<<<<<<<<<<
@@ -3254,14 +3257,14 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("PMD.PyPMD.PyPMD.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("async_cv.PMD.PyPMD.PyPMD.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "PMD/PyPMD.pyx":39
+/* "async_cv/PMD/PyPMD.pyx":39
  *         self._cpp_PMD = new PersistentMotionDetector(c_param)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -3270,21 +3273,21 @@ static int __pyx_pf_3PMD_5PyPMD_5PyPMD___cinit__(struct __pyx_obj_3PMD_5PyPMD_Py
  */
 
 /* Python wrapper */
-static void __pyx_pw_3PMD_5PyPMD_5PyPMD_3__dealloc__(PyObject *__pyx_v_self); /*proto*/
-static void __pyx_pw_3PMD_5PyPMD_5PyPMD_3__dealloc__(PyObject *__pyx_v_self) {
+static void __pyx_pw_8async_cv_3PMD_5PyPMD_5PyPMD_3__dealloc__(PyObject *__pyx_v_self); /*proto*/
+static void __pyx_pw_8async_cv_3PMD_5PyPMD_5PyPMD_3__dealloc__(PyObject *__pyx_v_self) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__ (wrapper)", 0);
-  __pyx_pf_3PMD_5PyPMD_5PyPMD_2__dealloc__(((struct __pyx_obj_3PMD_5PyPMD_PyPMD *)__pyx_v_self));
+  __pyx_pf_8async_cv_3PMD_5PyPMD_5PyPMD_2__dealloc__(((struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
 }
 
-static void __pyx_pf_3PMD_5PyPMD_5PyPMD_2__dealloc__(struct __pyx_obj_3PMD_5PyPMD_PyPMD *__pyx_v_self) {
+static void __pyx_pf_8async_cv_3PMD_5PyPMD_5PyPMD_2__dealloc__(struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *__pyx_v_self) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "PMD/PyPMD.pyx":40
+  /* "async_cv/PMD/PyPMD.pyx":40
  * 
  *     def __dealloc__(self):
  *         del self._cpp_PMD             # <<<<<<<<<<<<<<
@@ -3293,7 +3296,7 @@ static void __pyx_pf_3PMD_5PyPMD_5PyPMD_2__dealloc__(struct __pyx_obj_3PMD_5PyPM
  */
   delete __pyx_v_self->_cpp_PMD;
 
-  /* "PMD/PyPMD.pyx":39
+  /* "async_cv/PMD/PyPMD.pyx":39
  *         self._cpp_PMD = new PersistentMotionDetector(c_param)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -3305,7 +3308,7 @@ static void __pyx_pf_3PMD_5PyPMD_5PyPMD_2__dealloc__(struct __pyx_obj_3PMD_5PyPM
   __Pyx_RefNannyFinishContext();
 }
 
-/* "PMD/PyPMD.pyx":42
+/* "async_cv/PMD/PyPMD.pyx":42
  *         del self._cpp_PMD
  * 
  *     cpdef detection[:] process_events(self, byte_t[:, :, ::1] frame, event[:] events, cid_t[:, ::1] indices):             # <<<<<<<<<<<<<<
@@ -3313,8 +3316,8 @@ static void __pyx_pf_3PMD_5PyPMD_5PyPMD_2__dealloc__(struct __pyx_obj_3PMD_5PyPM
  * 
  */
 
-static PyObject *__pyx_pw_3PMD_5PyPMD_5PyPMD_5process_events(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx_obj_3PMD_5PyPMD_PyPMD *__pyx_v_self, __Pyx_memviewslice __pyx_v_frame, __Pyx_memviewslice __pyx_v_events, __Pyx_memviewslice __pyx_v_indices, int __pyx_skip_dispatch) {
+static PyObject *__pyx_pw_8async_cv_3PMD_5PyPMD_5PyPMD_5process_events(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static __Pyx_memviewslice __pyx_f_8async_cv_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *__pyx_v_self, __Pyx_memviewslice __pyx_v_frame, __Pyx_memviewslice __pyx_v_events, __Pyx_memviewslice __pyx_v_indices, int __pyx_skip_dispatch) {
   unsigned int __pyx_v_num_events;
   PyArrayObject *__pyx_v_result_array = 0;
   __Pyx_memviewslice __pyx_v_results = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -3358,7 +3361,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
       #endif
       __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_process_events); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 42, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_3PMD_5PyPMD_5PyPMD_5process_events)) {
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_8async_cv_3PMD_5PyPMD_5PyPMD_5process_events)) {
         if (unlikely(!__pyx_v_frame.memview)) { __Pyx_RaiseUnboundLocalError("frame"); __PYX_ERR(1, 42, __pyx_L1_error) }
         __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_frame, 3, (PyObject *(*)(char *)) __pyx_memview_get_nn_PMD_3a__3a_byte_t, (int (*)(char *, PyObject *)) __pyx_memview_set_nn_PMD_3a__3a_byte_t, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 42, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
@@ -3444,7 +3447,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
     #endif
   }
 
-  /* "PMD/PyPMD.pyx":43
+  /* "async_cv/PMD/PyPMD.pyx":43
  * 
  *     cpdef detection[:] process_events(self, byte_t[:, :, ::1] frame, event[:] events, cid_t[:, ::1] indices):
  *         cdef unsigned int num_events = <unsigned int>len(events)             # <<<<<<<<<<<<<<
@@ -3454,7 +3457,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __pyx_t_11 = __Pyx_MemoryView_Len(__pyx_v_events); 
   __pyx_v_num_events = ((unsigned int)__pyx_t_11);
 
-  /* "PMD/PyPMD.pyx":46
+  /* "async_cv/PMD/PyPMD.pyx":46
  * 
  *         # allocate results array
  *         cdef np.ndarray result_array = np.ndarray((self._num_detections,), dtype=[             # <<<<<<<<<<<<<<
@@ -3476,7 +3479,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "PMD/PyPMD.pyx":47
+  /* "async_cv/PMD/PyPMD.pyx":47
  *         # allocate results array
  *         cdef np.ndarray result_array = np.ndarray((self._num_detections,), dtype=[
  *             ('is_active', int),             # <<<<<<<<<<<<<<
@@ -3492,7 +3495,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
   PyTuple_SET_ITEM(__pyx_t_6, 1, ((PyObject *)(&PyInt_Type)));
 
-  /* "PMD/PyPMD.pyx":48
+  /* "async_cv/PMD/PyPMD.pyx":48
  *         cdef np.ndarray result_array = np.ndarray((self._num_detections,), dtype=[
  *             ('is_active', int),
  *             ('x', int), ('y', int),             # <<<<<<<<<<<<<<
@@ -3516,7 +3519,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
   PyTuple_SET_ITEM(__pyx_t_5, 1, ((PyObject *)(&PyInt_Type)));
 
-  /* "PMD/PyPMD.pyx":49
+  /* "async_cv/PMD/PyPMD.pyx":49
  *             ('is_active', int),
  *             ('x', int), ('y', int),
  *             ('r', int), ('g', int), ('b', int),             # <<<<<<<<<<<<<<
@@ -3548,7 +3551,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
   PyTuple_SET_ITEM(__pyx_t_7, 1, ((PyObject *)(&PyInt_Type)));
 
-  /* "PMD/PyPMD.pyx":50
+  /* "async_cv/PMD/PyPMD.pyx":50
  *             ('x', int), ('y', int),
  *             ('r', int), ('g', int), ('b', int),
  *             ('cid', int),             # <<<<<<<<<<<<<<
@@ -3564,7 +3567,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
   PyTuple_SET_ITEM(__pyx_t_12, 1, ((PyObject *)(&PyInt_Type)));
 
-  /* "PMD/PyPMD.pyx":51
+  /* "async_cv/PMD/PyPMD.pyx":51
  *             ('r', int), ('g', int), ('b', int),
  *             ('cid', int),
  *             ('long_v_x', np.float32), ('long_v_y', np.float32),             # <<<<<<<<<<<<<<
@@ -3598,7 +3601,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   PyTuple_SET_ITEM(__pyx_t_14, 1, __pyx_t_15);
   __pyx_t_15 = 0;
 
-  /* "PMD/PyPMD.pyx":52
+  /* "async_cv/PMD/PyPMD.pyx":52
  *             ('cid', int),
  *             ('long_v_x', np.float32), ('long_v_y', np.float32),
  *             ('short_v_x', np.float32), ('short_v_y', np.float32),             # <<<<<<<<<<<<<<
@@ -3632,7 +3635,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   PyTuple_SET_ITEM(__pyx_t_16, 1, __pyx_t_17);
   __pyx_t_17 = 0;
 
-  /* "PMD/PyPMD.pyx":53
+  /* "async_cv/PMD/PyPMD.pyx":53
  *             ('long_v_x', np.float32), ('long_v_y', np.float32),
  *             ('short_v_x', np.float32), ('short_v_y', np.float32),
  *             ('stability', int),             # <<<<<<<<<<<<<<
@@ -3648,7 +3651,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
   PyTuple_SET_ITEM(__pyx_t_17, 1, ((PyObject *)(&PyInt_Type)));
 
-  /* "PMD/PyPMD.pyx":54
+  /* "async_cv/PMD/PyPMD.pyx":54
  *             ('short_v_x', np.float32), ('short_v_y', np.float32),
  *             ('stability', int),
  *             ('ratio', np.float32)             # <<<<<<<<<<<<<<
@@ -3669,7 +3672,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   PyTuple_SET_ITEM(__pyx_t_18, 1, __pyx_t_19);
   __pyx_t_19 = 0;
 
-  /* "PMD/PyPMD.pyx":46
+  /* "async_cv/PMD/PyPMD.pyx":46
  * 
  *         # allocate results array
  *         cdef np.ndarray result_array = np.ndarray((self._num_detections,), dtype=[             # <<<<<<<<<<<<<<
@@ -3726,7 +3729,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __pyx_v_result_array = ((PyArrayObject *)__pyx_t_19);
   __pyx_t_19 = 0;
 
-  /* "PMD/PyPMD.pyx":56
+  /* "async_cv/PMD/PyPMD.pyx":56
  *             ('ratio', np.float32)
  *         ])
  *         cdef detection[:] results = result_array             # <<<<<<<<<<<<<<
@@ -3738,7 +3741,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __pyx_t_10.memview = NULL;
   __pyx_t_10.data = NULL;
 
-  /* "PMD/PyPMD.pyx":59
+  /* "async_cv/PMD/PyPMD.pyx":59
  * 
  *         # make calls to C++
  *         self._cpp_PMD.initFramebuffer(&frame[0,0,0])             # <<<<<<<<<<<<<<
@@ -3750,7 +3753,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __pyx_t_22 = 0;
   __pyx_v_self->_cpp_PMD->initFramebuffer((&(*((PMD::byte_t *) ( /* dim=2 */ ((char *) (((PMD::byte_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_frame.data + __pyx_t_20 * __pyx_v_frame.strides[0]) ) + __pyx_t_21 * __pyx_v_frame.strides[1]) )) + __pyx_t_22)) )))));
 
-  /* "PMD/PyPMD.pyx":60
+  /* "async_cv/PMD/PyPMD.pyx":60
  *         # make calls to C++
  *         self._cpp_PMD.initFramebuffer(&frame[0,0,0])
  *         self._cpp_PMD.simulate(&events[0], num_events, &results[0], &indices[0,0])             # <<<<<<<<<<<<<<
@@ -3763,7 +3766,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __pyx_t_23 = 0;
   __pyx_v_self->_cpp_PMD->simulate((&(*((struct PMD::event *) ( /* dim=0 */ (__pyx_v_events.data + __pyx_t_22 * __pyx_v_events.strides[0]) )))), __pyx_v_num_events, (&(*((struct PMD::detection *) ( /* dim=0 */ (__pyx_v_results.data + __pyx_t_21 * __pyx_v_results.strides[0]) )))), (&(*((PMD::cid_t *) ( /* dim=1 */ ((char *) (((PMD::cid_t *) ( /* dim=0 */ (__pyx_v_indices.data + __pyx_t_20 * __pyx_v_indices.strides[0]) )) + __pyx_t_23)) )))));
 
-  /* "PMD/PyPMD.pyx":63
+  /* "async_cv/PMD/PyPMD.pyx":63
  * 
  *         # return the results
  *         return results             # <<<<<<<<<<<<<<
@@ -3774,7 +3777,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __pyx_r = __pyx_v_results;
   goto __pyx_L0;
 
-  /* "PMD/PyPMD.pyx":42
+  /* "async_cv/PMD/PyPMD.pyx":42
  *         del self._cpp_PMD
  * 
  *     cpdef detection[:] process_events(self, byte_t[:, :, ::1] frame, event[:] events, cid_t[:, ::1] indices):             # <<<<<<<<<<<<<<
@@ -3803,7 +3806,7 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
   __Pyx_XDECREF(__pyx_t_19);
   __pyx_r.data = NULL;
   __pyx_r.memview = NULL;
-  __Pyx_AddTraceback("PMD.PyPMD.PyPMD.process_events", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("async_cv.PMD.PyPMD.PyPMD.process_events", __pyx_clineno, __pyx_lineno, __pyx_filename);
   goto __pyx_L2;
   __pyx_L0:;
   if (unlikely(!__pyx_r.memview)) {
@@ -3817,8 +3820,8 @@ static __Pyx_memviewslice __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(struct __pyx
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3PMD_5PyPMD_5PyPMD_5process_events(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_3PMD_5PyPMD_5PyPMD_5process_events(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8async_cv_3PMD_5PyPMD_5PyPMD_5process_events(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_8async_cv_3PMD_5PyPMD_5PyPMD_5process_events(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   __Pyx_memviewslice __pyx_v_frame = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_events = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_indices = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -3880,18 +3883,18 @@ static PyObject *__pyx_pw_3PMD_5PyPMD_5PyPMD_5process_events(PyObject *__pyx_v_s
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("process_events", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 42, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("PMD.PyPMD.PyPMD.process_events", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("async_cv.PMD.PyPMD.PyPMD.process_events", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_3PMD_5PyPMD_5PyPMD_4process_events(((struct __pyx_obj_3PMD_5PyPMD_PyPMD *)__pyx_v_self), __pyx_v_frame, __pyx_v_events, __pyx_v_indices);
+  __pyx_r = __pyx_pf_8async_cv_3PMD_5PyPMD_5PyPMD_4process_events(((struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *)__pyx_v_self), __pyx_v_frame, __pyx_v_events, __pyx_v_indices);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_3PMD_5PyPMD_5PyPMD_4process_events(struct __pyx_obj_3PMD_5PyPMD_PyPMD *__pyx_v_self, __Pyx_memviewslice __pyx_v_frame, __Pyx_memviewslice __pyx_v_events, __Pyx_memviewslice __pyx_v_indices) {
+static PyObject *__pyx_pf_8async_cv_3PMD_5PyPMD_5PyPMD_4process_events(struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *__pyx_v_self, __Pyx_memviewslice __pyx_v_frame, __Pyx_memviewslice __pyx_v_events, __Pyx_memviewslice __pyx_v_indices) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -3904,7 +3907,7 @@ static PyObject *__pyx_pf_3PMD_5PyPMD_5PyPMD_4process_events(struct __pyx_obj_3P
   if (unlikely(!__pyx_v_frame.memview)) { __Pyx_RaiseUnboundLocalError("frame"); __PYX_ERR(1, 42, __pyx_L1_error) }
   if (unlikely(!__pyx_v_events.memview)) { __Pyx_RaiseUnboundLocalError("events"); __PYX_ERR(1, 42, __pyx_L1_error) }
   if (unlikely(!__pyx_v_indices.memview)) { __Pyx_RaiseUnboundLocalError("indices"); __PYX_ERR(1, 42, __pyx_L1_error) }
-  __pyx_t_1 = __pyx_f_3PMD_5PyPMD_5PyPMD_process_events(__pyx_v_self, __pyx_v_frame, __pyx_v_events, __pyx_v_indices, 1); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 42, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_8async_cv_3PMD_5PyPMD_5PyPMD_process_events(__pyx_v_self, __pyx_v_frame, __pyx_v_events, __pyx_v_indices, 1); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 42, __pyx_L1_error)
   __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_t_1, 1, (PyObject *(*)(char *)) __pyx_memview_get_nn_struct__PMD_3a__3a_detection, (int (*)(char *, PyObject *)) __pyx_memview_set_nn_struct__PMD_3a__3a_detection, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
@@ -3918,7 +3921,7 @@ static PyObject *__pyx_pf_3PMD_5PyPMD_5PyPMD_4process_events(struct __pyx_obj_3P
   __pyx_L1_error:;
   __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("PMD.PyPMD.PyPMD.process_events", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("async_cv.PMD.PyPMD.PyPMD.process_events", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_frame, 1);
@@ -3936,19 +3939,19 @@ static PyObject *__pyx_pf_3PMD_5PyPMD_5PyPMD_4process_events(struct __pyx_obj_3P
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3PMD_5PyPMD_5PyPMD_7__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_3PMD_5PyPMD_5PyPMD_7__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_8async_cv_3PMD_5PyPMD_5PyPMD_7__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_8async_cv_3PMD_5PyPMD_5PyPMD_7__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_3PMD_5PyPMD_5PyPMD_6__reduce_cython__(((struct __pyx_obj_3PMD_5PyPMD_PyPMD *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8async_cv_3PMD_5PyPMD_5PyPMD_6__reduce_cython__(((struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_3PMD_5PyPMD_5PyPMD_6__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_3PMD_5PyPMD_PyPMD *__pyx_v_self) {
+static PyObject *__pyx_pf_8async_cv_3PMD_5PyPMD_5PyPMD_6__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3978,7 +3981,7 @@ static PyObject *__pyx_pf_3PMD_5PyPMD_5PyPMD_6__reduce_cython__(CYTHON_UNUSED st
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("PMD.PyPMD.PyPMD.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("async_cv.PMD.PyPMD.PyPMD.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -3993,19 +3996,19 @@ static PyObject *__pyx_pf_3PMD_5PyPMD_5PyPMD_6__reduce_cython__(CYTHON_UNUSED st
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3PMD_5PyPMD_5PyPMD_9__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_3PMD_5PyPMD_5PyPMD_9__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_8async_cv_3PMD_5PyPMD_5PyPMD_9__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_8async_cv_3PMD_5PyPMD_5PyPMD_9__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_3PMD_5PyPMD_5PyPMD_8__setstate_cython__(((struct __pyx_obj_3PMD_5PyPMD_PyPMD *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_8async_cv_3PMD_5PyPMD_5PyPMD_8__setstate_cython__(((struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_3PMD_5PyPMD_5PyPMD_8__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_3PMD_5PyPMD_PyPMD *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_8async_cv_3PMD_5PyPMD_5PyPMD_8__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -4035,7 +4038,7 @@ static PyObject *__pyx_pf_3PMD_5PyPMD_5PyPMD_8__setstate_cython__(CYTHON_UNUSED 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("PMD.PyPMD.PyPMD.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("async_cv.PMD.PyPMD.PyPMD.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -19978,10 +19981,10 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static struct __pyx_vtabstruct_3PMD_5PyPMD_PyPMD __pyx_vtable_3PMD_5PyPMD_PyPMD;
+static struct __pyx_vtabstruct_8async_cv_3PMD_5PyPMD_PyPMD __pyx_vtable_8async_cv_3PMD_5PyPMD_PyPMD;
 
-static PyObject *__pyx_tp_new_3PMD_5PyPMD_PyPMD(PyTypeObject *t, PyObject *a, PyObject *k) {
-  struct __pyx_obj_3PMD_5PyPMD_PyPMD *p;
+static PyObject *__pyx_tp_new_8async_cv_3PMD_5PyPMD_PyPMD(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *p;
   PyObject *o;
   if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
     o = (*t->tp_alloc)(t, 0);
@@ -19989,16 +19992,16 @@ static PyObject *__pyx_tp_new_3PMD_5PyPMD_PyPMD(PyTypeObject *t, PyObject *a, Py
     o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
   }
   if (unlikely(!o)) return 0;
-  p = ((struct __pyx_obj_3PMD_5PyPMD_PyPMD *)o);
-  p->__pyx_vtab = __pyx_vtabptr_3PMD_5PyPMD_PyPMD;
-  if (unlikely(__pyx_pw_3PMD_5PyPMD_5PyPMD_1__cinit__(o, a, k) < 0)) goto bad;
+  p = ((struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *)o);
+  p->__pyx_vtab = __pyx_vtabptr_8async_cv_3PMD_5PyPMD_PyPMD;
+  if (unlikely(__pyx_pw_8async_cv_3PMD_5PyPMD_5PyPMD_1__cinit__(o, a, k) < 0)) goto bad;
   return o;
   bad:
   Py_DECREF(o); o = 0;
   return NULL;
 }
 
-static void __pyx_tp_dealloc_3PMD_5PyPMD_PyPMD(PyObject *o) {
+static void __pyx_tp_dealloc_8async_cv_3PMD_5PyPMD_PyPMD(PyObject *o) {
   #if CYTHON_USE_TP_FINALIZE
   if (unlikely(PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE) && Py_TYPE(o)->tp_finalize) && (!PyType_IS_GC(Py_TYPE(o)) || !_PyGC_FINALIZED(o))) {
     if (PyObject_CallFinalizerFromDealloc(o)) return;
@@ -20008,26 +20011,26 @@ static void __pyx_tp_dealloc_3PMD_5PyPMD_PyPMD(PyObject *o) {
     PyObject *etype, *eval, *etb;
     PyErr_Fetch(&etype, &eval, &etb);
     __Pyx_SET_REFCNT(o, Py_REFCNT(o) + 1);
-    __pyx_pw_3PMD_5PyPMD_5PyPMD_3__dealloc__(o);
+    __pyx_pw_8async_cv_3PMD_5PyPMD_5PyPMD_3__dealloc__(o);
     __Pyx_SET_REFCNT(o, Py_REFCNT(o) - 1);
     PyErr_Restore(etype, eval, etb);
   }
   (*Py_TYPE(o)->tp_free)(o);
 }
 
-static PyMethodDef __pyx_methods_3PMD_5PyPMD_PyPMD[] = {
-  {"process_events", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_3PMD_5PyPMD_5PyPMD_5process_events, METH_VARARGS|METH_KEYWORDS, 0},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_3PMD_5PyPMD_5PyPMD_7__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_3PMD_5PyPMD_5PyPMD_9__setstate_cython__, METH_O, 0},
+static PyMethodDef __pyx_methods_8async_cv_3PMD_5PyPMD_PyPMD[] = {
+  {"process_events", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_8async_cv_3PMD_5PyPMD_5PyPMD_5process_events, METH_VARARGS|METH_KEYWORDS, 0},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_8async_cv_3PMD_5PyPMD_5PyPMD_7__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_8async_cv_3PMD_5PyPMD_5PyPMD_9__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
-static PyTypeObject __pyx_type_3PMD_5PyPMD_PyPMD = {
+static PyTypeObject __pyx_type_8async_cv_3PMD_5PyPMD_PyPMD = {
   PyVarObject_HEAD_INIT(0, 0)
-  "PMD.PyPMD.PyPMD", /*tp_name*/
-  sizeof(struct __pyx_obj_3PMD_5PyPMD_PyPMD), /*tp_basicsize*/
+  "async_cv.PMD.PyPMD.PyPMD", /*tp_name*/
+  sizeof(struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  __pyx_tp_dealloc_3PMD_5PyPMD_PyPMD, /*tp_dealloc*/
+  __pyx_tp_dealloc_8async_cv_3PMD_5PyPMD_PyPMD, /*tp_dealloc*/
   #if PY_VERSION_HEX < 0x030800b4
   0, /*tp_print*/
   #endif
@@ -20060,7 +20063,7 @@ static PyTypeObject __pyx_type_3PMD_5PyPMD_PyPMD = {
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
   0, /*tp_iternext*/
-  __pyx_methods_3PMD_5PyPMD_PyPMD, /*tp_methods*/
+  __pyx_methods_8async_cv_3PMD_5PyPMD_PyPMD, /*tp_methods*/
   0, /*tp_members*/
   0, /*tp_getset*/
   0, /*tp_base*/
@@ -20070,7 +20073,7 @@ static PyTypeObject __pyx_type_3PMD_5PyPMD_PyPMD = {
   0, /*tp_dictoffset*/
   0, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_3PMD_5PyPMD_PyPMD, /*tp_new*/
+  __pyx_tp_new_8async_cv_3PMD_5PyPMD_PyPMD, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -20213,7 +20216,7 @@ static PyBufferProcs __pyx_tp_as_buffer_array = {
 
 static PyTypeObject __pyx_type___pyx_array = {
   PyVarObject_HEAD_INIT(0, 0)
-  "PMD.PyPMD.array", /*tp_name*/
+  "async_cv.PMD.PyPMD.array", /*tp_name*/
   sizeof(struct __pyx_array_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_array, /*tp_dealloc*/
@@ -20332,7 +20335,7 @@ static PyMethodDef __pyx_methods_Enum[] = {
 
 static PyTypeObject __pyx_type___pyx_MemviewEnum = {
   PyVarObject_HEAD_INIT(0, 0)
-  "PMD.PyPMD.Enum", /*tp_name*/
+  "async_cv.PMD.PyPMD.Enum", /*tp_name*/
   sizeof(struct __pyx_MemviewEnum_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_Enum, /*tp_dealloc*/
@@ -20593,7 +20596,7 @@ static PyBufferProcs __pyx_tp_as_buffer_memoryview = {
 
 static PyTypeObject __pyx_type___pyx_memoryview = {
   PyVarObject_HEAD_INIT(0, 0)
-  "PMD.PyPMD.memoryview", /*tp_name*/
+  "async_cv.PMD.PyPMD.memoryview", /*tp_name*/
   sizeof(struct __pyx_memoryview_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_memoryview, /*tp_dealloc*/
@@ -20731,7 +20734,7 @@ static struct PyGetSetDef __pyx_getsets__memoryviewslice[] = {
 
 static PyTypeObject __pyx_type___pyx_memoryviewslice = {
   PyVarObject_HEAD_INIT(0, 0)
-  "PMD.PyPMD._memoryviewslice", /*tp_name*/
+  "async_cv.PMD.PyPMD._memoryviewslice", /*tp_name*/
   sizeof(struct __pyx_memoryviewslice_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc__memoryviewslice, /*tp_dealloc*/
@@ -21035,7 +21038,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "PMD/PyPMD.pyx":19
+  /* "async_cv/PMD/PyPMD.pyx":19
  *         c_param.width = width
  *         c_param.height = height
  *         c_param.x_div = param.get('x_div', 8)             # <<<<<<<<<<<<<<
@@ -21046,7 +21049,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "PMD/PyPMD.pyx":20
+  /* "async_cv/PMD/PyPMD.pyx":20
  *         c_param.height = height
  *         c_param.x_div = param.get('x_div', 8)
  *         c_param.y_div = param.get('y_div', 8)             # <<<<<<<<<<<<<<
@@ -21057,7 +21060,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
-  /* "PMD/PyPMD.pyx":21
+  /* "async_cv/PMD/PyPMD.pyx":21
  *         c_param.x_div = param.get('x_div', 8)
  *         c_param.y_div = param.get('y_div', 8)
  *         c_param.us_per_event = param.get('us_per_event', 0)             # <<<<<<<<<<<<<<
@@ -21068,7 +21071,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "PMD/PyPMD.pyx":22
+  /* "async_cv/PMD/PyPMD.pyx":22
  *         c_param.y_div = param.get('y_div', 8)
  *         c_param.us_per_event = param.get('us_per_event', 0)
  *         c_param.temporal_filter = param.get('temporal_filter', 5000)             # <<<<<<<<<<<<<<
@@ -21079,7 +21082,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
-  /* "PMD/PyPMD.pyx":23
+  /* "async_cv/PMD/PyPMD.pyx":23
  *         c_param.us_per_event = param.get('us_per_event', 0)
  *         c_param.temporal_filter = param.get('temporal_filter', 5000)
  *         c_param.event_buffer_depth = param.get('event_buffer_depth', 4)             # <<<<<<<<<<<<<<
@@ -21090,7 +21093,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "PMD/PyPMD.pyx":24
+  /* "async_cv/PMD/PyPMD.pyx":24
  *         c_param.temporal_filter = param.get('temporal_filter', 5000)
  *         c_param.event_buffer_depth = param.get('event_buffer_depth', 4)
  *         c_param.tf = param.get('tf', 200_000)             # <<<<<<<<<<<<<<
@@ -21101,7 +21104,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
-  /* "PMD/PyPMD.pyx":25
+  /* "async_cv/PMD/PyPMD.pyx":25
  *         c_param.event_buffer_depth = param.get('event_buffer_depth', 4)
  *         c_param.tf = param.get('tf', 200_000)
  *         c_param.tc = param.get('tc', 200_000)             # <<<<<<<<<<<<<<
@@ -21112,7 +21115,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
-  /* "PMD/PyPMD.pyx":26
+  /* "async_cv/PMD/PyPMD.pyx":26
  *         c_param.tf = param.get('tf', 200_000)
  *         c_param.tc = param.get('tc', 200_000)
  *         c_param.n = param.get('n', 5)             # <<<<<<<<<<<<<<
@@ -21123,7 +21126,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
 
-  /* "PMD/PyPMD.pyx":27
+  /* "async_cv/PMD/PyPMD.pyx":27
  *         c_param.tc = param.get('tc', 200_000)
  *         c_param.n = param.get('n', 5)
  *         c_param.buffer_flush_period = param.get('buffer_flush_period', 1_000)             # <<<<<<<<<<<<<<
@@ -21134,7 +21137,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
-  /* "PMD/PyPMD.pyx":28
+  /* "async_cv/PMD/PyPMD.pyx":28
  *         c_param.n = param.get('n', 5)
  *         c_param.buffer_flush_period = param.get('buffer_flush_period', 1_000)
  *         c_param.max_cluster_size = param.get('max_cluster_size', 50)             # <<<<<<<<<<<<<<
@@ -21145,7 +21148,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
 
-  /* "PMD/PyPMD.pyx":29
+  /* "async_cv/PMD/PyPMD.pyx":29
  *         c_param.buffer_flush_period = param.get('buffer_flush_period', 1_000)
  *         c_param.max_cluster_size = param.get('max_cluster_size', 50)
  *         c_param.num_analyzers = param.get('num_analyzers', 8)             # <<<<<<<<<<<<<<
@@ -21156,7 +21159,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
-  /* "PMD/PyPMD.pyx":30
+  /* "async_cv/PMD/PyPMD.pyx":30
  *         c_param.max_cluster_size = param.get('max_cluster_size', 50)
  *         c_param.num_analyzers = param.get('num_analyzers', 8)
  *         c_param.sample_period = param.get('sample_period', 10_000)             # <<<<<<<<<<<<<<
@@ -21167,7 +21170,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__12);
   __Pyx_GIVEREF(__pyx_tuple__12);
 
-  /* "PMD/PyPMD.pyx":31
+  /* "async_cv/PMD/PyPMD.pyx":31
  *         c_param.num_analyzers = param.get('num_analyzers', 8)
  *         c_param.sample_period = param.get('sample_period', 10_000)
  *         c_param.long_duration = param.get('long_duration', 2_000_000)             # <<<<<<<<<<<<<<
@@ -21178,7 +21181,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
 
-  /* "PMD/PyPMD.pyx":32
+  /* "async_cv/PMD/PyPMD.pyx":32
  *         c_param.sample_period = param.get('sample_period', 10_000)
  *         c_param.long_duration = param.get('long_duration', 2_000_000)
  *         c_param.short_duration = param.get('short_duration', 1_000_000)             # <<<<<<<<<<<<<<
@@ -21189,7 +21192,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__14);
   __Pyx_GIVEREF(__pyx_tuple__14);
 
-  /* "PMD/PyPMD.pyx":33
+  /* "async_cv/PMD/PyPMD.pyx":33
  *         c_param.long_duration = param.get('long_duration', 2_000_000)
  *         c_param.short_duration = param.get('short_duration', 1_000_000)
  *         c_param.ratio_threshold = param.get('ratio_threshold', 100)             # <<<<<<<<<<<<<<
@@ -21735,19 +21738,19 @@ static int __Pyx_modinit_type_init_code(void) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
-  __pyx_vtabptr_3PMD_5PyPMD_PyPMD = &__pyx_vtable_3PMD_5PyPMD_PyPMD;
-  __pyx_vtable_3PMD_5PyPMD_PyPMD.process_events = (__Pyx_memviewslice (*)(struct __pyx_obj_3PMD_5PyPMD_PyPMD *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice, int __pyx_skip_dispatch))__pyx_f_3PMD_5PyPMD_5PyPMD_process_events;
-  if (PyType_Ready(&__pyx_type_3PMD_5PyPMD_PyPMD) < 0) __PYX_ERR(1, 7, __pyx_L1_error)
+  __pyx_vtabptr_8async_cv_3PMD_5PyPMD_PyPMD = &__pyx_vtable_8async_cv_3PMD_5PyPMD_PyPMD;
+  __pyx_vtable_8async_cv_3PMD_5PyPMD_PyPMD.process_events = (__Pyx_memviewslice (*)(struct __pyx_obj_8async_cv_3PMD_5PyPMD_PyPMD *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice, int __pyx_skip_dispatch))__pyx_f_8async_cv_3PMD_5PyPMD_5PyPMD_process_events;
+  if (PyType_Ready(&__pyx_type_8async_cv_3PMD_5PyPMD_PyPMD) < 0) __PYX_ERR(1, 7, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
-  __pyx_type_3PMD_5PyPMD_PyPMD.tp_print = 0;
+  __pyx_type_8async_cv_3PMD_5PyPMD_PyPMD.tp_print = 0;
   #endif
-  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_3PMD_5PyPMD_PyPMD.tp_dictoffset && __pyx_type_3PMD_5PyPMD_PyPMD.tp_getattro == PyObject_GenericGetAttr)) {
-    __pyx_type_3PMD_5PyPMD_PyPMD.tp_getattro = __Pyx_PyObject_GenericGetAttr;
+  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_8async_cv_3PMD_5PyPMD_PyPMD.tp_dictoffset && __pyx_type_8async_cv_3PMD_5PyPMD_PyPMD.tp_getattro == PyObject_GenericGetAttr)) {
+    __pyx_type_8async_cv_3PMD_5PyPMD_PyPMD.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_3PMD_5PyPMD_PyPMD.tp_dict, __pyx_vtabptr_3PMD_5PyPMD_PyPMD) < 0) __PYX_ERR(1, 7, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_PyPMD, (PyObject *)&__pyx_type_3PMD_5PyPMD_PyPMD) < 0) __PYX_ERR(1, 7, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_3PMD_5PyPMD_PyPMD) < 0) __PYX_ERR(1, 7, __pyx_L1_error)
-  __pyx_ptype_3PMD_5PyPMD_PyPMD = &__pyx_type_3PMD_5PyPMD_PyPMD;
+  if (__Pyx_SetVtable(__pyx_type_8async_cv_3PMD_5PyPMD_PyPMD.tp_dict, __pyx_vtabptr_8async_cv_3PMD_5PyPMD_PyPMD) < 0) __PYX_ERR(1, 7, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_PyPMD, (PyObject *)&__pyx_type_8async_cv_3PMD_5PyPMD_PyPMD) < 0) __PYX_ERR(1, 7, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_8async_cv_3PMD_5PyPMD_PyPMD) < 0) __PYX_ERR(1, 7, __pyx_L1_error)
+  __pyx_ptype_8async_cv_3PMD_5PyPMD_PyPMD = &__pyx_type_8async_cv_3PMD_5PyPMD_PyPMD;
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
   if (PyType_Ready(&__pyx_type___pyx_array) < 0) __PYX_ERR(0, 105, __pyx_L1_error)
@@ -22057,14 +22060,14 @@ if (!__Pyx_RefNanny) {
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(1, 2, __pyx_L1_error)
   #endif
-  if (__pyx_module_is_main_PMD__PyPMD) {
+  if (__pyx_module_is_main_async_cv__PMD__PyPMD) {
     if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name_2, __pyx_n_s_main) < 0) __PYX_ERR(1, 2, __pyx_L1_error)
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(1, 2, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "PMD.PyPMD")) {
-      if (unlikely(PyDict_SetItemString(modules, "PMD.PyPMD", __pyx_m) < 0)) __PYX_ERR(1, 2, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "async_cv.PMD.PyPMD")) {
+      if (unlikely(PyDict_SetItemString(modules, "async_cv.PMD.PyPMD", __pyx_m) < 0)) __PYX_ERR(1, 2, __pyx_L1_error)
     }
   }
   #endif
@@ -22085,7 +22088,7 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(1, 2, __pyx_L1_error)
   #endif
 
-  /* "PMD/PyPMD.pyx":2
+  /* "async_cv/PMD/PyPMD.pyx":2
  * 
  * import numpy as np             # <<<<<<<<<<<<<<
  * cimport numpy as np
@@ -22267,11 +22270,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_XDECREF(__pyx_t_1);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init PMD.PyPMD", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init async_cv.PMD.PyPMD", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_CLEAR(__pyx_m);
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init PMD.PyPMD");
+    PyErr_SetString(PyExc_ImportError, "init async_cv.PMD.PyPMD");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();

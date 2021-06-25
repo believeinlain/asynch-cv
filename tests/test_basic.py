@@ -1,7 +1,7 @@
 """Simple test of basic_consumer functionality"""
 
-from play_file import play_file
-from event_processing.basic_consumer import basic_consumer
+from async_cv.play_file import play_file
+from async_cv.event_processing.basic_consumer import basic_consumer
 
 # data_path = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\april_29\\'
 # filename = 'out_2021-04-29_18-02-48.raw'

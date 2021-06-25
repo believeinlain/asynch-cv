@@ -1,8 +1,8 @@
 from math import isclose
 
-from utils.general_utils import (convert_to_absolute_values, convert_to_relative_values)
+from async_cv.utils.general_utils import (convert_to_absolute_values, convert_to_relative_values)
 
-from utils.enumerators import BBFormat, BBType, CoordinatesType
+from async_cv.utils.enumerators import BBFormat, BBType, CoordinatesType
 
 
 class BoundingBox:

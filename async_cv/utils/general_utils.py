@@ -2,7 +2,7 @@ import fnmatch
 import os
 
 import cv2
-from utils.enumerators import BBFormat
+from async_cv.utils.enumerators import BBFormat
 
 
 def get_classes_from_txt_file(filepath_classes_det):

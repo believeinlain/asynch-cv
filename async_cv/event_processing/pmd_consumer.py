@@ -5,8 +5,8 @@ import numpy as np
 from math import exp
 from time import time
 
-from event_processing.evaluator_consumer import evaluator_consumer
-from PMD import PyPMD
+from async_cv.event_processing.evaluator_consumer import evaluator_consumer
+from async_cv.PMD import PyPMD
 
 
 class pmd_consumer(evaluator_consumer):
