@@ -3,7 +3,7 @@ Simple test of pmd_consumer functionality
 '''
 import os.path
 from play_file import play_file
-from event_processing import pmd_consumer
+from event_processing.pmd_consumer import pmd_consumer
 
 data_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 annot_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'

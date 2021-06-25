@@ -2,8 +2,6 @@
 import numpy as np
 cimport numpy as np
 
-from cython.view cimport array
-
 from PMD.PersistentMotionDetector cimport *
 
 cdef class PyPMD:

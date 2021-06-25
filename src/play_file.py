@@ -1,36 +1,60 @@
+# Ignore warnings for packages not found, since support for everything is optional
+# pyright: reportMissingImports=false
 
 from os import path
 import sys
-from time import time_ns
+from time import time_ns, sleep
 import cv2
 import numpy as np
+from pynput.keyboard import Listener, KeyCode
 
-def play_file(filename, dt, event_consumer, consumer_args=None):
-    '''
-    Play a recorded event stream in any of the supported formats.
-    '''
+from event_processing.basic_consumer import basic_consumer
+
+
+def play_file(filename: str, dt: int, event_consumer: basic_consumer,
+              consumer_args: dict = None):
+    """ Play a recorded event stream in any of the supported formats.
+
+    Args:
+        filename (str): Path to the file to be played. 
+            Use filename='' to play a live feed.
+        dt (int): Number of milliseconds to collect for each displayed frame.
+            If the file has frames, this argument will be ignored and events
+            will be synchronized to the existing framerate.
+        event_consumer (basic_consumer): The consumer class to use to process
+            and display events. Any class inheriting basic_consumer can be
+            used here.
+        consumer_args (dict): Optional dict of arguments to pass to the
+            consumer. If not given, defaults will be used.
+
+    Returns:
+        -1 if a fatal error occurs, 0 if successful.
+    """
     # translate None into an empty dict
     if consumer_args is None:
         consumer_args = {}
 
-    # convert dt into microseconds for event streaming
-    dt_us = dt*1_000
+    # start the keyboard listener
+    listener = Listener(on_press=on_press)
+    listener.start()
+    global is_running
+    is_running = True
 
-    # play live if no filename provided
+    # play live camera if no filename provided
     if filename is '':
-        play_metavision_live(dt, event_consumer, consumer_args)
-        return 0
+        return play_metavision_live(dt, event_consumer, consumer_args)
 
     # Check validity of input arguments
     if not(path.exists(filename) and path.isfile(filename)):
-        print(f'Error: provided input path "{filename}" does not exist or is not a file.')
+        print(
+            f'Error: provided input path "{filename}" does not exist or is not a file.')
         return -1
 
     print(f'Playing file "{filename}".')
 
     if filename.endswith('.raw') or filename.endswith('.dat'):
         play_metavision_file(filename, dt, event_consumer, consumer_args)
-    
+
     elif filename.endswith('.aedat4'):
         from dv import AedatFile
 
@@ -44,36 +68,31 @@ def play_file(filename, dt, event_consumer, consumer_args=None):
         events = np.hstack([packet for packet in aedat['events'].numpy()])
 
         # create data structure to process into frames
-        event_data = np.array([ 
+        event_data = np.array([
             events['x'],
             events['y'],
             events['polarity'],
             events['timestamp']
         ]).transpose()
 
-        # get frames if available
-        try:
-            frames = [(frame.image, frame.timestamp) for frame in aedat['frames']]
-        except RuntimeError:
-            frames = None
+        # play with frames
+        frames = [(frame.image, frame.timestamp)
+                for frame in aedat['frames']]
 
         consumer = event_consumer(width, height, consumer_args)
 
-        if frames is not None:
-            play_numpy_array_frames(event_data, consumer, frames)
-        else:  
-            play_numpy_array_dt(event_data, consumer, dt, dt_us)
+        play_numpy_array_frames(event_data, consumer, frames)
 
     else:
-        print("Error: provided input path '{}' does not have a known extension. ".format(filename))
+        print(f'Error: provided input path "{filename}" \
+            does not have a known extension.')
         return -1
 
     return 0
 
+
 def play_metavision_live(dt, event_consumer, consumer_args):
-    '''
-    Begin playback of a live feed
-    '''
+    """Begin playback of a live feed"""
     import metavision_designer_engine as mvd_engine
     import metavision_designer_core as mvd_core
     import metavision_hal as mv_hal
@@ -82,8 +101,9 @@ def play_metavision_live(dt, event_consumer, consumer_args):
 
     device = mv_hal.DeviceDiscovery.open('')
     if not device:
-        print("Could not open camera. Make sure you have an event-based device plugged in.")
-        sys.exit(1)
+        print('Could not open camera. Make sure you have an event-based \
+            device plugged in.')
+        return -1
 
     # Add the device interface to the pipeline
     interface = mvd_core.HalDeviceInterface(device)
@@ -108,14 +128,14 @@ def play_metavision_live(dt, event_consumer, consumer_args):
     i_events_stream.start()
 
     # Add cd_producer to the pipeline
-    controller.add_component(cd_producer, "CD Producer")
+    controller.add_component(cd_producer, 'CD Producer')
 
     # We use PythonConsumer to "grab" the output of two components: cd_producer and frame_gen
     # pyconsumer will callback the application each time it receives data, using the event_callback function
     ev_proc = event_consumer(width, height, consumer_args)
     pyconsumer = mvd_core.PythonConsumer(ev_proc.metavision_event_callback)
     pyconsumer.add_source(cd_producer, ev_proc.mv_cd_prod_name)
-    controller.add_component(pyconsumer, "PythonConsumer")
+    controller.add_component(pyconsumer, 'PythonConsumer')
 
     controller.set_slice_duration(dt*1000)
     controller.set_batch_duration(dt*1000)
@@ -127,26 +147,27 @@ def play_metavision_live(dt, event_consumer, consumer_args):
     camera_device.start()
 
     # Run pipeline & print execution statistics
-    running = True
-    while running and not controller.is_done():
+    global is_running
+    while is_running and not controller.is_done():
         start_time = begin_loop()
 
         # process events
         controller.run(do_sync)
-        
+
         # Render frame
         ev_proc.draw_frame()
 
-        running = end_loop(start_time, dt)
+        end_loop(start_time, dt)
 
     controller.print_stats(False)
-    
+
     ev_proc.end()
 
+    return 0
+
+
 def play_metavision_file(filename, dt, event_consumer, consumer_args):
-    '''
-    Begin file playback if we know it is a metavision .raw or .dat file
-    '''
+    """Begin file playback if we know it is a metavision .raw or .dat file"""
     import metavision_designer_engine as mvd_engine
     import metavision_designer_core as mvd_core
     import metavision_hal as mv_hal
@@ -161,8 +182,8 @@ def play_metavision_file(filename, dt, event_consumer, consumer_args):
     else:
         device = mv_hal.DeviceDiscovery.open_raw_file(filename)
         if not device:
-            print(f"Error: could not open file '{filename}'.")
-            sys.exit(1)
+            print(f'Error: could not open file "{filename}".')
+            return -1
 
         # Add the device interface to the pipeline
         interface = mvd_core.HalDeviceInterface(device)
@@ -180,94 +201,77 @@ def play_metavision_file(filename, dt, event_consumer, consumer_args):
         i_events_stream.start()
 
     # Add cd_producer to the pipeline
-    controller.add_component(cd_producer, "CD Producer")
+    controller.add_component(cd_producer, 'CD Producer')
 
     # We use PythonConsumer to "grab" the output of two components: cd_producer and frame_gen
     # pyconsumer will callback the application each time it receives data, using the event_callback function
     ev_proc = event_consumer(width, height, consumer_args)
     pyconsumer = mvd_core.PythonConsumer(ev_proc.metavision_event_callback)
-    pyconsumer.add_source(cd_producer, ev_proc.mv_cd_prod_name)
-    controller.add_component(pyconsumer, "PythonConsumer")
+    pyconsumer.add_source(cd_producer, 'CDProd')
+    controller.add_component(pyconsumer, 'PythonConsumer')
 
     controller.set_slice_duration(dt*1_000)
     controller.set_batch_duration(dt*1_000)
     do_sync = True
 
     # Run pipeline & print execution statistics
-    running = True
-    while running and not controller.is_done():
+    global is_running
+    while is_running and not controller.is_done():
         start_time = begin_loop()
 
         # process events
         controller.run(do_sync)
-        
+
         # Render frame
         ev_proc.draw_frame()
 
-        running = end_loop(start_time, dt)
-    
+        end_loop(start_time, dt)
+
     ev_proc.end()
 
-def play_numpy_array_dt(event_data, consumer, dt, dt_us):
-    '''
-    Playback numpy array with the no frames and a fixed dt
-    '''
-    timestamps = event_data[:,3]
-    num_events = len(timestamps)
-    last_index = num_events-1
-    ts = timestamps[0]
+    return 0
 
-    running = True
-    while running:
-        start_time = begin_loop()
-        
-        # get indices for the current frame
-        [frame_start, frame_end] = np.searchsorted(timestamps, [ts, ts+dt_us])
-        # advance frame by dt
-        ts += dt_us
-        # end if we run out of events
-        if frame_end >= last_index:
-            frame_end = last_index
-            running = False
-        # process buffered events into frame
-        consumer.process_buffers(ts, event_data[frame_start:frame_end,:])
-        # draw frame with the events
-        consumer.draw_frame()
-        
-        running = end_loop(start_time, dt)
 
 def play_numpy_array_frames(event_data, consumer, frames):
-    '''
-    Playback numpy array with recorded frames (recorded frames determine dt)
-    '''
-    timestamps = event_data[:,3]
+    """Playback numpy array with recorded frames (recorded frames determine dt)
+    """
+    timestamps = event_data[:, 3]
     num_events = len(timestamps)
     last_index = num_events-1
     frame_start_time = timestamps[0]
     frame_end_time = frames[0][1]
     frames_drawn = 0
 
-    running = True
-    while running:
+    global is_running
+    while is_running:
         start_time = begin_loop()
 
         # get indices for the current frame
-        [frame_start, frame_end] = np.searchsorted(timestamps, [frame_start_time, frame_end_time])
-        
+        [frame_start, frame_end] = np.searchsorted(
+            timestamps, [frame_start_time, frame_end_time])
+
         # end if we run out of events
         if frame_end >= last_index:
             frame_end = last_index
-            running = False
+            is_running = False
         # process buffered events into frame
-        event_array = event_data[frame_start:frame_end,:]
+        event_array = event_data[frame_start:frame_end, :]
         struct_array = np.core.records.fromarrays(
-            event_array.transpose(), names = 'x, y, p, t', formats = 'u2, u2, i4, u8')
-        consumer.process_buffers(frame_end_time, struct_array, frames[frames_drawn][0])
+            event_array.transpose(), 
+            dtype = np.dtype({
+                'names': ['x', 'y', 'p', 't'], 
+                'formats': ['u2', 'u2', 'i2', 'i8'],
+                'offsets': [0, 2, 4, 8],
+                'itemsize': 16
+            })
+        )
+        consumer.process_buffers(
+            frame_end_time, struct_array, frames[frames_drawn][0])
         # draw frame with the events
         consumer.draw_frame()
-        
+
         # end the loop
-        running = end_loop(start_time, (frame_end_time-frame_start_time)//1_000)
+        end_loop(start_time, (frame_end_time-frame_start_time)//1_000)
 
         # advance frame times
         frames_drawn += 1
@@ -276,31 +280,35 @@ def play_numpy_array_frames(event_data, consumer, frames):
         if frames_drawn >= len(frames):
             break
         frame_end_time = frames[frames_drawn][1]
-    
+
     # end consumer execution
     consumer.end()
 
+
 def begin_loop():
-    '''
-    Call at the beginning of each loop to mark frame start
-    '''
-    return time_ns() // 1_000_000 # time in msec
+    """Call at the beginning of each loop to mark frame start"""
+    return time_ns() // 1_000_000  # time in msec
+
 
 def end_loop(start_time, dt):
-    '''
-    Call at the end of each loop to evaluate time to process and display each frame
-    '''
-    end_time = time_ns() // 1_000_000 # time in msec
+    """Call at the end of each loop to evaluate time to process and 
+    display each frame
+    """
+    end_time = time_ns() // 1_000_000  # time in msec
     end_of_frame = start_time + dt
-    
+
     if end_time < end_of_frame:
-        last_key = cv2.waitKey(end_of_frame-end_time)
+        cv2.waitKey(end_of_frame-end_time)
+        # sleep((end_of_frame-end_time)*1000.0)
     else:
-        last_key = cv2.waitKey(1)
-    
+        cv2.waitKey(1)
+
     # update time elapsed
-    sys.stdout.write(f'\rFrame time: {end_time-start_time:3}/{dt:2}(ms) ')
+    sys.stdout.write(f'\rFrame time: {end_time-start_time:3}/{dt:2}(ms)')
     sys.stdout.flush()
 
-    # if 'q' key pressed -> quit application
-    return not last_key == ord('q')
+def on_press(key):
+    global is_running
+    if key == KeyCode.from_char('q'):
+        is_running = False
+        return False

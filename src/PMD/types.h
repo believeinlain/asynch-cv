@@ -10,17 +10,18 @@ namespace PMD {
 
     // types used to interface with python bindings
     typedef unsigned short xy_t;
-    typedef int p_t;
-    typedef unsigned long long ts_t;
+    typedef short p_t;
+    typedef long long ts_t;
 
-    // types carefully chosen to fit 4-byte alignment
-    // this is important because of how it interfaces with python
+    // ensure bytes are packed tightly since that's how we get events from python
+    // #pragma pack(push, 1)
     struct event {
         xy_t x; // 2 bytes
         xy_t y; // 2 bytes
-        p_t p; // 4 bytes
+        p_t p; // 2 bytes
         ts_t t; // 8 bytes
-    }; // total 16 bytes per event
+    }; // total 14 bytes per event
+    // #pragma pack(pop)
 
     // this is used to access the framebuffer, so it's important to be a single byte
     typedef unsigned char byte_t;

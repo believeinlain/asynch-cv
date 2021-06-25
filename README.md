@@ -5,7 +5,9 @@ Note that in order to read Metavision .RAW or .DAT files or connect to a Prophes
 
 If using conda, an appropriate environment can be created with `conda env create --file async-cv.yml`.
 
-To build, first execute `python setup.py build_ext --i` to compile the cython extensions.
+To build, first execute `python setup.py build_ext --i` to compile the cython
+extensions. Requires [CTPL](https://github.com/vit-vit/CTPL) if compiled with
+thread support. To install CTPL, simply clone the repository into a directory parallel to this one. For example, if this repository is cloned into `C:\dev\async-cv`, then clone CTPL into `C:\dev\CTPL`.
 
 Simply run one of the `test_*.py` scripts to see a demonstration.  
 

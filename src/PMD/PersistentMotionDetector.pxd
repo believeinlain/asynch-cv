@@ -28,8 +28,8 @@ cdef extern from 'types.h' namespace 'PMD':
         float ratio
 
     ctypedef unsigned short xy_t
-    ctypedef int p_t
-    ctypedef unsigned long long ts_t
+    ctypedef short p_t
+    ctypedef long long ts_t
     ctypedef unsigned short cid_t
 
     cdef packed struct event:

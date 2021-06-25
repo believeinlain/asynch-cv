@@ -1,15 +1,14 @@
-# pyright: reportMissingImports=false
 
 import cv2
 import numpy as np
-from math import sqrt, exp
-from copy import copy
+from math import exp
 
-from event_processing import basic_consumer
+from event_processing.evaluator_consumer import evaluator_consumer
 from PMD import PyPMD
 
 
-class pmd_consumer(basic_consumer):
+class pmd_consumer(evaluator_consumer):
+
     def __init__(self, width, height, consumer_args=None):
         super().__init__(width, height, consumer_args)
 
@@ -18,25 +17,22 @@ class pmd_consumer(basic_consumer):
 
         self.p = consumer_args.get('parameters', {})
         self.max_cluster_size = self.p.get('max_cluster_size', 50)
-        
-        # explicitly set types to ensure consistency between modules
-        types = {}
 
         self._pmd = PyPMD.PyPMD(width, height, self.p)
 
-        # self._metrics = DetectionMetrics(['boat', 'RHIB'])
-        # self._detections = []
-    
+        # create a buffer to write cids on
+        self._cluster_map = np.ascontiguousarray(
+            np.full((height, width), -1, dtype='u2'))
+
     def process_event_buffer(self, ts, event_buffer):
         # we don't care about ts
         del ts
-        # create a buffer to write cids on
-        indices = np.ascontiguousarray(np.full((self.height, self.width), -1, dtype='u2'))
         # pass events to the pmd to draw
-        results = self._pmd.process_events(self.frame_to_draw, event_buffer, indices)
+        results = self._pmd.process_events(
+            self._frame_to_draw, event_buffer, self._cluster_map)
 
         r = self.max_cluster_size
-        frame = self.frame_to_draw
+        frame = self._frame_to_draw
         scale = 5
         tau = -0.0008
 
@@ -57,18 +53,21 @@ class pmd_consumer(basic_consumer):
             cv2.line(frame, (px-r, py), (px, py-r), diamond_color, 1)
 
             # draw short-term and long-term velocities
-            cv2.arrowedLine(frame, (px, py), (int(px+a['long_v_x']*scale), int(py+a['long_v_y']*scale)), color, 1)
-            cv2.arrowedLine(frame, (px, py), (int(px+a['short_v_x']*scale), int(py+a['short_v_y']*scale)), color, 1)
+            cv2.arrowedLine(frame, (px, py), (int(
+                px+a['long_v_x']*scale), int(py+a['long_v_y']*scale)), color, 1)
+            cv2.arrowedLine(frame, (px, py), (int(
+                px+a['short_v_x']*scale), int(py+a['short_v_y']*scale)), color, 1)
 
             # draw the velocity ratio
-            cv2.circle(frame, (px, py), int(0.1*min(a['ratio'],self.p['ratio_threshold'])*scale), color, 1)
+            cv2.circle(frame, (px, py), int(
+                0.1*min(a['ratio'], self.p['ratio_threshold'])*scale), color, 1)
 
             # save footprint as a boolean image
-            a['image'] = np.equal(indices, a['cid'])
+            a['image'] = np.equal(self._cluster_map, a['cid'])
 
             # calculate confidence to determine if positive
             a['conf'] = 1-exp(tau*a['stability'])
-        
+
         # filter out negative results
         positive = [a for a in active if a['conf'] > 0.5]
 
@@ -87,13 +86,14 @@ class pmd_consumer(basic_consumer):
 
         # compute bb for each detection
         for d in detections:
-            d['bb'] = cv2.boundingRect(np.multiply(255, d['image'], dtype='u1'))
+            d['bb'] = cv2.boundingRect(
+                np.multiply(255, d['image'], dtype='u1'))
 
         def is_intersect(bb1, bb2):
             x1, y1, w1, h1 = bb1
             x2, y2, w2, h2 = bb2
-            return not ((x1 > x2+w2) or ( x1+w1 < x2) 
-                or (y1 > y2+h2) or (y1+h1 < y2))
+            return not ((x1 > x2+w2) or (x1+w1 < x2)
+                        or (y1 > y2+h2) or (y1+h1 < y2))
 
         # merge based on bb
         for a in detections:
@@ -111,11 +111,9 @@ class pmd_consumer(basic_consumer):
             x, y, w, h = cv2.boundingRect(image)
             conf = 1-exp(tau*d['stability'])
             if conf > 0.5:
-                cv2.rectangle(frame, (x, y), (x+w, y+h), (255,255,255), 1)
-                cv2.putText(frame, f"{conf:0.2f}", (x, y), cv2.FONT_HERSHEY_PLAIN, 1, (255,255,255), 1, cv2.LINE_AA)
+                cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 255, 255), 1)
+                cv2.putText(frame, f"{conf:0.2f}", (x, y),
+                            cv2.FONT_HERSHEY_PLAIN, 1, (255, 255, 255), 1, cv2.LINE_AA)
 
                 # record the detection for metrics
-                self.save_detection(conf, (x, y, w, h))
-
-    def end(self):
-        super().end()
+                self.save_detection(conf, x, y, w, h)

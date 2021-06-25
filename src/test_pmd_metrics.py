@@ -1,6 +1,6 @@
 from os.path import join, expanduser
 from play_file import play_file
-from event_processing import basic_consumer, pmd_consumer
+from event_processing.pmd_consumer import pmd_consumer
 
 data_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 annot_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
@@ -66,8 +66,7 @@ files = {
 }
 
 args = {
-    # 'video_out': run_name+'.avi',
-    'filetype': data_format,
+    'video_out': True,
     'targets': ['vessel', 'boat', 'RHIB'],
     'parameters': {
         'x_div': 4, # number of horizontal divisions
