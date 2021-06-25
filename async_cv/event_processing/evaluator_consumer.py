@@ -1,7 +1,8 @@
 
 import os
-from async_cv.bounding_box import BoundingBox, BBFormat, BBType
-from async_cv.evaluators.pascal_voc_evaluator import plot_precision_recall_curves, get_pascalvoc_metrics
+from async_cv.metrics.bounding_box import BoundingBox, BBFormat, BBType
+from async_cv.metrics.evaluators.pascal_voc_evaluator \
+    import plot_precision_recall_curves, get_pascalvoc_metrics
 
 from async_cv.event_processing.basic_consumer import basic_consumer
 
