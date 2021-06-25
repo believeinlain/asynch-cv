@@ -43,6 +43,8 @@ class basic_consumer:
         self._run_name = consumer_args.get('run_name', 'test')
         print(f'Starting run "{self._run_name}"')
 
+        self.show_metrics = consumer_args.get('show_metrics', False)
+
         if 'video_out' in consumer_args and consumer_args['video_out']:
             # create directories if necessary
             if not os.path.isdir('output'):

@@ -10,6 +10,12 @@ if not os.path.isdir('PMD'):
 if not os.path.isdir('event_processing'):
     os.mkdir('event_processing')
 
+cwd = os.path.abspath(os.getcwd())
+try:
+    os.mkdir(f'{cwd}\\PMD\\')
+except FileExistsError:
+    pass
+
 extensions = [
     Extension('event_processing.basic_consumer',
         [

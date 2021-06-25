@@ -72,7 +72,7 @@ play_file(
     consumer_args={
         'run_name': run_name,
         'annot_file': annot_path,
-        'video_out': run_name+'.avi',
+        # 'video_out': run_name+'.avi',
         'filetype': file_type,
         'targets': ['vessel', 'boat', 'RHIB'],
         'parameters': {
