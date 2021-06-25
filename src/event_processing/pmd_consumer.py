@@ -1,4 +1,5 @@
 
+from sys import stdout
 import cv2
 import numpy as np
 from math import exp
@@ -117,3 +118,6 @@ class pmd_consumer(evaluator_consumer):
 
                 # record the detection for metrics
                 self.save_detection(conf, x, y, w, h)
+
+        stdout.write(f' Processed {len(event_buffer)} events.')
+        stdout.flush()

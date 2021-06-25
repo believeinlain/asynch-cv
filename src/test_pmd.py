@@ -8,13 +8,13 @@ from event_processing.pmd_consumer import pmd_consumer
 data_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 annot_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 
-group = 'june_26'
-test = 2
-file_type = '.aedat4'
+# group = 'june_26'
+# test = 2
+# file_type = '.aedat4'
 
-# group = 'april_29'
-# test = 4
-# file_type = '.raw'
+group = 'april_29'
+test = 4
+file_type = '.raw'
 
 # group = 'june_26'
 # test = 2

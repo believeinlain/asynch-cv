@@ -168,6 +168,8 @@ class basic_consumer:
             frame[e.y, e.x, 1] = color
             frame[e.y, e.x, 2] = color
         
+        stdout.write(f' Processed {num_events} events.')
+        stdout.flush()
 
     def draw_frame(self):
         """Called from main thread to display frame"""

@@ -9,8 +9,8 @@ from event_processing.basic_consumer import basic_consumer
 
 # path = data_path
 
-path = 'example_data/Cars_sequence.aedat4'
-# path = 'example_data/hand_spinner.raw'
+# path = 'example_data/Cars_sequence.aedat4'
+path = 'example_data/hand_spinner.raw'
 run_name = 'test_basic_consumer'
 
 args = {
