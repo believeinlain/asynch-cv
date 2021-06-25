@@ -5,6 +5,7 @@ import cv2
 import numpy as np
 cimport numpy as np
 import xmltodict
+from time import time
 
 cdef struct event:
     unsigned short x, y
@@ -158,6 +159,10 @@ class basic_consumer:
         del ts
 
         cdef int num_events = len(event_buffer)
+        cdef double start
+        cdef double ms
+
+        start = time()
 
         # draw events colored by polarity
         cdef event e
@@ -169,8 +174,10 @@ class basic_consumer:
             frame[e.y, e.x, 0] = color
             frame[e.y, e.x, 1] = color
             frame[e.y, e.x, 2] = color
+
+        ms = (time() - start)*1000.0
         
-        stdout.write(f' Processed {num_events} events.')
+        stdout.write(f' Processed {num_events} events in {ms:.0f}ms.')
         stdout.flush()
 
     def draw_frame(self):

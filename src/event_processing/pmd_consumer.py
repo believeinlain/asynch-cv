@@ -3,6 +3,7 @@ from sys import stdout
 import cv2
 import numpy as np
 from math import exp
+from time import time
 
 from event_processing.evaluator_consumer import evaluator_consumer
 from PMD import PyPMD
@@ -28,9 +29,14 @@ class pmd_consumer(evaluator_consumer):
     def process_event_buffer(self, ts, event_buffer):
         # we don't care about ts
         del ts
+        
+        start = time()
+        
         # pass events to the pmd to draw
         results = self._pmd.process_events(
             self._frame_to_draw, event_buffer, self._cluster_map)
+        
+        ms = (time() - start)*1000.0
 
         r = self.max_cluster_size
         frame = self._frame_to_draw
@@ -119,5 +125,5 @@ class pmd_consumer(evaluator_consumer):
                 # record the detection for metrics
                 self.save_detection(conf, x, y, w, h)
 
-        stdout.write(f' Processed {len(event_buffer)} events.')
+        stdout.write(f' PMD processed {len(event_buffer)} events in {ms:.0f}ms.')
         stdout.flush()

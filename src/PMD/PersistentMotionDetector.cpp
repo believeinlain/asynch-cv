@@ -58,7 +58,7 @@ namespace PMD {
             for (uint_t x=0; x<_bounds.width; ++x) {
                 for (uint_t y=0; y<_bounds.height; ++y) {
                     uint_t xy_index = 3*(_bounds.width*y + x);
-                    cid_t pixel_cid = _event_buffer.at(x, y).top().cid;
+                    cid_t pixel_cid = _event_buffer.at(x, y).cid;
                     if (pixel_cid == NO_CID) continue;
                     color event_color = _sorter.getColor(pixel_cid);
                     for (uint_t z=0; z<3; ++z)
@@ -119,7 +119,7 @@ namespace PMD {
             // draw the index map
             for (size_t x=0; x<_bounds.width; ++x)
                 for (size_t y=0; y<_bounds.height; ++y)
-                    indices[x + y*_bounds.width] = _event_buffer.at(x, y).top().cid;
+                    indices[x + y*_bounds.width] = _event_buffer.at(x, y).cid;
         }
         catch(const exception& err) 
         {

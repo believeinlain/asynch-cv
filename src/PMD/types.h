@@ -126,6 +126,37 @@ namespace PMD {
         T *_data;
     };
 
+    template<typename T>
+    struct buffer_3d {
+        const size_t w, h, d;
+        buffer_3d(size_t width, size_t height, size_t depth) :
+            w(width), h(height), d(depth) {
+            _data = new T[width*height*depth]{};
+            _top = new size_t[width*height]{};
+        }
+        ~buffer_3d() {
+            delete[] _data;
+            delete[] _top;
+        }
+        T &at(size_t x, size_t y) {
+            size_t i_2d = x + y*w;
+            return _data[i_2d*d + _top[i_2d]];
+        }
+        T &at(size_t x, size_t y, size_t z) {
+            return _data[(x + y*w)*d + z];
+        }
+        T push(size_t x, size_t y, const T &value) {
+            size_t i_2d = x + y*w;
+            _top[i_2d] = (_top[i_2d] + 1) % d;
+            T displaced = _data[i_2d*d + _top[i_2d]];
+            _data[i_2d*d + _top[i_2d]] = value;
+            return displaced;
+        }
+    private:
+        T *_data;
+        size_t *_top;
+    };
+
     // max clusters derived from the type size, 
     // so that the only possible invalid id is NO_CID
     typedef unsigned short cid_t;

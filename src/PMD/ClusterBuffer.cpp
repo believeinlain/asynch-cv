@@ -41,16 +41,13 @@ namespace PMD {
     }
     // const point &Cluster::centroid() {
     point Cluster::centroid() {
-        if (_weight > 0)
-            return point(_x_sum/_weight, _y_sum/_weight);
-        return point();
-        // // if we need to, and *can* calculate the centroid, do so
-        // // otherwise just go with the last saved one
-        // if (!_is_centroid_updated && (_weight > 0)) {
-        //     _centroid = point(_x_sum/_weight, _y_sum/_weight);
-        //     _is_centroid_updated = true;
-        // }
-        // return _centroid;
+        // if we need to, and *can* calculate the centroid, do so
+        // otherwise just go with the last saved one
+        if (!_is_centroid_updated && (_weight > 0)) {
+            _centroid = point(_x_sum/_weight, _y_sum/_weight);
+            _is_centroid_updated = true;
+        }
+        return _centroid;
     }
 
     point_f Cluster::centroid_f() {

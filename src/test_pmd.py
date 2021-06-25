@@ -80,7 +80,7 @@ play_file(
             'y_div': 4, # number of vertical divisions
             'us_per_event': 100, # processing time alloted to each event handler to process events
             'temporal_filter': 100_000,
-            'event_buffer_depth': 4, # number of events to remember for each (x, y) position
+            'event_buffer_depth': 8, # number of events to remember for each (x, y) position
             'tf': 250_000, # how far back in time to consider events for filtering
             'tc': 150_000, # how far back in time to consider events for clustering
             'n': 4, # minimum number of correlated events required to allow a particular event through the filter

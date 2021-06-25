@@ -40,7 +40,6 @@ namespace PMD {
     };
 
     class ClusterBuffer {
-        // allocate an array up to but not including NO_CID
         std::array<Cluster, NO_CID> _buffer;
         // rng to assign new cluster ids
         std::mt19937 _rand_gen;

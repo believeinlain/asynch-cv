@@ -4,17 +4,12 @@
 
 namespace PMD {
 
-    size_t EventBuffer::buffer_queue::depth = 0;
-
     EventBuffer::EventBuffer(size_t width, size_t height, size_t depth, ClusterBuffer &cluster_buffer) :
         _width(width), _height(height), _depth(depth),
         _cluster_buffer(cluster_buffer)
     {
-        // set depth to allocate event buffer
-        buffer_queue::depth = depth;
-
         // allocate buffer memory
-        _buffer = new array_2d<buffer_queue>(width, height);
+        _buffer = new buffer_3d<buffer_entry>(width, height, depth);
     }
     EventBuffer::~EventBuffer() {
         // deallocate buffer memory
@@ -41,7 +36,7 @@ namespace PMD {
                     // if we were to lock here if would prevent cluster weights
                     // from going below 0, but that is harmless and preventing it
                     // causes significant slowdown.
-                    const auto &p = _buffer->at(x, y)[z];
+                    const auto &p = _buffer->at(x, y, z);
                     // add to count if within filter threshold
                     if (p.t > e.t-tf) num_adjacent++;
                     // add to adjacent clusters if within cluster threshold
@@ -59,8 +54,8 @@ namespace PMD {
         for (int x = domain.tl.x; x < domain.br.x; ++x) {
             for (int y = domain.tl.y; y < domain.br.y; ++y) {
                 for (size_t z = 0; z < _depth; ++z) {
-                    auto ts = _buffer->at(x, y)[z].t;
-                    auto cid = _buffer->at(x, y)[z].cid;
+                    auto ts = _buffer->at(x, y, z).t;
+                    auto cid = _buffer->at(x, y, z).cid;
                     // if any assigned events are too old, unassign them
                     if ((cid != NO_CID) && (ts < th)) {
 #if USE_THREADS
@@ -73,7 +68,7 @@ namespace PMD {
                         // remove expired events from cluster buffer
                         _cluster_buffer[cid].remove(x, y);
                         // and unassign them
-                        _buffer->at(x, y)[z].cid = NO_CID;
+                        _buffer->at(x, y, z).cid = NO_CID;
 #if USE_THREADS
                         // -- release buffer lock
                         _buffer_access.unlock();
@@ -94,7 +89,10 @@ namespace PMD {
         _buffer_access.lock();
 #endif
         // add new event to event buffer
-        buffer_entry displaced = _buffer->at(e.x, e.y).push(cid, e.t);
+        buffer_entry new_entry;
+        new_entry.cid = cid;
+        new_entry.t = e.t;
+        buffer_entry displaced = _buffer->push(e.x, e.y, new_entry);
 
         // add new event to cluster buffer
         if (cid != NO_CID)

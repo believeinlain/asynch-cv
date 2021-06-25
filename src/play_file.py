@@ -297,7 +297,6 @@ def end_loop(start_time, dt):
 
     if end_time < end_of_frame:
         cv2.waitKey(end_of_frame-end_time)
-        # sleep((end_of_frame-end_time)*1000.0)
     else:
         cv2.waitKey(1)
 

@@ -46,7 +46,7 @@ namespace PMD {
             processUntil(e.t);
 
             // temporal filter
-            if (e.t < _event_buffer.at(e.x, e.y).top().t+_p.temporal_filter) return;
+            if (e.t < _event_buffer.at(e.x, e.y).t+_p.temporal_filter) return;
 
             // process the event
             ushort_t count = 0;
