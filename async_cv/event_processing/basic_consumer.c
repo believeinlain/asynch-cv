@@ -19,12 +19,12 @@
         "include_dirs": [
             "C:\\Users\\steph\\miniconda3\\envs\\async-cv\\lib\\site-packages\\numpy\\core\\include"
         ],
-        "name": "event_processing.basic_consumer",
+        "name": "async_cv.event_processing.basic_consumer",
         "sources": [
-            "src/event_processing/basic_consumer.pyx"
+            "async_cv/event_processing/basic_consumer.pyx"
         ]
     },
-    "module_name": "event_processing.basic_consumer"
+    "module_name": "async_cv.event_processing.basic_consumer"
 }
 END: Cython Metadata */
 
@@ -632,8 +632,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__event_processing__basic_consumer
-#define __PYX_HAVE_API__event_processing__basic_consumer
+#define __PYX_HAVE__async_cv__event_processing__basic_consumer
+#define __PYX_HAVE_API__async_cv__event_processing__basic_consumer
 /* Early includes */
 #include <string.h>
 #include <stdio.h>
@@ -878,7 +878,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "src\\event_processing\\basic_consumer.pyx",
+  "async_cv\\event_processing\\basic_consumer.pyx",
   "__init__.pxd",
   "stringsource",
   "type.pxd",
@@ -1246,16 +1246,16 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  * cdef inline object PyArray_MultiIterNew1(a):
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
-struct __pyx_t_16event_processing_14basic_consumer_event;
+struct __pyx_t_8async_cv_16event_processing_14basic_consumer_event;
 
-/* "event_processing/basic_consumer.pyx":10
+/* "async_cv/event_processing/basic_consumer.pyx":10
  * from time import time
  * 
  * cdef struct event:             # <<<<<<<<<<<<<<
  *     unsigned short x, y
  *     short p
  */
-struct __pyx_t_16event_processing_14basic_consumer_event {
+struct __pyx_t_8async_cv_16event_processing_14basic_consumer_event {
   unsigned short x;
   unsigned short y;
   short p;
@@ -2167,13 +2167,13 @@ static int __Pyx_ValidateAndInit_memviewslice(
                 PyObject *original_obj);
 
 /* ObjectToMemviewSlice.proto */
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_nn_struct____pyx_t_16event_processing_14basic_consumer_event(PyObject *, int writable_flag);
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_nn_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event(PyObject *, int writable_flag);
 
-struct __pyx_t_16event_processing_14basic_consumer_event;
-static PyObject* __pyx_convert__to_py_struct____pyx_t_16event_processing_14basic_consumer_event(struct __pyx_t_16event_processing_14basic_consumer_event s);
+struct __pyx_t_8async_cv_16event_processing_14basic_consumer_event;
+static PyObject* __pyx_convert__to_py_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event(struct __pyx_t_8async_cv_16event_processing_14basic_consumer_event s);
 /* MemviewDtypeToObject.proto */
-static CYTHON_INLINE PyObject *__pyx_memview_get_nn_struct____pyx_t_16event_processing_14basic_consumer_event(const char *itemp);
-static CYTHON_INLINE int __pyx_memview_set_nn_struct____pyx_t_16event_processing_14basic_consumer_event(const char *itemp, PyObject *obj);
+static CYTHON_INLINE PyObject *__pyx_memview_get_nn_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event(const char *itemp);
+static CYTHON_INLINE int __pyx_memview_set_nn_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event(const char *itemp, PyObject *obj);
 
 /* RealImag.proto */
 #if CYTHON_CCOMPLEX
@@ -2368,7 +2368,7 @@ static PyTypeObject *__pyx_ptype_5numpy_flexible = 0;
 static PyTypeObject *__pyx_ptype_5numpy_character = 0;
 static PyTypeObject *__pyx_ptype_5numpy_ufunc = 0;
 
-/* Module declarations from 'event_processing.basic_consumer' */
+/* Module declarations from 'async_cv.event_processing.basic_consumer' */
 static PyTypeObject *__pyx_array_type = 0;
 static PyTypeObject *__pyx_MemviewEnum_type = 0;
 static PyTypeObject *__pyx_memoryview_type = 0;
@@ -2380,7 +2380,7 @@ static PyObject *contiguous = 0;
 static PyObject *indirect_contiguous = 0;
 static int __pyx_memoryview_thread_locks_used;
 static PyThread_type_lock __pyx_memoryview_thread_locks[8];
-static struct __pyx_t_16event_processing_14basic_consumer_event __pyx_convert__from_py_struct____pyx_t_16event_processing_14basic_consumer_event(PyObject *); /*proto*/
+static struct __pyx_t_8async_cv_16event_processing_14basic_consumer_event __pyx_convert__from_py_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event(PyObject *); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char *, char *); /*proto*/
 static void *__pyx_align_pointer(void *, size_t); /*proto*/
 static PyObject *__pyx_memoryview_new(PyObject *, int, int, __Pyx_TypeInfo *); /*proto*/
@@ -2418,19 +2418,19 @@ static __Pyx_TypeInfo __Pyx_TypeInfo_unsigned_char = { "unsigned char", NULL, si
 static __Pyx_TypeInfo __Pyx_TypeInfo_unsigned_short = { "unsigned short", NULL, sizeof(unsigned short), { 0 }, 0, IS_UNSIGNED(unsigned short) ? 'U' : 'I', IS_UNSIGNED(unsigned short), 0 };
 static __Pyx_TypeInfo __Pyx_TypeInfo_short = { "short", NULL, sizeof(short), { 0 }, 0, IS_UNSIGNED(short) ? 'U' : 'I', IS_UNSIGNED(short), 0 };
 static __Pyx_TypeInfo __Pyx_TypeInfo_PY_LONG_LONG = { "long long", NULL, sizeof(PY_LONG_LONG), { 0 }, 0, IS_UNSIGNED(PY_LONG_LONG) ? 'U' : 'I', IS_UNSIGNED(PY_LONG_LONG), 0 };
-static __Pyx_StructField __Pyx_StructFields_nn_struct____pyx_t_16event_processing_14basic_consumer_event[] = {
-  {&__Pyx_TypeInfo_unsigned_short, "x", offsetof(struct __pyx_t_16event_processing_14basic_consumer_event, x)},
-  {&__Pyx_TypeInfo_unsigned_short, "y", offsetof(struct __pyx_t_16event_processing_14basic_consumer_event, y)},
-  {&__Pyx_TypeInfo_short, "p", offsetof(struct __pyx_t_16event_processing_14basic_consumer_event, p)},
-  {&__Pyx_TypeInfo_PY_LONG_LONG, "t", offsetof(struct __pyx_t_16event_processing_14basic_consumer_event, t)},
+static __Pyx_StructField __Pyx_StructFields_nn_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event[] = {
+  {&__Pyx_TypeInfo_unsigned_short, "x", offsetof(struct __pyx_t_8async_cv_16event_processing_14basic_consumer_event, x)},
+  {&__Pyx_TypeInfo_unsigned_short, "y", offsetof(struct __pyx_t_8async_cv_16event_processing_14basic_consumer_event, y)},
+  {&__Pyx_TypeInfo_short, "p", offsetof(struct __pyx_t_8async_cv_16event_processing_14basic_consumer_event, p)},
+  {&__Pyx_TypeInfo_PY_LONG_LONG, "t", offsetof(struct __pyx_t_8async_cv_16event_processing_14basic_consumer_event, t)},
   {NULL, NULL, 0}
 };
-static __Pyx_TypeInfo __Pyx_TypeInfo_nn_struct____pyx_t_16event_processing_14basic_consumer_event = { "event", __Pyx_StructFields_nn_struct____pyx_t_16event_processing_14basic_consumer_event, sizeof(struct __pyx_t_16event_processing_14basic_consumer_event), { 0 }, 0, 'S', 0, 0 };
-#define __Pyx_MODULE_NAME "event_processing.basic_consumer"
-extern int __pyx_module_is_main_event_processing__basic_consumer;
-int __pyx_module_is_main_event_processing__basic_consumer = 0;
+static __Pyx_TypeInfo __Pyx_TypeInfo_nn_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event = { "event", __Pyx_StructFields_nn_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event, sizeof(struct __pyx_t_8async_cv_16event_processing_14basic_consumer_event), { 0 }, 0, 'S', 0, 0 };
+#define __Pyx_MODULE_NAME "async_cv.event_processing.basic_consumer"
+extern int __pyx_module_is_main_async_cv__event_processing__basic_consumer;
+int __pyx_module_is_main_async_cv__event_processing__basic_consumer = 0;
 
-/* Implementation of 'event_processing.basic_consumer' */
+/* Implementation of 'async_cv.event_processing.basic_consumer' */
 static PyObject *__pyx_builtin_print;
 static PyObject *__pyx_builtin_open;
 static PyObject *__pyx_builtin_range;
@@ -2646,8 +2646,8 @@ static const char __pyx_k_itemsize_0_for_cython_array[] = "itemsize <= 0 for cyt
 static const char __pyx_k_unable_to_allocate_array_data[] = "unable to allocate array data.";
 static const char __pyx_k_basic_consumer_process_buffers[] = "basic_consumer.process_buffers";
 static const char __pyx_k_strided_and_direct_or_indirect[] = "<strided and direct or indirect>";
+static const char __pyx_k_async_cv_event_processing_basic[] = "async_cv.event_processing.basic_consumer";
 static const char __pyx_k_basic_consumer_metavision_event[] = "basic_consumer.metavision_event_callback";
-static const char __pyx_k_event_processing_basic_consumer[] = "event_processing.basic_consumer";
 static const char __pyx_k_numpy_core_multiarray_failed_to[] = "numpy.core.multiarray failed to import";
 static const char __pyx_k_Basic_consumer_class_that_simply[] = "Basic consumer class that simply displays all events.\n    Override this class to define alternative event processing functionality\n    ";
 static const char __pyx_k_Buffer_view_does_not_expose_stri[] = "Buffer view does not expose strides";
@@ -2665,8 +2665,8 @@ static const char __pyx_k_basic_consumer_process_event_buf[] = "basic_consumer.p
 static const char __pyx_k_got_differing_extents_in_dimensi[] = "got differing extents in dimension %d (got %d and %d)";
 static const char __pyx_k_no_default___reduce___due_to_non[] = "no default __reduce__ due to non-trivial __cinit__";
 static const char __pyx_k_numpy_core_umath_failed_to_impor[] = "numpy.core.umath failed to import";
-static const char __pyx_k_src_event_processing_basic_consu[] = "src\\event_processing\\basic_consumer.pyx";
 static const char __pyx_k_unable_to_allocate_shape_and_str[] = "unable to allocate shape and strides.";
+static const char __pyx_k_async_cv_event_processing_basic_2[] = "async_cv\\event_processing\\basic_consumer.pyx";
 static const char __pyx_k_No_value_specified_for_struct_at_2[] = "No value specified for struct attribute 'y'";
 static const char __pyx_k_No_value_specified_for_struct_at_3[] = "No value specified for struct attribute 'p'";
 static const char __pyx_k_No_value_specified_for_struct_at_4[] = "No value specified for struct attribute 't'";
@@ -2724,6 +2724,8 @@ static PyObject *__pyx_n_u_annotations;
 static PyObject *__pyx_n_s_annotations_meta;
 static PyObject *__pyx_n_s_annotations_version;
 static PyObject *__pyx_n_s_ascontiguousarray;
+static PyObject *__pyx_n_s_async_cv_event_processing_basic;
+static PyObject *__pyx_kp_s_async_cv_event_processing_basic_2;
 static PyObject *__pyx_kp_u_avi;
 static PyObject *__pyx_n_s_base;
 static PyObject *__pyx_n_s_basic_consumer;
@@ -2761,7 +2763,6 @@ static PyObject *__pyx_n_s_enter;
 static PyObject *__pyx_n_s_enumerate;
 static PyObject *__pyx_n_s_error;
 static PyObject *__pyx_n_s_event_buffer;
-static PyObject *__pyx_n_s_event_processing_basic_consumer;
 static PyObject *__pyx_kp_u_events_in;
 static PyObject *__pyx_n_s_events_this_frame;
 static PyObject *__pyx_n_s_exit;
@@ -2860,7 +2861,6 @@ static PyObject *__pyx_n_s_show_metrics;
 static PyObject *__pyx_n_u_show_metrics;
 static PyObject *__pyx_n_s_size;
 static PyObject *__pyx_n_s_src_2d_arrays;
-static PyObject *__pyx_kp_s_src_event_processing_basic_consu;
 static PyObject *__pyx_n_s_src_events;
 static PyObject *__pyx_n_s_start;
 static PyObject *__pyx_n_s_stdout;
@@ -2904,13 +2904,13 @@ static PyObject *__pyx_n_s_ybr_2;
 static PyObject *__pyx_kp_u_ytl;
 static PyObject *__pyx_n_s_ytl_2;
 static PyObject *__pyx_n_s_zeros;
-static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_width, PyObject *__pyx_v_height, PyObject *__pyx_v_consumer_args); /* proto */
-static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_2metavision_event_callback(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_ts, PyObject *__pyx_v_src_events, PyObject *__pyx_v_src_2d_arrays); /* proto */
-static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_4process_buffers(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_ts, PyObject *__pyx_v_event_buffer, PyObject *__pyx_v_frame_buffer); /* proto */
-static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6init_frame(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_frame_buffer); /* proto */
-static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_8process_event_buffer(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_ts, __Pyx_memviewslice __pyx_v_event_buffer); /* proto */
-static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_10draw_frame(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_12end(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_width, PyObject *__pyx_v_height, PyObject *__pyx_v_consumer_args); /* proto */
+static PyObject *__pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer_2metavision_event_callback(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_ts, PyObject *__pyx_v_src_events, PyObject *__pyx_v_src_2d_arrays); /* proto */
+static PyObject *__pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer_4process_buffers(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_ts, PyObject *__pyx_v_event_buffer, PyObject *__pyx_v_frame_buffer); /* proto */
+static PyObject *__pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer_6init_frame(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_frame_buffer); /* proto */
+static PyObject *__pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer_8process_event_buffer(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_ts, __Pyx_memviewslice __pyx_v_event_buffer); /* proto */
+static PyObject *__pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer_10draw_frame(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer_12end(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(struct __pyx_array_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_array___pyx_pf_15View_dot_MemoryView_5array_4__dealloc__(struct __pyx_array_obj *__pyx_v_self); /* proto */
@@ -3023,7 +3023,7 @@ static PyObject *__pyx_codeobj__47;
 static PyObject *__pyx_codeobj__54;
 /* Late includes */
 
-/* "event_processing/basic_consumer.pyx":19
+/* "async_cv/event_processing/basic_consumer.pyx":19
  *     Override this class to define alternative event processing functionality
  *     """
  *     def __init__(self, width, height, consumer_args=None):             # <<<<<<<<<<<<<<
@@ -3032,10 +3032,10 @@ static PyObject *__pyx_codeobj__54;
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_16event_processing_14basic_consumer_14basic_consumer___init__[] = "Constructor";
-static PyMethodDef __pyx_mdef_16event_processing_14basic_consumer_14basic_consumer_1__init__ = {"__init__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_1__init__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_16event_processing_14basic_consumer_14basic_consumer___init__};
-static PyObject *__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8async_cv_16event_processing_14basic_consumer_14basic_consumer___init__[] = "Constructor";
+static PyMethodDef __pyx_mdef_8async_cv_16event_processing_14basic_consumer_14basic_consumer_1__init__ = {"__init__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_1__init__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8async_cv_16event_processing_14basic_consumer_14basic_consumer___init__};
+static PyObject *__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_width = 0;
   PyObject *__pyx_v_height = 0;
@@ -3112,18 +3112,18 @@ static PyObject *__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_1
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("__init__", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 19, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("event_processing.basic_consumer.basic_consumer.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("async_cv.event_processing.basic_consumer.basic_consumer.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_16event_processing_14basic_consumer_14basic_consumer___init__(__pyx_self, __pyx_v_self, __pyx_v_width, __pyx_v_height, __pyx_v_consumer_args);
+  __pyx_r = __pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer___init__(__pyx_self, __pyx_v_self, __pyx_v_width, __pyx_v_height, __pyx_v_consumer_args);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_width, PyObject *__pyx_v_height, PyObject *__pyx_v_consumer_args) {
+static PyObject *__pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_width, PyObject *__pyx_v_height, PyObject *__pyx_v_consumer_args) {
   PyObject *__pyx_v_video_out_filename = NULL;
   PyObject *__pyx_v_fourcc = NULL;
   PyObject *__pyx_v_fd = NULL;
@@ -3157,7 +3157,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
   __Pyx_RefNannySetupContext("__init__", 0);
   __Pyx_INCREF(__pyx_v_consumer_args);
 
-  /* "event_processing/basic_consumer.pyx":22
+  /* "async_cv/event_processing/basic_consumer.pyx":22
  *         """Constructor"""
  *         # store the current frame to display with OpenCV.imshow(self.frame)
  *         self._frame_to_draw = np.zeros((height, width, 3), dtype=np.uint8)             # <<<<<<<<<<<<<<
@@ -3202,7 +3202,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_frame_to_draw, __pyx_t_5) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "event_processing/basic_consumer.pyx":24
+  /* "async_cv/event_processing/basic_consumer.pyx":24
  *         self._frame_to_draw = np.zeros((height, width, 3), dtype=np.uint8)
  * 
  *         self.frame_count = 0             # <<<<<<<<<<<<<<
@@ -3211,7 +3211,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_frame_count, __pyx_int_0) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
 
-  /* "event_processing/basic_consumer.pyx":25
+  /* "async_cv/event_processing/basic_consumer.pyx":25
  * 
  *         self.frame_count = 0
  *         self.events_this_frame = 0             # <<<<<<<<<<<<<<
@@ -3220,7 +3220,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_events_this_frame, __pyx_int_0) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
 
-  /* "event_processing/basic_consumer.pyx":27
+  /* "async_cv/event_processing/basic_consumer.pyx":27
  *         self.events_this_frame = 0
  * 
  *         if consumer_args is None:             # <<<<<<<<<<<<<<
@@ -3231,7 +3231,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
   __pyx_t_7 = (__pyx_t_6 != 0);
   if (__pyx_t_7) {
 
-    /* "event_processing/basic_consumer.pyx":28
+    /* "async_cv/event_processing/basic_consumer.pyx":28
  * 
  *         if consumer_args is None:
  *             consumer_args = {}             # <<<<<<<<<<<<<<
@@ -3243,7 +3243,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
     __Pyx_DECREF_SET(__pyx_v_consumer_args, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "event_processing/basic_consumer.pyx":27
+    /* "async_cv/event_processing/basic_consumer.pyx":27
  *         self.events_this_frame = 0
  * 
  *         if consumer_args is None:             # <<<<<<<<<<<<<<
@@ -3252,7 +3252,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
  */
   }
 
-  /* "event_processing/basic_consumer.pyx":31
+  /* "async_cv/event_processing/basic_consumer.pyx":31
  * 
  *         # what kind of objects will we check against?
  *         self._targets = consumer_args.get('targets', ['vessel'])             # <<<<<<<<<<<<<<
@@ -3316,7 +3316,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_targets_2, __pyx_t_5) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "event_processing/basic_consumer.pyx":34
+  /* "async_cv/event_processing/basic_consumer.pyx":34
  * 
  *         # ground truth gathered from annotations
  *         self._ground_truth = []             # <<<<<<<<<<<<<<
@@ -3328,7 +3328,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_ground_truth, __pyx_t_5) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "event_processing/basic_consumer.pyx":36
+  /* "async_cv/event_processing/basic_consumer.pyx":36
  *         self._ground_truth = []
  *         # detections to collect if objects are detected
  *         self._detections = []             # <<<<<<<<<<<<<<
@@ -3340,7 +3340,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_detections, __pyx_t_5) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "event_processing/basic_consumer.pyx":39
+  /* "async_cv/event_processing/basic_consumer.pyx":39
  * 
  *         # process consumer args
  *         self.annotations = []             # <<<<<<<<<<<<<<
@@ -3352,7 +3352,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_annotations, __pyx_t_5) < 0) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "event_processing/basic_consumer.pyx":40
+  /* "async_cv/event_processing/basic_consumer.pyx":40
  *         # process consumer args
  *         self.annotations = []
  *         self.annotations_version = {}             # <<<<<<<<<<<<<<
@@ -3364,7 +3364,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_annotations_version, __pyx_t_5) < 0) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "event_processing/basic_consumer.pyx":41
+  /* "async_cv/event_processing/basic_consumer.pyx":41
  *         self.annotations = []
  *         self.annotations_version = {}
  *         self.annotations_meta = {}             # <<<<<<<<<<<<<<
@@ -3376,7 +3376,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_annotations_meta, __pyx_t_5) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "event_processing/basic_consumer.pyx":42
+  /* "async_cv/event_processing/basic_consumer.pyx":42
  *         self.annotations_version = {}
  *         self.annotations_meta = {}
  *         self.video_out = None             # <<<<<<<<<<<<<<
@@ -3385,7 +3385,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_video_out, Py_None) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
 
-  /* "event_processing/basic_consumer.pyx":44
+  /* "async_cv/event_processing/basic_consumer.pyx":44
  *         self.video_out = None
  * 
  *         self._run_name = consumer_args.get('run_name', 'test')             # <<<<<<<<<<<<<<
@@ -3400,7 +3400,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_run_name_2, __pyx_t_1) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "event_processing/basic_consumer.pyx":45
+  /* "async_cv/event_processing/basic_consumer.pyx":45
  * 
  *         self._run_name = consumer_args.get('run_name', 'test')
  *         print(f'Starting run "{self._run_name}"')             # <<<<<<<<<<<<<<
@@ -3437,7 +3437,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "event_processing/basic_consumer.pyx":47
+  /* "async_cv/event_processing/basic_consumer.pyx":47
  *         print(f'Starting run "{self._run_name}"')
  * 
  *         self.show_metrics = consumer_args.get('show_metrics', False)             # <<<<<<<<<<<<<<
@@ -3452,7 +3452,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_show_metrics, __pyx_t_4) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "event_processing/basic_consumer.pyx":49
+  /* "async_cv/event_processing/basic_consumer.pyx":49
  *         self.show_metrics = consumer_args.get('show_metrics', False)
  * 
  *         if 'video_out' in consumer_args and consumer_args['video_out']:             # <<<<<<<<<<<<<<
@@ -3474,7 +3474,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
   __pyx_L5_bool_binop_done:;
   if (__pyx_t_7) {
 
-    /* "event_processing/basic_consumer.pyx":51
+    /* "async_cv/event_processing/basic_consumer.pyx":51
  *         if 'video_out' in consumer_args and consumer_args['video_out']:
  *             # create directories if necessary
  *             if not os.path.isdir('output'):             # <<<<<<<<<<<<<<
@@ -3509,7 +3509,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
     __pyx_t_11 = ((!__pyx_t_7) != 0);
     if (__pyx_t_11) {
 
-      /* "event_processing/basic_consumer.pyx":52
+      /* "async_cv/event_processing/basic_consumer.pyx":52
  *             # create directories if necessary
  *             if not os.path.isdir('output'):
  *                 os.makedirs('output')             # <<<<<<<<<<<<<<
@@ -3538,7 +3538,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "event_processing/basic_consumer.pyx":51
+      /* "async_cv/event_processing/basic_consumer.pyx":51
  *         if 'video_out' in consumer_args and consumer_args['video_out']:
  *             # create directories if necessary
  *             if not os.path.isdir('output'):             # <<<<<<<<<<<<<<
@@ -3547,7 +3547,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
  */
     }
 
-    /* "event_processing/basic_consumer.pyx":54
+    /* "async_cv/event_processing/basic_consumer.pyx":54
  *                 os.makedirs('output')
  * 
  *             video_out_filename = self._run_name+'.avi'             # <<<<<<<<<<<<<<
@@ -3562,7 +3562,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
     __pyx_v_video_out_filename = __pyx_t_5;
     __pyx_t_5 = 0;
 
-    /* "event_processing/basic_consumer.pyx":57
+    /* "async_cv/event_processing/basic_consumer.pyx":57
  * 
  *             # Define the codec and create VideoWriter object
  *             fourcc = cv2.VideoWriter_fourcc(*'XVID')             # <<<<<<<<<<<<<<
@@ -3583,7 +3583,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
     __pyx_v_fourcc = __pyx_t_1;
     __pyx_t_1 = 0;
 
-    /* "event_processing/basic_consumer.pyx":58
+    /* "async_cv/event_processing/basic_consumer.pyx":58
  *             # Define the codec and create VideoWriter object
  *             fourcc = cv2.VideoWriter_fourcc(*'XVID')
  *             self.video_out = cv2.VideoWriter(f'output/{video_out_filename}', fourcc, 20, (width, height))             # <<<<<<<<<<<<<<
@@ -3666,7 +3666,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_video_out, __pyx_t_1) < 0) __PYX_ERR(0, 58, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "event_processing/basic_consumer.pyx":60
+    /* "async_cv/event_processing/basic_consumer.pyx":60
  *             self.video_out = cv2.VideoWriter(f'output/{video_out_filename}', fourcc, 20, (width, height))
  * 
  *             print(f'Saving video file \"output/{video_out_filename}\"')             # <<<<<<<<<<<<<<
@@ -3700,7 +3700,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "event_processing/basic_consumer.pyx":49
+    /* "async_cv/event_processing/basic_consumer.pyx":49
  *         self.show_metrics = consumer_args.get('show_metrics', False)
  * 
  *         if 'video_out' in consumer_args and consumer_args['video_out']:             # <<<<<<<<<<<<<<
@@ -3709,7 +3709,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
  */
   }
 
-  /* "event_processing/basic_consumer.pyx":62
+  /* "async_cv/event_processing/basic_consumer.pyx":62
  *             print(f'Saving video file \"output/{video_out_filename}\"')
  * 
  *         if 'annot_file' in consumer_args:             # <<<<<<<<<<<<<<
@@ -3720,7 +3720,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
   __pyx_t_7 = (__pyx_t_11 != 0);
   if (__pyx_t_7) {
 
-    /* "event_processing/basic_consumer.pyx":63
+    /* "async_cv/event_processing/basic_consumer.pyx":63
  * 
  *         if 'annot_file' in consumer_args:
  *             try:             # <<<<<<<<<<<<<<
@@ -3736,7 +3736,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
       __Pyx_XGOTREF(__pyx_t_15);
       /*try:*/ {
 
-        /* "event_processing/basic_consumer.pyx":64
+        /* "async_cv/event_processing/basic_consumer.pyx":64
  *         if 'annot_file' in consumer_args:
  *             try:
  *                 with open(consumer_args['annot_file']) as fd:             # <<<<<<<<<<<<<<
@@ -3783,7 +3783,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
                 __pyx_v_fd = __pyx_t_12;
                 __pyx_t_12 = 0;
 
-                /* "event_processing/basic_consumer.pyx":65
+                /* "async_cv/event_processing/basic_consumer.pyx":65
  *             try:
  *                 with open(consumer_args['annot_file']) as fd:
  *                     doc = xmltodict.parse(fd.read())             # <<<<<<<<<<<<<<
@@ -3831,7 +3831,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
                 __pyx_v_doc = __pyx_t_12;
                 __pyx_t_12 = 0;
 
-                /* "event_processing/basic_consumer.pyx":66
+                /* "async_cv/event_processing/basic_consumer.pyx":66
  *                 with open(consumer_args['annot_file']) as fd:
  *                     doc = xmltodict.parse(fd.read())
  *                     annot = doc['annotations']             # <<<<<<<<<<<<<<
@@ -3843,7 +3843,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
                 __pyx_v_annot = __pyx_t_12;
                 __pyx_t_12 = 0;
 
-                /* "event_processing/basic_consumer.pyx":67
+                /* "async_cv/event_processing/basic_consumer.pyx":67
  *                     doc = xmltodict.parse(fd.read())
  *                     annot = doc['annotations']
  *                     self.annotations_version = annot['version']             # <<<<<<<<<<<<<<
@@ -3855,7 +3855,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
                 if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_annotations_version, __pyx_t_12) < 0) __PYX_ERR(0, 67, __pyx_L19_error)
                 __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-                /* "event_processing/basic_consumer.pyx":68
+                /* "async_cv/event_processing/basic_consumer.pyx":68
  *                     annot = doc['annotations']
  *                     self.annotations_version = annot['version']
  *                     self.annotations_meta = annot['meta']             # <<<<<<<<<<<<<<
@@ -3867,7 +3867,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
                 if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_annotations_meta, __pyx_t_12) < 0) __PYX_ERR(0, 68, __pyx_L19_error)
                 __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-                /* "event_processing/basic_consumer.pyx":69
+                /* "async_cv/event_processing/basic_consumer.pyx":69
  *                     self.annotations_version = annot['version']
  *                     self.annotations_meta = annot['meta']
  *                     if type(annot['track']) is list:             # <<<<<<<<<<<<<<
@@ -3881,7 +3881,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
                 __pyx_t_11 = (__pyx_t_7 != 0);
                 if (__pyx_t_11) {
 
-                  /* "event_processing/basic_consumer.pyx":70
+                  /* "async_cv/event_processing/basic_consumer.pyx":70
  *                     self.annotations_meta = annot['meta']
  *                     if type(annot['track']) is list:
  *                         self.annotations = annot['track']             # <<<<<<<<<<<<<<
@@ -3893,7 +3893,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
                   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_annotations, __pyx_t_12) < 0) __PYX_ERR(0, 70, __pyx_L19_error)
                   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-                  /* "event_processing/basic_consumer.pyx":69
+                  /* "async_cv/event_processing/basic_consumer.pyx":69
  *                     self.annotations_version = annot['version']
  *                     self.annotations_meta = annot['meta']
  *                     if type(annot['track']) is list:             # <<<<<<<<<<<<<<
@@ -3903,7 +3903,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
                   goto __pyx_L25;
                 }
 
-                /* "event_processing/basic_consumer.pyx":72
+                /* "async_cv/event_processing/basic_consumer.pyx":72
  *                         self.annotations = annot['track']
  *                     else:
  *                         self.annotations = [annot['track']]             # <<<<<<<<<<<<<<
@@ -3923,7 +3923,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
                 }
                 __pyx_L25:;
 
-                /* "event_processing/basic_consumer.pyx":64
+                /* "async_cv/event_processing/basic_consumer.pyx":64
  *         if 'annot_file' in consumer_args:
  *             try:
  *                 with open(consumer_args['annot_file']) as fd:             # <<<<<<<<<<<<<<
@@ -3943,7 +3943,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
               __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
               __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
               /*except:*/ {
-                __Pyx_AddTraceback("event_processing.basic_consumer.basic_consumer.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+                __Pyx_AddTraceback("async_cv.event_processing.basic_consumer.basic_consumer.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
                 if (__Pyx_GetException(&__pyx_t_1, &__pyx_t_12, &__pyx_t_4) < 0) __PYX_ERR(0, 64, __pyx_L21_except_error)
                 __Pyx_GOTREF(__pyx_t_1);
                 __Pyx_GOTREF(__pyx_t_12);
@@ -4006,7 +4006,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
           __pyx_L29:;
         }
 
-        /* "event_processing/basic_consumer.pyx":63
+        /* "async_cv/event_processing/basic_consumer.pyx":63
  * 
  *         if 'annot_file' in consumer_args:
  *             try:             # <<<<<<<<<<<<<<
@@ -4026,7 +4026,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "event_processing/basic_consumer.pyx":73
+      /* "async_cv/event_processing/basic_consumer.pyx":73
  *                     else:
  *                         self.annotations = [annot['track']]
  *             except FileNotFoundError:             # <<<<<<<<<<<<<<
@@ -4041,13 +4041,13 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
       __Pyx_ErrRestore(__pyx_t_4, __pyx_t_12, __pyx_t_1);
       __pyx_t_4 = 0; __pyx_t_12 = 0; __pyx_t_1 = 0;
       if (__pyx_t_8) {
-        __Pyx_AddTraceback("event_processing.basic_consumer.basic_consumer.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+        __Pyx_AddTraceback("async_cv.event_processing.basic_consumer.basic_consumer.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
         if (__Pyx_GetException(&__pyx_t_1, &__pyx_t_12, &__pyx_t_4) < 0) __PYX_ERR(0, 73, __pyx_L11_except_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_GOTREF(__pyx_t_12);
         __Pyx_GOTREF(__pyx_t_4);
 
-        /* "event_processing/basic_consumer.pyx":74
+        /* "async_cv/event_processing/basic_consumer.pyx":74
  *                         self.annotations = [annot['track']]
  *             except FileNotFoundError:
  *                 print(f'Annotation file "{consumer_args["annot_file"]}" not found.')             # <<<<<<<<<<<<<<
@@ -4091,7 +4091,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
       goto __pyx_L11_except_error;
       __pyx_L11_except_error:;
 
-      /* "event_processing/basic_consumer.pyx":63
+      /* "async_cv/event_processing/basic_consumer.pyx":63
  * 
  *         if 'annot_file' in consumer_args:
  *             try:             # <<<<<<<<<<<<<<
@@ -4111,7 +4111,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
       __pyx_L14_try_end:;
     }
 
-    /* "event_processing/basic_consumer.pyx":62
+    /* "async_cv/event_processing/basic_consumer.pyx":62
  *             print(f'Saving video file \"output/{video_out_filename}\"')
  * 
  *         if 'annot_file' in consumer_args:             # <<<<<<<<<<<<<<
@@ -4120,7 +4120,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
  */
   }
 
-  /* "event_processing/basic_consumer.pyx":19
+  /* "async_cv/event_processing/basic_consumer.pyx":19
  *     Override this class to define alternative event processing functionality
  *     """
  *     def __init__(self, width, height, consumer_args=None):             # <<<<<<<<<<<<<<
@@ -4138,7 +4138,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_12);
-  __Pyx_AddTraceback("event_processing.basic_consumer.basic_consumer.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("async_cv.event_processing.basic_consumer.basic_consumer.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_video_out_filename);
@@ -4152,7 +4152,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
   return __pyx_r;
 }
 
-/* "event_processing/basic_consumer.pyx":76
+/* "async_cv/event_processing/basic_consumer.pyx":76
  *                 print(f'Annotation file "{consumer_args["annot_file"]}" not found.')
  * 
  *     def metavision_event_callback(self, ts, src_events, src_2d_arrays):             # <<<<<<<<<<<<<<
@@ -4161,10 +4161,10 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer__
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_3metavision_event_callback(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_16event_processing_14basic_consumer_14basic_consumer_2metavision_event_callback[] = "Function to pass as a callback to use as an event consumer with \n            Metavision Designer.\n\n        Args:\n            ts: This is the timestamp of the end of the buffer.\n                All events included in this callback will have a timestamp \n                strictly lower than ts\n            src_events: Dictionary containing a list for each component \n                associated with the PythonConsumer.\n                The label of each item in the dictionary is the name passed \n                when adding a new source to the PythonConsumer.\n            src_2d_arrays: Frame producer output. Will be ignored.\n        ";
-static PyMethodDef __pyx_mdef_16event_processing_14basic_consumer_14basic_consumer_3metavision_event_callback = {"metavision_event_callback", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_3metavision_event_callback, METH_VARARGS|METH_KEYWORDS, __pyx_doc_16event_processing_14basic_consumer_14basic_consumer_2metavision_event_callback};
-static PyObject *__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_3metavision_event_callback(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_3metavision_event_callback(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8async_cv_16event_processing_14basic_consumer_14basic_consumer_2metavision_event_callback[] = "Function to pass as a callback to use as an event consumer with \n            Metavision Designer.\n\n        Args:\n            ts: This is the timestamp of the end of the buffer.\n                All events included in this callback will have a timestamp \n                strictly lower than ts\n            src_events: Dictionary containing a list for each component \n                associated with the PythonConsumer.\n                The label of each item in the dictionary is the name passed \n                when adding a new source to the PythonConsumer.\n            src_2d_arrays: Frame producer output. Will be ignored.\n        ";
+static PyMethodDef __pyx_mdef_8async_cv_16event_processing_14basic_consumer_14basic_consumer_3metavision_event_callback = {"metavision_event_callback", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_3metavision_event_callback, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8async_cv_16event_processing_14basic_consumer_14basic_consumer_2metavision_event_callback};
+static PyObject *__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_3metavision_event_callback(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_ts = 0;
   PyObject *__pyx_v_src_events = 0;
@@ -4237,18 +4237,18 @@ static PyObject *__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_3
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("metavision_event_callback", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 76, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("event_processing.basic_consumer.basic_consumer.metavision_event_callback", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("async_cv.event_processing.basic_consumer.basic_consumer.metavision_event_callback", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_16event_processing_14basic_consumer_14basic_consumer_2metavision_event_callback(__pyx_self, __pyx_v_self, __pyx_v_ts, __pyx_v_src_events, __pyx_v_src_2d_arrays);
+  __pyx_r = __pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer_2metavision_event_callback(__pyx_self, __pyx_v_self, __pyx_v_ts, __pyx_v_src_events, __pyx_v_src_2d_arrays);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_2metavision_event_callback(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_ts, PyObject *__pyx_v_src_events, PyObject *__pyx_v_src_2d_arrays) {
+static PyObject *__pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer_2metavision_event_callback(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_ts, PyObject *__pyx_v_src_events, PyObject *__pyx_v_src_2d_arrays) {
   PyObject *__pyx_v_event_buffer = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -4265,7 +4265,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_2
   __Pyx_RefNannySetupContext("metavision_event_callback", 0);
   __Pyx_INCREF(__pyx_v_src_2d_arrays);
 
-  /* "event_processing/basic_consumer.pyx":91
+  /* "async_cv/event_processing/basic_consumer.pyx":91
  *         """
  *         # ignore frame producer output
  *         del src_2d_arrays             # <<<<<<<<<<<<<<
@@ -4275,7 +4275,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_2
   __Pyx_DECREF(__pyx_v_src_2d_arrays);
   __pyx_v_src_2d_arrays = NULL;
 
-  /* "event_processing/basic_consumer.pyx":93
+  /* "async_cv/event_processing/basic_consumer.pyx":93
  *         del src_2d_arrays
  *         # Prepare events for processing
  *         if "CDProd" in src_events:             # <<<<<<<<<<<<<<
@@ -4286,7 +4286,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_2
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "event_processing/basic_consumer.pyx":95
+    /* "async_cv/event_processing/basic_consumer.pyx":95
  *         if "CDProd" in src_events:
  *             # the actual event buffer data
  *             event_buffer = src_events["CDProd"][2]             # <<<<<<<<<<<<<<
@@ -4301,7 +4301,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_2
     __pyx_v_event_buffer = __pyx_t_4;
     __pyx_t_4 = 0;
 
-    /* "event_processing/basic_consumer.pyx":97
+    /* "async_cv/event_processing/basic_consumer.pyx":97
  *             event_buffer = src_events["CDProd"][2]
  *             # appropriately process the events
  *             self.process_buffers(ts, event_buffer)             # <<<<<<<<<<<<<<
@@ -4357,7 +4357,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_2
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "event_processing/basic_consumer.pyx":93
+    /* "async_cv/event_processing/basic_consumer.pyx":93
  *         del src_2d_arrays
  *         # Prepare events for processing
  *         if "CDProd" in src_events:             # <<<<<<<<<<<<<<
@@ -4366,7 +4366,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_2
  */
   }
 
-  /* "event_processing/basic_consumer.pyx":76
+  /* "async_cv/event_processing/basic_consumer.pyx":76
  *                 print(f'Annotation file "{consumer_args["annot_file"]}" not found.')
  * 
  *     def metavision_event_callback(self, ts, src_events, src_2d_arrays):             # <<<<<<<<<<<<<<
@@ -4382,7 +4382,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_2
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_AddTraceback("event_processing.basic_consumer.basic_consumer.metavision_event_callback", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("async_cv.event_processing.basic_consumer.basic_consumer.metavision_event_callback", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_event_buffer);
@@ -4392,7 +4392,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_2
   return __pyx_r;
 }
 
-/* "event_processing/basic_consumer.pyx":99
+/* "async_cv/event_processing/basic_consumer.pyx":99
  *             self.process_buffers(ts, event_buffer)
  * 
  *     def process_buffers(self, ts, event_buffer, frame_buffer=None):             # <<<<<<<<<<<<<<
@@ -4401,10 +4401,10 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_2
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_5process_buffers(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_16event_processing_14basic_consumer_14basic_consumer_4process_buffers[] = "Callback method to override to process events.\n        \n        Args:\n            ts: This is the timestamp of the end of the buffer.\n                All events included in this callback will have a timestamp \n                strictly lower than ts.\n            event_buffer: Array of events as tuples of the form \n                ('x','y','p','t').\n            frame_buffer: Array of greyscale pixels if captured by a \n                conventional image chip.\n        ";
-static PyMethodDef __pyx_mdef_16event_processing_14basic_consumer_14basic_consumer_5process_buffers = {"process_buffers", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_5process_buffers, METH_VARARGS|METH_KEYWORDS, __pyx_doc_16event_processing_14basic_consumer_14basic_consumer_4process_buffers};
-static PyObject *__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_5process_buffers(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_5process_buffers(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8async_cv_16event_processing_14basic_consumer_14basic_consumer_4process_buffers[] = "Callback method to override to process events.\n        \n        Args:\n            ts: This is the timestamp of the end of the buffer.\n                All events included in this callback will have a timestamp \n                strictly lower than ts.\n            event_buffer: Array of events as tuples of the form \n                ('x','y','p','t').\n            frame_buffer: Array of greyscale pixels if captured by a \n                conventional image chip.\n        ";
+static PyMethodDef __pyx_mdef_8async_cv_16event_processing_14basic_consumer_14basic_consumer_5process_buffers = {"process_buffers", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_5process_buffers, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8async_cv_16event_processing_14basic_consumer_14basic_consumer_4process_buffers};
+static PyObject *__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_5process_buffers(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_ts = 0;
   PyObject *__pyx_v_event_buffer = 0;
@@ -4481,18 +4481,18 @@ static PyObject *__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_5
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("process_buffers", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 99, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("event_processing.basic_consumer.basic_consumer.process_buffers", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("async_cv.event_processing.basic_consumer.basic_consumer.process_buffers", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_16event_processing_14basic_consumer_14basic_consumer_4process_buffers(__pyx_self, __pyx_v_self, __pyx_v_ts, __pyx_v_event_buffer, __pyx_v_frame_buffer);
+  __pyx_r = __pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer_4process_buffers(__pyx_self, __pyx_v_self, __pyx_v_ts, __pyx_v_event_buffer, __pyx_v_frame_buffer);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_4process_buffers(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_ts, PyObject *__pyx_v_event_buffer, PyObject *__pyx_v_frame_buffer) {
+static PyObject *__pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer_4process_buffers(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_ts, PyObject *__pyx_v_event_buffer, PyObject *__pyx_v_frame_buffer) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -4505,7 +4505,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_4
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("process_buffers", 0);
 
-  /* "event_processing/basic_consumer.pyx":112
+  /* "async_cv/event_processing/basic_consumer.pyx":112
  *         """
  *         # draw the frame we received from frame_buffer
  *         self.init_frame(frame_buffer)             # <<<<<<<<<<<<<<
@@ -4531,7 +4531,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_4
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "event_processing/basic_consumer.pyx":114
+  /* "async_cv/event_processing/basic_consumer.pyx":114
  *         self.init_frame(frame_buffer)
  *         # process events accordingly
  *         self.process_event_buffer(ts, event_buffer)             # <<<<<<<<<<<<<<
@@ -4587,7 +4587,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_4
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "event_processing/basic_consumer.pyx":99
+  /* "async_cv/event_processing/basic_consumer.pyx":99
  *             self.process_buffers(ts, event_buffer)
  * 
  *     def process_buffers(self, ts, event_buffer, frame_buffer=None):             # <<<<<<<<<<<<<<
@@ -4603,7 +4603,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_4
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("event_processing.basic_consumer.basic_consumer.process_buffers", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("async_cv.event_processing.basic_consumer.basic_consumer.process_buffers", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4611,7 +4611,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_4
   return __pyx_r;
 }
 
-/* "event_processing/basic_consumer.pyx":116
+/* "async_cv/event_processing/basic_consumer.pyx":116
  *         self.process_event_buffer(ts, event_buffer)
  * 
  *     def init_frame(self, frame_buffer=None):             # <<<<<<<<<<<<<<
@@ -4620,9 +4620,9 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_4
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_7init_frame(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_16event_processing_14basic_consumer_14basic_consumer_7init_frame = {"init_frame", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_7init_frame, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_7init_frame(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_7init_frame(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_8async_cv_16event_processing_14basic_consumer_14basic_consumer_7init_frame = {"init_frame", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_7init_frame, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_7init_frame(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_frame_buffer = 0;
   int __pyx_lineno = 0;
@@ -4677,18 +4677,18 @@ static PyObject *__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_7
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("init_frame", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 116, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("event_processing.basic_consumer.basic_consumer.init_frame", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("async_cv.event_processing.basic_consumer.basic_consumer.init_frame", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6init_frame(__pyx_self, __pyx_v_self, __pyx_v_frame_buffer);
+  __pyx_r = __pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer_6init_frame(__pyx_self, __pyx_v_self, __pyx_v_frame_buffer);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6init_frame(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_frame_buffer) {
+static PyObject *__pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer_6init_frame(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_frame_buffer) {
   Py_ssize_t __pyx_v_i;
   PyObject *__pyx_v_box_frames = NULL;
   PyObject *__pyx_v_label = NULL;
@@ -4721,7 +4721,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("init_frame", 0);
 
-  /* "event_processing/basic_consumer.pyx":118
+  /* "async_cv/event_processing/basic_consumer.pyx":118
  *     def init_frame(self, frame_buffer=None):
  *         # if we have a frame_buffer, start with that
  *         if frame_buffer is not None:             # <<<<<<<<<<<<<<
@@ -4732,7 +4732,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "event_processing/basic_consumer.pyx":120
+    /* "async_cv/event_processing/basic_consumer.pyx":120
  *         if frame_buffer is not None:
  *             # assume greyscale framebuffer and repeat color channels
  *             self._frame_to_draw = np.repeat(frame_buffer, 3, 2)             # <<<<<<<<<<<<<<
@@ -4795,7 +4795,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_frame_to_draw, __pyx_t_3) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "event_processing/basic_consumer.pyx":118
+    /* "async_cv/event_processing/basic_consumer.pyx":118
  *     def init_frame(self, frame_buffer=None):
  *         # if we have a frame_buffer, start with that
  *         if frame_buffer is not None:             # <<<<<<<<<<<<<<
@@ -4805,7 +4805,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
     goto __pyx_L3;
   }
 
-  /* "event_processing/basic_consumer.pyx":123
+  /* "async_cv/event_processing/basic_consumer.pyx":123
  *         # otherwise fill frame with grey
  *         else:
  *             self._frame_to_draw.fill(80)             # <<<<<<<<<<<<<<
@@ -4837,7 +4837,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
   }
   __pyx_L3:;
 
-  /* "event_processing/basic_consumer.pyx":126
+  /* "async_cv/event_processing/basic_consumer.pyx":126
  * 
  *         # read annotations
  *         for i in range(len(self.annotations)):             # <<<<<<<<<<<<<<
@@ -4852,7 +4852,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
   for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
     __pyx_v_i = __pyx_t_10;
 
-    /* "event_processing/basic_consumer.pyx":127
+    /* "async_cv/event_processing/basic_consumer.pyx":127
  *         # read annotations
  *         for i in range(len(self.annotations)):
  *             box_frames = list(self.annotations[i]['box'])             # <<<<<<<<<<<<<<
@@ -4873,7 +4873,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
     __Pyx_XDECREF_SET(__pyx_v_box_frames, ((PyObject*)__pyx_t_7));
     __pyx_t_7 = 0;
 
-    /* "event_processing/basic_consumer.pyx":128
+    /* "async_cv/event_processing/basic_consumer.pyx":128
  *         for i in range(len(self.annotations)):
  *             box_frames = list(self.annotations[i]['box'])
  *             label = self.annotations[i]['@label']             # <<<<<<<<<<<<<<
@@ -4891,7 +4891,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
     __Pyx_XDECREF_SET(__pyx_v_label, __pyx_t_7);
     __pyx_t_7 = 0;
 
-    /* "event_processing/basic_consumer.pyx":129
+    /* "async_cv/event_processing/basic_consumer.pyx":129
  *             box_frames = list(self.annotations[i]['box'])
  *             label = self.annotations[i]['@label']
  *             color = (200, 200, 200)             # <<<<<<<<<<<<<<
@@ -4901,7 +4901,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
     __Pyx_INCREF(__pyx_tuple__5);
     __Pyx_XDECREF_SET(__pyx_v_color, __pyx_tuple__5);
 
-    /* "event_processing/basic_consumer.pyx":132
+    /* "async_cv/event_processing/basic_consumer.pyx":132
  * 
  *             # sync properly by frame number
  *             is_in_frame = False             # <<<<<<<<<<<<<<
@@ -4910,7 +4910,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
  */
     __pyx_v_is_in_frame = 0;
 
-    /* "event_processing/basic_consumer.pyx":133
+    /* "async_cv/event_processing/basic_consumer.pyx":133
  *             # sync properly by frame number
  *             is_in_frame = False
  *             for box in box_frames:             # <<<<<<<<<<<<<<
@@ -4929,7 +4929,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
       __Pyx_XDECREF_SET(__pyx_v_box, __pyx_t_3);
       __pyx_t_3 = 0;
 
-      /* "event_processing/basic_consumer.pyx":134
+      /* "async_cv/event_processing/basic_consumer.pyx":134
  *             is_in_frame = False
  *             for box in box_frames:
  *                 if int(box['@frame']) == self.frame_count:             # <<<<<<<<<<<<<<
@@ -4950,7 +4950,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_2) {
 
-        /* "event_processing/basic_consumer.pyx":135
+        /* "async_cv/event_processing/basic_consumer.pyx":135
  *             for box in box_frames:
  *                 if int(box['@frame']) == self.frame_count:
  *                     is_in_frame = True             # <<<<<<<<<<<<<<
@@ -4959,7 +4959,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
  */
         __pyx_v_is_in_frame = 1;
 
-        /* "event_processing/basic_consumer.pyx":136
+        /* "async_cv/event_processing/basic_consumer.pyx":136
  *                 if int(box['@frame']) == self.frame_count:
  *                     is_in_frame = True
  *                     break             # <<<<<<<<<<<<<<
@@ -4968,7 +4968,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
  */
         goto __pyx_L7_break;
 
-        /* "event_processing/basic_consumer.pyx":134
+        /* "async_cv/event_processing/basic_consumer.pyx":134
  *             is_in_frame = False
  *             for box in box_frames:
  *                 if int(box['@frame']) == self.frame_count:             # <<<<<<<<<<<<<<
@@ -4977,7 +4977,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
  */
       }
 
-      /* "event_processing/basic_consumer.pyx":133
+      /* "async_cv/event_processing/basic_consumer.pyx":133
  *             # sync properly by frame number
  *             is_in_frame = False
  *             for box in box_frames:             # <<<<<<<<<<<<<<
@@ -4988,7 +4988,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
     __pyx_L7_break:;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "event_processing/basic_consumer.pyx":137
+    /* "async_cv/event_processing/basic_consumer.pyx":137
  *                     is_in_frame = True
  *                     break
  *             if not is_in_frame:             # <<<<<<<<<<<<<<
@@ -4998,7 +4998,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
     __pyx_t_2 = ((!(__pyx_v_is_in_frame != 0)) != 0);
     if (__pyx_t_2) {
 
-      /* "event_processing/basic_consumer.pyx":138
+      /* "async_cv/event_processing/basic_consumer.pyx":138
  *                     break
  *             if not is_in_frame:
  *                 continue             # <<<<<<<<<<<<<<
@@ -5007,7 +5007,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
  */
       goto __pyx_L4_continue;
 
-      /* "event_processing/basic_consumer.pyx":137
+      /* "async_cv/event_processing/basic_consumer.pyx":137
  *                     is_in_frame = True
  *                     break
  *             if not is_in_frame:             # <<<<<<<<<<<<<<
@@ -5016,7 +5016,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
  */
     }
 
-    /* "event_processing/basic_consumer.pyx":141
+    /* "async_cv/event_processing/basic_consumer.pyx":141
  * 
  *             # read box info
  *             xtl = int(float(box['@xtl']))             # <<<<<<<<<<<<<<
@@ -5035,7 +5035,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
     __Pyx_XDECREF_SET(__pyx_v_xtl, __pyx_t_7);
     __pyx_t_7 = 0;
 
-    /* "event_processing/basic_consumer.pyx":142
+    /* "async_cv/event_processing/basic_consumer.pyx":142
  *             # read box info
  *             xtl = int(float(box['@xtl']))
  *             ytl = int(float(box['@ytl']))             # <<<<<<<<<<<<<<
@@ -5054,7 +5054,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
     __Pyx_XDECREF_SET(__pyx_v_ytl, __pyx_t_7);
     __pyx_t_7 = 0;
 
-    /* "event_processing/basic_consumer.pyx":143
+    /* "async_cv/event_processing/basic_consumer.pyx":143
  *             xtl = int(float(box['@xtl']))
  *             ytl = int(float(box['@ytl']))
  *             xbr = int(float(box['@xbr']))             # <<<<<<<<<<<<<<
@@ -5073,7 +5073,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
     __Pyx_XDECREF_SET(__pyx_v_xbr, __pyx_t_7);
     __pyx_t_7 = 0;
 
-    /* "event_processing/basic_consumer.pyx":144
+    /* "async_cv/event_processing/basic_consumer.pyx":144
  *             ytl = int(float(box['@ytl']))
  *             xbr = int(float(box['@xbr']))
  *             ybr = int(float(box['@ybr']))             # <<<<<<<<<<<<<<
@@ -5092,7 +5092,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
     __Pyx_XDECREF_SET(__pyx_v_ybr, __pyx_t_7);
     __pyx_t_7 = 0;
 
-    /* "event_processing/basic_consumer.pyx":146
+    /* "async_cv/event_processing/basic_consumer.pyx":146
  *             ybr = int(float(box['@ybr']))
  *             # draw box on frame
  *             cv2.rectangle(self._frame_to_draw, (xtl, ytl), (xbr, ybr), color)             # <<<<<<<<<<<<<<
@@ -5181,7 +5181,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "event_processing/basic_consumer.pyx":147
+    /* "async_cv/event_processing/basic_consumer.pyx":147
  *             # draw box on frame
  *             cv2.rectangle(self._frame_to_draw, (xtl, ytl), (xbr, ybr), color)
  *             cv2.putText(self._frame_to_draw, label, (xtl, ytl), cv2.FONT_HERSHEY_PLAIN,             # <<<<<<<<<<<<<<
@@ -5209,7 +5209,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "event_processing/basic_consumer.pyx":148
+    /* "async_cv/event_processing/basic_consumer.pyx":148
  *             cv2.rectangle(self._frame_to_draw, (xtl, ytl), (xbr, ybr), color)
  *             cv2.putText(self._frame_to_draw, label, (xtl, ytl), cv2.FONT_HERSHEY_PLAIN,
  *                 0.5, color, 1, cv2.LINE_AA)             # <<<<<<<<<<<<<<
@@ -5294,7 +5294,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "event_processing/basic_consumer.pyx":151
+    /* "async_cv/event_processing/basic_consumer.pyx":151
  * 
  *             # save the ground truth bb if applicable
  *             if hasattr(self, 'save_ground_truth'):             # <<<<<<<<<<<<<<
@@ -5305,7 +5305,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
     __pyx_t_1 = (__pyx_t_2 != 0);
     if (__pyx_t_1) {
 
-      /* "event_processing/basic_consumer.pyx":152
+      /* "async_cv/event_processing/basic_consumer.pyx":152
  *             # save the ground truth bb if applicable
  *             if hasattr(self, 'save_ground_truth'):
  *                 self.save_ground_truth(label, xtl, ytl, xbr, ybr)             # <<<<<<<<<<<<<<
@@ -5370,7 +5370,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "event_processing/basic_consumer.pyx":151
+      /* "async_cv/event_processing/basic_consumer.pyx":151
  * 
  *             # save the ground truth bb if applicable
  *             if hasattr(self, 'save_ground_truth'):             # <<<<<<<<<<<<<<
@@ -5381,7 +5381,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
     __pyx_L4_continue:;
   }
 
-  /* "event_processing/basic_consumer.pyx":155
+  /* "async_cv/event_processing/basic_consumer.pyx":155
  * 
  *         # ensure the frame is contiguous for C processing
  *         self._frame_to_draw = np.ascontiguousarray(self._frame_to_draw, dtype=np.uint8)             # <<<<<<<<<<<<<<
@@ -5417,7 +5417,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_frame_to_draw, __pyx_t_4) < 0) __PYX_ERR(0, 155, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "event_processing/basic_consumer.pyx":116
+  /* "async_cv/event_processing/basic_consumer.pyx":116
  *         self.process_event_buffer(ts, event_buffer)
  * 
  *     def init_frame(self, frame_buffer=None):             # <<<<<<<<<<<<<<
@@ -5437,7 +5437,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
   __Pyx_XDECREF(__pyx_t_13);
   __Pyx_XDECREF(__pyx_t_14);
   __Pyx_XDECREF(__pyx_t_15);
-  __Pyx_AddTraceback("event_processing.basic_consumer.basic_consumer.init_frame", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("async_cv.event_processing.basic_consumer.basic_consumer.init_frame", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_box_frames);
@@ -5453,7 +5453,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
   return __pyx_r;
 }
 
-/* "event_processing/basic_consumer.pyx":157
+/* "async_cv/event_processing/basic_consumer.pyx":157
  *         self._frame_to_draw = np.ascontiguousarray(self._frame_to_draw, dtype=np.uint8)
  * 
  *     def process_event_buffer(self, ts, event[:] event_buffer):             # <<<<<<<<<<<<<<
@@ -5462,9 +5462,9 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_6
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_9process_event_buffer(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_16event_processing_14basic_consumer_14basic_consumer_9process_event_buffer = {"process_event_buffer", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_9process_event_buffer, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_9process_event_buffer(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_9process_event_buffer(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_8async_cv_16event_processing_14basic_consumer_14basic_consumer_9process_event_buffer = {"process_event_buffer", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_9process_event_buffer, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_9process_event_buffer(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_ts = 0;
   __Pyx_memviewslice __pyx_v_event_buffer = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -5520,28 +5520,28 @@ static PyObject *__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_9
     }
     __pyx_v_self = values[0];
     __pyx_v_ts = values[1];
-    __pyx_v_event_buffer = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_struct____pyx_t_16event_processing_14basic_consumer_event(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_event_buffer.memview)) __PYX_ERR(0, 157, __pyx_L3_error)
+    __pyx_v_event_buffer = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_event_buffer.memview)) __PYX_ERR(0, 157, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("process_event_buffer", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 157, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("event_processing.basic_consumer.basic_consumer.process_event_buffer", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("async_cv.event_processing.basic_consumer.basic_consumer.process_event_buffer", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_16event_processing_14basic_consumer_14basic_consumer_8process_event_buffer(__pyx_self, __pyx_v_self, __pyx_v_ts, __pyx_v_event_buffer);
+  __pyx_r = __pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer_8process_event_buffer(__pyx_self, __pyx_v_self, __pyx_v_ts, __pyx_v_event_buffer);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_8process_event_buffer(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_ts, __Pyx_memviewslice __pyx_v_event_buffer) {
+static PyObject *__pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer_8process_event_buffer(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_ts, __Pyx_memviewslice __pyx_v_event_buffer) {
   int __pyx_v_num_events;
   double __pyx_v_start;
   double __pyx_v_ms;
-  struct __pyx_t_16event_processing_14basic_consumer_event __pyx_v_e;
+  struct __pyx_t_8async_cv_16event_processing_14basic_consumer_event __pyx_v_e;
   unsigned char __pyx_v_color;
   PyArrayObject *__pyx_v_frame = 0;
   int __pyx_v_i;
@@ -5574,7 +5574,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_8
   __pyx_pybuffernd_frame.data = NULL;
   __pyx_pybuffernd_frame.rcbuffer = &__pyx_pybuffer_frame;
 
-  /* "event_processing/basic_consumer.pyx":159
+  /* "async_cv/event_processing/basic_consumer.pyx":159
  *     def process_event_buffer(self, ts, event[:] event_buffer):
  *         # we don't care about ts
  *         del ts             # <<<<<<<<<<<<<<
@@ -5584,7 +5584,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_8
   __Pyx_DECREF(__pyx_v_ts);
   __pyx_v_ts = NULL;
 
-  /* "event_processing/basic_consumer.pyx":161
+  /* "async_cv/event_processing/basic_consumer.pyx":161
  *         del ts
  * 
  *         cdef int num_events = len(event_buffer)             # <<<<<<<<<<<<<<
@@ -5594,7 +5594,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_8
   __pyx_t_1 = __Pyx_MemoryView_Len(__pyx_v_event_buffer); 
   __pyx_v_num_events = __pyx_t_1;
 
-  /* "event_processing/basic_consumer.pyx":165
+  /* "async_cv/event_processing/basic_consumer.pyx":165
  *         cdef double ms
  * 
  *         start = time()             # <<<<<<<<<<<<<<
@@ -5622,7 +5622,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_8
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_start = __pyx_t_5;
 
-  /* "event_processing/basic_consumer.pyx":170
+  /* "async_cv/event_processing/basic_consumer.pyx":170
  *         cdef event e
  *         cdef unsigned char color
  *         cdef np.ndarray[unsigned char, ndim=3] frame = self._frame_to_draw             # <<<<<<<<<<<<<<
@@ -5645,7 +5645,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_8
   __pyx_v_frame = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "event_processing/basic_consumer.pyx":171
+  /* "async_cv/event_processing/basic_consumer.pyx":171
  *         cdef unsigned char color
  *         cdef np.ndarray[unsigned char, ndim=3] frame = self._frame_to_draw
  *         for i in range(num_events):             # <<<<<<<<<<<<<<
@@ -5657,7 +5657,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_8
   for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
     __pyx_v_i = __pyx_t_9;
 
-    /* "event_processing/basic_consumer.pyx":172
+    /* "async_cv/event_processing/basic_consumer.pyx":172
  *         cdef np.ndarray[unsigned char, ndim=3] frame = self._frame_to_draw
  *         for i in range(num_events):
  *             e = event_buffer[i]             # <<<<<<<<<<<<<<
@@ -5665,9 +5665,9 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_8
  *             frame[e.y, e.x, 0] = color
  */
     __pyx_t_10 = __pyx_v_i;
-    __pyx_v_e = (*((struct __pyx_t_16event_processing_14basic_consumer_event *) ( /* dim=0 */ (__pyx_v_event_buffer.data + __pyx_t_10 * __pyx_v_event_buffer.strides[0]) )));
+    __pyx_v_e = (*((struct __pyx_t_8async_cv_16event_processing_14basic_consumer_event *) ( /* dim=0 */ (__pyx_v_event_buffer.data + __pyx_t_10 * __pyx_v_event_buffer.strides[0]) )));
 
-    /* "event_processing/basic_consumer.pyx":173
+    /* "async_cv/event_processing/basic_consumer.pyx":173
  *         for i in range(num_events):
  *             e = event_buffer[i]
  *             color = e.p*255             # <<<<<<<<<<<<<<
@@ -5676,7 +5676,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_8
  */
     __pyx_v_color = (__pyx_v_e.p * 0xFF);
 
-    /* "event_processing/basic_consumer.pyx":174
+    /* "async_cv/event_processing/basic_consumer.pyx":174
  *             e = event_buffer[i]
  *             color = e.p*255
  *             frame[e.y, e.x, 0] = color             # <<<<<<<<<<<<<<
@@ -5688,7 +5688,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_8
     __pyx_t_10 = 0;
     *__Pyx_BufPtrStrided3d(unsigned char *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_11, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_10, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
 
-    /* "event_processing/basic_consumer.pyx":175
+    /* "async_cv/event_processing/basic_consumer.pyx":175
  *             color = e.p*255
  *             frame[e.y, e.x, 0] = color
  *             frame[e.y, e.x, 1] = color             # <<<<<<<<<<<<<<
@@ -5700,7 +5700,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_8
     __pyx_t_10 = 1;
     *__Pyx_BufPtrStrided3d(unsigned char *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_11, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_1, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_10, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
 
-    /* "event_processing/basic_consumer.pyx":176
+    /* "async_cv/event_processing/basic_consumer.pyx":176
  *             frame[e.y, e.x, 0] = color
  *             frame[e.y, e.x, 1] = color
  *             frame[e.y, e.x, 2] = color             # <<<<<<<<<<<<<<
@@ -5713,7 +5713,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_8
     *__Pyx_BufPtrStrided3d(unsigned char *, __pyx_pybuffernd_frame.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_frame.diminfo[0].strides, __pyx_t_11, __pyx_pybuffernd_frame.diminfo[1].strides, __pyx_t_10, __pyx_pybuffernd_frame.diminfo[2].strides) = __pyx_v_color;
   }
 
-  /* "event_processing/basic_consumer.pyx":178
+  /* "async_cv/event_processing/basic_consumer.pyx":178
  *             frame[e.y, e.x, 2] = color
  * 
  *         ms = (time() - start)*1000.0             # <<<<<<<<<<<<<<
@@ -5750,7 +5750,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_8
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_ms = __pyx_t_5;
 
-  /* "event_processing/basic_consumer.pyx":180
+  /* "async_cv/event_processing/basic_consumer.pyx":180
  *         ms = (time() - start)*1000.0
  * 
  *         stdout.write(f' Processed {num_events} events in {ms:.0f}ms.')             # <<<<<<<<<<<<<<
@@ -5815,7 +5815,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_8
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "event_processing/basic_consumer.pyx":181
+  /* "async_cv/event_processing/basic_consumer.pyx":181
  * 
  *         stdout.write(f' Processed {num_events} events in {ms:.0f}ms.')
  *         stdout.flush()             # <<<<<<<<<<<<<<
@@ -5844,7 +5844,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_8
   __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "event_processing/basic_consumer.pyx":157
+  /* "async_cv/event_processing/basic_consumer.pyx":157
  *         self._frame_to_draw = np.ascontiguousarray(self._frame_to_draw, dtype=np.uint8)
  * 
  *     def process_event_buffer(self, ts, event[:] event_buffer):             # <<<<<<<<<<<<<<
@@ -5867,7 +5867,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_8
     __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_frame.rcbuffer->pybuffer);
   __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_AddTraceback("event_processing.basic_consumer.basic_consumer.process_event_buffer", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("async_cv.event_processing.basic_consumer.basic_consumer.process_event_buffer", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   goto __pyx_L2;
   __pyx_L0:;
@@ -5881,7 +5881,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_8
   return __pyx_r;
 }
 
-/* "event_processing/basic_consumer.pyx":183
+/* "async_cv/event_processing/basic_consumer.pyx":183
  *         stdout.flush()
  * 
  *     def draw_frame(self):             # <<<<<<<<<<<<<<
@@ -5890,21 +5890,21 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_8
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_11draw_frame(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_16event_processing_14basic_consumer_14basic_consumer_10draw_frame[] = "Called from main thread to display frame";
-static PyMethodDef __pyx_mdef_16event_processing_14basic_consumer_14basic_consumer_11draw_frame = {"draw_frame", (PyCFunction)__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_11draw_frame, METH_O, __pyx_doc_16event_processing_14basic_consumer_14basic_consumer_10draw_frame};
-static PyObject *__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_11draw_frame(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_11draw_frame(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_8async_cv_16event_processing_14basic_consumer_14basic_consumer_10draw_frame[] = "Called from main thread to display frame";
+static PyMethodDef __pyx_mdef_8async_cv_16event_processing_14basic_consumer_14basic_consumer_11draw_frame = {"draw_frame", (PyCFunction)__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_11draw_frame, METH_O, __pyx_doc_8async_cv_16event_processing_14basic_consumer_14basic_consumer_10draw_frame};
+static PyObject *__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_11draw_frame(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("draw_frame (wrapper)", 0);
-  __pyx_r = __pyx_pf_16event_processing_14basic_consumer_14basic_consumer_10draw_frame(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer_10draw_frame(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_10draw_frame(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer_10draw_frame(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -5921,7 +5921,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_1
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("draw_frame", 0);
 
-  /* "event_processing/basic_consumer.pyx":187
+  /* "async_cv/event_processing/basic_consumer.pyx":187
  * 
  *         # display the frame on screen
  *         cv2.imshow(self._run_name, self._frame_to_draw)             # <<<<<<<<<<<<<<
@@ -5988,7 +5988,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_1
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "event_processing/basic_consumer.pyx":190
+  /* "async_cv/event_processing/basic_consumer.pyx":190
  * 
  *         # write the frame to the output avi
  *         if self.video_out is not None:             # <<<<<<<<<<<<<<
@@ -6002,7 +6002,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_1
   __pyx_t_9 = (__pyx_t_8 != 0);
   if (__pyx_t_9) {
 
-    /* "event_processing/basic_consumer.pyx":191
+    /* "async_cv/event_processing/basic_consumer.pyx":191
  *         # write the frame to the output avi
  *         if self.video_out is not None:
  *             self.video_out.write(self._frame_to_draw)             # <<<<<<<<<<<<<<
@@ -6034,7 +6034,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_1
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "event_processing/basic_consumer.pyx":190
+    /* "async_cv/event_processing/basic_consumer.pyx":190
  * 
  *         # write the frame to the output avi
  *         if self.video_out is not None:             # <<<<<<<<<<<<<<
@@ -6043,7 +6043,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_1
  */
   }
 
-  /* "event_processing/basic_consumer.pyx":193
+  /* "async_cv/event_processing/basic_consumer.pyx":193
  *             self.video_out.write(self._frame_to_draw)
  * 
  *         self.frame_count += 1             # <<<<<<<<<<<<<<
@@ -6058,7 +6058,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_1
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_frame_count, __pyx_t_7) < 0) __PYX_ERR(0, 193, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "event_processing/basic_consumer.pyx":194
+  /* "async_cv/event_processing/basic_consumer.pyx":194
  * 
  *         self.frame_count += 1
  *         stdout.write(f' Frame: {self.frame_count:3}')             # <<<<<<<<<<<<<<
@@ -6096,7 +6096,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_1
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "event_processing/basic_consumer.pyx":195
+  /* "async_cv/event_processing/basic_consumer.pyx":195
  *         self.frame_count += 1
  *         stdout.write(f' Frame: {self.frame_count:3}')
  *         stdout.flush()             # <<<<<<<<<<<<<<
@@ -6125,7 +6125,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_1
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "event_processing/basic_consumer.pyx":183
+  /* "async_cv/event_processing/basic_consumer.pyx":183
  *         stdout.flush()
  * 
  *     def draw_frame(self):             # <<<<<<<<<<<<<<
@@ -6143,7 +6143,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_1
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_AddTraceback("event_processing.basic_consumer.basic_consumer.draw_frame", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("async_cv.event_processing.basic_consumer.basic_consumer.draw_frame", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6151,7 +6151,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_1
   return __pyx_r;
 }
 
-/* "event_processing/basic_consumer.pyx":197
+/* "async_cv/event_processing/basic_consumer.pyx":197
  *         stdout.flush()
  * 
  *     def end(self):             # <<<<<<<<<<<<<<
@@ -6160,21 +6160,21 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_1
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_13end(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_16event_processing_14basic_consumer_14basic_consumer_12end[] = "This function will be called when execution has finished \n            (i.e. no more events to process)\n        ";
-static PyMethodDef __pyx_mdef_16event_processing_14basic_consumer_14basic_consumer_13end = {"end", (PyCFunction)__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_13end, METH_O, __pyx_doc_16event_processing_14basic_consumer_14basic_consumer_12end};
-static PyObject *__pyx_pw_16event_processing_14basic_consumer_14basic_consumer_13end(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_13end(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_8async_cv_16event_processing_14basic_consumer_14basic_consumer_12end[] = "This function will be called when execution has finished \n            (i.e. no more events to process)\n        ";
+static PyMethodDef __pyx_mdef_8async_cv_16event_processing_14basic_consumer_14basic_consumer_13end = {"end", (PyCFunction)__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_13end, METH_O, __pyx_doc_8async_cv_16event_processing_14basic_consumer_14basic_consumer_12end};
+static PyObject *__pyx_pw_8async_cv_16event_processing_14basic_consumer_14basic_consumer_13end(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("end (wrapper)", 0);
-  __pyx_r = __pyx_pf_16event_processing_14basic_consumer_14basic_consumer_12end(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer_12end(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_12end(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_8async_cv_16event_processing_14basic_consumer_14basic_consumer_12end(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -6187,7 +6187,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_1
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("end", 0);
 
-  /* "event_processing/basic_consumer.pyx":201
+  /* "async_cv/event_processing/basic_consumer.pyx":201
  *             (i.e. no more events to process)
  *         """
  *         print('\nEnded playback')             # <<<<<<<<<<<<<<
@@ -6198,7 +6198,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_1
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "event_processing/basic_consumer.pyx":204
+  /* "async_cv/event_processing/basic_consumer.pyx":204
  * 
  *         # wrap up the output video
  *         if self.video_out is not None:             # <<<<<<<<<<<<<<
@@ -6212,7 +6212,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_1
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "event_processing/basic_consumer.pyx":205
+    /* "async_cv/event_processing/basic_consumer.pyx":205
  *         # wrap up the output video
  *         if self.video_out is not None:
  *             self.video_out.release()             # <<<<<<<<<<<<<<
@@ -6241,7 +6241,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_1
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "event_processing/basic_consumer.pyx":204
+    /* "async_cv/event_processing/basic_consumer.pyx":204
  * 
  *         # wrap up the output video
  *         if self.video_out is not None:             # <<<<<<<<<<<<<<
@@ -6250,7 +6250,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_1
  */
   }
 
-  /* "event_processing/basic_consumer.pyx":208
+  /* "async_cv/event_processing/basic_consumer.pyx":208
  * 
  *         # finish displaying events
  *         cv2.destroyAllWindows()             # <<<<<<<<<<<<<<
@@ -6277,7 +6277,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_1
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "event_processing/basic_consumer.pyx":197
+  /* "async_cv/event_processing/basic_consumer.pyx":197
  *         stdout.flush()
  * 
  *     def end(self):             # <<<<<<<<<<<<<<
@@ -6292,7 +6292,7 @@ static PyObject *__pyx_pf_16event_processing_14basic_consumer_14basic_consumer_1
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("event_processing.basic_consumer.basic_consumer.end", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("async_cv.event_processing.basic_consumer.basic_consumer.end", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -7319,16 +7319,16 @@ static CYTHON_INLINE NPY_DATETIMEUNIT __pyx_f_5numpy_get_datetime64_unit(PyObjec
 
 /* "FromPyStructUtility":11
  * 
- * @cname("__pyx_convert__from_py_struct____pyx_t_16event_processing_14basic_consumer_event")
- * cdef struct_type __pyx_convert__from_py_struct____pyx_t_16event_processing_14basic_consumer_event(obj) except *:             # <<<<<<<<<<<<<<
+ * @cname("__pyx_convert__from_py_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event")
+ * cdef struct_type __pyx_convert__from_py_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event(obj) except *:             # <<<<<<<<<<<<<<
  *     cdef struct_type result
  *     if not PyMapping_Check(obj):
  */
 
-static struct __pyx_t_16event_processing_14basic_consumer_event __pyx_convert__from_py_struct____pyx_t_16event_processing_14basic_consumer_event(PyObject *__pyx_v_obj) {
-  struct __pyx_t_16event_processing_14basic_consumer_event __pyx_v_result;
+static struct __pyx_t_8async_cv_16event_processing_14basic_consumer_event __pyx_convert__from_py_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event(PyObject *__pyx_v_obj) {
+  struct __pyx_t_8async_cv_16event_processing_14basic_consumer_event __pyx_v_result;
   PyObject *__pyx_v_value = NULL;
-  struct __pyx_t_16event_processing_14basic_consumer_event __pyx_r;
+  struct __pyx_t_8async_cv_16event_processing_14basic_consumer_event __pyx_r;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -7345,10 +7345,10 @@ static struct __pyx_t_16event_processing_14basic_consumer_event __pyx_convert__f
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__pyx_convert__from_py_struct____pyx_t_16event_processing_14basic_consumer_event", 0);
+  __Pyx_RefNannySetupContext("__pyx_convert__from_py_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event", 0);
 
   /* "FromPyStructUtility":13
- * cdef struct_type __pyx_convert__from_py_struct____pyx_t_16event_processing_14basic_consumer_event(obj) except *:
+ * cdef struct_type __pyx_convert__from_py_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event(obj) except *:
  *     cdef struct_type result
  *     if not PyMapping_Check(obj):             # <<<<<<<<<<<<<<
  *         PyErr_Format(TypeError, b"Expected %.16s, got %.200s", b"a mapping", Py_TYPE(obj).tp_name)
@@ -7369,7 +7369,7 @@ static struct __pyx_t_16event_processing_14basic_consumer_event __pyx_convert__f
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
     /* "FromPyStructUtility":13
- * cdef struct_type __pyx_convert__from_py_struct____pyx_t_16event_processing_14basic_consumer_event(obj) except *:
+ * cdef struct_type __pyx_convert__from_py_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event(obj) except *:
  *     cdef struct_type result
  *     if not PyMapping_Check(obj):             # <<<<<<<<<<<<<<
  *         PyErr_Format(TypeError, b"Expected %.16s, got %.200s", b"a mapping", Py_TYPE(obj).tp_name)
@@ -7429,7 +7429,7 @@ static struct __pyx_t_16event_processing_14basic_consumer_event __pyx_convert__f
  */
     __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
     if (__pyx_t_6) {
-      __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct____pyx_t_16event_processing_14basic_consumer_event", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event", __pyx_clineno, __pyx_lineno, __pyx_filename);
       if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_7, &__pyx_t_8) < 0) __PYX_ERR(2, 18, __pyx_L6_except_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_GOTREF(__pyx_t_7);
@@ -7531,7 +7531,7 @@ static struct __pyx_t_16event_processing_14basic_consumer_event __pyx_convert__f
  */
     __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
     if (__pyx_t_6) {
-      __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct____pyx_t_16event_processing_14basic_consumer_event", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event", __pyx_clineno, __pyx_lineno, __pyx_filename);
       if (__Pyx_GetException(&__pyx_t_8, &__pyx_t_7, &__pyx_t_2) < 0) __PYX_ERR(2, 23, __pyx_L14_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_GOTREF(__pyx_t_7);
@@ -7633,7 +7633,7 @@ static struct __pyx_t_16event_processing_14basic_consumer_event __pyx_convert__f
  */
     __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
     if (__pyx_t_6) {
-      __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct____pyx_t_16event_processing_14basic_consumer_event", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event", __pyx_clineno, __pyx_lineno, __pyx_filename);
       if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_7, &__pyx_t_8) < 0) __PYX_ERR(2, 28, __pyx_L22_except_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_GOTREF(__pyx_t_7);
@@ -7735,7 +7735,7 @@ static struct __pyx_t_16event_processing_14basic_consumer_event __pyx_convert__f
  */
     __pyx_t_6 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
     if (__pyx_t_6) {
-      __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct____pyx_t_16event_processing_14basic_consumer_event", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event", __pyx_clineno, __pyx_lineno, __pyx_filename);
       if (__Pyx_GetException(&__pyx_t_8, &__pyx_t_7, &__pyx_t_2) < 0) __PYX_ERR(2, 33, __pyx_L30_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_GOTREF(__pyx_t_7);
@@ -7794,8 +7794,8 @@ static struct __pyx_t_16event_processing_14basic_consumer_event __pyx_convert__f
 
   /* "FromPyStructUtility":11
  * 
- * @cname("__pyx_convert__from_py_struct____pyx_t_16event_processing_14basic_consumer_event")
- * cdef struct_type __pyx_convert__from_py_struct____pyx_t_16event_processing_14basic_consumer_event(obj) except *:             # <<<<<<<<<<<<<<
+ * @cname("__pyx_convert__from_py_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event")
+ * cdef struct_type __pyx_convert__from_py_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event(obj) except *:             # <<<<<<<<<<<<<<
  *     cdef struct_type result
  *     if not PyMapping_Check(obj):
  */
@@ -7806,7 +7806,7 @@ static struct __pyx_t_16event_processing_14basic_consumer_event __pyx_convert__f
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct____pyx_t_16event_processing_14basic_consumer_event", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("FromPyStructUtility.__pyx_convert__from_py_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_pretend_to_initialize(&__pyx_r);
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_value);
@@ -20954,7 +20954,7 @@ static PyBufferProcs __pyx_tp_as_buffer_array = {
 
 static PyTypeObject __pyx_type___pyx_array = {
   PyVarObject_HEAD_INIT(0, 0)
-  "event_processing.basic_consumer.array", /*tp_name*/
+  "async_cv.event_processing.basic_consumer.array", /*tp_name*/
   sizeof(struct __pyx_array_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_array, /*tp_dealloc*/
@@ -21073,7 +21073,7 @@ static PyMethodDef __pyx_methods_Enum[] = {
 
 static PyTypeObject __pyx_type___pyx_MemviewEnum = {
   PyVarObject_HEAD_INIT(0, 0)
-  "event_processing.basic_consumer.Enum", /*tp_name*/
+  "async_cv.event_processing.basic_consumer.Enum", /*tp_name*/
   sizeof(struct __pyx_MemviewEnum_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_Enum, /*tp_dealloc*/
@@ -21334,7 +21334,7 @@ static PyBufferProcs __pyx_tp_as_buffer_memoryview = {
 
 static PyTypeObject __pyx_type___pyx_memoryview = {
   PyVarObject_HEAD_INIT(0, 0)
-  "event_processing.basic_consumer.memoryview", /*tp_name*/
+  "async_cv.event_processing.basic_consumer.memoryview", /*tp_name*/
   sizeof(struct __pyx_memoryview_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_memoryview, /*tp_dealloc*/
@@ -21472,7 +21472,7 @@ static struct PyGetSetDef __pyx_getsets__memoryviewslice[] = {
 
 static PyTypeObject __pyx_type___pyx_memoryviewslice = {
   PyVarObject_HEAD_INIT(0, 0)
-  "event_processing.basic_consumer._memoryviewslice", /*tp_name*/
+  "async_cv.event_processing.basic_consumer._memoryviewslice", /*tp_name*/
   sizeof(struct __pyx_memoryviewslice_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc__memoryviewslice, /*tp_dealloc*/
@@ -21647,6 +21647,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_annotations_meta, __pyx_k_annotations_meta, sizeof(__pyx_k_annotations_meta), 0, 0, 1, 1},
   {&__pyx_n_s_annotations_version, __pyx_k_annotations_version, sizeof(__pyx_k_annotations_version), 0, 0, 1, 1},
   {&__pyx_n_s_ascontiguousarray, __pyx_k_ascontiguousarray, sizeof(__pyx_k_ascontiguousarray), 0, 0, 1, 1},
+  {&__pyx_n_s_async_cv_event_processing_basic, __pyx_k_async_cv_event_processing_basic, sizeof(__pyx_k_async_cv_event_processing_basic), 0, 0, 1, 1},
+  {&__pyx_kp_s_async_cv_event_processing_basic_2, __pyx_k_async_cv_event_processing_basic_2, sizeof(__pyx_k_async_cv_event_processing_basic_2), 0, 0, 1, 0},
   {&__pyx_kp_u_avi, __pyx_k_avi, sizeof(__pyx_k_avi), 0, 1, 0, 0},
   {&__pyx_n_s_base, __pyx_k_base, sizeof(__pyx_k_base), 0, 0, 1, 1},
   {&__pyx_n_s_basic_consumer, __pyx_k_basic_consumer, sizeof(__pyx_k_basic_consumer), 0, 0, 1, 1},
@@ -21684,7 +21686,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
   {&__pyx_n_s_error, __pyx_k_error, sizeof(__pyx_k_error), 0, 0, 1, 1},
   {&__pyx_n_s_event_buffer, __pyx_k_event_buffer, sizeof(__pyx_k_event_buffer), 0, 0, 1, 1},
-  {&__pyx_n_s_event_processing_basic_consumer, __pyx_k_event_processing_basic_consumer, sizeof(__pyx_k_event_processing_basic_consumer), 0, 0, 1, 1},
   {&__pyx_kp_u_events_in, __pyx_k_events_in, sizeof(__pyx_k_events_in), 0, 1, 0, 0},
   {&__pyx_n_s_events_this_frame, __pyx_k_events_this_frame, sizeof(__pyx_k_events_this_frame), 0, 0, 1, 1},
   {&__pyx_n_s_exit, __pyx_k_exit, sizeof(__pyx_k_exit), 0, 0, 1, 1},
@@ -21783,7 +21784,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_u_show_metrics, __pyx_k_show_metrics, sizeof(__pyx_k_show_metrics), 0, 1, 0, 1},
   {&__pyx_n_s_size, __pyx_k_size, sizeof(__pyx_k_size), 0, 0, 1, 1},
   {&__pyx_n_s_src_2d_arrays, __pyx_k_src_2d_arrays, sizeof(__pyx_k_src_2d_arrays), 0, 0, 1, 1},
-  {&__pyx_kp_s_src_event_processing_basic_consu, __pyx_k_src_event_processing_basic_consu, sizeof(__pyx_k_src_event_processing_basic_consu), 0, 0, 1, 0},
   {&__pyx_n_s_src_events, __pyx_k_src_events, sizeof(__pyx_k_src_events), 0, 0, 1, 1},
   {&__pyx_n_s_start, __pyx_k_start, sizeof(__pyx_k_start), 0, 0, 1, 1},
   {&__pyx_n_s_stdout, __pyx_k_stdout, sizeof(__pyx_k_stdout), 0, 0, 1, 1},
@@ -21851,7 +21851,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "event_processing/basic_consumer.pyx":44
+  /* "async_cv/event_processing/basic_consumer.pyx":44
  *         self.video_out = None
  * 
  *         self._run_name = consumer_args.get('run_name', 'test')             # <<<<<<<<<<<<<<
@@ -21862,7 +21862,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "event_processing/basic_consumer.pyx":47
+  /* "async_cv/event_processing/basic_consumer.pyx":47
  *         print(f'Starting run "{self._run_name}"')
  * 
  *         self.show_metrics = consumer_args.get('show_metrics', False)             # <<<<<<<<<<<<<<
@@ -21873,7 +21873,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "event_processing/basic_consumer.pyx":64
+  /* "async_cv/event_processing/basic_consumer.pyx":64
  *         if 'annot_file' in consumer_args:
  *             try:
  *                 with open(consumer_args['annot_file']) as fd:             # <<<<<<<<<<<<<<
@@ -21884,7 +21884,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
-  /* "event_processing/basic_consumer.pyx":129
+  /* "async_cv/event_processing/basic_consumer.pyx":129
  *             box_frames = list(self.annotations[i]['box'])
  *             label = self.annotations[i]['@label']
  *             color = (200, 200, 200)             # <<<<<<<<<<<<<<
@@ -21895,7 +21895,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "event_processing/basic_consumer.pyx":201
+  /* "async_cv/event_processing/basic_consumer.pyx":201
  *             (i.e. no more events to process)
  *         """
  *         print('\nEnded playback')             # <<<<<<<<<<<<<<
@@ -22164,7 +22164,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__30);
   __Pyx_GIVEREF(__pyx_tuple__30);
 
-  /* "event_processing/basic_consumer.pyx":19
+  /* "async_cv/event_processing/basic_consumer.pyx":19
  *     Override this class to define alternative event processing functionality
  *     """
  *     def __init__(self, width, height, consumer_args=None):             # <<<<<<<<<<<<<<
@@ -22174,12 +22174,12 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__31 = PyTuple_Pack(9, __pyx_n_s_self, __pyx_n_s_width, __pyx_n_s_height, __pyx_n_s_consumer_args, __pyx_n_s_video_out_filename, __pyx_n_s_fourcc, __pyx_n_s_fd, __pyx_n_s_doc, __pyx_n_s_annot); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__31);
   __Pyx_GIVEREF(__pyx_tuple__31);
-  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(4, 0, 9, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_event_processing_basic_consu, __pyx_n_s_init, 19, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(4, 0, 9, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_async_cv_event_processing_basic_2, __pyx_n_s_init, 19, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 19, __pyx_L1_error)
   __pyx_tuple__33 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__33);
   __Pyx_GIVEREF(__pyx_tuple__33);
 
-  /* "event_processing/basic_consumer.pyx":76
+  /* "async_cv/event_processing/basic_consumer.pyx":76
  *                 print(f'Annotation file "{consumer_args["annot_file"]}" not found.')
  * 
  *     def metavision_event_callback(self, ts, src_events, src_2d_arrays):             # <<<<<<<<<<<<<<
@@ -22189,9 +22189,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__34 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_ts, __pyx_n_s_src_events, __pyx_n_s_src_2d_arrays, __pyx_n_s_event_buffer); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__34);
   __Pyx_GIVEREF(__pyx_tuple__34);
-  __pyx_codeobj__35 = (PyObject*)__Pyx_PyCode_New(4, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__34, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_event_processing_basic_consu, __pyx_n_s_metavision_event_callback, 76, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__35)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_codeobj__35 = (PyObject*)__Pyx_PyCode_New(4, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__34, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_async_cv_event_processing_basic_2, __pyx_n_s_metavision_event_callback, 76, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__35)) __PYX_ERR(0, 76, __pyx_L1_error)
 
-  /* "event_processing/basic_consumer.pyx":99
+  /* "async_cv/event_processing/basic_consumer.pyx":99
  *             self.process_buffers(ts, event_buffer)
  * 
  *     def process_buffers(self, ts, event_buffer, frame_buffer=None):             # <<<<<<<<<<<<<<
@@ -22201,12 +22201,12 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__36 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_ts, __pyx_n_s_event_buffer, __pyx_n_s_frame_buffer); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__36);
   __Pyx_GIVEREF(__pyx_tuple__36);
-  __pyx_codeobj__37 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__36, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_event_processing_basic_consu, __pyx_n_s_process_buffers, 99, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__37)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_codeobj__37 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__36, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_async_cv_event_processing_basic_2, __pyx_n_s_process_buffers, 99, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__37)) __PYX_ERR(0, 99, __pyx_L1_error)
   __pyx_tuple__38 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__38);
   __Pyx_GIVEREF(__pyx_tuple__38);
 
-  /* "event_processing/basic_consumer.pyx":116
+  /* "async_cv/event_processing/basic_consumer.pyx":116
  *         self.process_event_buffer(ts, event_buffer)
  * 
  *     def init_frame(self, frame_buffer=None):             # <<<<<<<<<<<<<<
@@ -22216,12 +22216,12 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__39 = PyTuple_Pack(12, __pyx_n_s_self, __pyx_n_s_frame_buffer, __pyx_n_s_i, __pyx_n_s_box_frames, __pyx_n_s_label_2, __pyx_n_s_color, __pyx_n_s_is_in_frame, __pyx_n_s_box, __pyx_n_s_xtl_2, __pyx_n_s_ytl_2, __pyx_n_s_xbr_2, __pyx_n_s_ybr_2); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__39);
   __Pyx_GIVEREF(__pyx_tuple__39);
-  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(2, 0, 12, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_event_processing_basic_consu, __pyx_n_s_init_frame, 116, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) __PYX_ERR(0, 116, __pyx_L1_error)
+  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(2, 0, 12, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_async_cv_event_processing_basic_2, __pyx_n_s_init_frame, 116, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) __PYX_ERR(0, 116, __pyx_L1_error)
   __pyx_tuple__41 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__41);
   __Pyx_GIVEREF(__pyx_tuple__41);
 
-  /* "event_processing/basic_consumer.pyx":157
+  /* "async_cv/event_processing/basic_consumer.pyx":157
  *         self._frame_to_draw = np.ascontiguousarray(self._frame_to_draw, dtype=np.uint8)
  * 
  *     def process_event_buffer(self, ts, event[:] event_buffer):             # <<<<<<<<<<<<<<
@@ -22231,9 +22231,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__42 = PyTuple_Pack(10, __pyx_n_s_self, __pyx_n_s_ts, __pyx_n_s_event_buffer, __pyx_n_s_num_events, __pyx_n_s_start, __pyx_n_s_ms_2, __pyx_n_s_e, __pyx_n_s_color, __pyx_n_s_frame_2, __pyx_n_s_i); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(0, 157, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__42);
   __Pyx_GIVEREF(__pyx_tuple__42);
-  __pyx_codeobj__43 = (PyObject*)__Pyx_PyCode_New(3, 0, 10, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__42, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_event_processing_basic_consu, __pyx_n_s_process_event_buffer, 157, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__43)) __PYX_ERR(0, 157, __pyx_L1_error)
+  __pyx_codeobj__43 = (PyObject*)__Pyx_PyCode_New(3, 0, 10, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__42, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_async_cv_event_processing_basic_2, __pyx_n_s_process_event_buffer, 157, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__43)) __PYX_ERR(0, 157, __pyx_L1_error)
 
-  /* "event_processing/basic_consumer.pyx":183
+  /* "async_cv/event_processing/basic_consumer.pyx":183
  *         stdout.flush()
  * 
  *     def draw_frame(self):             # <<<<<<<<<<<<<<
@@ -22243,9 +22243,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__44 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(0, 183, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__44);
   __Pyx_GIVEREF(__pyx_tuple__44);
-  __pyx_codeobj__45 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__44, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_event_processing_basic_consu, __pyx_n_s_draw_frame, 183, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__45)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __pyx_codeobj__45 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__44, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_async_cv_event_processing_basic_2, __pyx_n_s_draw_frame, 183, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__45)) __PYX_ERR(0, 183, __pyx_L1_error)
 
-  /* "event_processing/basic_consumer.pyx":197
+  /* "async_cv/event_processing/basic_consumer.pyx":197
  *         stdout.flush()
  * 
  *     def end(self):             # <<<<<<<<<<<<<<
@@ -22255,7 +22255,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__46 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(0, 197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__46);
   __Pyx_GIVEREF(__pyx_tuple__46);
-  __pyx_codeobj__47 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__46, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_event_processing_basic_consu, __pyx_n_s_end, 197, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__47)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __pyx_codeobj__47 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__46, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_async_cv_event_processing_basic_2, __pyx_n_s_end, 197, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__47)) __PYX_ERR(0, 197, __pyx_L1_error)
 
   /* "View.MemoryView":286
  *         return self.name
@@ -22700,14 +22700,14 @@ if (!__Pyx_RefNanny) {
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   #endif
-  if (__pyx_module_is_main_event_processing__basic_consumer) {
+  if (__pyx_module_is_main_async_cv__event_processing__basic_consumer) {
     if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name_2, __pyx_n_s_main) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 2, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "event_processing.basic_consumer")) {
-      if (unlikely(PyDict_SetItemString(modules, "event_processing.basic_consumer", __pyx_m) < 0)) __PYX_ERR(0, 2, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "async_cv.event_processing.basic_consumer")) {
+      if (unlikely(PyDict_SetItemString(modules, "async_cv.event_processing.basic_consumer", __pyx_m) < 0)) __PYX_ERR(0, 2, __pyx_L1_error)
     }
   }
   #endif
@@ -22728,7 +22728,7 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   #endif
 
-  /* "event_processing/basic_consumer.pyx":2
+  /* "async_cv/event_processing/basic_consumer.pyx":2
  * 
  * import os             # <<<<<<<<<<<<<<
  * from sys import stdout
@@ -22739,7 +22739,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_os, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "event_processing/basic_consumer.pyx":3
+  /* "async_cv/event_processing/basic_consumer.pyx":3
  * 
  * import os
  * from sys import stdout             # <<<<<<<<<<<<<<
@@ -22760,7 +22760,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "event_processing/basic_consumer.pyx":4
+  /* "async_cv/event_processing/basic_consumer.pyx":4
  * import os
  * from sys import stdout
  * import cv2             # <<<<<<<<<<<<<<
@@ -22772,7 +22772,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_cv2, __pyx_t_2) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "event_processing/basic_consumer.pyx":5
+  /* "async_cv/event_processing/basic_consumer.pyx":5
  * from sys import stdout
  * import cv2
  * import numpy as np             # <<<<<<<<<<<<<<
@@ -22784,7 +22784,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_2) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "event_processing/basic_consumer.pyx":7
+  /* "async_cv/event_processing/basic_consumer.pyx":7
  * import numpy as np
  * cimport numpy as np
  * import xmltodict             # <<<<<<<<<<<<<<
@@ -22796,7 +22796,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_xmltodict, __pyx_t_2) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "event_processing/basic_consumer.pyx":8
+  /* "async_cv/event_processing/basic_consumer.pyx":8
  * cimport numpy as np
  * import xmltodict
  * from time import time             # <<<<<<<<<<<<<<
@@ -22817,104 +22817,104 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "event_processing/basic_consumer.pyx":15
+  /* "async_cv/event_processing/basic_consumer.pyx":15
  *     long long t
  * 
  * class basic_consumer:             # <<<<<<<<<<<<<<
  *     """Basic consumer class that simply displays all events.
  *     Override this class to define alternative event processing functionality
  */
-  __pyx_t_1 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_basic_consumer, __pyx_n_s_basic_consumer, (PyObject *) NULL, __pyx_n_s_event_processing_basic_consumer, __pyx_kp_s_Basic_consumer_class_that_simply); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_basic_consumer, __pyx_n_s_basic_consumer, (PyObject *) NULL, __pyx_n_s_async_cv_event_processing_basic, __pyx_kp_s_Basic_consumer_class_that_simply); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "event_processing/basic_consumer.pyx":19
+  /* "async_cv/event_processing/basic_consumer.pyx":19
  *     Override this class to define alternative event processing functionality
  *     """
  *     def __init__(self, width, height, consumer_args=None):             # <<<<<<<<<<<<<<
  *         """Constructor"""
  *         # store the current frame to display with OpenCV.imshow(self.frame)
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_16event_processing_14basic_consumer_14basic_consumer_1__init__, 0, __pyx_n_s_basic_consumer___init, NULL, __pyx_n_s_event_processing_basic_consumer, __pyx_d, ((PyObject *)__pyx_codeobj__32)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_8async_cv_16event_processing_14basic_consumer_14basic_consumer_1__init__, 0, __pyx_n_s_basic_consumer___init, NULL, __pyx_n_s_async_cv_event_processing_basic, __pyx_d, ((PyObject *)__pyx_codeobj__32)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_2, __pyx_tuple__33);
   if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init, __pyx_t_2) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "event_processing/basic_consumer.pyx":76
+  /* "async_cv/event_processing/basic_consumer.pyx":76
  *                 print(f'Annotation file "{consumer_args["annot_file"]}" not found.')
  * 
  *     def metavision_event_callback(self, ts, src_events, src_2d_arrays):             # <<<<<<<<<<<<<<
  *         """Function to pass as a callback to use as an event consumer with
  *             Metavision Designer.
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_16event_processing_14basic_consumer_14basic_consumer_3metavision_event_callback, 0, __pyx_n_s_basic_consumer_metavision_event, NULL, __pyx_n_s_event_processing_basic_consumer, __pyx_d, ((PyObject *)__pyx_codeobj__35)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_8async_cv_16event_processing_14basic_consumer_14basic_consumer_3metavision_event_callback, 0, __pyx_n_s_basic_consumer_metavision_event, NULL, __pyx_n_s_async_cv_event_processing_basic, __pyx_d, ((PyObject *)__pyx_codeobj__35)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_metavision_event_callback, __pyx_t_2) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "event_processing/basic_consumer.pyx":99
+  /* "async_cv/event_processing/basic_consumer.pyx":99
  *             self.process_buffers(ts, event_buffer)
  * 
  *     def process_buffers(self, ts, event_buffer, frame_buffer=None):             # <<<<<<<<<<<<<<
  *         """Callback method to override to process events.
  * 
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_16event_processing_14basic_consumer_14basic_consumer_5process_buffers, 0, __pyx_n_s_basic_consumer_process_buffers, NULL, __pyx_n_s_event_processing_basic_consumer, __pyx_d, ((PyObject *)__pyx_codeobj__37)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_8async_cv_16event_processing_14basic_consumer_14basic_consumer_5process_buffers, 0, __pyx_n_s_basic_consumer_process_buffers, NULL, __pyx_n_s_async_cv_event_processing_basic, __pyx_d, ((PyObject *)__pyx_codeobj__37)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_2, __pyx_tuple__38);
   if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_process_buffers, __pyx_t_2) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "event_processing/basic_consumer.pyx":116
+  /* "async_cv/event_processing/basic_consumer.pyx":116
  *         self.process_event_buffer(ts, event_buffer)
  * 
  *     def init_frame(self, frame_buffer=None):             # <<<<<<<<<<<<<<
  *         # if we have a frame_buffer, start with that
  *         if frame_buffer is not None:
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_16event_processing_14basic_consumer_14basic_consumer_7init_frame, 0, __pyx_n_s_basic_consumer_init_frame, NULL, __pyx_n_s_event_processing_basic_consumer, __pyx_d, ((PyObject *)__pyx_codeobj__40)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 116, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_8async_cv_16event_processing_14basic_consumer_14basic_consumer_7init_frame, 0, __pyx_n_s_basic_consumer_init_frame, NULL, __pyx_n_s_async_cv_event_processing_basic, __pyx_d, ((PyObject *)__pyx_codeobj__40)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_2, __pyx_tuple__41);
   if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init_frame, __pyx_t_2) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "event_processing/basic_consumer.pyx":157
+  /* "async_cv/event_processing/basic_consumer.pyx":157
  *         self._frame_to_draw = np.ascontiguousarray(self._frame_to_draw, dtype=np.uint8)
  * 
  *     def process_event_buffer(self, ts, event[:] event_buffer):             # <<<<<<<<<<<<<<
  *         # we don't care about ts
  *         del ts
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_16event_processing_14basic_consumer_14basic_consumer_9process_event_buffer, 0, __pyx_n_s_basic_consumer_process_event_buf, NULL, __pyx_n_s_event_processing_basic_consumer, __pyx_d, ((PyObject *)__pyx_codeobj__43)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 157, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_8async_cv_16event_processing_14basic_consumer_14basic_consumer_9process_event_buffer, 0, __pyx_n_s_basic_consumer_process_event_buf, NULL, __pyx_n_s_async_cv_event_processing_basic, __pyx_d, ((PyObject *)__pyx_codeobj__43)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 157, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_process_event_buffer, __pyx_t_2) < 0) __PYX_ERR(0, 157, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "event_processing/basic_consumer.pyx":183
+  /* "async_cv/event_processing/basic_consumer.pyx":183
  *         stdout.flush()
  * 
  *     def draw_frame(self):             # <<<<<<<<<<<<<<
  *         """Called from main thread to display frame"""
  * 
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_16event_processing_14basic_consumer_14basic_consumer_11draw_frame, 0, __pyx_n_s_basic_consumer_draw_frame, NULL, __pyx_n_s_event_processing_basic_consumer, __pyx_d, ((PyObject *)__pyx_codeobj__45)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_8async_cv_16event_processing_14basic_consumer_14basic_consumer_11draw_frame, 0, __pyx_n_s_basic_consumer_draw_frame, NULL, __pyx_n_s_async_cv_event_processing_basic, __pyx_d, ((PyObject *)__pyx_codeobj__45)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 183, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_draw_frame, __pyx_t_2) < 0) __PYX_ERR(0, 183, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "event_processing/basic_consumer.pyx":197
+  /* "async_cv/event_processing/basic_consumer.pyx":197
  *         stdout.flush()
  * 
  *     def end(self):             # <<<<<<<<<<<<<<
  *         """This function will be called when execution has finished
  *             (i.e. no more events to process)
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_16event_processing_14basic_consumer_14basic_consumer_13end, 0, __pyx_n_s_basic_consumer_end, NULL, __pyx_n_s_event_processing_basic_consumer, __pyx_d, ((PyObject *)__pyx_codeobj__47)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_8async_cv_16event_processing_14basic_consumer_14basic_consumer_13end, 0, __pyx_n_s_basic_consumer_end, NULL, __pyx_n_s_async_cv_event_processing_basic, __pyx_d, ((PyObject *)__pyx_codeobj__47)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_end, __pyx_t_2) < 0) __PYX_ERR(0, 197, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "event_processing/basic_consumer.pyx":15
+  /* "async_cv/event_processing/basic_consumer.pyx":15
  *     long long t
  * 
  * class basic_consumer:             # <<<<<<<<<<<<<<
@@ -22927,7 +22927,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "event_processing/basic_consumer.pyx":2
+  /* "async_cv/event_processing/basic_consumer.pyx":2
  * 
  * import os             # <<<<<<<<<<<<<<
  * from sys import stdout
@@ -23099,11 +23099,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_XDECREF(__pyx_t_2);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init event_processing.basic_consumer", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init async_cv.event_processing.basic_consumer", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_CLEAR(__pyx_m);
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init event_processing.basic_consumer");
+    PyErr_SetString(PyExc_ImportError, "init async_cv.event_processing.basic_consumer");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -27251,7 +27251,7 @@ no_fail:
 }
 
 /* ObjectToMemviewSlice */
-  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_nn_struct____pyx_t_16event_processing_14basic_consumer_event(PyObject *obj, int writable_flag) {
+  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_nn_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event(PyObject *obj, int writable_flag) {
     __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
     __Pyx_BufFmt_StackElem stack[2];
     int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED) };
@@ -27262,7 +27262,7 @@ no_fail:
     }
     retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, 0,
                                                  PyBUF_RECORDS_RO | writable_flag, 1,
-                                                 &__Pyx_TypeInfo_nn_struct____pyx_t_16event_processing_14basic_consumer_event, stack,
+                                                 &__Pyx_TypeInfo_nn_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event, stack,
                                                  &result, obj);
     if (unlikely(retcode == -1))
         goto __pyx_fail;
@@ -27273,7 +27273,7 @@ __pyx_fail:
     return result;
 }
 
-static PyObject* __pyx_convert__to_py_struct____pyx_t_16event_processing_14basic_consumer_event(struct __pyx_t_16event_processing_14basic_consumer_event s) {
+static PyObject* __pyx_convert__to_py_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event(struct __pyx_t_8async_cv_16event_processing_14basic_consumer_event s) {
     PyObject* res;
     PyObject* member;
     res = __Pyx_PyDict_NewPresized(4); if (unlikely(!res)) return NULL;
@@ -27318,14 +27318,14 @@ static PyObject* __pyx_convert__to_py_struct____pyx_t_16event_processing_14basic
     }
 
 /* MemviewDtypeToObject */
-  static CYTHON_INLINE PyObject *__pyx_memview_get_nn_struct____pyx_t_16event_processing_14basic_consumer_event(const char *itemp) {
-    return (PyObject *) __pyx_convert__to_py_struct____pyx_t_16event_processing_14basic_consumer_event(*(struct __pyx_t_16event_processing_14basic_consumer_event *) itemp);
+  static CYTHON_INLINE PyObject *__pyx_memview_get_nn_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event(const char *itemp) {
+    return (PyObject *) __pyx_convert__to_py_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event(*(struct __pyx_t_8async_cv_16event_processing_14basic_consumer_event *) itemp);
 }
-static CYTHON_INLINE int __pyx_memview_set_nn_struct____pyx_t_16event_processing_14basic_consumer_event(const char *itemp, PyObject *obj) {
-    struct __pyx_t_16event_processing_14basic_consumer_event value = __pyx_convert__from_py_struct____pyx_t_16event_processing_14basic_consumer_event(obj);
+static CYTHON_INLINE int __pyx_memview_set_nn_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event(const char *itemp, PyObject *obj) {
+    struct __pyx_t_8async_cv_16event_processing_14basic_consumer_event value = __pyx_convert__from_py_struct____pyx_t_8async_cv_16event_processing_14basic_consumer_event(obj);
     if (PyErr_Occurred())
         return 0;
-    *(struct __pyx_t_16event_processing_14basic_consumer_event *) itemp = value;
+    *(struct __pyx_t_8async_cv_16event_processing_14basic_consumer_event *) itemp = value;
     return 1;
 }
 

@@ -1,6 +1,6 @@
 from os.path import join, expanduser
-from play_file import play_file
-from event_processing.pmd_consumer import pmd_consumer
+from async_cv.play_file import play_file
+from async_cv.event_processing.pmd_consumer import pmd_consumer
 
 data_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 annot_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
@@ -106,5 +106,5 @@ def run_one(group, test):
 
     play_file(data_path, 33, pmd_consumer, args)
 
-# run_one('june_12', 2)
+# run_one('april_12', 5)
 run_all()
