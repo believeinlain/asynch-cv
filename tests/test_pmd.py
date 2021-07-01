@@ -4,12 +4,13 @@ Simple test of pmd_consumer functionality
 import os.path
 from async_cv.play_file import play_file
 from async_cv.event_processing.pmd_consumer import pmd_consumer
+from async_cv.event_processing.basic_consumer import basic_consumer
 
 data_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 annot_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 
 group = 'june_12'
-test = 5
+test = 2
 file_type = '.aedat4'
 
 # group = 'april_29'
@@ -80,12 +81,12 @@ play_file(
             'y_div': 4, # number of vertical divisions
             'us_per_event': 100, # processing time alloted to each event handler to process events
             'temporal_filter': 100_000,
-            'event_buffer_depth': 8, # number of events to remember for each (x, y) position
-            'tf': 250_000, # how far back in time to consider events for filtering
-            'tc': 150_000, # how far back in time to consider events for clustering
-            'n': 4, # minimum number of correlated events required to allow a particular event through the filter
+            'event_buffer_depth': 4, # number of events to remember for each (x, y) position
+            'tf': 200_000, # how far back in time to consider events for filtering
+            'tc': 300_000, # how far back in time to consider events for clustering
+            'n': 8, # minimum number of correlated events required to allow a particular event through the filter
             'max_cluster_size': 30, # maximum taxicab dist from center of cluster to each event
-            'buffer_flush_period': 10_000, # microseconds periodicity to flush expired (>tc) events from buffer
+            'buffer_flush_period': 20_000, # microseconds periodicity to flush expired (>tc) events from buffer
             'num_analyzers': 12,
 
             'sample_period': 100_000, # microseconds between each centroid position sample

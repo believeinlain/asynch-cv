@@ -1,7 +1,6 @@
 # output files
 *.avi
 output/
-metrics/
 *.zip
 *.html
 

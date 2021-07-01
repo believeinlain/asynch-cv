@@ -11,8 +11,8 @@ class evaluator_consumer(basic_consumer):
         super().__init__(width, height, consumer_args)
 
         # create directories if necessary
-        if not os.path.isdir(f'metrics/{self._run_name}'):
-            os.makedirs(f'metrics/{self._run_name}')
+        if not os.path.isdir(f'output/metrics/{self._run_name}'):
+            os.makedirs(f'output/metrics/{self._run_name}')
 
     def end(self):
         super().end()
@@ -28,12 +28,12 @@ class evaluator_consumer(basic_consumer):
             metrics['per_class'], 
             showAP=True, 
             showInterpolatedPrecision=True, 
-            savePath=f'metrics/{self._run_name}',
+            savePath=f'output/metrics/{self._run_name}',
             showGraphic=False
         )
 
         print('Average precision for target:', f'{metrics["mAP"]*100:0.2f}%')
-        print(f'Precision x Recall curve saved in "metrics/{self._run_name}"')
+        print(f'Precision x Recall curve saved in "output/metrics/{self._run_name}"')
     
     def save_ground_truth(self, label, xtl, ytl, xbr, ybr):
         if any(target in label for target in self._targets) and 'difficult' not in label:

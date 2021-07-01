@@ -299,6 +299,7 @@ def end_loop(start_time, dt):
         cv2.waitKey(end_of_frame-end_time)
     else:
         cv2.waitKey(1)
+    # cv2.waitKey(1)
 
     # update time elapsed
     sys.stdout.write(f'\rFrame time: {end_time-start_time:3}/{dt:2}(ms)')

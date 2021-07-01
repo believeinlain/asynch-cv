@@ -46,11 +46,11 @@ class basic_consumer:
 
         self.show_metrics = consumer_args.get('show_metrics', False)
 
+        # create directories if necessary
+        if not os.path.isdir('output'):
+            os.makedirs('output')
+
         if 'video_out' in consumer_args and consumer_args['video_out']:
-            # create directories if necessary
-            if not os.path.isdir('output'):
-                os.makedirs('output')
-            
             video_out_filename = self._run_name+'.avi'
     
             # Define the codec and create VideoWriter object
