@@ -4,9 +4,9 @@ from Cython.Build import cythonize
 import numpy as np
 
 extensions = [
-    Extension('async_cv.event_processing.basic_consumer',
+    Extension('async_cv.event_processing.draw_events',
         [
-            'async_cv/event_processing/basic_consumer.pyx'
+            'async_cv/event_processing/draw_events.pyx'
         ],
         include_dirs = [
             np.get_include()

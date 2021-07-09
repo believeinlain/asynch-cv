@@ -1,6 +1,6 @@
-'''
+"""
 Simple test of pmd_consumer functionality
-'''
+"""
 import os.path
 from async_cv.play_file import play_file
 from async_cv.event_processing.pmd_consumer import pmd_consumer
@@ -84,7 +84,7 @@ play_file(
             'event_buffer_depth': 4, # number of events to remember for each (x, y) position
             'tf': 200_000, # how far back in time to consider events for filtering
             'tc': 300_000, # how far back in time to consider events for clustering
-            'n': 8, # minimum number of correlated events required to allow a particular event through the filter
+            'n': 4, # minimum number of correlated events required to allow a particular event through the filter
             'max_cluster_size': 30, # maximum taxicab dist from center of cluster to each event
             'buffer_flush_period': 20_000, # microseconds periodicity to flush expired (>tc) events from buffer
             'num_analyzers': 12,

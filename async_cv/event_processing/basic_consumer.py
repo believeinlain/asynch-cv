@@ -1,16 +1,14 @@
 
+
 import os
 from sys import stdout
 import cv2
 import numpy as np
-cimport numpy as np
 import xmltodict
 from time import time
 
-cdef struct event:
-    unsigned short x, y
-    short p
-    long long t
+from async_cv.event_processing.draw_events import draw_events
+
 
 class basic_consumer:
     """Basic consumer class that simply displays all events.
@@ -154,30 +152,18 @@ class basic_consumer:
         # ensure the frame is contiguous for C processing
         self._frame_to_draw = np.ascontiguousarray(self._frame_to_draw, dtype=np.uint8)
     
-    def process_event_buffer(self, ts, event[:] event_buffer):
+    def process_event_buffer(self, ts, event_buffer):
         # we don't care about ts
         del ts
-
-        cdef int num_events = len(event_buffer)
-        cdef double start
-        cdef double ms
 
         start = time()
 
         # draw events colored by polarity
-        cdef event e
-        cdef unsigned char color
-        cdef np.ndarray[unsigned char, ndim=3] frame = self._frame_to_draw
-        for i in range(num_events):
-            e = event_buffer[i]
-            color = e.p*255
-            frame[e.y, e.x, 0] = color
-            frame[e.y, e.x, 1] = color
-            frame[e.y, e.x, 2] = color
+        draw_events(self._frame_to_draw, event_buffer)
 
         ms = (time() - start)*1000.0
         
-        stdout.write(f' Processed {num_events} events in {ms:.0f}ms.')
+        stdout.write(f' Processed {len(event_buffer)} events in {ms:.0f}ms.')
         stdout.flush()
 
     def draw_frame(self):
