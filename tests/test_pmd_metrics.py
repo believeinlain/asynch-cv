@@ -1,3 +1,5 @@
+"""Example PMD metrics evaluation on a collection of files"""
+
 from os.path import join, expanduser
 from async_cv.play_file import play_file
 from async_cv.event_processing.pmd_consumer import pmd_consumer
@@ -66,45 +68,77 @@ files = {
 }
 
 args = {
-    'video_out': True,
     'targets': ['vessel', 'boat', 'RHIB'],
     'show_metrics': True,
     'parameters': {
-        'x_div': 4, # number of horizontal divisions
-        'y_div': 4, # number of vertical divisions
-        'us_per_event': 100, # processing time alloted to each event handler to process events
+        'x_div': 4,  # number of horizontal divisions
+        'y_div': 4,  # number of vertical divisions
+        'us_per_event': 100,  # processing time alloted to each event handler to process events
         'temporal_filter': 50_000,
-        'event_buffer_depth': 16, # number of events to remember for each (x, y) position
-        'tf': 200_000, # how far back in time to consider events for filtering
-        'tc': 250_000, # how far back in time to consider events for clustering
-        'n': 4, # minimum number of correlated events required to allow a particular event through the filter
-        'max_cluster_size': 30, # maximum taxicab dist from center of cluster to each event
-        'buffer_flush_period': 10_000, # microseconds periodicity to flush expired (>tc) events from buffer
+        # number of events to remember for each (x, y) position
+        'event_buffer_depth': 16,
+        'tf': 200_000,  # how far back in time to consider events for filtering
+        'tc': 250_000,  # how far back in time to consider events for clustering
+        'n': 4,  # minimum number of correlated events required to allow a particular event through the filter
+        'max_cluster_size': 30,  # maximum taxicab dist from center of cluster to each event
+        # microseconds periodicity to flush expired (>tc) events from buffer
+        'buffer_flush_period': 10_000,
         'num_analyzers': 12,
 
-        'sample_period': 100_000, # microseconds between each centroid position sample
-        'long_duration': 4_000_000, # microsecond duration to record samples for each cluster
+        'sample_period': 100_000,  # microseconds between each centroid position sample
+        'long_duration': 4_000_000,  # microsecond duration to record samples for each cluster
         'short_duration': 2_000_000,
 
         'ratio_threshold': 50
     }
 }
 
+parameters = {
+    'x_div': 4,  # number of horizontal divisions
+    'y_div': 4,  # number of vertical divisions
+    'us_per_event': 100,  # processing time alloted to each event handler to process events
+    'temporal_filter': 50_000,
+    # number of events to remember for each (x, y) position
+    'event_buffer_depth': 16,
+    'tf': 200_000,  # how far back in time to consider events for filtering
+    'tc': 250_000,  # how far back in time to consider events for clustering
+    'n': 4,  # minimum number of correlated events required to allow a particular event through the filter
+    'max_cluster_size': 30,  # maximum taxicab dist from center of cluster to each event
+    # microseconds periodicity to flush expired (>tc) events from buffer
+    'buffer_flush_period': 10_000,
+    'num_analyzers': 12,
+
+    'sample_period': 100_000,  # microseconds between each centroid position sample
+    'long_duration': 4_000_000,  # microsecond duration to record samples for each cluster
+    'short_duration': 2_000_000,
+
+    'ratio_threshold': 50
+}
+
+
 def run_all():
     for group in files:
         for test in range(len(files[group]['boat_tests'])):
             run_one(group, test)
 
+
 def run_one(group, test):
     run_name = f'{group}_run_{test:02d}'
 
-    data_path = join(expanduser('~\\'), data_root, join(group, files[group]['boat_tests'][test]))+data_format
-    annot_path = join(expanduser('~\\'), annot_root, join(group, files[group]['annotations'][test]))+annot_format
+    data_path = join(expanduser('~\\'), data_root, join(
+        group, files[group]['boat_tests'][test]))+data_format
+    annot_path = join(expanduser('~\\'), annot_root, join(
+        group, files[group]['annotations'][test]))+annot_format
 
-    args['run_name'] = run_name
-    args['annot_file'] = annot_path
+    play_file(
+        data_path, 33, pmd_consumer, 
+        run_name=run_name, 
+        video_out=True,
+        targets=['vessel', 'boat', 'RHIB'], 
+        annot_file=annot_path, 
+        parameters=parameters
+    )
 
-    play_file(data_path, 33, pmd_consumer, args)
 
 # run_one('april_12', 5)
 run_all()

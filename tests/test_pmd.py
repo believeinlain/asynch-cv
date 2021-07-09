@@ -1,10 +1,7 @@
-"""
-Simple test of pmd_consumer functionality
-"""
+"""Simple test of pmd_consumer functionality"""
 import os.path
 from async_cv.play_file import play_file
 from async_cv.event_processing.pmd_consumer import pmd_consumer
-from async_cv.event_processing.basic_consumer import basic_consumer
 
 data_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 annot_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
@@ -22,7 +19,7 @@ file_type = '.aedat4'
 # file_type = '.aedat4'
 
 boat_tests = {
-    'june_12':{
+    'june_12': {
         1: 'Davis346red-2020-06-12T12-09-55-0700-0_Test_1',
         2: 'Davis346red-2020-06-12T12-11-45-0700-0_Test_2',
         3: 'Davis346red-2020-06-12T12-15-01-0700-0_Test_3',
@@ -32,7 +29,7 @@ boat_tests = {
         # 10: 'Davis346red-2020-06-12T12-58-00-0700-0_Test_10',
         # 13: 'Davis346red-2020-06-12T13-04-12-0700-0_Test_13'
     },
-    'june_26':{
+    'june_26': {
         # 1: 'Davis346red-2020-06-26T12-25-58-0700-00000195-0_Test_1',
         2: 'Davis346red-2020-06-26T12-26-42-0700-00000195-0_Test_2',
         3: 'Davis346red-2020-06-26T12-27-39-0700-00000195-0_Test_3',
@@ -48,7 +45,7 @@ boat_tests = {
         21: 'Davis346red-2020-06-26T13-22-40-0700-00000195-0_Test_21',
         # 23: 'Davis346red-2020-06-26T13-31-43-0700-00000195-0_Test_23'
     },
-    'april_29':{
+    'april_29': {
         1: 'out_2021-04-29_17-56-14',
         2: 'out_2021-04-29_17-57-47',
         3: 'out_2021-04-29_18-02-48',
@@ -63,36 +60,37 @@ boat_tests = {
 filename = os.path.join(group, boat_tests[group][test])
 run_name = f'{group}_run_{test:02d}'
 
-data_path = os.path.join(os.path.expanduser('~\\'), data_root, filename)+file_type
-annot_path = os.path.join(os.path.expanduser('~\\'), annot_root, filename)+'.xml'
+data_path = os.path.join(os.path.expanduser(
+    '~\\'), data_root, filename)+file_type
+annot_path = os.path.join(os.path.expanduser('~\\'),
+                          annot_root, filename)+'.xml'
 
 play_file(
     filename=data_path,
     dt=33,
     event_consumer=pmd_consumer,
-    consumer_args={
-        'run_name': run_name,
-        'annot_file': annot_path,
-        # 'video_out': run_name+'.avi',
-        'filetype': file_type,
-        'targets': ['vessel', 'boat', 'RHIB'],
-        'parameters': {
-            'x_div': 4, # number of horizontal divisions
-            'y_div': 4, # number of vertical divisions
-            'us_per_event': 100, # processing time alloted to each event handler to process events
-            'temporal_filter': 100_000,
-            'event_buffer_depth': 4, # number of events to remember for each (x, y) position
-            'tf': 200_000, # how far back in time to consider events for filtering
-            'tc': 300_000, # how far back in time to consider events for clustering
-            'n': 4, # minimum number of correlated events required to allow a particular event through the filter
-            'max_cluster_size': 30, # maximum taxicab dist from center of cluster to each event
-            'buffer_flush_period': 20_000, # microseconds periodicity to flush expired (>tc) events from buffer
-            'num_analyzers': 12,
+    run_name=run_name,
+    annot_file=annot_path,
+    targets=['vessel', 'boat', 'RHIB'],
+    parameters={
+        'x_div': 4,  # number of horizontal divisions
+        'y_div': 4,  # number of vertical divisions
+        'us_per_event': 100,  # processing time alloted to each event handler to process events
+        'temporal_filter': 100_000,
+        # number of events to remember for each (x, y) position
+        'event_buffer_depth': 4,
+        'tf': 200_000,  # how far back in time to consider events for filtering
+        'tc': 300_000,  # how far back in time to consider events for clustering
+        'n': 4,  # minimum number of correlated events required to allow a particular event through the filter
+        'max_cluster_size': 30,  # maximum taxicab dist from center of cluster to each event
+        # microseconds periodicity to flush expired (>tc) events from buffer
+        'buffer_flush_period': 20_000,
+        'num_analyzers': 12,
 
-            'sample_period': 100_000, # microseconds between each centroid position sample
-            'long_duration': 5_000_000, # microsecond duration to record samples for each cluster
-            'short_duration': 3_000_000,
+        'sample_period': 100_000,  # microseconds between each centroid position sample
+        'long_duration': 5_000_000,  # microsecond duration to record samples for each cluster
+        'short_duration': 3_000_000,
 
-            'ratio_threshold': 100
-        }
-    })
+        'ratio_threshold': 100
+    }
+)

@@ -11,16 +11,16 @@ from async_cv.PMD import PyPMD
 
 class pmd_consumer(evaluator_consumer):
 
-    def __init__(self, width, height, consumer_args=None):
-        super().__init__(width, height, consumer_args)
+    def __init__(self, width, height, **kwargs):
+        super().__init__(width, height, **kwargs)
 
         # Process arguments
-        self._filetype = consumer_args.get('filetype', '.raw')
+        self._filetype = kwargs.get('filetype', '.raw')
 
-        self.p = consumer_args.get('parameters', {})
-        self.max_cluster_size = self.p.get('max_cluster_size', 50)
+        self._p = kwargs.get('parameters', {})
+        self._max_cluster_size = self._p.get('max_cluster_size', 50)
 
-        self._pmd = PyPMD.PyPMD(width, height, self.p)
+        self._pmd = PyPMD.PyPMD(width, height, self._p)
 
         # create a buffer to write cids on
         self._cluster_map = np.ascontiguousarray(
@@ -38,7 +38,7 @@ class pmd_consumer(evaluator_consumer):
         
         ms = (time() - start)*1000.0
 
-        r = self.max_cluster_size
+        r = self._max_cluster_size
         frame = self._frame_to_draw
         scale = 5
         tau = -0.0008
@@ -67,7 +67,7 @@ class pmd_consumer(evaluator_consumer):
 
             # draw the velocity ratio
             cv2.circle(frame, (px, py), int(
-                0.1*min(a['ratio'], self.p['ratio_threshold'])*scale), color, 1)
+                0.1*min(a['ratio'], self._p['ratio_threshold'])*scale), color, 1)
 
             # save footprint as a boolean image
             a['image'] = np.equal(self._cluster_map, a['cid'])

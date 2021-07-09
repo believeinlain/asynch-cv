@@ -11,29 +11,24 @@ from pynput.keyboard import Listener, KeyCode
 from async_cv.event_processing.basic_consumer import basic_consumer
 
 
-def play_file(filename: str, dt: int, event_consumer: basic_consumer,
-              consumer_args: dict = None):
+def play_file(filename: str, dt: int, event_consumer: basic_consumer, **kwargs):
     """ Play a recorded event stream in any of the supported formats.
 
     Args:
-        filename (str): Path to the file to be played. 
+        filename (str): Path to the file to be played. \
             Use filename='' to play a live feed.
-        dt (int): Number of milliseconds to collect for each displayed frame.
-            If the file has frames, this argument will be ignored and events
+        dt (int): Number of milliseconds to collect for each displayed frame. \
+            If the file has frames, this argument will be ignored and events \
             will be synchronized to the existing framerate.
-        event_consumer (basic_consumer): The consumer class to use to process
-            and display events. Any class inheriting basic_consumer can be
+        event_consumer (basic_consumer): The consumer class to use to process \
+            and display events. Any class inheriting basic_consumer can be \
             used here.
-        consumer_args (dict): Optional dict of arguments to pass to the
-            consumer. If not given, defaults will be used.
+        **kwargs: Optional arguments to pass to the consumer. \
+            If none given, defaults will be used.
 
     Returns:
         -1 if a fatal error occurs, 0 if successful.
     """
-    # translate None into an empty dict
-    if consumer_args is None:
-        consumer_args = {}
-
     # start the keyboard listener
     listener = Listener(on_press=on_press)
     listener.start()
@@ -42,7 +37,7 @@ def play_file(filename: str, dt: int, event_consumer: basic_consumer,
 
     # play live camera if no filename provided
     if filename is '':
-        return play_metavision_live(dt, event_consumer, consumer_args)
+        return play_metavision_live(dt, event_consumer, kwargs)
 
     # Check validity of input arguments
     if not(path.exists(filename) and path.isfile(filename)):
@@ -53,7 +48,7 @@ def play_file(filename: str, dt: int, event_consumer: basic_consumer,
     print(f'Playing file "{filename}".')
 
     if filename.endswith('.raw') or filename.endswith('.dat'):
-        play_metavision_file(filename, dt, event_consumer, consumer_args)
+        play_metavision_file(filename, dt, event_consumer, kwargs)
 
     elif filename.endswith('.aedat4'):
         from dv import AedatFile
@@ -79,7 +74,7 @@ def play_file(filename: str, dt: int, event_consumer: basic_consumer,
         frames = [(frame.image, frame.timestamp)
                 for frame in aedat['frames']]
 
-        consumer = event_consumer(width, height, consumer_args)
+        consumer = event_consumer(width, height, **kwargs)
 
         play_numpy_array_frames(event_data, consumer, frames)
 
@@ -91,7 +86,7 @@ def play_file(filename: str, dt: int, event_consumer: basic_consumer,
     return 0
 
 
-def play_metavision_live(dt, event_consumer, consumer_args):
+def play_metavision_live(dt, event_consumer, **kwargs):
     """Begin playback of a live feed"""
     import metavision_designer_engine as mvd_engine
     import metavision_designer_core as mvd_core
@@ -130,7 +125,7 @@ def play_metavision_live(dt, event_consumer, consumer_args):
 
     # We use PythonConsumer to "grab" the output of two components: cd_producer and frame_gen
     # pyconsumer will callback the application each time it receives data, using the event_callback function
-    ev_proc = event_consumer(width, height, consumer_args)
+    ev_proc = event_consumer(width, height, **kwargs)
     pyconsumer = mvd_core.PythonConsumer(ev_proc.metavision_event_callback)
     pyconsumer.add_source(cd_producer, ev_proc.mv_cd_prod_name)
     controller.add_component(pyconsumer, 'PythonConsumer')
@@ -164,7 +159,7 @@ def play_metavision_live(dt, event_consumer, consumer_args):
     return 0
 
 
-def play_metavision_file(filename, dt, event_consumer, consumer_args):
+def play_metavision_file(filename, dt, event_consumer, **kwargs):
     """Begin file playback if we know it is a metavision .raw or .dat file"""
     import metavision_designer_engine as mvd_engine
     import metavision_designer_core as mvd_core
@@ -203,7 +198,7 @@ def play_metavision_file(filename, dt, event_consumer, consumer_args):
 
     # We use PythonConsumer to "grab" the output of two components: cd_producer and frame_gen
     # pyconsumer will callback the application each time it receives data, using the event_callback function
-    ev_proc = event_consumer(width, height, consumer_args)
+    ev_proc = event_consumer(width, height, **kwargs)
     pyconsumer = mvd_core.PythonConsumer(ev_proc.metavision_event_callback)
     pyconsumer.add_source(cd_producer, 'CDProd')
     controller.add_component(pyconsumer, 'PythonConsumer')
@@ -290,7 +285,7 @@ def begin_loop():
 
 def end_loop(start_time, dt):
     """Call at the end of each loop to evaluate time to process and 
-    display each frame
+    display the frame
     """
     end_time = time_ns() // 1_000_000  # time in msec
     end_of_frame = start_time + dt
@@ -299,7 +294,6 @@ def end_loop(start_time, dt):
         cv2.waitKey(end_of_frame-end_time)
     else:
         cv2.waitKey(1)
-    # cv2.waitKey(1)
 
     # update time elapsed
     sys.stdout.write(f'\rFrame time: {end_time-start_time:3}/{dt:2}(ms)')

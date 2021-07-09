@@ -12,11 +12,5 @@ path = os.path.join(os.path.expanduser('~\\'), data_path, filename)
 
 # path = 'example_data/Cars_sequence.aedat4'
 # path = 'example_data/hand_spinner.raw'
-run_name = 'test_basic_consumer'
 
-args = {
-    'run_name': run_name,
-    'video_out': False
-}
-
-play_file(path, 30, basic_consumer, args)
+play_file(path, 30, basic_consumer, run_name='test_basic_consumer')
