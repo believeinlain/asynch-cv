@@ -99,7 +99,7 @@ parameters = {
     'us_per_event': 100,  # processing time alloted to each event handler to process events
     'temporal_filter': 50_000,
     # number of events to remember for each (x, y) position
-    'event_buffer_depth': 16,
+    'event_buffer_depth': 4,
     'tf': 200_000,  # how far back in time to consider events for filtering
     'tc': 250_000,  # how far back in time to consider events for clustering
     'n': 4,  # minimum number of correlated events required to allow a particular event through the filter
@@ -108,11 +108,12 @@ parameters = {
     'buffer_flush_period': 10_000,
     'num_analyzers': 12,
 
-    'sample_period': 100_000,  # microseconds between each centroid position sample
-    'long_duration': 4_000_000,  # microsecond duration to record samples for each cluster
-    'short_duration': 2_000_000,
+    'sample_period': 50_000,  # microseconds between each centroid position sample
+    'long_duration': 2_000_000,  # microsecond duration to record samples for each cluster
+    'short_duration': 1_000_000,
 
-    'ratio_threshold': 50
+    'ratio_threshold': 50,
+    'detection_tau': -0.0008,
 }
 
 

@@ -19,6 +19,7 @@ class pmd_consumer(evaluator_consumer):
 
         self._p = kwargs.get('parameters', {})
         self._max_cluster_size = self._p.get('max_cluster_size', 50)
+        self._detection_tau = self._p.get('detection_tau', -0.0008)
 
         self._pmd = PyPMD.PyPMD(width, height, self._p)
 
@@ -41,7 +42,7 @@ class pmd_consumer(evaluator_consumer):
         r = self._max_cluster_size
         frame = self._frame_to_draw
         scale = 5
-        tau = -0.0008
+        tau = self._detection_tau
 
         # filter out inactive results
         active = [res for res in results if res['is_active']]

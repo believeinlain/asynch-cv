@@ -91,6 +91,7 @@ play_file(
         'long_duration': 5_000_000,  # microsecond duration to record samples for each cluster
         'short_duration': 3_000_000,
 
-        'ratio_threshold': 100
+        'ratio_threshold': 100,
+        'detection_tau': -0.0008,
     }
 )

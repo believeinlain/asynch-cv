@@ -62,6 +62,6 @@ class evaluator_consumer(basic_consumer):
                                                   class_id='target', coordinates=(xtl, ytl, xbr, ybr), format=BBFormat.XYX2Y2))
 
     def save_detection(self, conf, x, y, w, h):
-        self._detections.append(BoundingBox(f'frame_{self.frame_count:03d}',
+        self._detections.append(BoundingBox(f'frame_{self._frame_count:03d}',
                                             class_id='target', coordinates=(x, y, w, h), format=BBFormat.XYWH,
                                             bb_type=BBType.DETECTED, confidence=conf))
