@@ -109,11 +109,11 @@ parameters = {
     'num_analyzers': 12,
 
     'sample_period': 50_000,  # microseconds between each centroid position sample
-    'long_duration': 2_000_000,  # microsecond duration to record samples for each cluster
-    'short_duration': 1_000_000,
+    'long_duration': 3_000_000,  # microsecond duration to record samples for each cluster
+    'short_duration': 1_500_000,
 
     'ratio_threshold': 50,
-    'detection_tau': -0.0008,
+    'detection_tau': -0.001,
 }
 
 
