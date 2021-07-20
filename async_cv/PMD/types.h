@@ -49,6 +49,8 @@ namespace PMD {
         ts_t long_duration = 2000000;
         ts_t short_duration = 1000000;
         uint_t ratio_threshold = 100;
+        float destability_factor = 0.1;
+        int min_stability = -500;
     };
 
     struct color {

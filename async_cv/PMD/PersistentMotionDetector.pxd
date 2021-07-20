@@ -16,6 +16,8 @@ cdef extern from 'types.h' namespace 'PMD':
         int long_duration
         int short_duration
         int ratio_threshold
+        float destability_factor
+        int min_stability
 
     cdef packed struct detection:
         int is_active

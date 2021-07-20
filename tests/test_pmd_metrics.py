@@ -114,6 +114,8 @@ parameters = {
 
     'ratio_threshold': 10,
     'detection_tau': -0.008,
+    'destability_factor': 0.1, 
+    'min_stability': -500,
 }
 
 

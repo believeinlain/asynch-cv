@@ -31,6 +31,8 @@ cdef class PyPMD:
         c_param.long_duration = param.get('long_duration', 2_000_000)
         c_param.short_duration = param.get('short_duration', 1_000_000)
         c_param.ratio_threshold = param.get('ratio_threshold', 100)
+        c_param.destability_factor = param.get('destability_factor', 0.1)
+        c_param.min_stability = param.get('min_stability', -500)
 
         self._num_detections = c_param.num_analyzers
 

@@ -65,6 +65,31 @@ data_path = os.path.join(os.path.expanduser(
 annot_path = os.path.join(os.path.expanduser('~\\'),
                           annot_root, filename)+'.xml'
 
+parameters = {
+    'x_div': 4,  # number of horizontal divisions
+    'y_div': 4,  # number of vertical divisions
+    'us_per_event': 100,  # processing time alloted to each event handler to process events
+    'temporal_filter': 100_000,
+    # number of events to remember for each (x, y) position
+    'event_buffer_depth': 4,
+    'tf': 200_000,  # how far back in time to consider events for filtering
+    'tc': 250_000,  # how far back in time to consider events for clustering
+    'n': 4,  # minimum number of correlated events required to allow a particular event through the filter
+    'max_cluster_size': 30,  # maximum taxicab dist from center of cluster to each event
+    # microseconds periodicity to flush expired (>tc) events from buffer
+    'buffer_flush_period': 20_000,
+    'num_analyzers': 16,
+
+    'sample_period': 100_000,  # microseconds between each centroid position sample
+    'long_duration': 5_000_000,  # microsecond duration to record samples for each cluster
+    'short_duration': 3_000_000,
+
+    'ratio_threshold': 10,
+    'detection_tau': -0.008,
+    'destability_factor': 0.1, 
+    'min_stability': -500,
+}
+
 play_file(
     filename=data_path,
     dt=33,
@@ -72,26 +97,5 @@ play_file(
     run_name=run_name,
     annot_file=annot_path,
     targets=['vessel', 'boat', 'RHIB'],
-    parameters={
-        'x_div': 4,  # number of horizontal divisions
-        'y_div': 4,  # number of vertical divisions
-        'us_per_event': 100,  # processing time alloted to each event handler to process events
-        'temporal_filter': 100_000,
-        # number of events to remember for each (x, y) position
-        'event_buffer_depth': 4,
-        'tf': 200_000,  # how far back in time to consider events for filtering
-        'tc': 300_000,  # how far back in time to consider events for clustering
-        'n': 4,  # minimum number of correlated events required to allow a particular event through the filter
-        'max_cluster_size': 30,  # maximum taxicab dist from center of cluster to each event
-        # microseconds periodicity to flush expired (>tc) events from buffer
-        'buffer_flush_period': 20_000,
-        'num_analyzers': 12,
-
-        'sample_period': 100_000,  # microseconds between each centroid position sample
-        'long_duration': 5_000_000,  # microsecond duration to record samples for each cluster
-        'short_duration': 3_000_000,
-
-        'ratio_threshold': 10,
-        'detection_tau': -0.008,
-    }
+    parameters=parameters
 )

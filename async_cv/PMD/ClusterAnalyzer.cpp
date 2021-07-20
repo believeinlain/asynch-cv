@@ -109,15 +109,18 @@ namespace PMD {
             double diff_x = _status.long_v_x - _status.short_v_x;
             double diff_y = _status.long_v_y - _status.short_v_y;
 
-            double diff_radius = sqrt(pow(diff_x, 2) + pow(diff_y, 2));
-            double long_radius_sq = pow(_status.long_v_x, 2) + pow(_status.long_v_y, 2);
+            double diff_mag = sqrt(pow(diff_x, 2) + pow(diff_y, 2));
+            double long_mag = sqrt(pow(_status.long_v_x, 2) 
+                + pow(_status.long_v_y, 2));
+            double eps = 0.0001;
 
-            _status.ratio = sqrt(long_radius_sq)/(diff_radius+0.0001);
+            _status.ratio = long_mag/(diff_mag+eps);
+            double delta = _status.ratio - _p.ratio_threshold;
 
             if (_status.ratio > _p.ratio_threshold)
-                _status.stability += int(_status.ratio - _p.ratio_threshold);
+                _status.stability += int(delta);
             else
-                _status.stability += int((_status.ratio - _p.ratio_threshold)*0.1);
+                _status.stability += int(delta*_p.destability_factor);
         }
         return _status;
     }
