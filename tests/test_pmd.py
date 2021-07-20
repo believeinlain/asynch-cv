@@ -7,7 +7,7 @@ data_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 annot_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 
 group = 'june_12'
-test = 2
+test = 3
 file_type = '.aedat4'
 
 # group = 'april_29'
@@ -91,7 +91,7 @@ play_file(
         'long_duration': 5_000_000,  # microsecond duration to record samples for each cluster
         'short_duration': 3_000_000,
 
-        'ratio_threshold': 100,
-        'detection_tau': -0.0008,
+        'ratio_threshold': 10,
+        'detection_tau': -0.008,
     }
 )

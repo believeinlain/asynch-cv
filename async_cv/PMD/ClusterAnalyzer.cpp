@@ -112,12 +112,12 @@ namespace PMD {
             double diff_radius = sqrt(pow(diff_x, 2) + pow(diff_y, 2));
             double long_radius_sq = pow(_status.long_v_x, 2) + pow(_status.long_v_y, 2);
 
-            _status.ratio = (diff_radius > 0) ? long_radius_sq/diff_radius : 0;
+            _status.ratio = sqrt(long_radius_sq)/(diff_radius+0.0001);
 
             if (_status.ratio > _p.ratio_threshold)
-                _status.stability += int(_status.ratio);
+                _status.stability += int(_status.ratio - _p.ratio_threshold);
             else
-                _status.stability += _status.ratio - _p.ratio_threshold;
+                _status.stability += int((_status.ratio - _p.ratio_threshold)*0.1);
         }
         return _status;
     }

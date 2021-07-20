@@ -5,6 +5,8 @@ import numpy as np
 from math import exp
 from time import time
 
+import json
+
 from async_cv.event_processing.evaluator_consumer import evaluator_consumer
 from async_cv.PMD import PyPMD
 
@@ -23,14 +25,13 @@ class pmd_consumer(evaluator_consumer):
 
         self._pmd = PyPMD.PyPMD(width, height, self._p)
 
+        self._log_data = {}
+
         # create a buffer to write cids on
         self._cluster_map = np.ascontiguousarray(
             np.full((height, width), -1, dtype='u2'))
 
     def process_event_buffer(self, ts, event_buffer):
-        # we don't care about ts
-        del ts
-        
         start = time()
         
         # pass events to the pmd to draw
@@ -68,13 +69,27 @@ class pmd_consumer(evaluator_consumer):
 
             # draw the velocity ratio
             cv2.circle(frame, (px, py), int(
-                0.1*min(a['ratio'], self._p['ratio_threshold'])*scale), color, 1)
+                min(a['ratio'], self._p['ratio_threshold'])*scale), color, 1)
 
             # save footprint as a boolean image
             a['image'] = np.equal(self._cluster_map, a['cid'])
 
             # calculate confidence to determine if positive
             a['conf'] = 1-exp(tau*a['stability'])
+
+            cid_str = str(a['cid'])
+            if cid_str not in self._log_data:
+                self._log_data[cid_str] = []
+            
+            data_point = {}
+            data_point['long_v_x'] = a['long_v_x']
+            data_point['long_v_y'] = a['long_v_y']
+            data_point['short_v_x'] = a['short_v_x']
+            data_point['short_v_y'] = a['short_v_y']
+            data_point['frame'] = self._frame_count
+            data_point['conf'] = a['conf']
+
+            self._log_data[cid_str].append(data_point)
 
         # filter out negative results
         positive = [a for a in active if a['conf'] > 0.5]
@@ -128,3 +143,8 @@ class pmd_consumer(evaluator_consumer):
 
         stdout.write(f' PMD processed {len(event_buffer)} events in {ms:.0f}ms.')
         stdout.flush()
+
+    def end(self):
+        super().end()
+
+        # json.dump(self._log_data, open(f'output/{self._run_name}.json', 'w'))
