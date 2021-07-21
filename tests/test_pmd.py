@@ -7,7 +7,7 @@ data_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 annot_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 
 group = 'june_12'
-test = 3
+test = 2
 file_type = '.aedat4'
 
 # group = 'april_29'
@@ -68,12 +68,12 @@ annot_path = os.path.join(os.path.expanduser('~\\'),
 parameters = {
     'x_div': 4,  # number of horizontal divisions
     'y_div': 4,  # number of vertical divisions
-    'us_per_event': 100,  # processing time alloted to each event handler to process events
+    'us_per_event': 50,  # processing time alloted to each event handler to process events
     'temporal_filter': 100_000,
     # number of events to remember for each (x, y) position
     'event_buffer_depth': 4,
     'tf': 200_000,  # how far back in time to consider events for filtering
-    'tc': 250_000,  # how far back in time to consider events for clustering
+    'tc': 200_000,  # how far back in time to consider events for clustering
     'n': 4,  # minimum number of correlated events required to allow a particular event through the filter
     'max_cluster_size': 30,  # maximum taxicab dist from center of cluster to each event
     # microseconds periodicity to flush expired (>tc) events from buffer
@@ -96,6 +96,7 @@ play_file(
     event_consumer=pmd_consumer,
     run_name=run_name,
     annot_file=annot_path,
+    video_out=True,
     targets=['vessel', 'boat', 'RHIB'],
     parameters=parameters
 )
