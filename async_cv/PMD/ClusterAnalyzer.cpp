@@ -109,18 +109,31 @@ namespace PMD {
             double diff_x = _status.long_v_x - _status.short_v_x;
             double diff_y = _status.long_v_y - _status.short_v_y;
 
+            double long_mag_sq = pow(_status.long_v_x, 2) 
+                + pow(_status.long_v_y, 2);
+            double short_mag_sq = pow(_status.short_v_x, 2) 
+                + pow(_status.short_v_y, 2);
+
             double diff_mag = sqrt(pow(diff_x, 2) + pow(diff_y, 2));
-            double long_mag = sqrt(pow(_status.long_v_x, 2) 
-                + pow(_status.long_v_y, 2));
-            double eps = 0.0001;
 
-            _status.ratio = long_mag/(diff_mag+eps);
-            double delta = _status.ratio - _p.ratio_threshold;
+            double eps = 0.0001; // prevent divide by zero error
 
-            if (_status.ratio > _p.ratio_threshold)
-                _status.stability += int(delta);
-            else
-                _status.stability += int(delta*_p.destability_factor);
+            _status.ratio = sqrt(long_mag_sq)/(diff_mag+eps);
+            _status.dot_ratio = (_status.long_v_x*_status.short_v_x
+                + _status.long_v_y*_status.short_v_y) / sqrt(
+                    long_mag_sq * short_mag_sq
+                );
+
+            double delta;
+
+            if (_status.ratio > _p.ratio_threshold) {
+                delta = _status.ratio - _p.ratio_threshold;
+                _status.stability += int(_p.ratio_stability_factor*delta);
+            }
+            if (_status.dot_ratio < _p.dot_ratio_threshold) {
+                delta = _status.dot_ratio - _p.dot_ratio_threshold;
+                _status.stability += int(_p.dot_ratio_stability_factor*delta);
+            }
         }
         return _status;
     }

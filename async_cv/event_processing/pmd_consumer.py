@@ -9,6 +9,7 @@ import json
 
 from async_cv.event_processing.evaluator_consumer import evaluator_consumer
 from async_cv.PMD import PyPMD
+from async_cv.metrics.bounding_box import BoundingBox, BBFormat
 
 
 class pmd_consumer(evaluator_consumer):
@@ -51,7 +52,7 @@ class pmd_consumer(evaluator_consumer):
         # draw results from cluster analyzers
         for a in active:
             a['is_dup'] = False
-            (px, py) = (a['x'], a['y'])
+            (px, py) = c = (a['x'], a['y'])
             color = (a['b'], a['g'], a['r'])
 
             # draw diamond representing max cluster size
@@ -62,14 +63,20 @@ class pmd_consumer(evaluator_consumer):
             cv2.line(frame, (px-r, py), (px, py-r), diamond_color, 1)
 
             # draw short-term and long-term velocities
-            cv2.arrowedLine(frame, (px, py), (int(
+            cv2.arrowedLine(frame, c, (int(
                 px+a['long_v_x']*scale), int(py+a['long_v_y']*scale)), color, 1)
-            cv2.arrowedLine(frame, (px, py), (int(
+            cv2.arrowedLine(frame, c, (int(
                 px+a['short_v_x']*scale), int(py+a['short_v_y']*scale)), color, 1)
 
             # draw the velocity ratio
-            cv2.circle(frame, (px, py), int(
-                min(a['ratio'], self._p['ratio_threshold'])*scale), color, 1)
+            cv2.circle(frame, c, int(
+                min(a['ratio'], self._p['ratio_threshold'])*2.5), color, 1)
+
+            # draw the velocity dot ratio
+            if a['dot_ratio'] < self._p['dot_ratio_threshold']:
+                markerSize = int(
+                    -100.0*(a['dot_ratio'] - self._p['dot_ratio_threshold']))
+                cv2.drawMarker(frame, c, color, cv2.MARKER_TILTED_CROSS, markerSize)
 
             # save footprint as a boolean image
             a['image'] = np.equal(self._cluster_map, a['cid'])
@@ -88,46 +95,54 @@ class pmd_consumer(evaluator_consumer):
             data_point['short_v_y'] = a['short_v_y']
             data_point['frame'] = self._frame_count
             data_point['conf'] = a['conf']
+            data_point['is_target'] = False
+
+            for gt in self._ground_truth:
+                if gt.get_image_name() == f'frame_{self._frame_count:03d}':
+                    (x1, y1, x2, y2) = gt.get_absolute_bounding_box(BBFormat.XYX2Y2)
+                    if (x1 < px < x2) and (y1 < py < y2):
+                        data_point['is_target'] = True
 
             self._log_data[cid_str].append(data_point)
 
         # filter out negative results
         positive = [a for a in active if a['conf'] > 0.5]
 
-        detections = []
+        detections = positive
+        # detections = []
 
         # merge based on proximity
-        for a in positive:
-            for b in positive[positive.index(a)+1:]:
-                if abs(a['x'] - b['x']) <= r*2 and abs(a['y'] - b['y']) <= r*2:
-                    a['image'] = np.logical_or(a['image'], b['image'])
-                    a['stability'] += b['stability']
-                    b['is_dup'] = True
+        # for a in positive:
+        #     for b in positive[positive.index(a)+1:]:
+        #         if abs(a['x'] - b['x']) <= r*2 and abs(a['y'] - b['y']) <= r*2:
+        #             a['image'] = np.logical_or(a['image'], b['image'])
+        #             a['stability'] += b['stability']
+        #             b['is_dup'] = True
 
-        # remove dupes after merging
-        detections = [p for p in positive if not p['is_dup']]
+        # # remove dupes after merging
+        # detections = [p for p in positive if not p['is_dup']]
 
-        # compute bb for each detection
-        for d in detections:
-            d['bb'] = cv2.boundingRect(
-                np.multiply(255, d['image'], dtype='u1'))
+        # # compute bb for each detection
+        # for d in detections:
+        #     d['bb'] = cv2.boundingRect(
+        #         np.multiply(255, d['image'], dtype='u1'))
 
-        def is_intersect(bb1, bb2):
-            x1, y1, w1, h1 = bb1
-            x2, y2, w2, h2 = bb2
-            return not ((x1 > x2+w2) or (x1+w1 < x2)
-                        or (y1 > y2+h2) or (y1+h1 < y2))
+        # def is_intersect(bb1, bb2):
+        #     x1, y1, w1, h1 = bb1
+        #     x2, y2, w2, h2 = bb2
+        #     return not ((x1 > x2+w2) or (x1+w1 < x2)
+        #                 or (y1 > y2+h2) or (y1+h1 < y2))
 
-        # merge based on bb
-        for a in detections:
-            for b in detections[detections.index(a)+1:]:
-                if is_intersect(a['bb'], b['bb']):
-                    a['image'] = np.logical_or(a['image'], b['image'])
-                    a['stability'] += b['stability']
-                    b['is_dup'] = True
+        # # merge based on bb
+        # for a in detections:
+        #     for b in detections[detections.index(a)+1:]:
+        #         if is_intersect(a['bb'], b['bb']):
+        #             a['image'] = np.logical_or(a['image'], b['image'])
+        #             a['stability'] += b['stability']
+        #             b['is_dup'] = True
 
-        # remove dupes after merging
-        detections = [d for d in detections if not d['is_dup']]
+        # # remove dupes after merging
+        # detections = [d for d in detections if not d['is_dup']]
 
         for d in detections:
             image = np.multiply(255, d['image'], dtype='u1')
@@ -147,4 +162,4 @@ class pmd_consumer(evaluator_consumer):
     def end(self):
         super().end()
 
-        # json.dump(self._log_data, open(f'output/{self._run_name}.json', 'w'))
+        json.dump(self._log_data, open(f'output/{self._run_name}.json', 'w+'))

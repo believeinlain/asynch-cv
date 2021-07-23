@@ -48,9 +48,10 @@ namespace PMD {
         uint_t sample_period = 10000;
         ts_t long_duration = 2000000;
         ts_t short_duration = 1000000;
-        uint_t ratio_threshold = 100;
-        float destability_factor = 0.1;
-        int min_stability = -500;
+        uint_t ratio_threshold = 20;
+        float dot_ratio_threshold = 0.9;
+        float ratio_stability_factor = 1.0;
+        float dot_ratio_stability_factor = 1.0;
     };
 
     struct color {
@@ -175,6 +176,7 @@ namespace PMD {
         float short_v_x = 0, short_v_y = 0;
         int stability = 0;
         float ratio = 0;
+        float dot_ratio = 1.0;
     };
 
 };

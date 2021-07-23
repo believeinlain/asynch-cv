@@ -7,7 +7,7 @@ data_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 annot_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 
 group = 'june_12'
-test = 2
+test = 6
 file_type = '.aedat4'
 
 # group = 'april_29'
@@ -20,7 +20,7 @@ file_type = '.aedat4'
 
 boat_tests = {
     'june_12': {
-        1: 'Davis346red-2020-06-12T12-09-55-0700-0_Test_1',
+        # 1: 'Davis346red-2020-06-12T12-09-55-0700-0_Test_1',
         2: 'Davis346red-2020-06-12T12-11-45-0700-0_Test_2',
         3: 'Davis346red-2020-06-12T12-15-01-0700-0_Test_3',
         5: 'Davis346red-2020-06-12T12-24-03-0700-0_Test_5',
@@ -71,7 +71,7 @@ parameters = {
     'us_per_event': 50,  # processing time alloted to each event handler to process events
     'temporal_filter': 100_000,
     # number of events to remember for each (x, y) position
-    'event_buffer_depth': 4,
+    'event_buffer_depth': 8,
     'tf': 200_000,  # how far back in time to consider events for filtering
     'tc': 200_000,  # how far back in time to consider events for clustering
     'n': 4,  # minimum number of correlated events required to allow a particular event through the filter
@@ -84,10 +84,12 @@ parameters = {
     'long_duration': 5_000_000,  # microsecond duration to record samples for each cluster
     'short_duration': 3_000_000,
 
-    'ratio_threshold': 10,
-    'detection_tau': -0.008,
-    'destability_factor': 0.1, 
-    'min_stability': -500,
+    'detection_tau': -0.005,
+    
+    'ratio_threshold': 20,
+    'dot_ratio_threshold': 0.9,
+    'ratio_stability_factor': 1.0,
+    'dot_ratio_stability_factor': 1.0,
 }
 
 play_file(
