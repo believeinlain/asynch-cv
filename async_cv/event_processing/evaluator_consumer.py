@@ -41,9 +41,16 @@ class evaluator_consumer(basic_consumer):
             print('Metrics not computed due to no valid targets.')
             return
 
+        # use sklearn.metrics.precision_recall_curve
+        # iterate thru gt
+        # get highest conf det in gt -> (1, conf) : (y_true, probas_pred)
+        # remove any dets used from pool
+        # if no det -> (1, 0.0)
+        # any remaining det -> (0, conf)
+
         # evaluate metrics
         metrics = get_pascalvoc_metrics(
-            self._ground_truth, self._detections, 0.05)
+            self._ground_truth, self._detections, 0.01)
         plot_precision_recall_curves(
             metrics['per_class'],
             showAP=True,
@@ -58,10 +65,12 @@ class evaluator_consumer(basic_consumer):
 
     def save_ground_truth(self, label, xtl, ytl, xbr, ybr):
         if any(target in label for target in self._targets) and 'difficult' not in label:
-            self._ground_truth.append(BoundingBox(f'frame_{self._frame_count:03d}',
-                                                  class_id='target', coordinates=(xtl, ytl, xbr, ybr), format=BBFormat.XYX2Y2))
+            self._ground_truth.append(
+                BoundingBox(f'frame_{self._frame_count:03d}',
+                            class_id='target', coordinates=(xtl, ytl, xbr, ybr), format=BBFormat.XYX2Y2))
 
     def save_detection(self, conf, x, y, w, h):
-        self._detections.append(BoundingBox(f'frame_{self._frame_count:03d}',
-                                            class_id='target', coordinates=(x, y, w, h), format=BBFormat.XYWH,
-                                            bb_type=BBType.DETECTED, confidence=conf))
+        self._detections.append(
+            BoundingBox(f'frame_{self._frame_count:03d}',
+                        class_id='target', coordinates=(x, y, w, h), format=BBFormat.XYWH,
+                        bb_type=BBType.DETECTED, confidence=conf))

@@ -145,7 +145,7 @@ namespace PMD {
 #else  
         // handle event buffers sequentially (could alternately sort events here)
         for (uint_t i=0; i<_num_parts; ++i)
-            _handlers[i].processEventBuffer(sample_events, num_sample_events);
+            _handlers[i].processEventBuffer(events, num_events);
 #endif
     }
 

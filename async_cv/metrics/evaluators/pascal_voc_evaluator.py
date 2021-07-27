@@ -176,11 +176,11 @@ def get_pascalvoc_metrics(gt_boxes,
                     if generate_table:
                         dict_table['TP'].append(1)
                         dict_table['FP'].append(0)
-                else:
-                    FP[idx_det] = 1  # detection is set as false positive
-                    if generate_table:
-                        dict_table['FP'].append(1)
-                        dict_table['TP'].append(0)
+                # else:
+                #     FP[idx_det] = 1  # detection is set as false positive
+                #     if generate_table:
+                #         dict_table['FP'].append(1)
+                #         dict_table['TP'].append(0)
                     # print("FP")
             # - A detected "cat" is overlaped with a GT "cat" with IOU >= iou_threshold.
             else:

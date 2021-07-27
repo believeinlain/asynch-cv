@@ -78,18 +78,18 @@ parameters = {
     'max_cluster_size': 30,  # maximum taxicab dist from center of cluster to each event
     # microseconds periodicity to flush expired (>tc) events from buffer
     'buffer_flush_period': 20_000,
-    'num_analyzers': 16,
+    'num_analyzers': 32,
 
     'sample_period': 100_000,  # microseconds between each centroid position sample
-    'long_duration': 5_000_000,  # microsecond duration to record samples for each cluster
-    'short_duration': 3_000_000,
+    'long_duration': 3_000_000, #5_000_000,
+    'short_duration': 2_000_000, #3_000_000,
 
-    'detection_tau': -0.005,
+    'detection_tau': -0.004,
     
     'ratio_threshold': 20,
     'dot_ratio_threshold': 0.9,
     'ratio_stability_factor': 1.0,
-    'dot_ratio_stability_factor': 1.0,
+    'dot_ratio_stability_factor': 10.0,
 }
 
 play_file(
@@ -99,6 +99,7 @@ play_file(
     run_name=run_name,
     annot_file=annot_path,
     video_out=True,
+    show_metrics=True,
     targets=['vessel', 'boat', 'RHIB'],
     parameters=parameters
 )

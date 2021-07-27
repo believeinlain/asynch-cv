@@ -106,20 +106,20 @@ class pmd_consumer(evaluator_consumer):
             self._log_data[cid_str].append(data_point)
 
         # filter out negative results
-        positive = [a for a in active if a['conf'] > 0.5]
+        positive = [a for a in active if a['conf'] > 0.0]
 
         detections = positive
         # detections = []
 
-        # merge based on proximity
+        # # merge based on proximity
         # for a in positive:
         #     for b in positive[positive.index(a)+1:]:
-        #         if abs(a['x'] - b['x']) <= r*2 and abs(a['y'] - b['y']) <= r*2:
+        #         if abs(a['x'] - b['x']) <= r and abs(a['y'] - b['y']) <= r:
         #             a['image'] = np.logical_or(a['image'], b['image'])
         #             a['stability'] += b['stability']
         #             b['is_dup'] = True
 
-        # # remove dupes after merging
+        # # # remove dupes after merging
         # detections = [p for p in positive if not p['is_dup']]
 
         # # compute bb for each detection
@@ -148,13 +148,13 @@ class pmd_consumer(evaluator_consumer):
             image = np.multiply(255, d['image'], dtype='u1')
             x, y, w, h = cv2.boundingRect(image)
             conf = 1-exp(tau*d['stability'])
-            if conf > 0.5:
-                cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 255, 255), 1)
-                cv2.putText(frame, f"{conf:0.2f}", (x, y),
-                            cv2.FONT_HERSHEY_PLAIN, 1, (255, 255, 255), 1, cv2.LINE_AA)
 
-                # record the detection for metrics
-                self.save_detection(conf, x, y, w, h)
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 255, 255), 1)
+            cv2.putText(frame, f"{conf:0.2f}", (x, y),
+                        cv2.FONT_HERSHEY_PLAIN, 1, (255, 255, 255), 1, cv2.LINE_AA)
+
+            # record the detection for metrics
+            self.save_detection(conf, x, y, w, h)
 
         stdout.write(f' PMD processed {len(event_buffer)} events in {ms:.0f}ms.')
         stdout.flush()
