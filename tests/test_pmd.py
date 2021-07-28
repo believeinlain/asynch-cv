@@ -1,5 +1,6 @@
 """Simple test of pmd_consumer functionality"""
-import os.path
+
+from os.path import join, expanduser
 from async_cv.play_file import play_file
 from async_cv.event_processing.pmd_consumer import pmd_consumer
 
@@ -7,64 +8,74 @@ from async_cv.event_processing.pmd_consumer import pmd_consumer
 data_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 annot_root = 'OneDrive\\Documents\\NIWC\\NeuroComp\\boat_tests\\'
 
-group = 'june_12'
-test = 6
-file_type = '.aedat4'
-
-# group = 'april_29'
-# test = 4
-# file_type = '.raw'
-
-# group = 'june_26'
-# test = 2
-# file_type = '.aedat4'
-
-boat_tests = {
+files = {
     'june_12': {
-        # 1: 'Davis346red-2020-06-12T12-09-55-0700-0_Test_1',
-        2: 'Davis346red-2020-06-12T12-11-45-0700-0_Test_2',
-        3: 'Davis346red-2020-06-12T12-15-01-0700-0_Test_3',
-        5: 'Davis346red-2020-06-12T12-24-03-0700-0_Test_5',
-        6: 'Davis346red-2020-06-12T12-25-39-0700-0_Test_6',
-        # 9: 'Davis346red-2020-06-12T12-55-32-0700-0_Test_9',
-        # 10: 'Davis346red-2020-06-12T12-58-00-0700-0_Test_10',
-        # 13: 'Davis346red-2020-06-12T13-04-12-0700-0_Test_13'
+        'boat_tests': {
+            2: 'Davis346red-2020-06-12T12-11-45-0700-0_Test_2.aedat4',
+            3: 'Davis346red-2020-06-12T12-15-01-0700-0_Test_3.aedat4',
+            5: 'Davis346red-2020-06-12T12-24-03-0700-0_Test_5.aedat4',
+            6: 'Davis346red-2020-06-12T12-25-39-0700-0_Test_6.aedat4'
+        },
+        'annotations': {
+            2: 'Davis346red-2020-06-12T12-11-45-0700-0_Test_2.xml',
+            3: 'Davis346red-2020-06-12T12-15-01-0700-0_Test_3.xml',
+            5: 'Davis346red-2020-06-12T12-24-03-0700-0_Test_5.xml',
+            6: 'Davis346red-2020-06-12T12-25-39-0700-0_Test_6.xml'
+        },
+        'data_format': '.aedat4'
     },
     'june_26': {
-        # 1: 'Davis346red-2020-06-26T12-25-58-0700-00000195-0_Test_1',
-        2: 'Davis346red-2020-06-26T12-26-42-0700-00000195-0_Test_2',
-        3: 'Davis346red-2020-06-26T12-27-39-0700-00000195-0_Test_3',
-        4: 'Davis346red-2020-06-26T12-28-38-0700-00000195-0_Test_4',
-        # 5: 'Davis346red-2020-06-26T12-29-49-0700-00000195-0_Test_5',
-        6: 'Davis346red-2020-06-26T12-30-20-0700-00000195-0_Test_6',
-        # 7: 'Davis346red-2020-06-26T12-30-41-0700-00000195-0_Test_7',
-        # 8: 'Davis346red-2020-06-26T12-30-58-0700-00000195-0_Test_8',
-        9: 'Davis346red-2020-06-26T12-32-12-0700-00000195-0_Test_9',
-        # 16: 'Davis346red-2020-06-26T13-01-17-0700-00000195-0_Test_16',
-        # 17: 'Davis346red-2020-06-26T13-03-06-0700-00000195-0_Test_17',
-        # 19: 'Davis346red-2020-06-26T13-09-47-0700-00000195-0_Test_19',
-        21: 'Davis346red-2020-06-26T13-22-40-0700-00000195-0_Test_21',
-        # 23: 'Davis346red-2020-06-26T13-31-43-0700-00000195-0_Test_23'
+        'boat_tests': {
+            # 2: 'Davis346red-2020-06-26T12-26-42-0700-00000195-0_Test_2.aedat4',
+            3: 'Davis346red-2020-06-26T12-27-39-0700-00000195-0_Test_3.aedat4',
+            # 4: 'Davis346red-2020-06-26T12-28-38-0700-00000195-0_Test_4.aedat4',
+            6: 'Davis346red-2020-06-26T12-30-20-0700-00000195-0_Test_6.aedat4',
+            9: 'Davis346red-2020-06-26T12-32-12-0700-00000195-0_Test_9.aedat4',
+            21: 'Davis346red-2020-06-26T13-22-40-0700-00000195-0_Test_21.aedat4'
+        },
+        'annotations': {
+            # 2: 'Davis346red-2020-06-26T12-26-42-0700-00000195-0_Test_2.xml',
+            3: 'Davis346red-2020-06-26T12-27-39-0700-00000195-0_Test_3.xml',
+            # 4: 'Davis346red-2020-06-26T12-28-38-0700-00000195-0_Test_4.xml',
+            6: 'Davis346red-2020-06-26T12-30-20-0700-00000195-0_Test_6.xml',
+            9: 'Davis346red-2020-06-26T12-32-12-0700-00000195-0_Test_9.xml',
+            21: 'Davis346red-2020-06-26T13-22-40-0700-00000195-0_Test_21.xml'
+        },
+        'data_format': '.aedat4'
     },
-    'april_29': {
-        1: 'out_2021-04-29_17-56-14',
-        2: 'out_2021-04-29_17-57-47',
-        3: 'out_2021-04-29_18-02-48',
-        4: 'out_2021-04-29_18-04-41',
-        5: 'out_2021-04-29_18-06-47',
-        6: 'out_2021-04-29_18-10-59',
-        7: 'out_2021-04-29_18-17-21',
-        8: 'out_2021-04-29_18-20-10'
-    }
+    'april_12': {
+        'boat_tests': {
+            0: '25mm-1000us-speedboat-2021_04_12_15_09_24.aedat4',
+            1: '25mm-1200us-drifting-boat-2021_04_12_15_33_47.aedat4',
+            2: '75mm-1500us-drifting-boat-2021_04_12_15_35_24.aedat4',
+            3: '75mm-2000us-boat2-2021_04_12_15_21_16.aedat4',
+            4: '75mm-2000us-boat3-2021_04_12_15_30_50.aedat4',
+            5: '75mm-2000us-filter-boat-2021_04_12_15_16_43.aedat4',
+            6: '75mm-2000us-on-off-filter-boat-2021_04_12_15_17_24.aedat4',
+            # 7: '75mm-2000us-speedboat-2021_04_12_15_26_01.aedat4'
+        },
+        'annotations': {
+            0: '25mm-1000us-speedboat-2021_04_12_15_09_24-2021_06_03_18_58_28-cvat+for+video+1.1.xml',
+            1: '25mm-1200us-drifting-boat-2021_04_12_15_33_47-2021_06_03_21_30_33-cvat+for+video+1.1.xml',
+            2: '75mm-1500us-drifting-boat-2021_04_12_15_35_24-2021_06_03_21_50_58-cvat+for+video+1.1.xml',
+            3: '75mm-2000us-boat2-2021_04_12_15_21_16-2021_06_03_22_21_59-cvat+for+video+1.1.xml',
+            4: '75mm-2000us-boat3-2021_04_12_15_30_50-2021_06_03_22_55_50-cvat+for+video+1.1.xml',
+            5: '75mm-2000us-filter-boat-2021_04_12_15_16_43-2021_06_03_23_20_19-cvat+for+video+1.1.xml',
+            6: '75mm-2000us-on-off-filter-boat-2021_04_12_15_17_24-2021_06_03_23_26_34-cvat+for+video+1.1.xml',
+            # 7: '75mm-2000us-speedboat-2021_04_12_15_26_01-2021_06_07_15_08_31-cvat+for+video+1.1.xml'
+        }
+    },
+    # 'april_29': {
+    #     1: 'out_2021-04-29_17-56-14.raw',
+    #     2: 'out_2021-04-29_17-57-47.raw',
+    #     3: 'out_2021-04-29_18-02-48.raw',
+    #     4: 'out_2021-04-29_18-04-41.raw',
+    #     5: 'out_2021-04-29_18-06-47.raw',
+    #     6: 'out_2021-04-29_18-10-59.raw',
+    #     7: 'out_2021-04-29_18-17-21.raw',
+    #     8: 'out_2021-04-29_18-20-10.raw'
+    # },
 }
-
-filename = os.path.join(group, boat_tests[group][test])
-run_name = f'{group}_run_{test:02d}'
-
-data_path = os.path.join(os.path.expanduser(
-    '~\\'), data_root, filename)+file_type
-annot_path = os.path.join(os.path.expanduser('~\\'),
-                          annot_root, filename)+'.xml'
 
 parameters = {
     'x_div': 4,  # number of horizontal divisions
@@ -93,14 +104,31 @@ parameters = {
     'dot_ratio_stability_factor': 10.0,
 }
 
-play_file(
-    filename=data_path,
-    dt=33,
-    event_consumer=pmd_consumer,
-    run_name=run_name,
-    annot_file=annot_path,
-    video_out=True,
-    show_metrics=True,
-    targets=['vessel', 'boat', 'RHIB'],
-    parameters=parameters
-)
+def run_one(group, test):
+    run_name = f'{group}_run_{test:02d}'
+
+    data_path = join(expanduser('~\\'), data_root, join(
+        group, files[group]['boat_tests'][test]))
+    annot_path = join(expanduser('~\\'), annot_root, join(
+        group, files[group]['annotations'][test]))
+
+    play_file(data_path, 33, pmd_consumer, 
+        run_name=run_name, 
+        video_out=True,
+        targets=['vessel', 'boat', 'RHIB'], 
+        annot_file=annot_path, 
+        show_metrics=False,
+        parameters=parameters
+    )
+
+def run_group(group):
+    for test in files[group]['boat_tests'].keys():
+            run_one(group, test)
+
+def run_all():
+    for group in files:
+        run_group(group)
+
+# run_all()
+run_group('april_12')
+# run_one('june_12', 6)

@@ -56,16 +56,18 @@ class evaluator_consumer(basic_consumer):
             return not ((x1 > x2+w2) or (x1+w1 < x2)
                         or (y1 > y2+h2) or (y1+h1 < y2))
 
-        metrics_truth = []
-        metrics_conf = []
+        # initialize with a true negative so that ROC is defined even
+        # if there are no false positives
+        metrics_truth = [0]
+        metrics_conf = [0]
 
         # evaluate metrics
-        print('\nEvaluating metrics...')
+        print('Evaluating metrics...')
         for frame in range(self._frame_count):
             gts = self._ground_truth[frame]
             dets = self._detections[frame]
-            print(f'Analyzing frame {frame}: \
-                {len(gts)} targets, {len(dets)} detections.')
+            # print(f'Analyzing frame {frame}: \
+            #     {len(gts)} targets, {len(dets)} detections.')
             # iterate through ground truth for this frame
             for gt_i, gt in enumerate(gts):
                 best_conf = 0.00
@@ -79,13 +81,13 @@ class evaluator_consumer(basic_consumer):
                             best_det = det_i
                 # if we had an overlap, consider it a tentative true positive
                 if gt['is_detected']:
-                    print(f'TP: target {gt_i} matched with det {best_det}, conf: {best_conf}.')
+                    # print(f'TP: target {gt_i} matched with det {best_det}, conf: {best_conf}.')
                     dets[best_det]['is_matched'] = True
                     metrics_truth.append(1)
                     metrics_conf.append(best_conf)
                 # otherwise we have a false negative
                 else:
-                    print(f'FN: gt {gt_i} undetected.')
+                    # print(f'FN: target {gt_i} undetected.')
                     metrics_truth.append(1)
                     metrics_conf.append(0)
 
@@ -98,10 +100,10 @@ class evaluator_consumer(basic_consumer):
                     for gt_i, gt in enumerate(gts):
                         if intersects(gt['bb'], det['bb']):
                             is_redundant = True
-                            print(f'Redundant det {det_i} on target {gt_i}, ignored.')
+                            # print(f'Redundant det {det_i} on target {gt_i}, ignored.')
                     # if it does not overlap any gt, consider it a false positive
                     if not is_redundant:
-                        print(f'FP: det {det_i} unmatched, conf: {det["conf"]}.')
+                        # print(f'FP: det {det_i} unmatched, conf: {det["conf"]}.')
                         metrics_truth.append(0)
                         metrics_conf.append(det['conf'])
 
@@ -111,19 +113,32 @@ class evaluator_consumer(basic_consumer):
         precision, recall, _ = sklearn.metrics.precision_recall_curve(
             metrics_truth_array, metrics_conf_array
         )
+        fpr, tpr, _ = sklearn.metrics.roc_curve(
+            metrics_truth_array, metrics_conf_array
+        )
         ap = sklearn.metrics.average_precision_score(
             metrics_truth_array, metrics_conf_array
         )
-        disp = sklearn.metrics.PrecisionRecallDisplay(precision=precision, recall=recall)
+        auc_roc = sklearn.metrics.roc_auc_score(
+            metrics_truth_array, metrics_conf_array
+        )
+        disp = sklearn.metrics.PrecisionRecallDisplay(precision, recall)
         disp.plot()
         disp.ax_.set_title(f'Average Precision: {ap:0.2f}')
-        plt.savefig(f'output/metrics/{self._run_name}/results.png')
         plt.xlim([0.0, 1.0])
         plt.ylim([0.0, 1.05])
-        plt.show()
+        plt.savefig(f'output/metrics/{self._run_name}/prc.png')
+        if self._show_metrics:
+            plt.show()
 
-        print(f'Average precision for target: {ap:0.2f}.')
-        print(f'Precision x Recall curve saved in "output/metrics/{self._run_name}"')
+        disp = sklearn.metrics.RocCurveDisplay(fpr=fpr, tpr=tpr)
+        disp.plot()
+        disp.ax_.set_title(f'Area Under Curve: {auc_roc:0.2f}')
+        plt.savefig(f'output/metrics/{self._run_name}/roc.png')
+        if self._show_metrics:
+            plt.show()
+
+        print(f'Plots saved in "output/metrics/{self._run_name}"')
 
     def save_ground_truth(self, label, xtl, ytl, xbr, ybr):
         if any(target in label for target in self._targets) and 'difficult' not in label:
