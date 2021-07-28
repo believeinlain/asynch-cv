@@ -9,7 +9,6 @@ import json
 
 from async_cv.event_processing.evaluator_consumer import evaluator_consumer
 from async_cv.PMD import PyPMD
-from async_cv.metrics.bounding_box import BoundingBox, BBFormat
 
 
 class pmd_consumer(evaluator_consumer):
@@ -97,52 +96,16 @@ class pmd_consumer(evaluator_consumer):
             data_point['conf'] = a['conf']
             data_point['is_target'] = False
 
-            for gt in self._ground_truth:
-                if gt.get_image_name() == f'frame_{self._frame_count:03d}':
-                    (x1, y1, x2, y2) = gt.get_absolute_bounding_box(BBFormat.XYX2Y2)
-                    if (x1 < px < x2) and (y1 < py < y2):
-                        data_point['is_target'] = True
+            gts = self._ground_truth[self._frame_count]
+            for gt in gts: 
+                (x, y, w, h) = gt['bb']
+                if (x < px < x+w) and (y < py < y+h):
+                    data_point['is_target'] = True
 
             self._log_data[cid_str].append(data_point)
 
         # filter out negative results
-        positive = [a for a in active if a['conf'] > 0.0]
-
-        detections = positive
-        # detections = []
-
-        # # merge based on proximity
-        # for a in positive:
-        #     for b in positive[positive.index(a)+1:]:
-        #         if abs(a['x'] - b['x']) <= r and abs(a['y'] - b['y']) <= r:
-        #             a['image'] = np.logical_or(a['image'], b['image'])
-        #             a['stability'] += b['stability']
-        #             b['is_dup'] = True
-
-        # # # remove dupes after merging
-        # detections = [p for p in positive if not p['is_dup']]
-
-        # # compute bb for each detection
-        # for d in detections:
-        #     d['bb'] = cv2.boundingRect(
-        #         np.multiply(255, d['image'], dtype='u1'))
-
-        # def is_intersect(bb1, bb2):
-        #     x1, y1, w1, h1 = bb1
-        #     x2, y2, w2, h2 = bb2
-        #     return not ((x1 > x2+w2) or (x1+w1 < x2)
-        #                 or (y1 > y2+h2) or (y1+h1 < y2))
-
-        # # merge based on bb
-        # for a in detections:
-        #     for b in detections[detections.index(a)+1:]:
-        #         if is_intersect(a['bb'], b['bb']):
-        #             a['image'] = np.logical_or(a['image'], b['image'])
-        #             a['stability'] += b['stability']
-        #             b['is_dup'] = True
-
-        # # remove dupes after merging
-        # detections = [d for d in detections if not d['is_dup']]
+        detections = [a for a in active if a['conf'] > 0.0]
 
         for d in detections:
             image = np.multiply(255, d['image'], dtype='u1')
