@@ -9,6 +9,14 @@ from async_cv.event_processing.basic_consumer import basic_consumer
 
 
 class evaluator_consumer(basic_consumer):
+    """Consumer class for assessing the performance of detection algorithms \
+
+    save_detection() should be called by the detector class to register a \
+    detection bounding box for evaluation. Once end() is called the \
+    performance metrics will be calculated for the entire run.
+
+    """
+
     def __init__(self, width, height, targets=['vessel'], show_metrics=False,
                  **kwargs):
         """Constructor
@@ -16,9 +24,10 @@ class evaluator_consumer(basic_consumer):
         Args:
             width (int): Width of event sensor in pixels
             height (int): Height of event sensor in pixels
-            targets (list): List of targets to match against in the ground \
-                truth annotations
+            targets (list): List of targets labels to match against in the \
+                ground truth annotations
             show_metrics (bool): Display metrics at the end of the run
+
         """
         super().__init__(width, height, **kwargs)
 
@@ -36,12 +45,35 @@ class evaluator_consumer(basic_consumer):
             os.makedirs(f'output/metrics/{self._run_name}')
 
     def init_frame(self, frame_buffer=None):
+        super().init_frame(frame_buffer)
+
         # initialize ground truth list for this frame
         self._ground_truth.append([])
         # initialize detection list for this frame
         self._detections.append([])
 
-        super().init_frame(frame_buffer)
+        # read annotations
+        for i in range(len(self._annotations)):
+            box_frames = list(self._annotations[i]['box'])
+            label = self._annotations[i]['@label']
+
+            # sync properly to frame number
+            is_in_frame = False
+            for box in box_frames:
+                if int(box['@frame']) == self._frame_count:
+                    is_in_frame = True
+                    break
+            if not is_in_frame:
+                continue
+
+            # read box info
+            xtl = int(float(box['@xtl']))
+            ytl = int(float(box['@ytl']))
+            xbr = int(float(box['@xbr']))
+            ybr = int(float(box['@ybr']))
+
+            # save the ground truth bb if applicable
+            self.save_ground_truth(label, xtl, ytl, xbr, ybr)
 
     def end(self):
         super().end()

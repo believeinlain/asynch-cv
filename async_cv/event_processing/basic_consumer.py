@@ -148,10 +148,6 @@ class basic_consumer:
             cv2.putText(self._frame_to_draw, label, (xtl, ytl),
                         cv2.FONT_HERSHEY_PLAIN, 0.5, color, 1, cv2.LINE_AA)
 
-            # save the ground truth bb if applicable
-            if hasattr(self, 'save_ground_truth'):
-                self.save_ground_truth(label, xtl, ytl, xbr, ybr)
-
         # ensure the frame is contiguous for C processing
         self._frame_to_draw = np.ascontiguousarray(
             self._frame_to_draw, dtype=np.uint8)
@@ -179,9 +175,9 @@ class basic_consumer:
         # write the frame to the output avi
         if self._output_video is not None:
             self._output_video.write(self._frame_to_draw)
-        
-        cv2.imwrite(f'output/{self._run_name}/frame_{self._frame_count}.jpg', 
-            self._frame_to_draw)
+
+        cv2.imwrite(f'output/{self._run_name}/frame_{self._frame_count}.jpg',
+                    self._frame_to_draw)
 
         self._frame_count += 1
         stdout.write(f' Frame: {self._frame_count:3}')

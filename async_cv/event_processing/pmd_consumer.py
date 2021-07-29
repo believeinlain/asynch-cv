@@ -12,6 +12,7 @@ from async_cv.PMD import PyPMD
 
 
 class pmd_consumer(evaluator_consumer):
+    """Consumer class for using the PersistentMotionDetector"""
 
     def __init__(self, width, height, **kwargs):
         super().__init__(width, height, **kwargs)
@@ -33,11 +34,11 @@ class pmd_consumer(evaluator_consumer):
 
     def process_event_buffer(self, ts, event_buffer):
         start = time()
-        
+
         # pass events to the pmd to draw
         results = self._pmd.process_events(
             self._frame_to_draw, event_buffer, self._cluster_map)
-        
+
         ms = (time() - start)*1000.0
 
         r = self._max_cluster_size
@@ -75,7 +76,8 @@ class pmd_consumer(evaluator_consumer):
             if a['dot_ratio'] < self._p['dot_ratio_threshold']:
                 markerSize = int(
                     -100.0*(a['dot_ratio'] - self._p['dot_ratio_threshold']))
-                cv2.drawMarker(frame, c, color, cv2.MARKER_TILTED_CROSS, markerSize)
+                cv2.drawMarker(frame, c, color,
+                               cv2.MARKER_TILTED_CROSS, markerSize)
 
             # save footprint as a boolean image
             a['image'] = np.equal(self._cluster_map, a['cid'])
@@ -86,7 +88,7 @@ class pmd_consumer(evaluator_consumer):
             cid_str = str(a['cid'])
             if cid_str not in self._log_data:
                 self._log_data[cid_str] = []
-            
+
             data_point = {}
             data_point['long_v_x'] = a['long_v_x']
             data_point['long_v_y'] = a['long_v_y']
@@ -97,7 +99,7 @@ class pmd_consumer(evaluator_consumer):
             data_point['is_target'] = False
 
             gts = self._ground_truth[self._frame_count]
-            for gt in gts: 
+            for gt in gts:
                 (x, y, w, h) = gt['bb']
                 if (x < px < x+w) and (y < py < y+h):
                     data_point['is_target'] = True
@@ -119,7 +121,8 @@ class pmd_consumer(evaluator_consumer):
             # record the detection for metrics
             self.save_detection(conf, x, y, w, h)
 
-        stdout.write(f' PMD processed {len(event_buffer)} events in {ms:.0f}ms.')
+        stdout.write(
+            f' PMD processed {len(event_buffer)} events in {ms:.0f}ms.')
         stdout.flush()
 
     def end(self):
