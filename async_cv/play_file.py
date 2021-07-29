@@ -14,6 +14,8 @@ from async_cv.event_processing.basic_consumer import basic_consumer
 def play_file(filename: str, dt: int, event_consumer: basic_consumer, **kwargs):
     """ Play a recorded event stream in any of the supported formats.
 
+    Currently Metavision live, .dat, .raw and Inivation .aedat4 are supported.
+
     Args:
         filename (str): Path to the file to be played. \
             Use filename='' to play a live feed.
@@ -37,7 +39,7 @@ def play_file(filename: str, dt: int, event_consumer: basic_consumer, **kwargs):
 
     # play live camera if no filename provided
     if filename is '':
-        return play_metavision_live(dt, event_consumer, kwargs)
+        return play_metavision_live(dt, event_consumer, **kwargs)
 
     # Check validity of input arguments
     if not(path.exists(filename) and path.isfile(filename)):
@@ -48,7 +50,7 @@ def play_file(filename: str, dt: int, event_consumer: basic_consumer, **kwargs):
     print(f'Playing file "{filename}".')
 
     if filename.endswith('.raw') or filename.endswith('.dat'):
-        play_metavision_file(filename, dt, event_consumer, kwargs)
+        play_metavision_file(filename, dt, event_consumer, **kwargs)
 
     elif filename.endswith('.aedat4'):
         from dv import AedatFile
@@ -72,7 +74,7 @@ def play_file(filename: str, dt: int, event_consumer: basic_consumer, **kwargs):
 
         # play with frames
         frames = [(frame.image, frame.timestamp)
-                for frame in aedat['frames']]
+                  for frame in aedat['frames']]
 
         consumer = event_consumer(width, height, **kwargs)
 
@@ -250,9 +252,9 @@ def play_numpy_array_frames(event_data, consumer, frames):
         # process buffered events into frame
         event_array = event_data[frame_start:frame_end, :]
         struct_array = np.core.records.fromarrays(
-            event_array.transpose(), 
-            dtype = np.dtype({
-                'names': ['x', 'y', 'p', 't'], 
+            event_array.transpose(),
+            dtype=np.dtype({
+                'names': ['x', 'y', 'p', 't'],
                 'formats': ['u2', 'u2', 'i2', 'i8'],
                 'offsets': [0, 2, 4, 8],
                 'itemsize': 16
@@ -298,6 +300,7 @@ def end_loop(start_time, dt):
     # update time elapsed
     sys.stdout.write(f'\rFrame time: {end_time-start_time:3}/{dt:2}(ms)')
     sys.stdout.flush()
+
 
 def on_press(key):
     global is_running

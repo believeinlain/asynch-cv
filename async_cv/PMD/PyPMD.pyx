@@ -4,6 +4,7 @@ cimport numpy as np
 
 from async_cv.PMD.PersistentMotionDetector cimport *
 
+
 cdef class PyPMD:
     cdef PersistentMotionDetector *_cpp_PMD
     cdef xy_t _width, _height
@@ -13,6 +14,7 @@ cdef class PyPMD:
         self._width = width
         self._height = height
 
+        # read input parameters and set appropriate values for the struct
         cdef parameters c_param
         c_param.width = width
         c_param.height = height
@@ -42,7 +44,8 @@ cdef class PyPMD:
     def __dealloc__(self):
         del self._cpp_PMD
 
-    cpdef detection[:] process_events(self, byte_t[:, :, ::1] frame, event[:] events, cid_t[:, ::1] indices):
+    cpdef detection[:] process_events(self, byte_t[:, :, ::1] frame, 
+                                      event[:] events, cid_t[:, ::1] indices):
         cdef unsigned int num_events = <unsigned int>len(events)
 
         # allocate results array
@@ -64,7 +67,3 @@ cdef class PyPMD:
 
         # return the results
         return results
-
-
-
-        

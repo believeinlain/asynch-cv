@@ -33,6 +33,7 @@ class pmd_consumer(evaluator_consumer):
             np.full((height, width), -1, dtype='u2'))
 
     def process_event_buffer(self, ts, event_buffer):
+        del ts
         start = time()
 
         # pass events to the pmd to draw
@@ -128,4 +129,5 @@ class pmd_consumer(evaluator_consumer):
     def end(self):
         super().end()
 
+        # save a json file of collected movement data for external analysis
         json.dump(self._log_data, open(f'output/{self._run_name}.json', 'w+'))

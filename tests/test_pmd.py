@@ -1,4 +1,4 @@
-"""Simple test of pmd_consumer functionality"""
+"""Test of pmd_consumer functionality, with a selection of data."""
 
 from os.path import join, expanduser
 from async_cv.play_file import play_file
@@ -77,6 +77,7 @@ files = {
     # },
 }
 
+# Define PMD parameters
 parameters = {
     'x_div': 4,  # number of horizontal divisions
     'y_div': 4,  # number of vertical divisions
@@ -130,5 +131,5 @@ def run_all():
         run_group(group)
 
 # run_all()
-run_group('april_12')
-# run_one('june_12', 6)
+# run_group('april_12')
+run_one('june_12', 6)

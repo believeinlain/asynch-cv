@@ -6,22 +6,21 @@
 #include <math.h>
 #include <algorithm>
 
+
 namespace PMD {
 
-    // types used to interface with python bindings
+    // types selected to interface with python
     typedef unsigned short xy_t;
     typedef short p_t;
     typedef long long ts_t;
 
-    // ensure bytes are packed tightly since that's how we get events from python
-    // #pragma pack(push, 1)
+    // define the byte structure for each event
     struct event {
-        xy_t x; // 2 bytes
-        xy_t y; // 2 bytes
-        p_t p; // 2 bytes
-        ts_t t; // 8 bytes
-    }; // total 14 bytes per event
-    // #pragma pack(pop)
+        xy_t x;
+        xy_t y;
+        p_t p;
+        ts_t t;
+    };
 
     // this is used to access the framebuffer, so it's important to be a single byte
     typedef unsigned char byte_t;
@@ -113,23 +112,6 @@ namespace PMD {
     };
 
     template<typename T>
-    struct array_2d {
-        const size_t w, h;
-        array_2d(size_t width, size_t height) :
-            w(width), h(height) {
-            _data = new T[width*height]{};
-        }
-        ~array_2d() {
-            delete[] _data;
-        }
-        T &at(size_t x, size_t y) {
-            return _data[x + y*w];
-        }
-    private:
-        T *_data;
-    };
-
-    template<typename T>
     struct buffer_3d {
         const size_t w, h, d;
         buffer_3d(size_t width, size_t height, size_t depth) :
@@ -162,11 +144,11 @@ namespace PMD {
 
     // max clusters derived from the type size, 
     // so that the only possible invalid id is NO_CID
+    // changing this may significantly impact runtime
     typedef unsigned short cid_t;
     const cid_t NO_CID = std::numeric_limits<cid_t>::max();
 
-    // integer types to make interfacing easier,
-    // since speed and compactness are not super important here
+    // results structure that the PMD will return for each detection
     struct detection {
         int is_active = 0;
         int x = 0, y = 0;
