@@ -1,3 +1,8 @@
+"""Module containing the play_file() function, which is used as an abstraction \
+layer to playback various event data formats and feed events to an event \
+consumer class.
+"""
+
 # Ignore warnings for packages not found, since support for everything is optional
 # pyright: reportMissingImports=false
 
@@ -31,6 +36,13 @@ def play_file(filename: str, dt: int, event_consumer: basic_consumer, **kwargs):
     Returns:
         -1 if a fatal error occurs, 0 if successful.
     """
+    # define the callback function
+    def on_press(key):
+        global is_running
+        if key == KeyCode.from_char('q'):
+            is_running = False
+            return False
+            
     # start the keyboard listener
     listener = Listener(on_press=on_press)
     listener.start()
@@ -89,7 +101,8 @@ def play_file(filename: str, dt: int, event_consumer: basic_consumer, **kwargs):
 
 
 def play_metavision_live(dt, event_consumer, **kwargs):
-    """Begin playback of a live feed"""
+    """Begin playback of a live feed from a Prophesee camera"""
+
     import metavision_designer_engine as mvd_engine
     import metavision_designer_core as mvd_core
     import metavision_hal as mv_hal
@@ -162,7 +175,8 @@ def play_metavision_live(dt, event_consumer, **kwargs):
 
 
 def play_metavision_file(filename, dt, event_consumer, **kwargs):
-    """Begin file playback if we know it is a metavision .raw or .dat file"""
+    """Begin file playback of a metavision .raw or .dat file"""
+
     import metavision_designer_engine as mvd_engine
     import metavision_designer_core as mvd_core
     import metavision_hal as mv_hal
@@ -228,8 +242,8 @@ def play_metavision_file(filename, dt, event_consumer, **kwargs):
 
 
 def play_numpy_array_frames(event_data, consumer, frames):
-    """Playback numpy array with recorded frames (recorded frames determine dt)
-    """
+    """Playback numpy array with recorded frames"""
+
     timestamps = event_data[:, 3]
     num_events = len(timestamps)
     last_index = num_events-1
@@ -260,8 +274,7 @@ def play_numpy_array_frames(event_data, consumer, frames):
                 'itemsize': 16
             })
         )
-        consumer.process_buffers(
-            frame_end_time, struct_array, frames[frames_drawn][0])
+        consumer.process_buffers(struct_array, frames[frames_drawn][0])
         # draw frame with the events
         consumer.draw_frame()
 
@@ -282,13 +295,15 @@ def play_numpy_array_frames(event_data, consumer, frames):
 
 def begin_loop():
     """Call at the beginning of each loop to mark frame start"""
+
     return time_ns() // 1_000_000  # time in msec
 
 
 def end_loop(start_time, dt):
-    """Call at the end of each loop to evaluate time to process and 
-    display the frame
+    """Call at the end of each loop to evaluate time to process and display \
+    the frame.
     """
+
     end_time = time_ns() // 1_000_000  # time in msec
     end_of_frame = start_time + dt
 
@@ -300,10 +315,3 @@ def end_loop(start_time, dt):
     # update time elapsed
     sys.stdout.write(f'\rFrame time: {end_time-start_time:3}/{dt:2}(ms)')
     sys.stdout.flush()
-
-
-def on_press(key):
-    global is_running
-    if key == KeyCode.from_char('q'):
-        is_running = False
-        return False

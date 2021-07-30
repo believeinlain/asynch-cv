@@ -1,3 +1,6 @@
+"""Definitions for interfacing with the PersistentMotionDetector C++ class \
+through Cython.
+"""
 
 from libcpp cimport bool
 
@@ -48,5 +51,6 @@ cdef extern from 'PersistentMotionDetector.h' namespace 'PMD':
         PersistentMotionDetector(parameters) except +
 
         void initFramebuffer(byte_t *frame)
-        void simulate(const event *events, int num_events, detection *results, cid_t *indices)
+        void simulate(const event *events, int num_events, detection *results, 
+                      cid_t *indices)
 

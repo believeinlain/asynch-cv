@@ -88,31 +88,29 @@ class basic_consumer:
                 when adding a new source to the PythonConsumer.
             src_2d_arrays: Frame producer output. Will be ignored.
         """
-        # ignore frame producer output
-        del src_2d_arrays
+        # ignore frame producer output and timestamp
+        del src_2d_arrays, ts
         # Prepare events for processing
         if 'CDProd' in src_events:
             # the actual event buffer data
             event_buffer = src_events['CDProd'][2]
             # appropriately process the events
-            self.process_buffers(ts, event_buffer)
+            self.process_buffers(event_buffer)
 
-    def process_buffers(self, ts, event_buffer, frame_buffer=None):
-        """Callback method to override to process events.
+    def process_buffers(self, event_buffer, frame_buffer=None):
+        """Callback method to override to process events and frames.
 
         Args:
-            ts: This is the timestamp of the end of the buffer. \
-                All events included in this callback will have a timestamp \
-                strictly lower than ts.
             event_buffer: Array of events as tuples of the form \
                 ('x','y','p','t').
             frame_buffer: Array of greyscale pixels if captured by a \
                 conventional image chip.
+        
         """
         # draw the frame we received from frame_buffer
         self.init_frame(frame_buffer)
         # process events accordingly
-        self.process_event_buffer(ts, event_buffer)
+        self.process_event_buffer(event_buffer)
 
     def init_frame(self, frame_buffer=None):
         # if we have a frame_buffer, start with that
@@ -153,9 +151,13 @@ class basic_consumer:
             self._frame_to_draw, dtype=np.uint8)
 
     def process_event_buffer(self, ts, event_buffer):
-        # we don't care about ts
-        del ts
+        """Callback method to override to process events and frames.
 
+        Args:
+            event_buffer: Array of events as tuples of the form \
+                ('x','y','p','t').
+        
+        """
         start = time()
 
         # draw events colored by polarity

@@ -12,7 +12,7 @@ from async_cv.PMD import PyPMD
 
 
 class pmd_consumer(evaluator_consumer):
-    """Consumer class for using the PersistentMotionDetector"""
+    """Consumer class for using the PersistentMotionDetector C++ class"""
 
     def __init__(self, width, height, **kwargs):
         super().__init__(width, height, **kwargs)
@@ -32,8 +32,7 @@ class pmd_consumer(evaluator_consumer):
         self._cluster_map = np.ascontiguousarray(
             np.full((height, width), -1, dtype='u2'))
 
-    def process_event_buffer(self, ts, event_buffer):
-        del ts
+    def process_event_buffer(self, event_buffer):
         start = time()
 
         # pass events to the pmd to draw
