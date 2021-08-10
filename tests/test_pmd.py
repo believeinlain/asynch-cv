@@ -97,12 +97,12 @@ parameters = {
     'long_duration': 3_000_000, #5_000_000,
     'short_duration': 2_000_000, #3_000_000,
 
-    'detection_tau': -0.004,
+    'detection_tau': -0.002,
     
-    'ratio_threshold': 20,
+    'ratio_threshold': 45,
     'dot_ratio_threshold': 0.9,
     'ratio_stability_factor': 1.0,
-    'dot_ratio_stability_factor': 10.0,
+    'dot_ratio_stability_factor': 0.0,
 }
 
 def run_one(group, test):
@@ -131,5 +131,5 @@ def run_all():
         run_group(group)
 
 # run_all()
-# run_group('april_12')
-run_one('june_12', 6)
+run_group('june_12')
+# run_one('june_12', 6)

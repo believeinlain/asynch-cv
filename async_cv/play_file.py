@@ -16,14 +16,15 @@ from pynput.keyboard import Listener, KeyCode
 from async_cv.event_processing.basic_consumer import basic_consumer
 
 
-def play_file(filename: str, dt: int, event_consumer: basic_consumer, **kwargs):
+def play_file(filename, dt: int, event_consumer: basic_consumer, **kwargs):
     """ Play a recorded event stream in any of the supported formats.
 
     Currently Metavision live, .dat, .raw and Inivation .aedat4 are supported.
 
     Args:
-        filename (str): Path to the file to be played. \
-            Use filename='' to play a live feed.
+        filename: Path to the file(s) to be played. \
+            Use filename='' to play a live feed. \
+            Use an array of files to chain multiple together in the same run.
         dt (int): Number of milliseconds to collect for each displayed frame. \
             If the file has frames, this argument will be ignored and events \
             will be synchronized to the existing framerate.

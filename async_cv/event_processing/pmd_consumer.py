@@ -129,4 +129,4 @@ class pmd_consumer(evaluator_consumer):
         super().end()
 
         # save a json file of collected movement data for external analysis
-        json.dump(self._log_data, open(f'output/{self._run_name}.json', 'w+'))
+        json.dump(self._log_data, open(f'output/{self._run_name}/movement.json', 'w+'))

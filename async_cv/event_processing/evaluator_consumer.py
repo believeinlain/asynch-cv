@@ -41,8 +41,10 @@ class evaluator_consumer(basic_consumer):
         self._show_metrics = show_metrics
 
         # create output directories if necessary
-        if not os.path.isdir(f'output/metrics/{self._run_name}'):
-            os.makedirs(f'output/metrics/{self._run_name}')
+        if not os.path.isdir(f'output/{self._run_name}/metrics/'):
+            os.makedirs(f'output/{self._run_name}/metrics/')
+        if not os.path.isdir(f'output/{self._run_name}/results/'):
+            os.makedirs(f'output/{self._run_name}/results/')
 
     def init_frame(self, frame_buffer=None):
         super().init_frame(frame_buffer)
@@ -142,6 +144,11 @@ class evaluator_consumer(basic_consumer):
         metrics_truth_array = np.array(metrics_truth)
         metrics_conf_array = np.array(metrics_conf)
 
+        np.savetxt(f'output/{self._run_name}/results/metrics_truth_array.txt',
+            metrics_truth_array)
+        np.savetxt(f'output/{self._run_name}/results/metrics_conf_array.txt',
+            metrics_conf_array)
+
         precision, recall, _ = sklearn.metrics.precision_recall_curve(
             metrics_truth_array, metrics_conf_array
         )
@@ -159,18 +166,18 @@ class evaluator_consumer(basic_consumer):
         disp.ax_.set_title(f'Average Precision: {ap:0.2f}')
         plt.xlim([0.0, 1.0])
         plt.ylim([0.0, 1.05])
-        plt.savefig(f'output/metrics/{self._run_name}/prc.png')
+        plt.savefig(f'output/{self._run_name}/metrics/prc.png')
         if self._show_metrics:
             plt.show()
 
         disp = sklearn.metrics.RocCurveDisplay(fpr=fpr, tpr=tpr)
         disp.plot()
         disp.ax_.set_title(f'Area Under Curve: {auc_roc:0.2f}')
-        plt.savefig(f'output/metrics/{self._run_name}/roc.png')
+        plt.savefig(f'output/{self._run_name}/metrics/roc.png')
         if self._show_metrics:
             plt.show()
 
-        print(f'Plots saved in "output/metrics/{self._run_name}"')
+        print(f'Plots saved in "output/{self._run_name}/metrics/"')
 
     def save_ground_truth(self, label, xtl, ytl, xbr, ybr):
         if any(target in label for target in self._targets) and 'difficult' not in label:

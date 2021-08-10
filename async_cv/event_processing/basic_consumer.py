@@ -43,8 +43,8 @@ class basic_consumer:
         print('Starting run', run_name)
 
         # create output directories if necessary
-        if not os.path.isdir('output'):
-            os.makedirs('output')
+        if not os.path.isdir(f'output/{self._run_name}/'):
+            os.makedirs(f'output/{self._run_name}/')
 
         # if we want to output video
         if video_out:
@@ -52,13 +52,14 @@ class basic_consumer:
 
             # Define the codec and create VideoWriter object
             fourcc = cv2.VideoWriter_fourcc(*'XVID')
-            self._output_video = cv2.VideoWriter(f'output/{video_out_filename}',
-                                                 fourcc, 20, (width, height))
+            self._output_video = cv2.VideoWriter(
+                f'output/{self._run_name}/{video_out_filename}', 
+                fourcc, 20, (width, height))
 
-            print(f'Saving video file \"output/{video_out_filename}\"')
+            print(f'Saving video file \"output/{self._run_name}/{video_out_filename}\"')
 
-            if not os.path.isdir(f'output/{self._run_name}'):
-                os.makedirs(f'output/{self._run_name}')
+            if not os.path.isdir(f'output/{self._run_name}/frames/'):
+                os.makedirs(f'output/{self._run_name}/frames/')
 
         if 'annot_file' in kwargs:
             try:
@@ -178,8 +179,9 @@ class basic_consumer:
         if self._output_video is not None:
             self._output_video.write(self._frame_to_draw)
 
-        cv2.imwrite(f'output/{self._run_name}/frame_{self._frame_count}.jpg',
-                    self._frame_to_draw)
+        cv2.imwrite(
+            f'output/{self._run_name}/frames/frame_{self._frame_count}.jpg',
+            self._frame_to_draw)
 
         self._frame_count += 1
         stdout.write(f' Frame: {self._frame_count:3}')
