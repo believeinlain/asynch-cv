@@ -92,8 +92,10 @@ class evaluator_consumer(basic_consumer):
 
         # initialize with a true negative so that ROC is defined even
         # if there are no false positives
-        metrics_truth = [0]
-        metrics_conf = [0]
+        # metrics_truth = [0]
+        # metrics_conf = [0]
+        metrics_truth = []
+        metrics_conf = []
 
         # evaluate metrics
         print('Evaluating metrics...')

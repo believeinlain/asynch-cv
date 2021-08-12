@@ -151,7 +151,7 @@ class basic_consumer:
         self._frame_to_draw = np.ascontiguousarray(
             self._frame_to_draw, dtype=np.uint8)
 
-    def process_event_buffer(self, ts, event_buffer):
+    def process_event_buffer(self, event_buffer):
         """Callback method to override to process events and frames.
 
         Args:

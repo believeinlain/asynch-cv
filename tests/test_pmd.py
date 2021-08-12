@@ -99,10 +99,10 @@ parameters = {
 
     'detection_tau': -0.002,
     
-    'ratio_threshold': 45,
-    'dot_ratio_threshold': 0.9,
+    'ratio_threshold': 0,
+    'dot_ratio_threshold': 1,
     'ratio_stability_factor': 1.0,
-    'dot_ratio_stability_factor': 0.0,
+    'dot_ratio_stability_factor': 220.0,
 }
 
 def run_one(group, test):
