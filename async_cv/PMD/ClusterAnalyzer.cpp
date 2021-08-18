@@ -116,7 +116,7 @@ namespace PMD {
 
             double diff_mag = sqrt(pow(diff_x, 2) + pow(diff_y, 2));
 
-            double eps = 0.0001; // prevent divide by zero error
+            double eps = 0.000001; // prevent divide by zero error
 
             _status.ratio = sqrt(long_mag_sq)/(diff_mag+eps);
             _status.dot_ratio = (_status.long_v_x*_status.short_v_x
@@ -131,7 +131,8 @@ namespace PMD {
                 _status.stability += int(_p.ratio_stability_factor*delta);
             }
             if (_status.dot_ratio < _p.dot_ratio_threshold) {
-                delta = _status.dot_ratio - _p.dot_ratio_threshold;
+                // delta ranges from 0 to -1 at threshold of 1.0
+                delta = (_status.dot_ratio - _p.dot_ratio_threshold)/2.0;
                 _status.stability += int(_p.dot_ratio_stability_factor*delta);
             }
         }
