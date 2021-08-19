@@ -308,7 +308,7 @@ def end_loop(start_time, dt):
     end_time = time_ns() // 1_000_000  # time in msec
     end_of_frame = start_time + dt
 
-    if end_time < end_of_frame:
+    if False:#end_time < end_of_frame:
         cv2.waitKey(end_of_frame-end_time)
     else:
         cv2.waitKey(1)

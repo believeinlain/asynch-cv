@@ -77,36 +77,8 @@ files = {
     # },
 }
 
-# Define PMD parameters
-parameters = {
-    'x_div': 4,  # number of horizontal divisions
-    'y_div': 4,  # number of vertical divisions
-    'us_per_event': 50,  # processing time alloted to each event handler to process events
-    'temporal_filter': 100_000,
-    # number of events to remember for each (x, y) position
-    'event_buffer_depth': 8,
-    'tf': 200_000,  # how far back in time to consider events for filtering
-    'tc': 200_000,  # how far back in time to consider events for clustering
-    'n': 4,  # minimum number of correlated events required to allow a particular event through the filter
-    'max_cluster_size': 30,  # maximum taxicab dist from center of cluster to each event
-    # microseconds periodicity to flush expired (>tc) events from buffer
-    'buffer_flush_period': 20_000,
-    'num_analyzers': 32,
-
-    'sample_period': 100_000,  # microseconds between each centroid position sample
-    'long_duration': 3_000_000, #5_000_000,
-    'short_duration': 2_000_000, #3_000_000,
-
-    'detection_tau': -0.002,
-    
-    'ratio_threshold': 0,
-    'dot_ratio_threshold': 1,
-    'ratio_stability_factor': 1.0,
-    'dot_ratio_stability_factor': 220.0,
-}
-
-def run_one(group, test):
-    run_name = f'{group}_run_{test:02d}'
+def run_one(group, test, setting=''):
+    run_name = setting+f'{group}_run_{test:02d}'
 
     data_path = join(expanduser('~\\'), data_root, join(
         group, files[group]['boat_tests'][test]))
@@ -122,14 +94,48 @@ def run_one(group, test):
         parameters=parameters
     )
 
-def run_group(group):
+def run_group(group, setting=''):
     for test in files[group]['boat_tests'].keys():
-            run_one(group, test)
+            run_one(group, test, setting)
 
-def run_all():
+def run_all(setting=''):
     for group in files:
-        run_group(group)
+        run_group(group, setting)
+
+for factor in range(710, 1010, 10):
+
+    # Define PMD parameters
+    parameters = {
+        'x_div': 4,  # number of horizontal divisions
+        'y_div': 4,  # number of vertical divisions
+        'us_per_event': 50,  # processing time alloted to each event handler to process events
+        'temporal_filter': 100_000,
+        # number of events to remember for each (x, y) position
+        'event_buffer_depth': 8,
+        'tf': 200_000,  # how far back in time to consider events for filtering
+        'tc': 200_000,  # how far back in time to consider events for clustering
+        'n': 4,  # minimum number of correlated events required to allow a particular event through the filter
+        'max_cluster_size': 30,  # maximum taxicab dist from center of cluster to each event
+        # microseconds periodicity to flush expired (>tc) events from buffer
+        'buffer_flush_period': 20_000,
+        'num_analyzers': 32,
+
+        'sample_period': 100_000,  # microseconds between each centroid position sample
+        'long_duration': 3_000_000, #5_000_000,
+        'short_duration': 2_000_000, #3_000_000,
+
+        'detection_tau': -0.002,
+        
+        'ratio_threshold': 0,
+        'dot_ratio_threshold': 1.0,
+        'ratio_stability_factor': 1.0,
+        'dot_ratio_stability_factor': factor,
+    }
+
+    run_group('june_12', f'{factor:03}/')
+    run_group('june_26', f'{factor:03}/')
+    run_group('april_12', f'{factor:03}/')
+
 
 # run_all()
-run_group('june_12')
 # run_one('june_12', 6)
