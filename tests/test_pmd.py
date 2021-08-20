@@ -102,7 +102,7 @@ def run_all(setting=''):
     for group in files:
         run_group(group, setting)
 
-for factor in range(710, 1010, 10):
+for factor in range(0, 1010, 10):
 
     # Define PMD parameters
     parameters = {
