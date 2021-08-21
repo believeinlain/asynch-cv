@@ -1,6 +1,6 @@
 
 %% Read data
-text = importdata('june_12_run_05.json');
+text = importdata('june_12_run_03.json');
 data = jsondecode(text{1});
 fn = fieldnames(data);
 
@@ -45,41 +45,13 @@ for c=1:numel(fn)
     hold on;
     figure(1);
     if target_count/n > 0.5
-        plot(cluster.frame, ratio, '-o');
+        plot(cluster.frame, cluster.conf, 'LineWidth', 2);
     else
-        plot(cluster.frame, ratio);
-    end
-    figure(2);
-    if target_count/n > 0.5
-        plot(cluster.frame, dot_ratio, '-o');
-    else
-        plot(cluster.frame, dot_ratio);
+        plot(cluster.frame, cluster.conf, '--');
     end
 end
 
-% figure(2);
-% ylim([0.9 1]);
-
-%% Plot histograms
-
-figure;
-histogram(ratio_target);
-title('target ratio distribution');
-set(gca,'YScale','log');
-yl = ylim;
-ylim([0.9 yl(2)]);
-figure;
-histogram(ratio_nontarget);
-title('non-target ratio distribution');
-set(gca,'YScale','log');
-yl = ylim;
-ylim([0.9 yl(2)]);
-
-figure;
-histogram(dot_ratio_target);
-title('target dot-ratio distribution');
-set(gca,'YScale','log');
-figure;
-histogram(dot_ratio_nontarget);
-title('non-target dot-ratio distribution');
-set(gca,'YScale','log');
+ylim([0 1]);
+xlim([1 cluster.frame(end)]);
+ylabel('w (confidence)');
+xlabel('ts (number of frames elapsed)');
